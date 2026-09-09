@@ -1,6 +1,4 @@
-# Template PI1
 
-![Calendário 2026/2](https://github.com/fcte-pi1/template/blob/main/docs/figs/Calendario.png?raw=true)
 
 # Projeto Integrador 1 - 2026.2 | Grupo 01 | Prof. Lui
 
