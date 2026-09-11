@@ -1,0 +1,78 @@
+site_name: Micromouse UnB — Grupo 1
+site_description: Documentação do Projeto Integrador 1 — 2026.2
+site_url: https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/
+
+repo_name: fcte-pi1/2026.2_PI1_Grupo1_Lui
+repo_url: https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui
+
+docs_dir: docs
+use_directory_urls: true
+
+theme:
+  name: material
+  language: pt
+  font: false
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Ativar modo escuro
+
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Ativar modo claro
+
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search:
+      lang: pt
+
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+
+nav:
+  - Início: README.md
+
+  - Planejamento:
+      - "1 — TAP": "1 - TAP.md"
+      - "2 — Requisitos": "2 - Requisitos.md"
+      - "3 — EAP": "3 - EAP.md"
+
+  - Projeto conceitual:
+      - Estruturas: "4.1 - Projeto conceitual de estruturas.md"
+      - Energia: "4.2 - Projeto conceitual de energia.md"
+      - Hardware: "4.3 - Projeto conceitual de hardware.md"
+      - Software: "4.4 - Projeto conceitual de software.md"
+
+  - Organização:
+      - "5 — Cronograma": "5 - Cronograma.md"
+      - "6 — Orçamento": "6 - Orçamento.md"
+
+  - Testes:
+      - Estrutura: "7.1 - Testes de estrutura.md"
+      - Energia: "7.2 - Testes de energia.md"
+      - Hardware: "7.3 - Testes de hardware.md"
+      - Software: "7.4 - Testes de software.md"
+      - Integração: "7.5 - Testes de integração.md"
+
+  - Encerramento:
+      - "8 — Avaliação de desempenho": "8 - Avaliação de desempenho.md"
+      - "9 — Relatório de encerramento": "9 - Relatório de encerramento do projeto.md"
