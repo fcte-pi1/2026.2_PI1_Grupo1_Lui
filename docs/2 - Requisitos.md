@@ -6,10 +6,10 @@ Definir e documentar formalmente os requisitos do projeto do robô Micromouse e 
 * **Requisitos Funcionais (RF):** Descrevem as funcionalidades e capacidades operacionais do sistema ("o que o sistema deve fazer"). São especificados em alto nível (formato de Épico), focando no comportamento esperado sem impor detalhes prematuros de implementação.
 * **Requisitos Não-Funcionais (RNF):** Definem os critérios de qualidade, restrições físicas, regulamentares e de desempenho ("sob quais restrições o sistema opera"). São formulados de forma **objetiva e quantitativa**, evitando termos subjetivos (ex.: "rápido", "fácil", "eficiente") e acompanhados de métodos diretos e exequíveis de verificação laboratorial.
 * **Priorização MoSCoW:** Cada requisito é classificado em:
-  * **Must have:** Mandatório para o funcionamento básico e conformidade com o edital do projeto.
-  * **Should have:** Importante para otimização e maturidade do produto, devendo ser implementado caso o cronograma e recursos permitam.
-  * **Could have:** Desejável como diferencial competitivo, mas não essencial para a entrega básica.
-  * **Won't have:** Itens de menor prioridade que ficam de fora do escopo atual, podendo ser reavaliados no futuro.
+    - **Must have:** Mandatório para o funcionamento básico e conformidade com o edital do projeto.
+    - **Should have:** Importante para otimização e maturidade do produto, devendo ser implementado caso o cronograma e recursos permitam.
+    - **Could have:** Desejável como diferencial competitivo, mas não essencial para a entrega básica.
+    - **Won't have:** Itens de menor prioridade que ficam de fora do escopo atual, podendo ser reavaliados no futuro.
 * **Áreas Integradas:** Abrange as quatro áreas de engenharia da FCTE/UnB: **Estruturas (Aeroespacial e Automotiva)**, **Energia**, **Eletrônica** e **Software**.
 
 ---
