@@ -1,0 +1,2335 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/2%20-%20Requisitos/">
+      
+      
+        <link rel="prev" href="../1%20-%20TAP/">
+      
+      
+        <link rel="next" href="../3%20-%20EAP/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2 — Requisitos - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documento-de-requisitos-do-projeto-micromouse-pi1-20262-grupo-1" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 — Requisitos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-e-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral e Escopo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Visão Geral e Escopo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-objetivo-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Objetivo do Documento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-metodologia-de-priorizacao-moscow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Metodologia de Priorização (MoSCoW)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requisitos-por-subsistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requisitos por Subsistema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Requisitos por Subsistema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-estruturas-est" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Estruturas (EST)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Estruturas (EST)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-estruturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Estruturas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-estruturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Estruturas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-energia-ene" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Energia (ENE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Energia (ENE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Energia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Energia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-eletronica-ele" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Eletrônica (ELE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Eletrônica (ELE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-eletronica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Eletrônica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-eletronica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Eletrônica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-software-sft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Software (SFT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Software (SFT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Software
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Software
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-delimitacao-explicita-de-fora-de-escopo-wont-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Delimitação Explícita de Fora de Escopo (Won't Have)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-matriz-de-rastreabilidade-de-dependencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Matriz de Rastreabilidade de Dependências
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-e-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral e Escopo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Visão Geral e Escopo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-objetivo-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Objetivo do Documento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-metodologia-de-priorizacao-moscow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Metodologia de Priorização (MoSCoW)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requisitos-por-subsistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requisitos por Subsistema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Requisitos por Subsistema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-estruturas-est" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Estruturas (EST)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Estruturas (EST)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-estruturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Estruturas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-estruturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Estruturas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-energia-ene" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Energia (ENE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Energia (ENE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Energia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Energia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-eletronica-ele" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Eletrônica (ELE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Eletrônica (ELE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-eletronica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Eletrônica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-eletronica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Eletrônica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-software-sft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Software (SFT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Software (SFT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-funcionais-rf-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Funcionais (RF) — Software
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-nao-funcionais-rnf-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos Não-Funcionais (RNF) — Software
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-delimitacao-explicita-de-fora-de-escopo-wont-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Delimitação Explícita de Fora de Escopo (Won't Have)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-matriz-de-rastreabilidade-de-dependencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Matriz de Rastreabilidade de Dependências
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="documento-de-requisitos-do-projeto-micromouse-pi1-20262-grupo-1">Documento de Requisitos do Projeto — Micromouse (PI1 2026.2 - Grupo 1)<a class="headerlink" href="#documento-de-requisitos-do-projeto-micromouse-pi1-20262-grupo-1" title="Permanent link">&para;</a></h1>
+<hr />
+<h2 id="1-visao-geral-e-escopo">1. Visão Geral e Escopo<a class="headerlink" href="#1-visao-geral-e-escopo" title="Permanent link">&para;</a></h2>
+<h3 id="11-objetivo-do-documento">1.1 Objetivo do Documento<a class="headerlink" href="#11-objetivo-do-documento" title="Permanent link">&para;</a></h3>
+<p>Este documento estabelece a especificação formal de engenharia dos requisitos do robô móvel autônomo <strong>Micromouse (Grupo 1)</strong> e de seu sistema de suporte e telemetria para a disciplina Projeto Integrador 1 (semestre 2026.2, FCTE/UnB, Prof. Lui). O documento define as capacidades operacionais esperadas do produto, as restrições regulamentares de competição e os atributos mensuráveis de qualidade, distribuídos de forma integrada entre as quatro áreas de engenharia: <strong>Estruturas (Aeroespacial e Automotiva)</strong>, <strong>Energia</strong>, <strong>Eletrônica</strong> e <strong>Software</strong>.</p>
+<ul>
+<li><strong>Requisitos Funcionais (RF):</strong> Descrevem o comportamento e as capacidades operacionais do sistema (<em>o que o produto deve fazer</em>), formulados em nível de abstração comportamental (formato de Épico), sem prescrever prematuramente escolhas internas de implementação ou tecnologias específicas.</li>
+<li><strong>Requisitos Não-Funcionais (RNF):</strong> Definem os critérios de qualidade, desempenho, restrições regulamentares do edital, segurança e limitações físicas de engenharia (<em>sob quais restrições o sistema opera</em>), formulados de forma estritamente <strong>quantitativa e verificável</strong>, associados a métodos diretos de ensaio laboratorial.</li>
+</ul>
+<hr />
+<h3 id="12-metodologia-de-priorizacao-moscow">1.2 Metodologia de Priorização (MoSCoW)<a class="headerlink" href="#12-metodologia-de-priorizacao-moscow" title="Permanent link">&para;</a></h3>
+<p>A priorização dos requisitos segue o método <strong>MoSCoW</strong>, balanceando o núcleo mandatório da entrega com metas de otimização e delimitando com precisão as fronteiras do escopo:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Categoria</th>
+<th>Significado no Projeto</th>
+<th>Critério de Decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>Must have</strong></td>
+<td>Requisitos mandatórios e inegociáveis.</td>
+<td>Sem eles, o robô não participa da prova, viola o edital ou não cumpre a missão básica.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Should have</strong></td>
+<td>Requisitos importantes de alta relevância técnica.</td>
+<td>Agregam maturidade, eficiência e competitividade esperadas; passíveis de readequação caso haja contingência severa de prazo.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Could have</strong></td>
+<td>Requisitos desejáveis e diferenciais competitivos.</td>
+<td>Recursos de valor agregado que serão implementados caso os requisitos <em>Must</em> e <em>Should</em> estejam concluídos e validados.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Won't have</strong></td>
+<td>Deliberações explícitas de itens fora de escopo.</td>
+<td>Capacidades deliberadamente excluídas do projeto neste semestre para preservação do foco e viabilidade temporal e orçamentária.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-requisitos-por-subsistema">2. Requisitos por Subsistema<a class="headerlink" href="#2-requisitos-por-subsistema" title="Permanent link">&para;</a></h2>
+<h3 id="21-estruturas-est">2.1 Estruturas (EST)<a class="headerlink" href="#21-estruturas-est" title="Permanent link">&para;</a></h3>
+<p>O subsistema de Estruturas compreende o chassi, suportes para sensores, arranjo mecânico de tração, rodagem e acomodação dos módulos embarcados.</p>
+<h4 id="requisitos-funcionais-rf-estruturas">Requisitos Funcionais (RF) — Estruturas<a class="headerlink" href="#requisitos-funcionais-rf-estruturas" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição Comportamental</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Critério de Aceitação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RF-EST01</strong></td>
+<td>Acomodação e Fixação dos Componentes</td>
+<td>A estrutura física do chassi deve posicionar e reter mecanicamente todos os subsistemas embarcados (bateria, atuadores, circuitos eletrônicos e cabeamento), prevenindo folgas, oscilações ou desacoplamentos durante acelerações, frenagens e manobras na pista.</td>
+<td style="text-align: center;">Must have</td>
+<td>Todos os módulos embarcados permanecem fixos e operacionais após 10 baterias de manobras dinâmicas contínuas em pista.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-EST02</strong></td>
+<td>Tração Mecânica e Transmissão de Movimento</td>
+<td>O conjunto mecânico de tração e apoio deve converter o torque entregue pelos atuadores em deslocamento linear sobre o piso da pista, provendo atrito estático suficiente para arranques retos e desacelerações sem patinamento perceptível.</td>
+<td style="text-align: center;">Must have</td>
+<td>O robô acelera do repouso até sua velocidade de ensaio (≥ 0,15 m/s) em linha reta sem escorregamento lateral das rodas motrizes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-EST03</strong></td>
+<td>Posicionamento Fixo e Desobstruído de Sensores</td>
+<td>A estrutura mecânica deve fornecer pontos de ancoragem rígidos e orientados para o sensoriamento de paredes (visada frontal e laterais ortogonais), mantendo o campo óptico desobstruído em relação ao chassi e às rodas.</td>
+<td style="text-align: center;">Must have</td>
+<td>Os sensores mantêm alinhamento angular estável (variação &lt; 2°) em relação aos eixos principais do chassi após testes de colisão branda com anteparos.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="requisitos-nao-funcionais-rnf-estruturas">Requisitos Não-Funcionais (RNF) — Estruturas<a class="headerlink" href="#requisitos-nao-funcionais-rnf-estruturas" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição e Métrica Quantitativa</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Método de Verificação Laboratorial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RNF-EST01</strong></td>
+<td>Dimensões Físicas e Envelope de Giro</td>
+<td>O robô montado em ordem de marcha deve possuir comprimento total ≤ 165 mm, largura total ≤ 165 mm e diâmetro de rotação sobre o próprio eixo (diagonal máxima) &lt; 160 mm.</td>
+<td style="text-align: center;">Must have</td>
+<td>Medição direta com paquímetro e execução de giro livre de 360° no próprio eixo dentro de corredor de 168 mm sem tocar as paredes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-EST02</strong></td>
+<td>Locomoção Exclusivamente Terrestre</td>
+<td>A locomoção do robô deve ser realizada exclusivamente por contato mecânico de tração das rodas com a superfície do solo da pista, sendo expressamente vedado saltar, voar, planar, escalar paredes ou utilizar qualquer propulsão por combustão ou reação química.</td>
+<td style="text-align: center;">Must have</td>
+<td>Inspeção visual e funcional do mecanismo de tração durante operação estática e dinâmica na pista de testes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-EST03</strong></td>
+<td>Preservação da Integridade da Pista</td>
+<td>O robô não deve arranhar, trincar, deslocar, manchar ou degradar as paredes ou o piso da pista; deve apresentar extremidades perimetrais sem cantos vivos (raio de curvatura mínimo de 1,0 mm) e força dinâmica máxima de contato nas paredes inferior a 2,0 N sob velocidade nominal.</td>
+<td style="text-align: center;">Must have</td>
+<td>Inspeção com gabarito de raio de curvatura, medição dinamométrica de impacto e exame visual minucioso da pista após 5 baterias de corridas completas.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-EST04</strong></td>
+<td>Altura Livre do Solo (<em>Ground Clearance</em>)</td>
+<td>A face inferior do chassi deve manter uma folga vertical livre mínima de 2,0 mm em relação ao piso plano da pista em todos os seus pontos de varredura.</td>
+<td style="text-align: center;">Must have</td>
+<td>Deslocamento do robô sobre lâmina de gabarito plana de 2,0 mm sem atrito ou contato mecânico da base.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-EST05</strong></td>
+<td>Tempo e Facilidade de Substituição da Bateria</td>
+<td>A estrutura física deve permitir o desacoplamento e substituição do banco de baterias em tempo não superior a 60 segundos, sem desmontagem das placas eletrônicas principais ou dos suportes de sensores.</td>
+<td style="text-align: center;">Should have</td>
+<td>Cronometragem de 5 procedimentos de troca de bateria realizados por operadores distintos, registrando tempo médio e desvio padrão.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-EST06</strong></td>
+<td>Acessibilidade para Limpeza de Rodagem</td>
+<td>O mecanismo de rodagem e apoio deve permitir inspeção visual direta e limpeza superficial dos pneus/apoios sem necessidade de ferramentas especiais ou desmontagem estrutural do chassi.</td>
+<td style="text-align: center;">Should have</td>
+<td>Inspeção e limpeza superficial das bandas de rodagem realizadas em bancada em menos de 120 segundos.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="22-energia-ene">2.2 Energia (ENE)<a class="headerlink" href="#22-energia-ene" title="Permanent link">&para;</a></h3>
+<p>O subsistema de Energia é responsável pelo armazenamento eletroquímico, conversão e regulação de potência, proteções elétricas e monitoramento do estado de carga.</p>
+<h4 id="requisitos-funcionais-rf-energia">Requisitos Funcionais (RF) — Energia<a class="headerlink" href="#requisitos-funcionais-rf-energia" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição Comportamental</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Critério de Aceitação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE01</strong></td>
+<td>Conversão e Distribuição de Potência</td>
+<td>O circuito de energia deve converter a tensão primária da bateria em barramentos elétricos dedicados e desacoplados: linha de potência para os atuadores de tração e linha estável de baixa tensão para a lógica de controle e sensores.</td>
+<td style="text-align: center;">Must have</td>
+<td>Fornecimento contínuo de tensão regulada para a eletrônica de controle independentemente das variações de carga dos motores.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE02</strong></td>
+<td>Monitoramento de Tensão de Alimentação</td>
+<td>O subsistema deve medir continuamente a tensão total do banco de baterias e disponibilizar essa leitura em formato digital para a lógica de processamento e telemetria.</td>
+<td style="text-align: center;">Must have</td>
+<td>Leitura de tensão enviada ao sistema de processamento com taxa de amostragem mínima de 1 Hz e erro absoluto ≤ 0,1 V em relação a multímetro calibrado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE03</strong></td>
+<td>Corte Automático por Subtensão</td>
+<td>O circuito de monitoramento deve identificar a queda de tensão abaixo do limiar crítico de segurança eletroquímica das células e ordenar o desligamento imediato dos atuadores de tração.</td>
+<td style="text-align: center;">Must have</td>
+<td>Motores de tração são desativados em menos de 200 ms assim que a tensão atinge o limiar programado (ex.: 3,3 V/célula), protegendo a bateria contra descarga profunda.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE04</strong></td>
+<td>Chaveamento Geral Mecânico</td>
+<td>O circuito deve conter dispositivo físico de acionamento mecânico (chave liga/desliga) com acesso externo direto, permitindo o isolamento galvânico instantâneo de todas as cargas da bateria.</td>
+<td style="text-align: center;">Must have</td>
+<td>Abertura mecânica da chave interrompe o fluxo de corrente do circuito para 0 mA instantaneamente.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="requisitos-nao-funcionais-rnf-energia">Requisitos Não-Funcionais (RNF) — Energia<a class="headerlink" href="#requisitos-nao-funcionais-rnf-energia" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição e Métrica Quantitativa</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Método de Verificação Laboratorial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RNF-ENE01</strong></td>
+<td>Autonomia Operacional Contínua</td>
+<td>O sistema de alimentação deve sustentar o funcionamento ininterrupto do robô por no mínimo 15 minutos em regime de navegação ativa contínua (velocidade média ≥ 0,15 m/s, sensores e rádio transmitindo a 1 Hz).</td>
+<td style="text-align: center;">Must have</td>
+<td>Cronometragem de ensaio contínuo de movimentação em bancada/pista com carga ativa nominal até o limiar de proteção de subtensão.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ENE02</strong></td>
+<td>Estabilidade da Tensão Lógica sob Transitórios</td>
+<td>A linha de alimentação lógica deve manter sua tensão dentro de uma tolerância estrita de ±5% da tensão nominal (ex.: 3,3 V ± 0,165 V), mesmo sob transitórios severos de partida e reversão dos motores.</td>
+<td style="text-align: center;">Must have</td>
+<td>Monitoramento osciloscópico da linha de alimentação lógica durante reversão instantânea de sentido de giro dos motores em bancada de testes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ENE03</strong></td>
+<td>Proteção por Sobrecorrente</td>
+<td>O barramento de alimentação primário deve conter elemento de proteção por sobrecorrente (fusível) dimensionado para interromper a corrente em menos de 500 ms sob condição de curto-circuito antes que ocorram danos térmicos às células ou fiação.</td>
+<td style="text-align: center;">Must have</td>
+<td>Ensaio em bancada sob carga controlada e conferência das curvas de corrente/tempo das especificações do fusível integrado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ENE04</strong></td>
+<td>Polarização Segura de Alimentação</td>
+<td>O conector de acoplamento da bateria à placa de alimentação deve dispor de guia ou trava mecânica assimétrica que torne fisicamente impossível a conexão invertida de polaridade.</td>
+<td style="text-align: center;">Must have</td>
+<td>Teste físico de inserção reversa manual com força de até 20 N sem estabelecer contato elétrico entre os terminais.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ENE05</strong></td>
+<td>Tempo de Recarga da Bateria</td>
+<td>O sistema deve permitir a recarga de 100% da capacidade útil da bateria descarregada em tempo inferior a 90 minutos através de carregador/balanceador externo apropriado.</td>
+<td style="text-align: center;">Should have</td>
+<td>Cronometragem do ciclo de carga a partir do estado de corte de subtensão até a sinalização de término pelo carregador externo.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="23-eletronica-ele">2.3 Eletrônica (ELE)<a class="headerlink" href="#23-eletronica-ele" title="Permanent link">&para;</a></h3>
+<p>O subsistema de Eletrônica engloba a unidade de controle embarcada, os módulos de sensoriamento de obstáculos e odometria, a interface de potência para acionamento motriz e as comunicações de rádio e sinalizações.</p>
+<h4 id="requisitos-funcionais-rf-eletronica">Requisitos Funcionais (RF) — Eletrônica<a class="headerlink" href="#requisitos-funcionais-rf-eletronica" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição Comportamental</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Critério de Aceitação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE01</strong></td>
+<td>Sensoriamento de Obstáculos e Paredes</td>
+<td>O hardware sensorial deve medir a proximidade de superfícies sólidas à frente e nas duas laterais ortogonais do veículo, fornecendo leituras numéricas de distância ao processador central.</td>
+<td style="text-align: center;">Must have</td>
+<td>Identificação correta do estado de presença ou ausência de paredes nas três direções (frontal, esquerda e direita) em 100% dos testes estáticos na célula da pista.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE02</strong></td>
+<td>Odometria de Deslocamento das Rodas</td>
+<td>O circuito eletrônico deve capturar os sinais angulares de rotação gerados pelo movimento de cada roda motriz de forma independente, permitindo o cálculo do deslocamento linear e da velocidade angular.</td>
+<td style="text-align: center;">Must have</td>
+<td>Contagem determinística de pulsos por volta sem perda de passos em velocidades lineares de até 0,5 m/s.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE03</strong></td>
+<td>Modulação e Acionamento de Potência Motriz</td>
+<td>A interface de potência deve receber comandos lógicos do controlador central e convertê-los em acionamento elétrico reversível com modulação contínua de velocidade para os atuadores de tração.</td>
+<td style="text-align: center;">Must have</td>
+<td>Resposta linear na velocidade angular das rodas proporcional ao comando de modulação aplicado, em ambos os sentidos de giro.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE04</strong></td>
+<td>Transmissão Sem Fio de Telemetria</td>
+<td>O subsistema eletrônico deve dispor de canal de comunicação sem fio via radiofrequência capaz de transmitir pacotes de telemetria da corrida para a estação receptora externa em tempo real.</td>
+<td style="text-align: center;">Must have</td>
+<td>Recepção íntegra dos pacotes de telemetria no receptor externo durante toda a trajetória do robô na pista de testes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE05</strong></td>
+<td>Sinalização Visual de Modos Operacionais</td>
+<td>O circuito deve conter indicadores visuais discretos para sinalizar externamente o estado operacional atual do robô (calibração, pronto, navegando, objetivo alcançado e falha/bateria fraca).</td>
+<td style="text-align: center;">Should have</td>
+<td>Ativação dos padrões visuais correspondentes a cada um dos 5 modos operacionais sob comando do controlador.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE06</strong></td>
+<td>Sinalização Acústica de Eventos e Alertas</td>
+<td>O circuito deve disponibilizar dispositivo sonoro para emissão de bipes acústicos em eventos específicos do sistema (conclusão de inicialização, largada, chegada ao objetivo e alarme de bateria).</td>
+<td style="text-align: center;">Could have</td>
+<td>Emissão de alerta audível (nível de pressão sonora ≥ 60 dB a 1 metro) sincronizado com os eventos programados.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="requisitos-nao-funcionais-rnf-eletronica">Requisitos Não-Funcionais (RNF) — Eletrônica<a class="headerlink" href="#requisitos-nao-funcionais-rnf-eletronica" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição e Métrica Quantitativa</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Método de Verificação Laboratorial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RNF-ELE01</strong></td>
+<td>Taxa de Amostragem do Sensoriamento</td>
+<td>A frequência de amostragem e atualização das leituras de distância dos sensores periféricos deve ser igual ou superior a 20 Hz (intervalo máximo entre medições de 50 ms).</td>
+<td style="text-align: center;">Must have</td>
+<td>Medição via osciloscópio ou registro temporal em log de amostragem durante varredura contínua.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ELE02</strong></td>
+<td>Faixa Útil e Tolerância de Detecção</td>
+<td>O sistema de sensoriamento de paredes deve operar na faixa útil de 30 mm a 180 mm (cobrindo a folga do corredor de 168 mm) com erro máximo de medição ≤ ±10 mm em condições de iluminação padrão de laboratório (300 a 500 lux).</td>
+<td style="text-align: center;">Must have</td>
+<td>Posicionamento estático do robô diante de anteparo plano em distâncias aferidas de 50 mm, 100 mm e 150 mm com régua de precisão.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ELE03</strong></td>
+<td>Desempenho do Enlace Sem Fio</td>
+<td>O enlace sem fio deve manter comunicação estável a uma distância em visada direta de no mínimo 8 metros da pista, com taxa de perda de pacotes inferior a 2,0% e nível de sinal RSSI não inferior a -75 dBm.</td>
+<td style="text-align: center;">Must have</td>
+<td>Transmissão contínua de 500 pacotes de telemetria com o robô posicionado no ponto mais distante da pista em relação à estação receptora.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ELE04</strong></td>
+<td>Construtibilidade e Conexão Estruturada (PCB/Shield)</td>
+<td>O hardware final deve ser integralmente integrado em placa de circuito impresso (PCB dedicada ou shield industrial estruturado com trilhas e conectores soldados), sendo estritamente vedado o uso de matrizes de contato (<em>protoboards</em>) ou fiações soltas no robô final.</td>
+<td style="text-align: center;">Must have</td>
+<td>Inspeção visual direta de engenharia e ensaio de vibração mecânica branda sem desconexões elétricas.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-ELE05</strong></td>
+<td>Imunidade a Ruído Indutivo de Motores</td>
+<td>O circuito de controle deve dispor de desacoplamento capacitivo e proteção contra transientes indutivos nos terminais dos atuadores, garantindo zero reinicializações espúrias (<em>resets</em>) do processador durante manobras de chaveamento abrupto.</td>
+<td style="text-align: center;">Must have</td>
+<td>Execução de 20 reversões instantâneas de sentido dos atuadores em rotação máxima com monitoramento contínuo da linha de reset do microcontrolador.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="24-software-sft">2.4 Software (SFT)<a class="headerlink" href="#24-software-sft" title="Permanent link">&para;</a></h3>
+<p>O subsistema de Software é dividido em <strong>Firmware Embarcado</strong> (responsável pelo controle cinemático, mapeamento, algoritmo de navegação e despacho de telemetria) e <strong>Aplicação Web</strong> (responsável pelo recebimento, exibição em tempo real, persistência e consulta do histórico de provas).</p>
+<h4 id="requisitos-funcionais-rf-software">Requisitos Funcionais (RF) — Software<a class="headerlink" href="#requisitos-funcionais-rf-software" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição Comportamental</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Critério de Aceitação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT01</strong></td>
+<td>Controle e Alinhamento de Trajetória</td>
+<td>O software embarcado deve regular dinamicamente a velocidade dos atuadores de tração para manter o robô centralizado no corredor durante retas e realizar rotações ortogonais com erro angular acumulado ≤ ±3°.</td>
+<td style="text-align: center;">Must have</td>
+<td>Robô percorre reta de 3 células consecutivas mantendo desvio lateral inferior a 15 mm em relação à linha de centro sem colidir nas laterais.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT02</strong></td>
+<td>Mapeamento Topológico das Geometrias Oficiais</td>
+<td>O firmware deve registrar dinamicamente na memória a representação matricial do labirinto, atualizando a cada célula visitada as paredes detectadas e as passagens livres com suporte configurável para as três geometrias oficiais do edital: 4x4, 8x4 e 12x4 células.</td>
+<td style="text-align: center;">Must have</td>
+<td>A matriz lógica gerada na memória ao final da exploração é 100% idêntica à configuração física real da pista de teste utilizada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT03</strong></td>
+<td>Navegação e Resolução Autônoma de Labirinto</td>
+<td>O firmware deve computar trajetórias viáveis a partir do estado atual da exploração e decidir autonomamente os comandos de avanço e curva para conduzir o veículo da célula inicial (0,0) até a área de chegada.</td>
+<td style="text-align: center;">Must have</td>
+<td>Conclusão autônoma da corrida com chegada ao objetivo em menos de 3 minutos em pista 4x4 sem intervenção externa.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT04</strong></td>
+<td>Reconhecimento de Objetivo e Parada Automática</td>
+<td>O sistema deve reconhecer o ingresso do robô na célula ou área objetivo pré-configurada, cessar imediatamente o comando de tração e congelar a contagem do cronômetro da corrida.</td>
+<td style="text-align: center;">Must have</td>
+<td>Interrupção da movimentação mecânica em menos de 200 ms após cruzar o limiar de entrada da célula de chegada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT05</strong></td>
+<td>Despacho Contínuo dos Parâmetros de Telemetria</td>
+<td>O firmware deve empacotar e transmitir via canal sem fio os 6 parâmetros mandatórios exigidos pelo edital: (1) tipo do labirinto, (2) trajeto percorrido, (3) nível/consumo da bateria, (4) velocidade média, (5) tempo decorrido e (6) status de desafio cumprido.</td>
+<td style="text-align: center;">Must have</td>
+<td>Envio periódico dos 6 parâmetros com taxa de despacho de 1 Hz e validação de recebimento na estação receptora.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT06</strong></td>
+<td>Dashboard Web de Monitoramento em Tempo Real</td>
+<td>A aplicação web deve exibir em interface gráfica interativa a grade do labirinto com paredes reveladas em tempo real, a posição instantânea do robô, o rastro percorrido, a velocidade, a bateria e o cronômetro da prova.</td>
+<td style="text-align: center;">Must have</td>
+<td>A interface gráfica reflete a movimentação e atualização das paredes na tela de forma sincronizada com a progressão física do robô na pista.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT07</strong></td>
+<td>Persistência Histórica de Corridas</td>
+<td>O sistema web deve persistir em banco de dados os dados consolidados e a série temporal de cada corrida concluída ou interrompida, identificada por carimbo temporal e geometria da pista.</td>
+<td style="text-align: center;">Should have</td>
+<td>Registro completo da corrida consultável no banco de dados imediatamente após o encerramento da prova.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT08</strong></td>
+<td>Consulta e Filtragem Histórica Web</td>
+<td>A aplicação web deve fornecer filtros de busca na interface gráfica para consulta e recuperação dos dados de corridas passadas por tipo de labirinto (4x4, 8x4, 12x4) e data de execução.</td>
+<td style="text-align: center;">Should have</td>
+<td>Exibição correta da lista e detalhes de telemetria das corridas selecionadas pelos filtros em menos de 2,0 segundos.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT09</strong></td>
+<td>Execução de Trajetória Otimizada (<em>Speed Run</em>)</td>
+<td>Após a fase inicial de exploração, o software deve ser capaz de computar a rota ótima (menor número de células/distância) até o objetivo e percorrê-la em corrida rápida subsequente com velocidade superior à de mapeamento.</td>
+<td style="text-align: center;">Should have</td>
+<td>Tempo de percurso na segunda corrida (<em>speed run</em>) inferior em pelo menos 20% em relação ao tempo da primeira volta de exploração.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT10</strong></td>
+<td>Suavização Contínua de Trajetória em Curva</td>
+<td>O algoritmo de trajetória do speed run deve calcular curvas em arco contínuo sem necessidade de frenagem total para rotação estática de 90°, reduzindo a perda de velocidade.</td>
+<td style="text-align: center;">Could have</td>
+<td>Execução de curva de 90° em movimento contínuo reduzindo em no mínimo 300 ms o tempo de transição de célula em relação ao giro parado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT11</strong></td>
+<td>Detecção e Tratamento de Travamento Mecânico (<em>Stall</em>)</td>
+<td>O firmware deve monitorar a correlação entre o comando de tração e a leitura de odometria; se houver comando de motor ativo sem rotação das rodas por mais de 1,0 segundo, o software deve cortar os motores para prevenir danos.</td>
+<td style="text-align: center;">Must have</td>
+<td>Corte de potência dos atuadores em ensaio de bloqueio físico voluntário das rodas motrizes em no máximo 1,2 segundo.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="requisitos-nao-funcionais-rnf-software">Requisitos Não-Funcionais (RNF) — Software<a class="headerlink" href="#requisitos-nao-funcionais-rnf-software" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Nome do Requisito</th>
+<th>Descrição e Métrica Quantitativa</th>
+<th style="text-align: center;">Prioridade</th>
+<th>Método de Verificação Laboratorial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RNF-SFT01</strong></td>
+<td>Autonomia Operacional Plena e Não-Intervenção</td>
+<td>Uma vez acionada a largada física na pista, o robô deve operar de forma 100% autônoma, sendo estritamente proibida qualquer intervenção humana externa, pilotagem remota, envio manual de instruções ou carregamento de mapas prévios do traçado do labirinto durante a execução da prova.</td>
+<td style="text-align: center;">Must have</td>
+<td>Demonstração prática de corrida autônoma sem recepção de sinais de controle externo e auditoria do código-fonte para comprovar ausência de mapas pré-carregados.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-SFT02</strong></td>
+<td>Compatibilidade com as Geometrias Oficiais do Labirinto</td>
+<td>O software embarcado e o sistema de telemetria devem ser plenamente compatíveis e capazes de explorar, mapear e exibir os dados para as três geometrias oficiais estipuladas pelo edital: labirintos de 4x4, 8x4 e 12x4 células (células de 180x180 mm, paredes de 12x50 mm e corredores de 168 mm).</td>
+<td style="text-align: center;">Must have</td>
+<td>Execução de baterias de testes de navegação autônoma e exibição correta no painel web nas três configurações oficiais (4x4, 8x4 e 12x4).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-SFT03</strong></td>
+<td>Taxa de Atualização e Latência da Telemetria Web</td>
+<td>A aplicação web deve receber dados e atualizar os componentes do painel em tempo real com taxa mínima de 1 Hz e latência de exibição ponta a ponta inferior a 1,0 segundo em rede local.</td>
+<td style="text-align: center;">Must have</td>
+<td>Comparação por gravação em vídeo de alta taxa de quadros entre a movimentação física do robô na pista e a atualização do componente gráfico no painel web.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-SFT04</strong></td>
+<td>Tempo de Resposta de Consultas ao Histórico</td>
+<td>As consultas e recuperação de corridas armazenadas no banco de dados devem apresentar tempo de renderização na interface web inferior a 2,0 segundos para bases com até 500 registros.</td>
+<td style="text-align: center;">Should have</td>
+<td>Medição do tempo de resposta (<em>Time to First Byte</em> e renderização completa) no console de desenvolvimento (DevTools) do navegador.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-SFT05</strong></td>
+<td>Compatibilidade e Responsividade Desktop</td>
+<td>A aplicação web deve ser plenamente funcional e sem distorções visuais nos principais navegadores modernos (Google Chrome e Mozilla Firefox) em resoluções a partir de 1366 x 768 pixels.</td>
+<td style="text-align: center;">Should have</td>
+<td>Testes automatizados ou manuais de layout e redimensionamento de janela nos navegadores em resolução 1366x768 e 1920x1080.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RNF-SFT06</strong></td>
+<td>Responsividade para Dispositivos Móveis</td>
+<td>A interface do dashboard web deve adaptar seus componentes principais (status, cronômetro e telemetria essencial) para visualização legível em telas verticais de smartphones (largura a partir de 360 px).</td>
+<td style="text-align: center;">Could have</td>
+<td>Emulação de viewport móvel (360x640 px a 412x915 px) com conferência de legibilidade e ausência de barra de rolagem horizontal desnecessária.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-delimitacao-explicita-de-fora-de-escopo-wont-have">3. Delimitação Explícita de Fora de Escopo (Won't Have)<a class="headerlink" href="#3-delimitacao-explicita-de-fora-de-escopo-wont-have" title="Permanent link">&para;</a></h2>
+<p>A tabela abaixo delimita formalmente o que <strong>não faz parte</strong> do escopo do produto neste ciclo de desenvolvimento, prevenindo desvios de escopo (<em>scope creep</em>) e assegurando o foco nos objetivos mandatórios da disciplina:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Item Fora de Escopo</th>
+<th>Justificativa e Delimitação Técnica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>WH-01</strong></td>
+<td>Pilotagem Manual ou Teleoperação durante a Prova</td>
+<td>O sistema não disponibilizará interface de controle remoto por joystick, teclado ou aplicativo móvel para movimentar o robô na pista. O robô opera com autonomia estrita conforme o requisito mandatório <strong>RNF-SFT01</strong>.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>WH-02</strong></td>
+<td>Resolução de Labirinto Completo Padrão IEEE (16x16 células)</td>
+<td>O produto é dimensionado e focado nas configurações oficiais do edital (4x4, 8x4 e 12x4 células). O suporte a labirintos 16x16 células está fora do escopo deste semestre.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>WH-03</strong></td>
+<td>Sucção Aerodinâmica Ativa (<em>Fan / Downforce</em>)</td>
+<td>Não será desenvolvido sistema de turbina de sucção para criar efeito solo artificial. A tração apoia-se puramente na física de contato dos pneus com o solo.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>WH-04</strong></td>
+<td>Visão Computacional e Transmissão de Imagem/Vídeo</td>
+<td>O robô não transportará câmera de vídeo nem realizará processamento visual de imagens. Todo o sensoriamento é pontual e o enlace de rádio é reservado para telemetria numérica.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>WH-05</strong></td>
+<td>Recarga sem Fio por Indução (<em>Wireless Charging</em>)</td>
+<td>A recarga da bateria será feita exclusivamente por desconexão física através do conector polarizado e uso de carregador de bancada externo.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-matriz-de-rastreabilidade-de-dependencias">4 Matriz de Rastreabilidade de Dependências<a class="headerlink" href="#4-matriz-de-rastreabilidade-de-dependencias" title="Permanent link">&para;</a></h2>
+<p>A tabela a seguir explicita a cadeia de rastreabilidade entre requisitos com relação de precedência técnica direta:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Requisito de Origem</th>
+<th style="text-align: center;">Subsistema</th>
+<th style="text-align: center;">Requisito(s) Dependente(s)</th>
+<th style="text-align: center;">Subsistema Dependente</th>
+<th>Natureza e Descrição da Dependência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>RF-EST01</strong></td>
+<td style="text-align: center;">Estruturas</td>
+<td style="text-align: center;">RF-ELE01, RF-ELE03</td>
+<td style="text-align: center;">Eletrônica</td>
+<td>A estabilidade mecânica do chassi é pré-requisito para alinhamento dos sensores e fixação dos drivers.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-EST02</strong></td>
+<td style="text-align: center;">Estruturas</td>
+<td style="text-align: center;">RF-ELE02, RF-SFT01</td>
+<td style="text-align: center;">Eletrônica / Software</td>
+<td>A tração e o atrito dos pneus condicionam a acurácia da odometria e o controle cinemático.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-EST03</strong></td>
+<td style="text-align: center;">Estruturas</td>
+<td style="text-align: center;">RF-ELE01, RF-SFT02</td>
+<td style="text-align: center;">Eletrônica / Software</td>
+<td>A ancoragem rígida dos suportes de sensores assegura leitura correta das paredes pelo mapeamento.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE01</strong></td>
+<td style="text-align: center;">Energia</td>
+<td style="text-align: center;">RF-ELE01, RF-ELE03</td>
+<td style="text-align: center;">Eletrônica</td>
+<td>A entrega de barramentos regulados de potência e lógica alimenta todos os sensores e atuadores.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE02</strong></td>
+<td style="text-align: center;">Energia</td>
+<td style="text-align: center;">RF-SFT05, RF-SFT06</td>
+<td style="text-align: center;">Software</td>
+<td>A leitura analógica/digital da bateria é empacotada na telemetria e exibida no painel web.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ENE03</strong></td>
+<td style="text-align: center;">Energia</td>
+<td style="text-align: center;">RF-ELE03</td>
+<td style="text-align: center;">Eletrônica</td>
+<td>O circuito de corte comanda o bloqueio físico imediato dos acionadores dos motores.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE01</strong></td>
+<td style="text-align: center;">Eletrônica</td>
+<td style="text-align: center;">RF-SFT01, RF-SFT02</td>
+<td style="text-align: center;">Software</td>
+<td>Os dados de distância alimentam a correção de curso nas retas e a matriz de paredes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE02</strong></td>
+<td style="text-align: center;">Eletrônica</td>
+<td style="text-align: center;">RF-SFT01, RF-SFT11</td>
+<td style="text-align: center;">Software</td>
+<td>A odometria fornece o deslocamento linear e angular e permite detectar travamento (<em>stall</em>).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE03</strong></td>
+<td style="text-align: center;">Eletrônica</td>
+<td style="text-align: center;">RF-EST02, RF-SFT01</td>
+<td style="text-align: center;">Estruturas / Software</td>
+<td>A conversão de sinais lógicos em potência mecânica movimenta as rodas motrizes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-ELE04</strong></td>
+<td style="text-align: center;">Eletrônica</td>
+<td style="text-align: center;">RF-SFT06</td>
+<td style="text-align: center;">Software</td>
+<td>O canal de rádio é o meio físico de transmissão dos pacotes para a interface web.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT02</strong></td>
+<td style="text-align: center;">Software</td>
+<td style="text-align: center;">RF-SFT03, RF-SFT09</td>
+<td style="text-align: center;">Software</td>
+<td>O mapa de paredes descobertas é a entrada essencial dos algoritmos de busca e de speed run.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT03</strong></td>
+<td style="text-align: center;">Software</td>
+<td style="text-align: center;">RF-SFT04, RF-SFT05</td>
+<td style="text-align: center;">Software</td>
+<td>A condução autônoma gera o trajeto percorrido e comanda a parada ao atingir o objetivo.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT05</strong></td>
+<td style="text-align: center;">Software</td>
+<td style="text-align: center;">RF-ELE04, RF-SFT06</td>
+<td style="text-align: center;">Eletrônica / Software</td>
+<td>O empacotamento dos 6 parâmetros do edital alimenta a transmissão de rádio e a tela web.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT06</strong></td>
+<td style="text-align: center;">Software</td>
+<td style="text-align: center;">RF-SFT07</td>
+<td style="text-align: center;">Software</td>
+<td>Os dados exibidos na tela são estruturados para consolidação no banco de dados.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>RF-SFT07</strong></td>
+<td style="text-align: center;">Software</td>
+<td style="text-align: center;">RF-SFT08</td>
+<td style="text-align: center;">Software</td>
+<td>O banco de dados persistido viabiliza a execução de consultas e filtros históricos.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../1%20-%20TAP/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 1 — TAP">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                1 — TAP
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../3%20-%20EAP/" class="md-footer__link md-footer__link--next" aria-label="Próximo: 3 — EAP">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                3 — EAP
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
