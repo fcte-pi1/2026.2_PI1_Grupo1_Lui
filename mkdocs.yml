@@ -41,6 +41,9 @@ plugins:
   - search:
       lang: pt
 
+extra_css:
+  - stylesheets/extra.css
+
 markdown_extensions:
   - tables
   - admonition
@@ -48,7 +51,13 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg

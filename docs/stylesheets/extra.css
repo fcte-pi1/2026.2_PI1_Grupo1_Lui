@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Estilização Complementar para Diagramas Mermaid e EAP no MkDocs Material
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Cor da fonte FIXA no Mermaid (NÃO MUDA ao alternar entre tema claro e escuro)
+   -------------------------------------------------------------------------- */
+:root,
+:root > *,
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"],
+.mermaid,
+.mermaid * {
+  --md-mermaid-label-fg-color: #0f172a !important;
+  --md-mermaid-node-fg-color: #0f172a !important;
+}
+
+/* Forçar texto de todos os nós do Mermaid a manter a cor escura e alto contraste */
+.mermaid .nodeLabel,
+.mermaid .node .label,
+.mermaid .node text,
+.mermaid .label text,
+.mermaid text,
+.mermaid span,
+.mermaid div,
+.mermaid p {
+  color: #0f172a !important;
+  fill: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+/* Container com rolagem horizontal fluida */
+.mermaid {
+  display: block;
+  overflow-x: auto;
+  text-align: center;
+  margin: 1.5rem auto;
+  padding: 1.25rem 0.75rem;
+  background-color: var(--md-code-bg-color, #f8fafc);
+  border: 1px solid var(--md-color-border, #e2e8f0);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.mermaid svg {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  font-family: inherit;
+}
+
+/* Suavização dos cantos das caixas */
+.mermaid .node rect,
+.mermaid .node polygon {
+  rx: 6px !important;
+  ry: 6px !important;
+}
+
+/* Linhas e setas conectoras com bom contraste */
+.mermaid .flowchart-link {
+  stroke: #64748b !important;
+  stroke-width: 1.5px !important;
+}
+.mermaid .marker {
+  fill: #64748b !important;
+  stroke: #64748b !important;
+}
+
+/* Imagens */
+.md-typeset img {
+  display: block;
+  margin: 1.5rem auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   TEMA ESCURO (Slate) - Container e Linhas
+   Os nós mantêm as cores pastel e a fonte escura (#0f172a) inalterada.
+   ========================================================================== */
+
+[data-md-color-scheme="slate"] .mermaid {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+[data-md-color-scheme="slate"] .mermaid .flowchart-link {
+  stroke: #94a3b8 !important;
+}
+
+[data-md-color-scheme="slate"] .mermaid .marker {
+  fill: #94a3b8 !important;
+  stroke: #94a3b8 !important;
+}

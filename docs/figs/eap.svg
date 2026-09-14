@@ -1,0 +1,258 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 990" width="100%" height="100%" style="background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <filter id="cardShadow" x="-3%" y="-2%" width="106%" height="106%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.08"/>
+    </filter>
+    <filter id="rootShadow" x="-3%" y="-4%" width="106%" height="114%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <!-- Title Header Banner -->
+  <rect x="0" y="0" width="1300" height="66" fill="#f8fafc"/>
+  <line x1="0" y1="66" x2="1300" y2="66" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="650" y="32" text-anchor="middle" font-size="22" font-weight="800" fill="#0f172a" letter-spacing="-0.3">Estrutura Analítica do Projeto (EAP)</text>
+  <text x="650" y="52" text-anchor="middle" font-size="13" font-weight="600" fill="#64748b">Micromouse Autônomo • Grupo 1 • Projeto Integrador 1 (2026.2) • UnB / FCTE</text>
+  <!-- Root Node (Nível 0) -->
+  <g filter="url(#rootShadow)">
+    <rect x="470" y="80" width="360" height="44" rx="8" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <text x="650" y="108" text-anchor="middle" font-size="16" font-weight="800" fill="#ffffff" letter-spacing="0.3">Micromouse Autônomo</text>
+  </g>
+  <!-- Connectors (Clean aisle routing - zero intersection with content) -->
+  <g stroke="#94a3b8" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Root down to top bus -->
+    <path d="M 650 124 L 650 148"/>
+    <!-- Top bus -->
+    <path d="M 235 148 L 1065 148"/>
+    <!-- Top row drops into cards -->
+    <path d="M 235 148 L 235 170"/>
+    <path d="M 650 148 L 650 170"/>
+    <path d="M 1065 148 L 1065 170"/>
+    <!-- Aisle bypasses down to row 2 -->
+    <path d="M 442.5 148 L 442.5 585"/>
+    <path d="M 857.5 148 L 857.5 585"/>
+    <!-- Row 2 bus -->
+    <path d="M 235 585 L 1065 585"/>
+    <!-- Row 2 drops into cards -->
+    <path d="M 235 585 L 235 605"/>
+    <path d="M 650 585 L 650 605"/>
+    <path d="M 1065 585 L 1065 605"/>
+  </g>
+  <!-- Card Container -->
+  <rect x="45" y="170" width="380" height="390" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <!-- Header Bar -->
+  <path d="M 45 180 A 10 10 0 0 1 55 170 L 415 170 A 10 10 0 0 1 425 180 L 425 212 L 45 212 Z" fill="#1d4ed8"/>
+  <text x="61" y="197" font-size="15" font-weight="800" fill="#ffffff" letter-spacing="-0.2">1. Documentação</text>
+  <rect x="339" y="182" width="72" height="19" rx="9" fill="rgba(255,255,255,0.2)"/>
+  <text x="375" y="195" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ffffff">5 entregas</text>
+  <rect x="60" y="222" width="350" height="24" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+  <text x="72" y="239" font-size="12" font-weight="800" fill="#1e40af">1.0 Gestão de Projeto &amp; Requisitos</text>
+  <line x1="76" y1="252" x2="76" y2="270" stroke="#60a5fa" stroke-width="1.5"/>
+  <line x1="76" y1="270" x2="86" y2="270" stroke="#60a5fa" stroke-width="1.5"/>
+  <rect x="88" y="258" width="322" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="98" y="274" font-size="10.5" font-weight="700" fill="#1e3a8a">1.1 Relatório <tspan font-weight="400" fill="#3b82f6">(Documentos parciais e relatório final)</tspan></text>
+  <line x1="76" y1="286" x2="76" y2="304" stroke="#60a5fa" stroke-width="1.5"/>
+  <line x1="76" y1="304" x2="86" y2="304" stroke="#60a5fa" stroke-width="1.5"/>
+  <rect x="88" y="292" width="322" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="98" y="308" font-size="10.5" font-weight="700" fill="#1e3a8a">1.2 Cronograma <tspan font-weight="400" fill="#3b82f6">(Planejamento temporal e marcos críticos)</tspan></text>
+  <line x1="76" y1="320" x2="76" y2="338" stroke="#60a5fa" stroke-width="1.5"/>
+  <line x1="76" y1="338" x2="86" y2="338" stroke="#60a5fa" stroke-width="1.5"/>
+  <rect x="88" y="326" width="322" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="98" y="342" font-size="10.5" font-weight="700" fill="#1e3a8a">1.3 Elicitação <tspan font-weight="400" fill="#3b82f6">(Requisitos RF e RNF MoSCoW)</tspan></text>
+  <line x1="76" y1="354" x2="76" y2="372" stroke="#60a5fa" stroke-width="1.5"/>
+  <line x1="76" y1="372" x2="86" y2="372" stroke="#60a5fa" stroke-width="1.5"/>
+  <rect x="88" y="360" width="322" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="98" y="376" font-size="10.5" font-weight="700" fill="#1e3a8a">1.4 Escopo <tspan font-weight="400" fill="#3b82f6">(Declaração formal, TAP e fronteiras)</tspan></text>
+  <line x1="76" y1="388" x2="76" y2="406" stroke="#60a5fa" stroke-width="1.5"/>
+  <line x1="76" y1="406" x2="86" y2="406" stroke="#60a5fa" stroke-width="1.5"/>
+  <rect x="88" y="394" width="322" height="24" rx="4" fill="#ffffff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="98" y="410" font-size="10.5" font-weight="700" fill="#1e3a8a">1.5 Orçamento <tspan font-weight="400" fill="#3b82f6">(Custos de componentes e teto de R$ 850)</tspan></text>
+  <!-- Card Container -->
+  <rect x="460" y="170" width="380" height="390" rx="10" fill="#ffffff" stroke="#fed7aa" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <!-- Header Bar -->
+  <path d="M 460 180 A 10 10 0 0 1 470 170 L 830 170 A 10 10 0 0 1 840 180 L 840 212 L 460 212 Z" fill="#c2410c"/>
+  <text x="476" y="197" font-size="15" font-weight="800" fill="#ffffff" letter-spacing="-0.2">2. Estrutura</text>
+  <rect x="754" y="182" width="72" height="19" rx="9" fill="rgba(255,255,255,0.2)"/>
+  <text x="790" y="195" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ffffff">7 entregas</text>
+  <rect x="475" y="222" width="350" height="24" rx="5" fill="#ffedd5" stroke="#f97316" stroke-width="1.2"/>
+  <text x="487" y="239" font-size="12" font-weight="800" fill="#7c2d12">2.1 Corpo</text>
+  <line x1="492" y1="246" x2="492" y2="263" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="263" x2="503" y2="263" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="252" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="267" font-size="10.5" font-weight="700" fill="#9a3412">2.1.1 Montagem <tspan font-weight="400" fill="#78350f">(Acoplamento mecânico completo)</tspan></text>
+  <line x1="492" y1="274" x2="492" y2="291" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="291" x2="503" y2="291" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="280" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="295" font-size="10.5" font-weight="700" fill="#9a3412">2.1.2 Fabricação <tspan font-weight="400" fill="#78350f">(Manufatura 3D e corte a laser)</tspan></text>
+  <line x1="492" y1="302" x2="492" y2="319" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="319" x2="503" y2="319" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="308" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="323" font-size="10.5" font-weight="700" fill="#9a3412">2.1.3 Modelo 3D do chassis <tspan font-weight="400" fill="#78350f">(CAD paramétrico (.STEP/.STL))</tspan></text>
+  <line x1="492" y1="330" x2="492" y2="347" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="347" x2="503" y2="347" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="336" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="351" font-size="10.5" font-weight="700" fill="#9a3412">2.1.4 Suportes internos <tspan font-weight="400" fill="#78350f">(Modelo 3D sensores e motores)</tspan></text>
+  <line x1="492" y1="358" x2="492" y2="375" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="375" x2="503" y2="375" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="364" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="379" font-size="10.5" font-weight="700" fill="#9a3412">2.1.5 Simulações mecânicas <tspan font-weight="400" fill="#78350f">(Análise FEA von Mises)</tspan></text>
+  <rect x="475" y="398" width="350" height="24" rx="5" fill="#ffedd5" stroke="#f97316" stroke-width="1.2"/>
+  <text x="487" y="415" font-size="12" font-weight="800" fill="#7c2d12">2.2 Labirinto</text>
+  <line x1="492" y1="422" x2="492" y2="439" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="439" x2="503" y2="439" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="428" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="443" font-size="10.5" font-weight="700" fill="#9a3412">2.2.1 Design <tspan font-weight="400" fill="#78350f">(Plantas cotadas das células e paredes)</tspan></text>
+  <line x1="492" y1="450" x2="492" y2="467" stroke="#fdba74" stroke-width="1.5"/>
+  <line x1="492" y1="467" x2="503" y2="467" stroke="#fdba74" stroke-width="1.5"/>
+  <rect x="505" y="456" width="320" height="23" rx="4" fill="#ffffff" stroke="#fed7aa" stroke-width="1"/>
+  <text x="515" y="471" font-size="10.5" font-weight="700" fill="#9a3412">2.2.2 Fabricação <tspan font-weight="400" fill="#78350f">(Piso modular não-reflexivo e paredes)</tspan></text>
+  <!-- Card Container -->
+  <rect x="875" y="170" width="380" height="390" rx="10" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <!-- Header Bar -->
+  <path d="M 875 180 A 10 10 0 0 1 885 170 L 1245 170 A 10 10 0 0 1 1255 180 L 1255 212 L 875 212 Z" fill="#047857"/>
+  <text x="891" y="197" font-size="15" font-weight="800" fill="#ffffff" letter-spacing="-0.2">3. Firmware / Eletrônica</text>
+  <rect x="1169" y="182" width="72" height="19" rx="9" fill="rgba(255,255,255,0.2)"/>
+  <text x="1205" y="195" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ffffff">9 entregas</text>
+  <rect x="890" y="222" width="350" height="24" rx="5" fill="#d1fae5" stroke="#10b981" stroke-width="1.2"/>
+  <text x="902" y="239" font-size="12" font-weight="800" fill="#064e3b">3.1 Hardware</text>
+  <line x1="906" y1="246" x2="906" y2="263" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="906" y1="263" x2="916" y2="263" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="918" y="252" width="322" height="23" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="928" y="267" font-size="10.5" font-weight="700" fill="#065f46">3.1.1 Sensoriamento <tspan font-weight="400" fill="#047857">(Detecção paredes a ≥ 20 Hz)</tspan></text>
+  <line x1="906" y1="275" x2="906" y2="292" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="906" y1="292" x2="916" y2="292" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="918" y="281" width="322" height="21" rx="4" fill="#f0fdf4" stroke="#34d399" stroke-width="1"/>
+  <text x="928" y="296" font-size="11" font-weight="800" fill="#047857">3.1.2 Sistema Locomotor</text>
+  <line x1="930" y1="301" x2="930" y2="317" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="930" y1="317" x2="940" y2="317" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="942" y="307" width="298" height="21" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="952" y="320" font-size="10.5" font-weight="700" fill="#065f46">3.1.2.1 Drivers de motor <tspan font-weight="400" fill="#047857">(Ponte H / PWM)</tspan></text>
+  <line x1="930" y1="326" x2="930" y2="342" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="930" y1="342" x2="940" y2="342" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="942" y="332" width="298" height="21" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="952" y="345" font-size="10.5" font-weight="700" fill="#065f46">3.1.2.2 Controle dos motores <tspan font-weight="400" fill="#047857">(Malha PID)</tspan></text>
+  <line x1="930" y1="351" x2="930" y2="367" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="930" y1="367" x2="940" y2="367" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="942" y="357" width="298" height="21" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="952" y="370" font-size="10.5" font-weight="700" fill="#065f46">3.1.2.3 Encoders <tspan font-weight="400" fill="#047857">(Odometria das rodas)</tspan></text>
+  <line x1="906" y1="375" x2="906" y2="398" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="906" y1="398" x2="916" y2="398" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="918" y="387" width="322" height="21" rx="4" fill="#f0fdf4" stroke="#34d399" stroke-width="1"/>
+  <text x="928" y="402" font-size="11" font-weight="800" fill="#047857">3.1.3 PCB</text>
+  <line x1="930" y1="407" x2="930" y2="423" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="930" y1="423" x2="940" y2="423" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="942" y="413" width="298" height="21" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="952" y="426" font-size="10.5" font-weight="700" fill="#065f46">3.1.3.1 Layout da PCB <tspan font-weight="400" fill="#047857">(Gerber e trilhas)</tspan></text>
+  <line x1="930" y1="432" x2="930" y2="448" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="930" y1="448" x2="940" y2="448" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="942" y="438" width="298" height="21" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="952" y="451" font-size="10.5" font-weight="700" fill="#065f46">3.1.3.2 CI <tspan font-weight="400" fill="#047857">(Circuitos Integrados / SMD)</tspan></text>
+  <rect x="890" y="468" width="350" height="24" rx="5" fill="#d1fae5" stroke="#10b981" stroke-width="1.2"/>
+  <text x="902" y="485" font-size="12" font-weight="800" fill="#064e3b">3.2 Software Embarcado</text>
+  <line x1="906" y1="492" x2="906" y2="509" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="906" y1="509" x2="916" y2="509" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="918" y="498" width="322" height="23" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="928" y="513" font-size="10.5" font-weight="700" fill="#065f46">3.2.1 Telemetria <tspan font-weight="400" fill="#047857">(Protocolo sem fio a ≥ 1 Hz)</tspan></text>
+  <line x1="906" y1="520" x2="906" y2="537" stroke="#6ee7b7" stroke-width="1.5"/>
+  <line x1="906" y1="537" x2="916" y2="537" stroke="#6ee7b7" stroke-width="1.5"/>
+  <rect x="918" y="526" width="322" height="23" rx="4" fill="#ffffff" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="928" y="541" font-size="10.5" font-weight="700" fill="#065f46">3.2.2 Microcontrolador <tspan font-weight="400" fill="#047857">(Firmware baixo nível / ISR)</tspan></text>
+  <!-- Card Container -->
+  <rect x="45" y="605" width="380" height="345" rx="10" fill="#ffffff" stroke="#fca5a5" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <!-- Header Bar -->
+  <path d="M 45 615 A 10 10 0 0 1 55 605 L 415 605 A 10 10 0 0 1 425 615 L 425 647 L 45 647 Z" fill="#b91c1c"/>
+  <text x="61" y="632" font-size="15" font-weight="800" fill="#ffffff" letter-spacing="-0.2">4. Sistema Energético</text>
+  <rect x="339" y="617" width="72" height="19" rx="9" fill="rgba(255,255,255,0.2)"/>
+  <text x="375" y="630" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ffffff">5 entregas</text>
+  <rect x="60" y="655" width="350" height="23" rx="5" fill="#fee2e2" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="72" y="671" font-size="12" font-weight="800" fill="#7f1d1d">4.1 Circuito Elétrico</text>
+  <line x1="76" y1="678" x2="76" y2="695" stroke="#fca5a5" stroke-width="1.5"/>
+  <line x1="76" y1="695" x2="86" y2="695" stroke="#fca5a5" stroke-width="1.5"/>
+  <rect x="88" y="684" width="322" height="22" rx="4" fill="#ffffff" stroke="#fca5a5" stroke-width="1"/>
+  <text x="98" y="698" font-size="10.5" font-weight="700" fill="#991b1b">4.1.1 Planejamento Circuito <tspan font-weight="400" fill="#7f1d1d">(Dimensionamento elétrico)</tspan></text>
+  <line x1="76" y1="706" x2="76" y2="722" stroke="#fca5a5" stroke-width="1.5"/>
+  <line x1="76" y1="722" x2="86" y2="722" stroke="#fca5a5" stroke-width="1.5"/>
+  <rect x="88" y="711" width="322" height="21" rx="4" fill="#fff5f5" stroke="#f87171" stroke-width="1"/>
+  <text x="98" y="726" font-size="11" font-weight="800" fill="#7f1d1d">4.1.2 Bateria <tspan font-weight="400" fill="#991b1b">(LiPo com conector polarizado)</tspan></text>
+  <line x1="100" y1="731" x2="100" y2="747" stroke="#fca5a5" stroke-width="1.5"/>
+  <line x1="100" y1="747" x2="110" y2="747" stroke="#fca5a5" stroke-width="1.5"/>
+  <rect x="112" y="737" width="298" height="21" rx="4" fill="#ffffff" stroke="#fca5a5" stroke-width="1"/>
+  <text x="122" y="750" font-size="10.5" font-weight="700" fill="#991b1b">4.1.2.1 Telemetria da bateria <tspan font-weight="400" fill="#7f1d1d">(Corte por subtensão)</tspan></text>
+  <rect x="60" y="766" width="350" height="23" rx="5" fill="#fee2e2" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="72" y="782" font-size="12" font-weight="800" fill="#7f1d1d">4.2 Motor Elétrico</text>
+  <line x1="76" y1="789" x2="76" y2="806" stroke="#fca5a5" stroke-width="1.5"/>
+  <line x1="76" y1="806" x2="86" y2="806" stroke="#fca5a5" stroke-width="1.5"/>
+  <rect x="88" y="795" width="322" height="22" rx="4" fill="#ffffff" stroke="#fca5a5" stroke-width="1"/>
+  <text x="98" y="809" font-size="10.5" font-weight="700" fill="#991b1b">4.2.1 Cálculo da Eficiência <tspan font-weight="400" fill="#7f1d1d">(Curvas de torque e consumo)</tspan></text>
+  <line x1="76" y1="815" x2="76" y2="832" stroke="#fca5a5" stroke-width="1.5"/>
+  <line x1="76" y1="832" x2="86" y2="832" stroke="#fca5a5" stroke-width="1.5"/>
+  <rect x="88" y="821" width="322" height="22" rx="4" fill="#ffffff" stroke="#fca5a5" stroke-width="1"/>
+  <text x="98" y="835" font-size="10.5" font-weight="700" fill="#991b1b">4.2.2 Montagem <tspan font-weight="400" fill="#7f1d1d">(Acoplamento mecânico do motor)</tspan></text>
+  <rect x="60" y="852" width="350" height="23" rx="5" fill="#fee2e2" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="72" y="868" font-size="12" font-weight="800" fill="#7f1d1d">4.3 Circuito Térmico</text>
+  <line x1="76" y1="875" x2="76" y2="892" stroke="#fca5a5" stroke-width="1.5"/>
+  <line x1="76" y1="892" x2="86" y2="892" stroke="#fca5a5" stroke-width="1.5"/>
+  <rect x="88" y="881" width="322" height="22" rx="4" fill="#ffffff" stroke="#fca5a5" stroke-width="1"/>
+  <text x="98" y="895" font-size="10.5" font-weight="700" fill="#991b1b">4.3.1 Transferência de Calor <tspan font-weight="400" fill="#7f1d1d">(Dissipação térmica)</tspan></text>
+  <!-- Card Container -->
+  <rect x="460" y="605" width="380" height="345" rx="10" fill="#ffffff" stroke="#c4b5fd" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <!-- Header Bar -->
+  <path d="M 460 615 A 10 10 0 0 1 470 605 L 830 605 A 10 10 0 0 1 840 615 L 840 647 L 460 647 Z" fill="#6d28d9"/>
+  <text x="476" y="632" font-size="13.2" font-weight="800" fill="#ffffff" letter-spacing="-0.2">5. Sistemas de Lógica e Processamento</text>
+  <rect x="754" y="617" width="72" height="19" rx="9" fill="rgba(255,255,255,0.2)"/>
+  <text x="790" y="630" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ffffff">5 entregas</text>
+  <rect x="475" y="655" width="350" height="23" rx="5" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.2"/>
+  <text x="487" y="671" font-size="12" font-weight="800" fill="#4c1d95">5.1 Release 1 - Interface Web</text>
+  <line x1="492" y1="678" x2="492" y2="695" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="492" y1="695" x2="503" y2="695" stroke="#c4b5fd" stroke-width="1.5"/>
+  <rect x="505" y="684" width="320" height="22" rx="4" fill="#ffffff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="515" y="698" font-size="10.5" font-weight="700" fill="#5b21b6">5.1.1 Interface e Controle <tspan font-weight="400" fill="#4c1d95">(Dashboard web de telemetria)</tspan></text>
+  <rect x="475" y="714" width="350" height="23" rx="5" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.2"/>
+  <text x="487" y="730" font-size="12" font-weight="800" fill="#4c1d95">5.2 Release 2 - Algoritmo Central / Embarcado</text>
+  <line x1="492" y1="737" x2="492" y2="754" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="492" y1="754" x2="503" y2="754" stroke="#c4b5fd" stroke-width="1.5"/>
+  <rect x="505" y="743" width="320" height="22" rx="4" fill="#ffffff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="515" y="757" font-size="10.5" font-weight="700" fill="#5b21b6">5.2.1 Inicialização e Energização <tspan font-weight="400" fill="#4c1d95">(Self-test e calibração)</tspan></text>
+  <line x1="492" y1="763" x2="492" y2="780" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="492" y1="780" x2="503" y2="780" stroke="#c4b5fd" stroke-width="1.5"/>
+  <rect x="505" y="769" width="320" height="22" rx="4" fill="#ffffff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="515" y="783" font-size="10.5" font-weight="700" fill="#5b21b6">5.2.2 Navegação Autônoma <tspan font-weight="400" fill="#4c1d95">(Algoritmo Flood Fill / Mapeamento)</tspan></text>
+  <line x1="492" y1="789" x2="492" y2="806" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="492" y1="806" x2="503" y2="806" stroke="#c4b5fd" stroke-width="1.5"/>
+  <rect x="505" y="795" width="320" height="22" rx="4" fill="#ffffff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="515" y="809" font-size="10.5" font-weight="700" fill="#5b21b6">5.2.3 Desempenho e Otimização <tspan font-weight="400" fill="#4c1d95">(Speed Run e curvas)</tspan></text>
+  <rect x="475" y="826" width="350" height="23" rx="5" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.2"/>
+  <text x="487" y="842" font-size="12" font-weight="800" fill="#4c1d95">5.3 Release 3 - Integração e Validação</text>
+  <line x1="492" y1="849" x2="492" y2="867" stroke="#c4b5fd" stroke-width="1.5"/>
+  <line x1="492" y1="867" x2="503" y2="867" stroke="#c4b5fd" stroke-width="1.5"/>
+  <rect x="505" y="855" width="320" height="24" rx="4" fill="#ffffff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="515" y="871" font-size="10.5" font-weight="700" fill="#5b21b6">5.3 Integração do Sistema <tspan font-weight="400" fill="#4c1d95">(Firmware, telemetria e dashboard web)</tspan></text>
+  <!-- Card Container -->
+  <rect x="875" y="605" width="380" height="345" rx="10" fill="#ffffff" stroke="#5eead4" stroke-width="1.5" filter="url(#cardShadow)"/>
+  <!-- Header Bar -->
+  <path d="M 875 615 A 10 10 0 0 1 885 605 L 1245 605 A 10 10 0 0 1 1255 615 L 1255 647 L 875 647 Z" fill="#0f766e"/>
+  <text x="891" y="632" font-size="15" font-weight="800" fill="#ffffff" letter-spacing="-0.2">6. Validação</text>
+  <rect x="1169" y="617" width="72" height="19" rx="9" fill="rgba(255,255,255,0.2)"/>
+  <text x="1205" y="630" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ffffff">2 entregas</text>
+  <rect x="890" y="655" width="350" height="23" rx="5" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1.2"/>
+  <text x="902" y="671" font-size="12" font-weight="800" fill="#115e59">6.1 Teste Integrado</text>
+  <line x1="906" y1="682" x2="906" y2="700" stroke="#5eead4" stroke-width="1.5"/>
+  <line x1="906" y1="700" x2="916" y2="700" stroke="#5eead4" stroke-width="1.5"/>
+  <rect x="918" y="688" width="322" height="24" rx="4" fill="#ffffff" stroke="#99f6e4" stroke-width="1"/>
+  <text x="928" y="704" font-size="10.5" font-weight="700" fill="#115e59">6.1.1 Eletromecânica <tspan font-weight="400" fill="#0f766e">(Hardware e Firmware integrados)</tspan></text>
+  <line x1="906" y1="712" x2="906" y2="730" stroke="#5eead4" stroke-width="1.5"/>
+  <line x1="906" y1="730" x2="916" y2="730" stroke="#5eead4" stroke-width="1.5"/>
+  <rect x="918" y="718" width="322" height="24" rx="4" fill="#ffffff" stroke="#99f6e4" stroke-width="1"/>
+  <text x="928" y="734" font-size="10.5" font-weight="700" fill="#115e59">6.1.2 Ensaios de Bancada <tspan font-weight="400" fill="#0f766e">(Atuadores, sensores e telemetria)</tspan></text>
+  <rect x="890" y="760" width="350" height="23" rx="5" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1.2"/>
+  <text x="902" y="776" font-size="12" font-weight="800" fill="#115e59">6.2 Teste em Labirinto</text>
+  <line x1="906" y1="787" x2="906" y2="805" stroke="#5eead4" stroke-width="1.5"/>
+  <line x1="906" y1="805" x2="916" y2="805" stroke="#5eead4" stroke-width="1.5"/>
+  <rect x="918" y="793" width="322" height="24" rx="4" fill="#ffffff" stroke="#99f6e4" stroke-width="1"/>
+  <text x="928" y="809" font-size="10.5" font-weight="700" fill="#115e59">6.2.1 Pistas Oficiais <tspan font-weight="400" fill="#0f766e">(Ensaios nas pistas 4x4, 8x4 e 12x4)</tspan></text>
+  <line x1="906" y1="817" x2="906" y2="835" stroke="#5eead4" stroke-width="1.5"/>
+  <line x1="906" y1="835" x2="916" y2="835" stroke="#5eead4" stroke-width="1.5"/>
+  <rect x="918" y="823" width="322" height="24" rx="4" fill="#ffffff" stroke="#99f6e4" stroke-width="1"/>
+  <text x="928" y="839" font-size="10.5" font-weight="700" fill="#115e59">6.2.2 Resolução Autônoma <tspan font-weight="400" fill="#0f766e">(Resolução sem intervenção física)</tspan></text>
+  <!-- Footer Note -->
+  <text x="650" y="975" text-anchor="middle" font-size="11.5" font-weight="500" fill="#94a3b8">WBS / EAP Decomposta em Pacotes de Trabalho e Entregas • FCTE / UnB 2026.2</text>
+</svg>
