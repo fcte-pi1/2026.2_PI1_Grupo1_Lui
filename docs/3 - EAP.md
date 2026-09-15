@@ -1,6 +1,6 @@
 # Estrutura Analítica do Projeto (EAP)
 
-A **Estrutura Analítica do Projeto (EAP)** — ou *Work Breakdown Structure (WBS)* — é a ferramenta central de decomposição hierárquica do escopo global do projeto **Micromouse Autônomo (Grupo 1 - PI1 2026.2, FCTE/UnB)**. 
+A **Estrutura Analítica do Projeto (EAP)**, ou *Work Breakdown Structure (WBS)*, é a ferramenta central de decomposição hierárquica do escopo global do projeto **Micromouse Autônomo (Grupo 1 - PI1 2026.2, FCTE/UnB)**. 
 
 A sua finalidade é desmembrar o trabalho total da equipe multidisciplinar (integrando as engenharias de Software, Eletrônica, Energia, Aeroespacial e Automotiva) em componentes menores e gerenciáveis, denominados **pacotes de trabalho e entregas**, assegurando a rastreabilidade direta com os objetivos do projeto e o cumprimento integral da **Regra dos 100%**.
 
@@ -62,35 +62,31 @@ A representação gráfica a seguir consolida a estrutura de decomposição do s
         N3 --> N3_1["3.1 Hardware"]:::eleH
         N3 --> N3_2["3.2 Software Embarcado"]:::eleH
         N3_1 --> N3_1_1["3.1.1 Sensoriamento"]:::ele
-        N3_1 --> N3_1_2["3.1.2 Sistema Locomotor"]:::eleH
-        N3_1 --> N3_1_3["3.1.3 PCB"]:::eleH
-        N3_1_2 --> N3_1_2_1["3.1.2.1 Drivers de motor"]:::ele
-        N3_1_2 --> N3_1_2_2["3.1.2.2 Controle e acionamento dos motores"]:::ele
-        N3_1_2 --> N3_1_2_3["3.1.2.3 Encoders"]:::ele
-        N3_1_3 --> N3_1_3_1["3.1.3.1 Layout da PCB"]:::ele
-        N3_1_3 --> N3_1_3_2["3.1.3.2 CI (Circuitos Integrados)"]:::ele
+        N3_1 --> N3_1_2["3.1.2 Sistema Locomotor"]:::ele
+        N3_1 --> N3_1_3["3.1.3 Placa de Circuito Impresso (PCB)"]:::ele
         N3_2 --> N3_2_1["3.2.1 Telemetria"]:::ele
         N3_2 --> N3_2_2["3.2.2 Microcontrolador"]:::ele
 
         %% 4. Sistema Energético (Vermelho)
-        N4 --> N4_1["4.1 Circuito Elétrico"]:::eneH
-        N4 --> N4_2["4.2 Motor Elétrico"]:::eneH
-        N4 --> N4_3["4.3 Circuito Térmico"]:::eneH
-        N4_1 --> N4_1_1["4.1.1 Planejamento do Circuito"]:::ene
-        N4_1 --> N4_1_2["4.1.2 Bateria"]:::eneH
-        N4_1_2 --> N4_1_2_1["4.1.2.1 Telemetria da bateria"]:::ene
-        N4_2 --> N4_2_1["4.2.1 Cálculo da Eficiência Energética"]:::ene
-        N4_2 --> N4_2_2["4.2.2 Montagem"]:::ene
-        N4_3 --> N4_3_1["4.3.1 Cálculo da Transferência de Calor"]:::ene
+        N4 --> N4_1["4.1 Circuito Elétrico"]:::ene
+        N4 --> N4_2["4.2 Bateria"]:::ene
+        N4 --> N4_3["4.3 Dispositivo de Chaveamento Geral"]:::ene
+        N4 --> N4_4["4.4 Motor Elétrico"]:::ene
+        N4 --> N4_5["4.5 Montagem"]:::ene
+        N4 --> N4_6["4.6 Sistema Térmico"]:::ene
 
         %% 5. Sistemas de Lógica e Processamento (Roxo)
         N5 --> N5_1["5.1 Release 1 - Interface Web"]:::logH
         N5 --> N5_2["5.2 Release 2 - Algoritmo Central e Software Embarcado"]:::logH
-        N5 --> N5_3["5.3 Release 3 - Integração e Validação"]:::logH
-        N5_1 --> N5_1_1["5.1.1 Interface e Controle do Usuário"]:::log
+        N5 --> N5_3["5.3 Release 3 - Integração e Testes de Software"]:::logH
+        N5_1 --> N5_1_1["5.1.1 Dashboard de Monitoramento em Tempo Real"]:::log
+        N5_1 --> N5_1_2["5.1.2 Histórico e Consulta de Corridas"]:::log
+        N5_1 --> N5_1_3["5.1.3 Simulador do Labirinto"]:::log
         N5_2 --> N5_2_1["5.2.1 Inicialização e Energização do Sistema"]:::log
         N5_2 --> N5_2_2["5.2.2 Navegação Autônoma"]:::log
         N5_2 --> N5_2_3["5.2.3 Desempenho e Otimização"]:::log
+        N5_3 --> N5_3_1["5.3.1 Integração do Sistema"]:::log
+        N5_3 --> N5_3_2["5.3.2 Testes de Software"]:::log
 
         %% 6. Validação (Teal)
         N6 --> N6_1["6.1 Teste Integrado"]:::val
@@ -151,15 +147,8 @@ A representação gráfica a seguir consolida a estrutura de decomposição do s
         N3 --> N3_2["3.2 Software Embarcado"]:::eleH
 
         N3_1 --> N3_1_1["3.1.1 Sensoriamento"]:::ele
-        N3_1 --> N3_1_2["3.1.2 Sistema Locomotor"]:::eleH
-        N3_1 --> N3_1_3["3.1.3 PCB"]:::eleH
-
-        N3_1_2 --> N3_1_2_1["3.1.2.1 Drivers de motor"]:::ele
-        N3_1_2 --> N3_1_2_2["3.1.2.2 Controle e acionamento dos motores"]:::ele
-        N3_1_2 --> N3_1_2_3["3.1.2.3 Encoders"]:::ele
-
-        N3_1_3 --> N3_1_3_1["3.1.3.1 Layout da PCB"]:::ele
-        N3_1_3 --> N3_1_3_2["3.1.3.2 CI (Circuitos Integrados)"]:::ele
+        N3_1 --> N3_1_2["3.1.2 Sistema Locomotor"]:::ele
+        N3_1 --> N3_1_3["3.1.3 Placa de Circuito Impresso (PCB)"]:::ele
 
         N3_2 --> N3_2_1["3.2.1 Telemetria"]:::ele
         N3_2 --> N3_2_2["3.2.2 Microcontrolador"]:::ele
@@ -175,18 +164,12 @@ A representação gráfica a seguir consolida a estrutura de decomposição do s
 
         ROOT["Micromouse Autônomo"]:::root
         ROOT --> N4["4. Sistema Energético"]:::eneH
-        N4 --> N4_1["4.1 Circuito Elétrico"]:::eneH
-        N4 --> N4_2["4.2 Motor Elétrico"]:::eneH
-        N4 --> N4_3["4.3 Circuito Térmico"]:::eneH
-
-        N4_1 --> N4_1_1["4.1.1 Planejamento do Circuito"]:::ene
-        N4_1 --> N4_1_2["4.1.2 Bateria"]:::eneH
-        N4_1_2 --> N4_1_2_1["4.1.2.1 Telemetria da bateria"]:::ene
-
-        N4_2 --> N4_2_1["4.2.1 Cálculo da Eficiência Energética"]:::ene
-        N4_2 --> N4_2_2["4.2.2 Montagem"]:::ene
-
-        N4_3 --> N4_3_1["4.3.1 Cálculo da Transferência de Calor"]:::ene
+        N4 --> N4_1["4.1 Circuito Elétrico"]:::ene
+        N4 --> N4_2["4.2 Bateria"]:::ene
+        N4 --> N4_3["4.3 Dispositivo de Chaveamento Geral"]:::ene
+        N4 --> N4_4["4.4 Motor Elétrico"]:::ene
+        N4 --> N4_5["4.5 Montagem"]:::ene
+        N4 --> N4_6["4.6 Sistema Térmico"]:::ene
     ```
 
 === "💻 5. Sistemas de Lógica e Processamento"
@@ -201,13 +184,18 @@ A representação gráfica a seguir consolida a estrutura de decomposição do s
         ROOT --> N5["5. Sistemas de Lógica e Processamento"]:::logH
         N5 --> N5_1["5.1 Release 1 - Interface Web"]:::logH
         N5 --> N5_2["5.2 Release 2 - Algoritmo Central e Software Embarcado"]:::logH
-        N5 --> N5_3["5.3 Release 3 - Integração e Validação"]:::logH
+        N5 --> N5_3["5.3 Release 3 - Integração e Testes de Software"]:::logH
 
-        N5_1 --> N5_1_1["5.1.1 Interface e Controle do Usuário"]:::log
+        N5_1 --> N5_1_1["5.1.1 Dashboard de Monitoramento em Tempo Real"]:::log
+        N5_1 --> N5_1_2["5.1.2 Histórico e Consulta de Corridas"]:::log
+        N5_1 --> N5_1_3["5.1.3 Simulador do Labirinto"]:::log
 
         N5_2 --> N5_2_1["5.2.1 Inicialização e Energização do Sistema"]:::log
         N5_2 --> N5_2_2["5.2.2 Navegação Autônoma"]:::log
         N5_2 --> N5_2_3["5.2.3 Desempenho e Otimização"]:::log
+
+        N5_3 --> N5_3_1["5.3.1 Integração do Sistema"]:::log
+        N5_3 --> N5_3_2["5.3.2 Testes de Software"]:::log
     ```
 
 === "✅ 6. Validação"
@@ -224,78 +212,9 @@ A representação gráfica a seguir consolida a estrutura de decomposição do s
         N6 --> N6_2["6.2 Teste em Labirinto"]:::val
     ```
 
-???+ info "Visualizar representação gráfica vetorial completa (SVG)"
-
-    <div align="center" style="margin: 1.2em 0;">
-        <a href="../figs/eap.svg" target="_blank" class="md-button md-button--primary">
-            :material-open-in-new: Abrir SVG em Alta Resolução (Nova Aba)
-        </a>
-    </div>
-
-    ![Estrutura Analítica do Projeto - Micromouse Autônomo](figs/eap.svg)
-
 ---
 
-## 2. Estrutura Textual da EAP
-
-Abaixo é apresentada a organização hierárquica completa em formato tabular e arbóreo:
-
-```text
-Micromouse Autônomo
-├── 1. Documentação
-│   ├── 1.1 Relatório
-│   ├── 1.2 Cronograma
-│   ├── 1.3 Elicitação
-│   ├── 1.4 Escopo
-│   └── 1.5 Orçamento
-├── 2. Estrutura
-│   ├── 2.1 Corpo
-│   │   ├── 2.1.1 Montagem
-│   │   ├── 2.1.2 Fabricação
-│   │   ├── 2.1.3 Modelo 3D do chassis
-│   │   ├── 2.1.4 Modelo 3D dos suportes internos
-│   │   └── 2.1.5 Simulações de resistência mecânica
-│   └── 2.2 Labirinto
-│       ├── 2.2.1 Design
-│       └── 2.2.2 Fabricação
-├── 3. Firmware / Eletrônica
-│   ├── 3.1 Hardware
-│   │   ├── 3.1.1 Sensoriamento
-│   │   ├── 3.1.2 Sistema Locomotor
-│   │   │   ├── 3.1.2.1 Drivers de motor
-│   │   │   ├── 3.1.2.2 Controle e acionamento dos motores
-│   │   │   └── 3.1.2.3 Encoders
-│   │   └── 3.1.3 PCB
-│   │       ├── 3.1.3.1 Layout da PCB
-│   │       └── 3.1.3.2 CI (Circuitos Integrados)
-│   └── 3.2 Software Embarcado
-│       ├── 3.2.1 Telemetria
-│       └── 3.2.2 Microcontrolador
-├── 4. Sistema Energético
-│   ├── 4.1 Circuito Elétrico
-│   │   ├── 4.1.1 Planejamento do Circuito
-│   │   └── 4.1.2 Bateria (e Telemetria da bateria 4.1.2.1)
-│   ├── 4.2 Motor Elétrico
-│   │   ├── 4.2.1 Cálculo da Eficiência Energética
-│   │   └── 4.2.2 Montagem
-│   └── 4.3 Circuito Térmico
-│       └── 4.3.1 Cálculo da Transferência de Calor
-├── 5. Sistemas de Lógica e Processamento
-│   ├── 5.1 Release 1 - Interface Web
-│   │   └── 5.1.1 Interface e Controle do Usuário
-│   ├── 5.2 Release 2 - Algoritmo Central e Software Embarcado
-│   │   ├── 5.2.1 Inicialização e Energização do Sistema
-│   │   ├── 5.2.2 Navegação Autônoma
-│   │   └── 5.2.3 Desempenho e Otimização
-│   └── 5.3 Release 3 - Integração e Validação
-└── 6. Validação
-    ├── 6.1 Teste Integrado
-    └── 6.2 Teste em Labirinto
-```
-
----
-
-## 3. Dicionário da EAP (Work Breakdown Structure Dictionary)
+## 2. Dicionário da EAP (Work Breakdown Structure Dictionary)
 
 O Dicionário da EAP descreve formalmente o escopo e o entregável tangível de cada pacote de trabalho da árvore, garantindo a compreensão inequívoca das entregas de engenharia por todos os membros da equipe e avaliadores.
 
@@ -333,71 +252,67 @@ Compreende a arquitetura mecânica física do robô (chassi, suportes, rodagem e
 
 ### 3. Firmware / Eletrônica
 
-Engloba a instrumentação sensorial, condicionamento de sinais, atuadores, placa de circuito impresso e firmware embarcado básico.
+Engloba a instrumentação sensorial (distância e orientação inercial), atuadores, placa de circuito impresso e firmware embarcado de controle e telemetria.
 
 | Código | Pacote de Trabalho / Entrega | Descrição do Escopo da Entrega | Entregável Tangível |
 |:---:|---|---|---|
-| **3.1** | Hardware | Conjunto de subsistemas eletroeletrônicos físicos integrados para acionamento, sensoriamento e processamento embarcado. | Circuito eletrônico integrado com sensores, controladores de motor e microcontrolador em funcionamento. |
-| **3.1.1** | Sensoriamento | Módulos e transdutores de medição de distância às paredes (frontal e laterais) para mapeamento e prevenção de colisão. | Conjunto de sensores calibrados com cablagem/trilhas e circuito de condicionamento de sinal. |
-| **3.1.2** | Sistema Locomotor | Subsistema mecânico-elétrico responsável pela conversão de energia elétrica em tração controlada. | Conjunto integrado de motores de tração, caixas de redução, acoplamentos e rodas motrizes. |
-| **3.1.2.1** | Drivers de motor | Circuitos integrados de ponte H dedicados à comutação de potência e controle bidirecional dos motores via PWM. | Módulo/circuito de drivers de potência soldado e protegido contra sobreaquecimento. |
-| **3.1.2.2** | Controle e acionamento dos motores | Malhas de controle e condicionamento elétrico para linearização de torque e velocidade angular dos atuadores. | Malha de controle PID embarcada regulando a velocidade de cada roda motriz. |
-| **3.1.2.3** | Encoders | Sensores de contagem de pulsos por revolução acoplados aos eixos dos motores para odometria angular. | Conjunto de encoders ópticos/magnéticos instalados e condicionados eletricamente. |
-| **3.1.3** | PCB | Placa de circuito impresso dedicada para interconexão segura de todos os componentes eletrônicos. | Placa física industrial fabricada, montada e montada com componentes soldados. |
-| **3.1.3.1** | Layout da PCB | Roteamento das trilhas elétricas, separação de planos de terra (lógico e potência) e posicionamento de conectores. | Arquivos industriais de manufatura Gerber, esquema elétrico e layout em CAD eletrônico. |
-| **3.1.3.2** | CI (Circuitos Integrados) | Seleção, aquisição, soldagem e validação dos componentes e circuitos integrados auxiliares (reguladores, transceivers, etc.). | Componentes SMD/DIP soldados e validados nos pontos de teste da placa. |
-| **3.2** | Software Embarcado | Camada de software de baixo nível responsável pela interface com o hardware, periféricos e despacho de telemetria. | Código-fonte C/C++ dos drivers de baixo nível e rotinas de leitura de sensores e rádio. |
-| **3.2.1** | Telemetria | Protocolo de comunicação serial/sem fio e rotinas de empacotamento de dados operacionais do robô. | Pacote de firmware transmissor de telemetria via rádio/Wi-Fi/Bluetooth a 1 Hz. |
-| **3.2.2** | Microcontrolador | Configuração de relógio, temporizadores, interrupções, conversores analógico-digitais (ADC) e interfaces de comunicação do chip. | Código de inicialização (*Board Support Package*) e configuração de registradores/periféricos. |
+| **3.1** | Hardware | Conjunto de subsistemas eletroeletrônicos físicos integrados para sensoriamento, locomoção e processamento embarcado. | Circuito eletrônico integrado com sensores, controladores de motor e microcontrolador em funcionamento. |
+| **3.1.1** | Sensoriamento | Módulos e transdutores de medição de distância às paredes (sensores ópticos/ToF frontais e laterais) e sensor inercial/giroscópio para auxílio no controle de orientação angular e prevenção de colisão. | Conjunto integrado e calibrado de sensores de distância e giroscópio (IMU) com cablagem, fixação e condicionamento de sinais validados. |
+| **3.1.2** | Sistema Locomotor | Subsistema eletromecânico e de potência responsável pela tração controlada, integrando drivers de potência (ponte H com acionamento PWM), malha fechada de controle de velocidade e encoders de odometria angular. | Conjunto integrado de acionamento composto por drivers de potência, motores DC com redução acoplados, encoders de contagem de pulsos e malha de controle de velocidade operacional. |
+| **3.1.3** | Placa de Circuito Impresso (PCB) | Placa de circuito impresso dedicada para interconexão segura e desacoplada dos componentes, englobando o layout de trilhas de potência e lógica, além da montagem e soldagem de circuitos integrados e componentes auxiliares. | Placa física industrial fabricada, montada e montada com componentes soldados e validados nos pontos de teste elétrico (test points). |
+| **3.2** | Software Embarcado | Camada de software de baixo nível responsável pela interface direta com o hardware, tratamento de interrupções, temporizadores e despacho de telemetria. | Código-fonte C/C++ dos drivers de baixo nível (*Board Support Package*) e rotinas de temporização e amostragem de dados. |
+| **3.2.1** | Telemetria | Protocolo de comunicação serial/sem fio e rotinas de empacotamento determinístico dos parâmetros operacionais do robô para envio em tempo real. | Pacote de firmware transmissor de telemetria via canal sem fio a 1 Hz com estrutura de dados validada. |
+| **3.2.2** | Microcontrolador | Configuração de relógio, temporizadores, interrupções (ISR), conversores analógico-digitais (ADC) e interfaces de comunicação serial/barramentos do chip. | Código de inicialização (*BSP*) e rotinas de configuração de registradores e periféricos do chip operacional. |
 
 ---
 
 ### 4. Sistema Energético
 
-Responsável pelo armazenamento de energia, conversão e regulação elétrica, dissipação térmica e telemetria de consumo.
+Responsável pelo armazenamento de energia, conversão e regulação elétrica, chaveamento de segurança, fixação de atuadores e dissipação térmica do robô.
 
 | Código | Pacote de Trabalho / Entrega | Descrição do Escopo da Entrega | Entregável Tangível |
 |:---:|---|---|---|
-| **4.1** | Circuito Elétrico | Arquitetura elétrica global de distribuição, filtragem, chaveamento geral e proteções do sistema. | Diagrama unifilar e esquemático da distribuição de potência com fusíveis e chaves de corte. |
-| **4.1.1** | Planejamento do Circuito | Especificação e dimensionamento elétrico das linhas de alimentação, capacitores de desacoplamento e diodos de roda livre. | Memorial descritivo de dimensionamento elétrico e esquemático conceitual do sistema de energia. |
-| **4.1.2** | Bateria | Conjunto de células eletroquímicas (LiPo/Li-Ion) dimensionadas para fornecer a corrente de partida e autonomia exigida. | Banco de baterias com conector polarizado assimétrico e sistema de carregamento balanceado. |
-| **4.1.2.1** | Telemetria da bateria | Circuito divisor de tensão e amostragem analógica/digital para monitoramento contínuo da carga e proteção por subtensão. | Rotina de leitura e circuito analógico de monitoramento de tensão das células integrado ao firmware. |
-| **4.2** | Motor Elétrico | Unidades de conversão eletromecânica de potência para propulsão do micromouse. | Par de motores DC com redução devidamente selecionados, testados e caracterizados. |
-| **4.2.1** | Cálculo da Eficiência Energética | Análise teórica e experimental da curva de rendimento dos motores, perdas ôhmicas e consumo por ciclo de operação. | Relatório técnico com memorial de cálculo de eficiência energética, torque e consumo de corrente. |
-| **4.2.2** | Montagem | Fixação física dos motores no chassi, acoplamento aos eixos das rodas motrizes e isolamento elétrico. | Conjunto motor-redutor fixado mecanicamente ao chassi e com fiação conectada à placa de potência. |
-| **4.3** | Circuito Térmico | Análise do perfil de aquecimento e estratégias de dissipação passiva de calor dos componentes de potência. | Sistema de arrefecimento passivo (dissipadores térmicos e convecção pelo chassi). |
-| **4.3.1** | Cálculo da Transferência de Calor | Modelagem matemática da resistência térmica entre junção, encapsulamento e ambiente sob corrente máxima contínua. | Memorial de cálculo de transferência térmica e dissipação de potência nos semicondutores. |
+| **4.1** | Circuito Elétrico | Arquitetura elétrica global de distribuição, filtragem, desacoplamento de barramentos de potência e lógica, e proteções elétricas do sistema. | Diagrama unifilar e esquemático da distribuição de potência com fusíveis, barramentos regulados e circuito de distribuição montado e testado. |
+| **4.2** | Bateria | Conjunto de células eletroquímicas (LiPo/Li-Ion) dimensionadas para fornecer a corrente de partida e autonomia exigida pelo veículo. | Banco de baterias com conector polarizado assimétrico, sistema de carregamento balanceado com monitoramento de tensão integrado. |
+| **4.3** | Dispositivo de Chaveamento Geral | Acionamento e interrupção da alimentação geral do robô. | Chave geral instalada, integrada ao circuito e capaz de interromper ou liberar a alimentação elétrica do robô. |
+| **4.4** | Motor Elétrico | Unidades de conversão eletromecânica de potência para propulsão do micromouse. | Par de motores DC com redução devidamente selecionados, testados e caracterizados. |
+| **4.5** | Montagem | Fixação física dos motores no chassi, acoplamento aos eixos das rodas motrizes e isolamento elétrico. | Conjunto motor-redutor fixado mecanicamente ao chassi e com fiação conectada à placa de potência. |
+| **4.6** | Sistema Térmico | Análise do perfil de aquecimento e estratégias de dissipação passiva de calor dos componentes de potência. | Sistema de arrefecimento passivo (dissipadores térmicos e convecção pelo chassi) e cálculo de transferência térmica. |
 
 ---
 
 ### 5. Sistemas de Lógica e Processamento
 
-Engloba a inteligência computacional do sistema: o painel web de monitoramento, os algoritmos autônomos de navegação embarcada e a integração das releases do produto.
+Engloba a inteligência computacional do sistema: a plataforma web de telemetria e análise, o simulador virtual do labirinto, os algoritmos autônomos de navegação embarcada e as suítes de testes de software automatizados.
 
 | Código | Pacote de Trabalho / Entrega | Descrição do Escopo da Entrega | Entregável Tangível |
 |:---:|---|---|---|
-| **5.1** | Release 1 - Interface Web | Primeira versão funcional da plataforma web com exibição visual dos dados de corrida e painel do operador. | Aplicação web responsiva com servidor local/nuvem conectada ao fluxo de recepção de dados. |
-| **5.1.1** | Interface e Controle do Usuário | Componentes visuais do painel (grid do labirinto, velocímetro, indicador de bateria, cronômetro e histórico). | Interface gráfica interativa (frontend) com componentes visuais reativos para o operador. |
-| **5.2** | Release 2 - Algoritmo Central e Software Embarcado | Núcleo de lógica decisória embarcada para exploração, mapeamento matricial e resolução do labirinto. | Firmware de navegação autônoma compilado e gravado no microcontrolador do robô. |
-| **5.2.1** | Inicialização e Energização do Sistema | Rotinas de autoteste (*power-on self-test*), calibração estática dos sensores ópticos e confirmação de largada. | Sequência de inicialização e rotina de calibração automática de fundo e sensores no firmware. |
-| **5.2.2** | Navegação Autônoma | Implementação do algoritmo de busca e resolução de labirintos (ex.: *Flood Fill* ou seguidor inteligente de paredes). | Módulo algorítmico de tomada de decisão, atualização de matriz de paredes e cálculo de rota. |
-| **5.2.3** | Desempenho e Otimização | Algoritmo de rota rápida (*Speed Run*), suavização de curvas ortogonais e otimização de tempo de travessia. | Algoritmo de cálculo de trajetória ótima computado após a exploração inicial. |
-| **5.3** | Release 3 - Integração e Validação | Integração completa do firmware de navegação autônoma com a transmissão de telemetria e o painel web. | Versão final consolidada e congelada do software do sistema (embarcado + web). |
+| **5.1** | Release 1 - Interface Web | Primeira versão funcional da plataforma web integrada com exibição visual dos dados de corrida, módulo de histórico e ferramenta de simulação virtual. | Aplicação web responsiva com servidor de recepção de telemetria e módulo simulador funcional. |
+| **5.1.1** | Dashboard de Monitoramento em Tempo Real | Interface gráfica interativa para recepção e renderização em tempo real da telemetria (grade do labirinto com paredes descobertas, posição instantânea do robô, rastro percorrido, velocidade, cronômetro e nível de bateria). | Painel web frontend com componentes visuais reativos sincronizados em tempo real (taxa ≥ 1 Hz) com os dados recebidos da corrida. |
+| **5.1.2** | Histórico e Consulta de Corridas | Módulo de persistência em banco de dados das séries temporais de corridas e interface gráfica com filtros de busca por data, dimensões do labirinto (4x4, 8x4, 12x4) e métricas comparativas. | Módulo de banco de dados e tela de consulta histórica com tabelas e gráficos comparativos de desempenho entre execuções. |
+| **5.1.3** | Simulador do Labirinto | Ambiente virtual bidimensional do micromouse e da arena para emulação de sensores e validação precoce dos algoritmos de navegação, permitindo testes sem depender da estrutura física e da pista estarem prontas. | Simulador computacional interativo capaz de carregar labirintos virtuais (4x4, 8x4 e 12x4) e validar trajetórias de busca e resolução de forma autônoma. |
+| **5.2** | Release 2 - Algoritmo Central e Software Embarcado | Núcleo de lógica decisória embarcada para exploração, mapeamento matricial e resolução autônoma do labirinto. | Firmware de navegação autônoma compilado e gravado no microcontrolador do robô. |
+| **5.2.1** | Inicialização e Energização do Sistema | Rotinas de autoteste (*power-on self-test*), calibração estática dos sensores ópticos/inerciais e confirmação de largada. | Sequência de inicialização e rotina de calibração automática de sensores no firmware com confirmação de prontidão. |
+| **5.2.2** | Navegação Autônoma | Implementação do algoritmo de busca e resolução de labirintos (ex.: *Flood Fill* ou seguidor inteligente de paredes com mapas de distância matriciais). | Módulo algorítmico de tomada de decisão, atualização matricial de paredes em memória e cálculo dinâmico de rota. |
+| **5.2.3** | Desempenho e Otimização | Algoritmo de rota rápida (*Speed Run*), suavização de curvas ortogonais em movimento contínuo e otimização de tempo de travessia. | Módulo algorítmico de cálculo de trajetória ótima (*Speed Run*) computado após a exploração inicial, reduzindo paradas e tempos de curva. |
+| **5.3** | Release 3 - Integração e Testes de Software | Consolidação ponta a ponta do ecossistema de software (embarcado, comunicação sem fio e dashboard web) e validação formal por suítes de testes automatizados. | Versão estável e integrada do software do sistema (embarcado + web) com cobertura de testes documentada e homologada. |
+| **5.3.1** | Integração do Sistema | Integração completa do firmware de navegação autônoma e do protocolo de telemetria sem fio com os serviços de ingestão e visualização do dashboard web. | Fluxo de dados ponta a ponta plenamente funcional entre o microcontrolador do robô e a aplicação web. |
+| **5.3.2** | Testes de Software | Planejamento, codificação e execução de suítes de testes automatizados em nível unitário, integração lógica e testes ponta a ponta (E2E) para as regras de navegação, simulação e componentes da interface web. | Suíte de testes automatizados executável no pipeline (Jest/pytest/Playwright) com relatório de cobertura de código-fonte ≥ 80%, atendendo ao documento de Testes de Software. |
 
 ---
 
 ### 6. Validação
 
-Conjunto de protocolos, baterias de ensaios laboratoriais e testes em pista real para comprovação do cumprimento dos requisitos do edital.
+Conjunto de protocolos, ensaios laboratoriais em bancada e testes em pista real para comprovação do cumprimento dos requisitos multidisciplinares do edital.
 
 | Código | Pacote de Trabalho / Entrega | Descrição do Escopo da Entrega | Entregável Tangível |
 |:---:|---|---|---|
-| **6.1** | Teste Integrado | Ensaios de bancada e em ambiente controlado para validação de interoperabilidade entre mecânica, eletrônica, energia e software. | Relatório técnico de ensaios integrados com registros osciloscópicos, telemetria e logs de erro. |
+| **6.1** | Teste Integrado | Ensaios de bancada e em ambiente controlado para validação de interoperabilidade entre mecânica, eletrônica, energia e software embarcado. | Relatório técnico de ensaios integrados com registros osciloscópicos, telemetria e logs de comunicação e erro. |
 | **6.2** | Teste em Labirinto | Baterias formais de corridas autônomas nas pistas físicas oficiais (4x4, 8x4 e 12x4 células). | Relatório de validação em pista com vídeos de evidência, tempos cronometrados e mapas reconstruídos. |
 
 ---
 
-## 4. Matriz de Rastreabilidade com os Requisitos
+## 3. Matriz de Rastreabilidade com os Requisitos
 
 A tabela abaixo sintetiza a correspondência entre os macro-pacotes da EAP e os requisitos de engenharia definidos no documento de requisitos:
 
@@ -407,5 +322,5 @@ A tabela abaixo sintetiza a correspondência entre os macro-pacotes da EAP e os 
 | **2. Estrutura** | Estruturas / Labirinto | RF-EST01, RF-EST02, RF-EST03 | RNF-EST01, RNF-EST02, RNF-EST03, RNF-EST04, RNF-EST05, RNF-EST06 |
 | **3. Firmware / Eletrônica** | Eletrônica / Embarcado | RF-ELE01, RF-ELE02, RF-ELE03, RF-ELE04, RF-ELE05, RF-ELE06 | RNF-ELE01, RNF-ELE02, RNF-ELE03, RNF-ELE04, RNF-ELE05 |
 | **4. Sistema Energético** | Energia | RF-ENE01, RF-ENE02, RF-ENE03, RF-ENE04 | RNF-ENE01, RNF-ENE02, RNF-ENE03, RNF-ENE04, RNF-ENE05 |
-| **5. Sistemas de Lógica e Processamento** | Software (Embarcado e Web) | RF-SFT01, RF-SFT02, RF-SFT03, RF-SFT04, RF-SFT05, RF-SFT06, RF-SFT07, RF-SFT08, RF-SFT09, RF-SFT10, RF-SFT11 | RNF-SFT01, RNF-SFT02, RNF-SFT03, RNF-SFT04, RNF-SFT05, RNF-SFT06 |
+| **5. Sistemas de Lógica e Processamento** | Software (Embarcado, Simulação e Web) | RF-SFT01, RF-SFT02, RF-SFT03, RF-SFT04, RF-SFT05, RF-SFT06, RF-SFT07, RF-SFT08, RF-SFT09, RF-SFT10, RF-SFT11 | RNF-SFT01, RNF-SFT02, RNF-SFT03, RNF-SFT04, RNF-SFT05, RNF-SFT06 |
 | **6. Validação** | Todos os Subsistemas | Verificação de missão e desafio cumprido | Cumprimento integral dos requisitos de engenharia e edital |
