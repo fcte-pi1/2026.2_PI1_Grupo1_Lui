@@ -1,0 +1,2051 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/3%20-%20EAP/">
+      
+      
+        <link rel="prev" href="../2%20-%20Requisitos/">
+      
+      
+        <link rel="next" href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3 — EAP - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#estrutura-analitica-do-projeto-eap" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3 — EAP
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-diagrama-hierarquico-da-eap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Diagrama Hierárquico da EAP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-dicionario-da-eap-work-breakdown-structure-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Dicionário da EAP (Work Breakdown Structure Dictionary)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Dicionário da EAP (Work Breakdown Structure Dictionary)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-documentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Documentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-estrutura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Estrutura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-firmware-eletronica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Firmware / Eletrônica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-sistema-energetico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Sistema Energético
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sistemas-de-logica-e-processamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Sistemas de Lógica e Processamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Validação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-matriz-de-rastreabilidade-com-os-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Matriz de Rastreabilidade com os Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-diagrama-hierarquico-da-eap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Diagrama Hierárquico da EAP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-dicionario-da-eap-work-breakdown-structure-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Dicionário da EAP (Work Breakdown Structure Dictionary)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Dicionário da EAP (Work Breakdown Structure Dictionary)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-documentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Documentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-estrutura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Estrutura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-firmware-eletronica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Firmware / Eletrônica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-sistema-energetico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Sistema Energético
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sistemas-de-logica-e-processamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Sistemas de Lógica e Processamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Validação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-matriz-de-rastreabilidade-com-os-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Matriz de Rastreabilidade com os Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="estrutura-analitica-do-projeto-eap">Estrutura Analítica do Projeto (EAP)<a class="headerlink" href="#estrutura-analitica-do-projeto-eap" title="Permanent link">&para;</a></h1>
+<p>A <strong>Estrutura Analítica do Projeto (EAP)</strong>, ou <em>Work Breakdown Structure (WBS)</em>, é a ferramenta central de decomposição hierárquica do escopo global do projeto <strong>Micromouse Autônomo (Grupo 1 - PI1 2026.2, FCTE/UnB)</strong>. </p>
+<p>A sua finalidade é desmembrar o trabalho total da equipe multidisciplinar (integrando as engenharias de Software, Eletrônica, Energia, Aeroespacial e Automotiva) em componentes menores e gerenciáveis, denominados <strong>pacotes de trabalho e entregas</strong>, assegurando a rastreabilidade direta com os objetivos do projeto e o cumprimento integral da <strong>Regra dos 100%</strong>.</p>
+<hr />
+<h2 id="1-diagrama-hierarquico-da-eap">1. Diagrama Hierárquico da EAP<a class="headerlink" href="#1-diagrama-hierarquico-da-eap" title="Permanent link">&para;</a></h2>
+<p>A representação gráfica a seguir consolida a estrutura de decomposição do sistema, abrangendo desde a documentação de gerência até os subsistemas físicos, lógicos e de validação em pista.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:7"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><input id="__tabbed_1_7" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">🌳 Visão Geral (Todas as Branches)</label><label for="__tabbed_1_2">📋 1. Documentação</label><label for="__tabbed_1_3">🔧 2. Estrutura</label><label for="__tabbed_1_4">⚡ 3. Firmware / Eletrônica</label><label for="__tabbed_1_5">🔋 4. Sistema Energético</label><label for="__tabbed_1_6">💻 5. Sistemas de Lógica e Processamento</label><label for="__tabbed_1_7">✅ 6. Validação</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    %% Hues Temáticos por Branch
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef docH fill:#bae6fd,stroke:#0284c7,stroke-width:2.5px,color:#0f172a;
+    classDef doc fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0f172a;
+    classDef estH fill:#fed7aa,stroke:#ea580c,stroke-width:2.5px,color:#0f172a;
+    classDef est fill:#ffedd5,stroke:#ea580c,stroke-width:1.5px,color:#0f172a;
+    classDef eleH fill:#bbf7d0,stroke:#16a34a,stroke-width:2.5px,color:#0f172a;
+    classDef ele fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#0f172a;
+    classDef eneH fill:#fecdd3,stroke:#e11d48,stroke-width:2.5px,color:#0f172a;
+    classDef ene fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#0f172a;
+    classDef logH fill:#e9d5ff,stroke:#9333ea,stroke-width:2.5px,color:#0f172a;
+    classDef log fill:#f3e8ff,stroke:#9333ea,stroke-width:1.5px,color:#0f172a;
+    classDef valH fill:#99f6e4,stroke:#0d9488,stroke-width:2.5px,color:#0f172a;
+    classDef val fill:#ccfbf1,stroke:#0d9488,stroke-width:1.5px,color:#0f172a;
+
+    %% Raiz
+    ROOT["Micromouse Autônomo"]:::root
+
+    %% Macro-Pacotes
+    ROOT --&gt; N1["1. Documentação"]:::docH
+    ROOT --&gt; N2["2. Estrutura"]:::estH
+    ROOT --&gt; N3["3. Firmware / Eletrônica"]:::eleH
+    ROOT --&gt; N4["4. Sistema Energético"]:::eneH
+    ROOT --&gt; N5["5. Sistemas de Lógica e Processamento"]:::logH
+    ROOT --&gt; N6["6. Validação"]:::valH
+
+    %% 1. Documentação (Azul)
+    N1 --&gt; N1_1["1.1 Relatório"]:::doc
+    N1 --&gt; N1_2["1.2 Cronograma"]:::doc
+    N1 --&gt; N1_3["1.3 Elicitação"]:::doc
+    N1 --&gt; N1_4["1.4 Escopo"]:::doc
+    N1 --&gt; N1_5["1.5 Orçamento"]:::doc
+
+    %% 2. Estrutura (Laranja)
+    N2 --&gt; N2_1["2.1 Chassi e Mecânica do Robô"]:::estH
+    N2 --&gt; N2_2["2.2 Labirinto"]:::estH
+    N2_1 --&gt; N2_1_1["2.1.1 Especificação de Materiais, Balanço de Massa e Interfaces"]:::est
+    N2_1 --&gt; N2_1_2["2.1.2 Modelagem 3D do Chassi, Para-choque e Acesso Rápido"]:::est
+    N2_1 --&gt; N2_1_3["2.1.3 Sistema de Tração Mecânica e Rodagem"]:::est
+    N2_1 --&gt; N2_1_4["2.1.4 Simulação Numérica Estrutural (FEA)"]:::est
+    N2_1 --&gt; N2_1_5["2.1.5 Fabricação dos Componentes Estruturais"]:::est
+    N2_1 --&gt; N2_1_6["2.1.6 Montagem e Integração Mecânica do Chassi"]:::est
+    N2_1 --&gt; N2_1_7["2.1.7 Ensaios Físicos Estruturais"]:::est
+    N2_2 --&gt; N2_2_1["2.2.1 Design e Planta Executiva"]:::est
+    N2_2 --&gt; N2_2_2["2.2.2 Fabricação"]:::est
+    N2_2 --&gt; N2_2_3["2.2.3 Validação Dimensional e Ensaios da Pista"]:::est
+
+    %% 3. Firmware / Eletrônica (Verde)
+    N3 --&gt; N3_1["3.1 Hardware"]:::eleH
+    N3 --&gt; N3_2["3.2 Software Embarcado"]:::eleH
+    N3_1 --&gt; N3_1_1["3.1.1 Sensoriamento"]:::ele
+    N3_1 --&gt; N3_1_2["3.1.2 Atuação e Acionamento de Potência"]:::ele
+    N3_1 --&gt; N3_1_3["3.1.3 Esquemático Elétrico e Placa de Circuito Impresso (PCB)"]:::ele
+    N3_1 --&gt; N3_1_4["3.1.4 Interface de Usuário e Sinalização (IHM)"]:::ele
+    N3_1 --&gt; N3_1_5["3.1.5 Testes de Hardware"]:::ele
+    N3_2 --&gt; N3_2_1["3.2.1 Telemetria"]:::ele
+    N3_2 --&gt; N3_2_2["3.2.2 Microcontrolador"]:::ele
+
+    %% 4. Sistema Energético (Vermelho)
+    N4 --&gt; N4_1["4.1 Circuito Elétrico"]:::ene
+    N4 --&gt; N4_2["4.2 Bateria"]:::ene
+    N4 --&gt; N4_3["4.3 Dispositivo de Chaveamento Geral"]:::ene
+    N4 --&gt; N4_4["4.4 Motor Elétrico"]:::ene
+    N4 --&gt; N4_5["4.5 Conexão e Cabeamento dos Motores"]:::ene
+    N4 --&gt; N4_6["4.6 Sistema Térmico"]:::ene
+    N4 --&gt; N4_7["4.7 Testes de Energia"]:::ene
+
+    %% 5. Sistemas de Lógica e Processamento (Roxo)
+    N5 --&gt; N5_1["5.1 Release 1 - Interface Web"]:::logH
+    N5 --&gt; N5_2["5.2 Release 2 - Algoritmo Central e Software Embarcado"]:::logH
+    N5 --&gt; N5_3["5.3 Release 3 - Integração e Testes de Software"]:::logH
+    N5_1 --&gt; N5_1_1["5.1.1 Dashboard de Monitoramento em Tempo Real"]:::log
+    N5_1 --&gt; N5_1_2["5.1.2 Histórico e Consulta de Corridas"]:::log
+    N5_1 --&gt; N5_1_3["5.1.3 Simulador do Labirinto"]:::log
+    N5_2 --&gt; N5_2_1["5.2.1 Inicialização e Energização do Sistema"]:::log
+    N5_2 --&gt; N5_2_2["5.2.2 Navegação Autônoma"]:::log
+    N5_2 --&gt; N5_2_3["5.2.3 Desempenho e Otimização"]:::log
+    N5_3 --&gt; N5_3_1["5.3.1 Integração do Sistema"]:::log
+    N5_3 --&gt; N5_3_2["5.3.2 Testes de Software"]:::log
+
+    %% 6. Validação (Teal)
+    N6 --&gt; N6_1["6.1 Teste Integrado"]:::val
+    N6 --&gt; N6_2["6.2 Teste em Labirinto"]:::val</code></pre>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef docH fill:#bae6fd,stroke:#0284c7,stroke-width:2.5px,color:#0f172a;
+    classDef doc fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0f172a;
+
+    ROOT["Micromouse Autônomo"]:::root
+    ROOT --&gt; N1["1. Documentação"]:::docH
+    N1 --&gt; N1_1["1.1 Relatório"]:::doc
+    N1 --&gt; N1_2["1.2 Cronograma"]:::doc
+    N1 --&gt; N1_3["1.3 Elicitação"]:::doc
+    N1 --&gt; N1_4["1.4 Escopo"]:::doc
+    N1 --&gt; N1_5["1.5 Orçamento"]:::doc</code></pre>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef estH fill:#fed7aa,stroke:#ea580c,stroke-width:2.5px,color:#0f172a;
+    classDef est fill:#ffedd5,stroke:#ea580c,stroke-width:1.5px,color:#0f172a;
+
+    ROOT["Micromouse Autônomo"]:::root
+    ROOT --&gt; N2["2. Estrutura"]:::estH
+    N2 --&gt; N2_1["2.1 Chassi e Mecânica do Robô"]:::estH
+    N2 --&gt; N2_2["2.2 Labirinto"]:::estH
+
+    N2_1 --&gt; N2_1_1["2.1.1 Especificação de Materiais, Balanço de Massa e Interfaces"]:::est
+    N2_1 --&gt; N2_1_2["2.1.2 Modelagem 3D do Chassi, Para-choque e Acesso Rápido"]:::est
+    N2_1 --&gt; N2_1_3["2.1.3 Sistema de Tração Mecânica e Rodagem"]:::est
+    N2_1 --&gt; N2_1_4["2.1.4 Simulação Numérica Estrutural (FEA)"]:::est
+    N2_1 --&gt; N2_1_5["2.1.5 Fabricação dos Componentes Estruturais"]:::est
+    N2_1 --&gt; N2_1_6["2.1.6 Montagem e Integração Mecânica do Chassi"]:::est
+    N2_1 --&gt; N2_1_7["2.1.7 Ensaios Físicos Estruturais"]:::est
+
+    N2_2 --&gt; N2_2_1["2.2.1 Design e Planta Executiva"]:::est
+    N2_2 --&gt; N2_2_2["2.2.2 Fabricação"]:::est
+    N2_2 --&gt; N2_2_3["2.2.3 Validação Dimensional e Ensaios da Pista"]:::est</code></pre>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef eleH fill:#bbf7d0,stroke:#16a34a,stroke-width:2.5px,color:#0f172a;
+    classDef ele fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#0f172a;
+
+    ROOT["Micromouse Autônomo"]:::root
+    ROOT --&gt; N3["3. Firmware / Eletrônica"]:::eleH
+    N3 --&gt; N3_1["3.1 Hardware"]:::eleH
+    N3 --&gt; N3_2["3.2 Software Embarcado"]:::eleH
+
+    N3_1 --&gt; N3_1_1["3.1.1 Sensoriamento"]:::ele
+    N3_1 --&gt; N3_1_2["3.1.2 Atuação e Acionamento de Potência"]:::ele
+    N3_1 --&gt; N3_1_3["3.1.3 Esquemático Elétrico e Placa de Circuito Impresso (PCB)"]:::ele
+    N3_1 --&gt; N3_1_4["3.1.4 Interface de Usuário e Sinalização (IHM)"]:::ele
+    N3_1 --&gt; N3_1_5["3.1.5 Testes de Hardware"]:::ele
+
+    N3_2 --&gt; N3_2_1["3.2.1 Telemetria"]:::ele
+    N3_2 --&gt; N3_2_2["3.2.2 Microcontrolador"]:::ele</code></pre>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef eneH fill:#fecdd3,stroke:#e11d48,stroke-width:2.5px,color:#0f172a;
+    classDef ene fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#0f172a;
+
+    ROOT["Micromouse Autônomo"]:::root
+    ROOT --&gt; N4["4. Sistema Energético"]:::eneH
+    N4 --&gt; N4_1["4.1 Circuito Elétrico"]:::ene
+    N4 --&gt; N4_2["4.2 Bateria"]:::ene
+    N4 --&gt; N4_3["4.3 Dispositivo de Chaveamento Geral"]:::ene
+    N4 --&gt; N4_4["4.4 Motor Elétrico"]:::ene
+    N4 --&gt; N4_5["4.5 Conexão e Cabeamento dos Motores"]:::ene
+    N4 --&gt; N4_6["4.6 Sistema Térmico"]:::ene
+    N4 --&gt; N4_7["4.7 Testes de Energia"]:::ene</code></pre>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef logH fill:#e9d5ff,stroke:#9333ea,stroke-width:2.5px,color:#0f172a;
+    classDef log fill:#f3e8ff,stroke:#9333ea,stroke-width:1.5px,color:#0f172a;
+
+    ROOT["Micromouse Autônomo"]:::root
+    ROOT --&gt; N5["5. Sistemas de Lógica e Processamento"]:::logH
+    N5 --&gt; N5_1["5.1 Release 1 - Interface Web"]:::logH
+    N5 --&gt; N5_2["5.2 Release 2 - Algoritmo Central e Software Embarcado"]:::logH
+    N5 --&gt; N5_3["5.3 Release 3 - Integração e Testes de Software"]:::logH
+
+    N5_1 --&gt; N5_1_1["5.1.1 Dashboard de Monitoramento em Tempo Real"]:::log
+    N5_1 --&gt; N5_1_2["5.1.2 Histórico e Consulta de Corridas"]:::log
+    N5_1 --&gt; N5_1_3["5.1.3 Simulador do Labirinto"]:::log
+
+    N5_2 --&gt; N5_2_1["5.2.1 Inicialização e Energização do Sistema"]:::log
+    N5_2 --&gt; N5_2_2["5.2.2 Navegação Autônoma"]:::log
+    N5_2 --&gt; N5_2_3["5.2.3 Desempenho e Otimização"]:::log
+
+    N5_3 --&gt; N5_3_1["5.3.1 Integração do Sistema"]:::log
+    N5_3 --&gt; N5_3_2["5.3.2 Testes de Software"]:::log</code></pre>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>flowchart LR
+    classDef root fill:#f1f5f9,stroke:#475569,stroke-width:2.5px,color:#0f172a;
+    classDef valH fill:#99f6e4,stroke:#0d9488,stroke-width:2.5px,color:#0f172a;
+    classDef val fill:#ccfbf1,stroke:#0d9488,stroke-width:1.5px,color:#0f172a;
+
+    ROOT["Micromouse Autônomo"]:::root
+    ROOT --&gt; N6["6. Validação"]:::valH
+    N6 --&gt; N6_1["6.1 Teste Integrado"]:::val
+    N6 --&gt; N6_2["6.2 Teste em Labirinto"]:::val</code></pre>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="2-dicionario-da-eap-work-breakdown-structure-dictionary">2. Dicionário da EAP (Work Breakdown Structure Dictionary)<a class="headerlink" href="#2-dicionario-da-eap-work-breakdown-structure-dictionary" title="Permanent link">&para;</a></h2>
+<p>O Dicionário da EAP descreve formalmente o escopo e o entregável tangível de cada pacote de trabalho da árvore, garantindo a compreensão inequívoca das entregas de engenharia por todos os membros da equipe e avaliadores.</p>
+<h3 id="1-documentacao">1. Documentação<a class="headerlink" href="#1-documentacao" title="Permanent link">&para;</a></h3>
+<p>Gerencia e consolida todo o corpo documental formal do projeto exigido pelas diretrizes da disciplina e boas práticas do PMBOK.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Código</th>
+<th>Pacote de Trabalho / Entrega</th>
+<th>Descrição do Escopo da Entrega</th>
+<th>Entregável Tangível</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1.1</strong></td>
+<td>Relatório</td>
+<td>Elaboração dos relatórios técnicos e científicos periódicos (parciais e final) do projeto.</td>
+<td>Documentos de Relatório Parcial e Relatório Final de Encerramento (formato PDF/Markdown).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1.2</strong></td>
+<td>Cronograma</td>
+<td>Planejamento temporal, sequenciamento de atividades, marcos de entrega (<em>milestones</em>) e alocação de responsabilidades.</td>
+<td>Cronograma estruturado no GitHub Projects e exportado na documentação do repositório.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1.3</strong></td>
+<td>Elicitação</td>
+<td>Levantamento e especificação formal dos requisitos funcionais (RF) e não-funcionais (RNF) com todas as áreas de engenharia.</td>
+<td>Documento formal de Requisitos com priorização MoSCoW e critérios mensuráveis de aceitação.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1.4</strong></td>
+<td>Escopo</td>
+<td>Delimitação das fronteiras do produto, declaração de escopo e exclusões explícitas (<em>Won't Have</em>).</td>
+<td>Termo de Abertura do Projeto (TAP) e declaração de escopo aprovada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1.5</strong></td>
+<td>Orçamento</td>
+<td>Levantamento detalhado de custos de aquisição de componentes, materiais, fretes e ferramentas, respeitando o teto orçamentário.</td>
+<td>Planilha orçamentária detalhada com estimativa de custos versus despesas reais consolidadas.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-estrutura">2. Estrutura<a class="headerlink" href="#2-estrutura" title="Permanent link">&para;</a></h3>
+<p>Compreende a arquitetura mecânica física do robô (chassi, suportes com tolerâncias angulares controladas, sistema de tração/rodagem, para-choque perimetral, mecanismo de acesso rápido à bateria) e a infraestrutura física de testes (labirinto modular e validação dimensional rigorosa da pista).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Código</th>
+<th>Pacote de Trabalho / Entrega</th>
+<th>Descrição do Escopo da Entrega</th>
+<th>Entregável Tangível</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>2.1</strong></td>
+<td>Chassi e Mecânica do Robô</td>
+<td>Conjunto estrutural completo do robô móvel responsável pela integridade física, rigidez, absorção de impactos, sustentação e fixação de todos os componentes embarcados.</td>
+<td>Chassi estrutural integrado, leve e balanceado, pronto para operação dinâmica em pista.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.1</strong></td>
+<td>Especificação de Materiais, Balanço de Massa e Interfaces</td>
+<td>Seleção e caracterização técnica dos materiais poliméricos estruturais (PLA/PETG) e processos de conformação do projeto; elaboração do balanço de propriedades mássicas (<em>mass balance</em>) e determinação analítica do centro de gravidade (CG) e momentos de inércia do veículo (meta de massa total ≤ 500 g); e definição formal da interface física com a Eletrônica (RF-EST03), incluindo matriz de tolerâncias geométricas para alinhamento angular dos suportes de sensores de distância (variação &lt; 2°).</td>
+<td>Matriz técnica de especificação de materiais estruturais, planilha de balanço de massa com localização do centro de gravidade (CG) e documento de especificação de interface física de fixação com limites de tolerância angular (&lt; 2°).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.2</strong></td>
+<td>Modelagem 3D do Chassi, Para-choque e Acesso Rápido</td>
+<td>Modelagem computacional CAD 3D paramétrica da base estrutural, suportes dedicados de fixação de componentes, para-choque com cantos arredondados (raio de curvatura perimetral ≥ 1,0 mm) para limitar forças dinâmicas de impacto nas paredes a &lt; 2,0 N (RNF-EST03), e mecanismo ergonômico de encaixe e liberação rápida da bateria para substituição em tempo ≤ 60 s sem desmontagem de PCB ou sensores (RNF-EST05).</td>
+<td>Conjunto de modelos CAD 3D parametrizados (.STEP / .STL) e desenhos técnicos cotados contemplando o berço com trava rápida de bateria, para-choque com raio R ≥ 1,0 mm e suportes internos.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.3</strong></td>
+<td>Sistema de Tração Mecânica e Rodagem</td>
+<td>Concepção, seleção e dimensionamento mecânico dos elementos físicos de rodagem e apoio (rodas motrizes, pneus de alta aderência, acoplamentos de eixos dos motores, mancais de rolamento e rodas bobas de baixo atrito) para conversão eficiente de torque em deslocamento retilíneo sem patinamento (RF-EST02), com geometria desobstruída para inspeção e limpeza rápida dos pneus em tempo ≤ 120 s (RNF-EST06).</td>
+<td>Conjunto de tração física dimensionado e detalhado em CAD, com especificação de compostos de pneu de alto atrito e berço de eixos com acesso direto para limpeza e manutenção.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.4</strong></td>
+<td>Simulação Numérica Estrutural (FEA)</td>
+<td>Modelagem computacional e análise numérica estrutural por elementos finitos (FEA) no ambiente CAD/CAE pré-fabricação: avaliação de rigidez estática e torcional do chassi, distribuição de tensões sob aceleração máxima e frenagem, identificação de concentradores de tensão e cálculo dos fatores de segurança estruturais ($FS \ge 1{,}5$), incluindo ciclo de otimização topológica e refinamento do modelo 3D antes da liberação para fabricação física.</td>
+<td>Relatório técnico de simulação numérica por elementos finitos (FEA) com mapas de tensões de von Mises, fatores de segurança comprovados e modelo CAD aprovado virtualmente para fabricação.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.5</strong></td>
+<td>Fabricação dos Componentes Estruturais</td>
+<td>Processamento e conformação física das peças projetadas (chassi, suportes internos, berço de bateria e para-choque) por manufatura aditiva (impressão 3D FDM) ou usinagem, controle de parâmetros de fabricação (infill, orientação de camadas e espessura de casca), pós-processamento, remoção de suportes e acabamento superficial.</td>
+<td>Lote completo de peças estruturais físicas fabricadas, desbastadas e inspecionadas individualmente quanto à ausência de rebarbas e defeitos de manufatura.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.6</strong></td>
+<td>Montagem e Integração Mecânica do Chassi</td>
+<td>Procedimento de união física e assentamento mecânico de todos os componentes estruturais fabricados, abrangendo ensaio preliminar de encaixe a seco (<em>fit test</em>) entre peças, parafusamento e inserção de fixadores roscados, assentamento dos mancais e do conjunto de rodagem, e validação funcional do mecanismo de retenção e liberação rápida da bateria.</td>
+<td>Chassi mecânico completamente montado em ordem de marcha, com alinhamento das partes e acoplamento rígido sem folgas estruturais.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.1.7</strong></td>
+<td>Ensaios Físicos Estruturais</td>
+<td>Protocolo de ensaios laboratoriais e validação experimental de conformidade física do robô construído, conforme o documento <a href="../7.1%20-%20Testes%20de%20estrutura/">7.1 - Testes de estrutura.md</a>: pesagem real em balança de precisão contra a meta de massa, medições com paquímetro do envelope externo (≤ 165 x 165 mm e diagonal ≤ 160 mm) e vão livre (≥ 2,0 mm), verificação física de raios perimetrais (≥ 1,0 mm), ensaio de força dinâmica de contato em bancada dinamométrica (&lt; 2,0 N), cronometragem de troca de bateria (≤ 60 s) e inspeção do alinhamento angular dos sensores pós-ensaio (&lt; 2°).</td>
+<td>Relatório técnico de ensaios físicos laboratoriais com evidências fotográficas das peças isoladas e carro montado, registros de medições e laudo formal de conformidade com os requisitos RF-EST01/02/03 e RNF-EST01 a RNF-EST06.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.2</strong></td>
+<td>Labirinto</td>
+<td>Infraestrutura física modular da arena oficial de testes para calibração sensorial, ensaios de tração e homologação de corridas autônomas.</td>
+<td>Pista física montada com módulos de piso plano e paredes ortogonais intercambiáveis nas configurações 4x4, 8x4 e 12x4 células.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.2.1</strong></td>
+<td>Design e Planta Executiva</td>
+<td>Projeto dimensional completo e detalhamento executivo da modulação de células (180 x 180 mm), encaixes de pinos, espessura e altura de paredes (12 x 50 mm) e largura livre de corredores (168 mm).</td>
+<td>Planta executiva técnica cotada em CAD com especificações de tolerâncias e desenhos de montagem para pistas 4x4, 8x4 e 12x4.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.2.2</strong></td>
+<td>Fabricação</td>
+<td>Construção física, corte e acabamento superficial dos módulos de piso (preto fosco antirreflexo) e paredes (brancas com topo vermelho) respeitando as diretrizes oficiais de ensaio.</td>
+<td>Conjunto físico modular de pisos, paredes e postes de sustentação usinados e pintados para composição flexível da arena.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.2.3</strong></td>
+<td>Validação Dimensional e Ensaios da Pista</td>
+<td>Controle metrológico e inspeção rigorosa das dimensões do labirinto montado em relação à planta executiva, validando a largura livre crítica do corredor de 168 ± 2 mm (parâmetro compartilhado vital para RNF-EST01, RNF-ELE02 e RNF-SFT02), a ortogonalidade dos cruzamentos e a planicidade do solo.</td>
+<td>Relatório de controle metrológico da pista com mapa de medições nas três configurações oficiais (4x4, 8x4 e 12x4), atestando a conformidade dos corredores para operação segura do robô e dos sensores.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-firmware-eletronica">3. Firmware / Eletrônica<a class="headerlink" href="#3-firmware-eletronica" title="Permanent link">&para;</a></h3>
+<p>Engloba a instrumentação sensorial (distância e orientação inercial), atuadores, placa de circuito impresso e firmware embarcado de controle e telemetria.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Código</th>
+<th>Pacote de Trabalho / Entrega</th>
+<th>Descrição do Escopo da Entrega</th>
+<th>Entregável Tangível</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>3.1</strong></td>
+<td>Hardware</td>
+<td>Conjunto de subsistemas eletroeletrônicos físicos integrados para sensoriamento, locomoção e processamento embarcado.</td>
+<td>Circuito eletrônico integrado com sensores, controladores de motor e microcontrolador em funcionamento.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.1.1</strong></td>
+<td>Sensoriamento</td>
+<td>Módulos e transdutores de medição de distância às paredes (sensores ópticos/ToF frontais e laterais) e sensor inercial/giroscópio para auxílio no controle de orientação angular e prevenção de colisão.</td>
+<td>Conjunto integrado e calibrado de sensores de distância e giroscópio (IMU) com cablagem, fixação e condicionamento de sinais validados.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.1.2</strong></td>
+<td>Atuação e Acionamento de Potência</td>
+<td>Subsistema eletroeletrônico de potência e sensoriamento de rotação, integrando os drivers de potência (ponte H com acionamento PWM), condicionamento elétrico para os motores DC, leitura determinística dos sinais dos encoders de odometria angular (RF-ELE02, RF-ELE03) e controle de velocidade em malha fechada.</td>
+<td>Placa/circuito de drivers de potência com acionamento PWM bidirecional, encoders lendo quadratura sem perda de passos e malha de controle de velocidade operacional integrada ao firmware.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.1.3</strong></td>
+<td>Esquemático Elétrico e Placa de Circuito Impresso (PCB)</td>
+<td>Elaboração do diagrama de blocos funcional e esquemático elétrico com pinagens e simbologia padronizada (conforme documento <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/">4.3 - Projeto conceitual de hardware.md</a>); projeto CAD de layout e roteamento das trilhas de potência e lógica com desacoplamento capacitivo, planos de terra separados e área de isolamento da antena RF; geração de arquivos industriais Gerber; e fabricação física, montagem e soldagem de circuitos integrados e componentes auxiliares (RNF-ELE04, RNF-ELE05).</td>
+<td>Diagrama de blocos, esquemático elétrico detalhado, arquivos de manufatura Gerber e placa física industrial montada com componentes soldados e validados nos pontos de teste elétrico (<em>test points</em>).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.1.4</strong></td>
+<td>Interface de Usuário e Sinalização (IHM)</td>
+<td>Concepção, montagem e integração dos circuitos de sinalização visual por LEDs discretos para os 5 estados operacionais (calibração, pronto, navegando, objetivo alcançado e falha/bateria fraca — RF-ELE05), dispositivo acústico de alerta (buzzer piezoelétrico ≥ 60 dB para bipes de evento — RF-ELE06) e botões táteis (<em>push buttons</em> / <em>dip switches</em>) de disparo de largada física e seleção de geometria da arena (4x4, 8x4, 12x4 — RNF-SFT01).</td>
+<td>Circuito de interface homem-máquina (IHM) integrado à placa com LEDs indicadores de status, alarme sonoro buzzer e botões de comando físico testados e funcionais.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.1.5</strong></td>
+<td>Testes de Hardware</td>
+<td>Ensaios laboratoriais em bancada para validação funcional do microcontrolador (ESP32), calibração de sensores ópticos/inerciais (taxa ≥ 20 Hz e faixa 30-180 mm), resposta de acionamento dos atuadores, sinalização visual/sonora e comunicação de dados (documento <a href="../7.3%20-%20Testes%20de%20hardware/">7.3 - Testes de hardware.md</a>).</td>
+<td>Relatório de ensaios de hardware com registros de sinais osciloscópicos, validação de amostragem de sensores, resposta dos drivers e laudo de conformidade com os requisitos RF-ELE01 a RF-ELE06 e RNF-ELE01 a RNF-ELE05.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.2</strong></td>
+<td>Software Embarcado</td>
+<td>Camada de software de baixo nível responsável pela interface direta com o hardware, tratamento de interrupções, temporizadores e despacho de telemetria.</td>
+<td>Código-fonte C/C++ dos drivers de baixo nível (<em>Board Support Package</em>) e rotinas de temporização e amostragem de dados.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.2.1</strong></td>
+<td>Telemetria</td>
+<td>Protocolo de comunicação serial/sem fio e rotinas de empacotamento determinístico dos parâmetros operacionais do robô para envio em tempo real.</td>
+<td>Pacote de firmware transmissor de telemetria via canal sem fio a 1 Hz com estrutura de dados validada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.2.2</strong></td>
+<td>Microcontrolador</td>
+<td>Configuração de relógio, temporizadores, interrupções (ISR), conversores analógico-digitais (ADC) e interfaces de comunicação serial/barramentos do chip.</td>
+<td>Código de inicialização (<em>BSP</em>) e rotinas de configuração de registradores e periféricos do chip operacional.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-sistema-energetico">4. Sistema Energético<a class="headerlink" href="#4-sistema-energetico" title="Permanent link">&para;</a></h3>
+<p>Responsável pelo armazenamento de energia, conversão e regulação elétrica, chaveamento de segurança, alimentação de atuadores e dissipação térmica do robô.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Código</th>
+<th>Pacote de Trabalho / Entrega</th>
+<th>Descrição do Escopo da Entrega</th>
+<th>Entregável Tangível</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>4.1</strong></td>
+<td>Circuito Elétrico</td>
+<td>Arquitetura elétrica global de distribuição, filtragem, desacoplamento de barramentos de potência e lógica, e proteções elétricas do sistema.</td>
+<td>Diagrama unifilar e esquemático da distribuição de potência com fusíveis, barramentos regulados e circuito de distribuição montado e testado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.2</strong></td>
+<td>Bateria</td>
+<td>Conjunto de células eletroquímicas (LiPo/Li-Ion) dimensionadas para fornecer a corrente de partida e autonomia exigida pelo veículo.</td>
+<td>Banco de baterias com conector polarizado assimétrico, sistema de carregamento balanceado com monitoramento de tensão integrado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.3</strong></td>
+<td>Dispositivo de Chaveamento Geral</td>
+<td>Acionamento e interrupção da alimentação geral do robô.</td>
+<td>Chave geral instalada, integrada ao circuito e capaz de interromper ou liberar a alimentação elétrica do robô.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.4</strong></td>
+<td>Motor Elétrico</td>
+<td>Unidades de conversão eletromecânica de potência para propulsão do micromouse.</td>
+<td>Par de motores DC com redução devidamente selecionados, testados e caracterizados eletricamente.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.5</strong></td>
+<td>Conexão e Cabeamento dos Motores</td>
+<td>Confecção do chicote elétrico de potência dos motores, dimensionamento de fiação e bitola (AWG), conectores de engate rápido com isolamento térmico e filtros de supressão de ruído indutivo.</td>
+<td>Chicote elétrico de alimentação dos motores montado, testado quanto à continuidade e isolamento elétrico, e conectado com segurança à placa de potência.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.6</strong></td>
+<td>Sistema Térmico</td>
+<td>Análise do perfil de aquecimento e estratégias de dissipação passiva de calor dos componentes de potência.</td>
+<td>Sistema de arrefecimento passivo (dissipadores térmicos e convecção pelo chassi) e cálculo de transferência térmica.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4.7</strong></td>
+<td>Testes de Energia</td>
+<td>Ensaios de bancada e medições elétricas de consumo por subsistema, autonomia sob carga contínua, eficiência do chaveamento mecânico e comportamento térmico dos componentes (documento <a href="../7.2%20-%20Testes%20de%20energia/">7.2 - Testes de energia.md</a>).</td>
+<td>Relatório de ensaios energéticos com curvas de descarga da bateria, perfil de consumo de corrente e conformidade térmica.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-sistemas-de-logica-e-processamento">5. Sistemas de Lógica e Processamento<a class="headerlink" href="#5-sistemas-de-logica-e-processamento" title="Permanent link">&para;</a></h3>
+<p>Engloba a inteligência computacional do sistema: a plataforma web de telemetria e análise, o simulador virtual do labirinto, os algoritmos autônomos de navegação embarcada e as suítes de testes de software automatizados.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Código</th>
+<th>Pacote de Trabalho / Entrega</th>
+<th>Descrição do Escopo da Entrega</th>
+<th>Entregável Tangível</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>5.1</strong></td>
+<td>Release 1 - Interface Web</td>
+<td>Primeira versão funcional da plataforma web integrada com exibição visual dos dados de corrida, módulo de histórico e ferramenta de simulação virtual.</td>
+<td>Aplicação web responsiva com servidor de recepção de telemetria e módulo simulador funcional.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.1.1</strong></td>
+<td>Dashboard de Monitoramento em Tempo Real</td>
+<td>Interface gráfica interativa para recepção e renderização em tempo real da telemetria (grade do labirinto com paredes descobertas, posição instantânea do robô, rastro percorrido, velocidade, cronômetro e nível de bateria).</td>
+<td>Painel web frontend com componentes visuais reativos sincronizados em tempo real (taxa ≥ 1 Hz) com os dados recebidos da corrida.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.1.2</strong></td>
+<td>Histórico e Consulta de Corridas</td>
+<td>Módulo de persistência em banco de dados das séries temporais de corridas e interface gráfica com filtros de busca por data, dimensões do labirinto (4x4, 8x4, 12x4) e métricas comparativas.</td>
+<td>Módulo de banco de dados e tela de consulta histórica com tabelas e gráficos comparativos de desempenho entre execuções.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.1.3</strong></td>
+<td>Simulador do Labirinto</td>
+<td>Ambiente virtual bidimensional do micromouse e da arena para emulação de sensores e validação precoce dos algoritmos de navegação, permitindo testes sem depender da estrutura física e da pista estarem prontas.</td>
+<td>Simulador computacional interativo capaz de carregar labirintos virtuais (4x4, 8x4 e 12x4) e validar trajetórias de busca e resolução de forma autônoma.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.2</strong></td>
+<td>Release 2 - Algoritmo Central e Software Embarcado</td>
+<td>Núcleo de lógica decisória embarcada para exploração, mapeamento matricial e resolução autônoma do labirinto.</td>
+<td>Firmware de navegação autônoma compilado e gravado no microcontrolador do robô.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.2.1</strong></td>
+<td>Inicialização e Energização do Sistema</td>
+<td>Rotinas de autoteste (<em>power-on self-test</em>), calibração estática dos sensores ópticos/inerciais e confirmação de largada.</td>
+<td>Sequência de inicialização e rotina de calibração automática de sensores no firmware com confirmação de prontidão.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.2.2</strong></td>
+<td>Navegação Autônoma</td>
+<td>Implementação do algoritmo de busca e resolução de labirintos (ex.: <em>Flood Fill</em> ou seguidor inteligente de paredes com mapas de distância matriciais).</td>
+<td>Módulo algorítmico de tomada de decisão, atualização matricial de paredes em memória e cálculo dinâmico de rota.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.2.3</strong></td>
+<td>Desempenho e Otimização</td>
+<td>Algoritmo de rota rápida (<em>Speed Run</em>), suavização de curvas ortogonais em movimento contínuo e otimização de tempo de travessia.</td>
+<td>Módulo algorítmico de cálculo de trajetória ótima (<em>Speed Run</em>) computado após a exploração inicial, reduzindo paradas e tempos de curva.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.3</strong></td>
+<td>Release 3 - Integração e Testes de Software</td>
+<td>Consolidação ponta a ponta do ecossistema de software (embarcado, comunicação sem fio e dashboard web) e validação formal por suítes de testes automatizados.</td>
+<td>Versão estável e integrada do software do sistema (embarcado + web) com cobertura de testes documentada e homologada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.3.1</strong></td>
+<td>Integração do Sistema</td>
+<td>Integração lógica e digital entre o firmware de navegação autônoma/telemetria sem fio e a aplicação web de visualização, assegurando o tráfego contínuo dos pacotes de dados a 1 Hz.</td>
+<td>Fluxo de dados digital ponta a ponta plenamente funcional entre o microcontrolador do robô e o painel web receptor.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.3.2</strong></td>
+<td>Testes de Software</td>
+<td>Planejamento, codificação e execução de suítes de testes automatizados em nível unitário, integração lógica e testes ponta a ponta (E2E) para as regras de navegação, simulação e componentes da interface web.</td>
+<td>Suíte de testes automatizados executável no pipeline (Jest/pytest/Playwright) com relatório de cobertura de código-fonte ≥ 80%, atendendo ao documento de Testes de Software.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-validacao">6. Validação<a class="headerlink" href="#6-validacao" title="Permanent link">&para;</a></h3>
+<p>Conjunto de protocolos, ensaios laboratoriais em bancada e testes em pista real para comprovação do cumprimento dos requisitos multidisciplinares do edital.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Código</th>
+<th>Pacote de Trabalho / Entrega</th>
+<th>Descrição do Escopo da Entrega</th>
+<th>Entregável Tangível</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>6.1</strong></td>
+<td>Teste Integrado</td>
+<td>Ensaios de bancada multidisciplinares em ambiente controlado para validação de interoperabilidade simultânea entre mecânica, eletrônica, energia e software embarcado sob regime de potência.</td>
+<td>Relatório técnico de ensaios integrados com registros osciloscópicos, telemetria e logs de comunicação e erro.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6.2</strong></td>
+<td>Teste em Labirinto</td>
+<td>Baterias formais de corridas autônomas nas pistas físicas oficiais (4x4, 8x4 e 12x4 células).</td>
+<td>Relatório de validação em pista com vídeos de evidência, tempos cronometrados e mapas reconstruídos.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-matriz-de-rastreabilidade-com-os-requisitos">3. Matriz de Rastreabilidade com os Requisitos<a class="headerlink" href="#3-matriz-de-rastreabilidade-com-os-requisitos" title="Permanent link">&para;</a></h2>
+<p>A tabela abaixo sintetiza a correspondência entre os macro-pacotes da EAP e os requisitos de engenharia definidos no documento de requisitos:</p>
+<table>
+<thead>
+<tr>
+<th>Macro-Pacote da EAP</th>
+<th>Subsistemas Atendidos</th>
+<th>Requisitos Funcionais (RF)</th>
+<th>Requisitos Não-Funcionais (RNF)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Documentação</strong></td>
+<td>Gerência / Todos</td>
+<td>Governança de escopo e qualidade</td>
+<td>Cumprimento de prazos, orçamento e edital</td>
+</tr>
+<tr>
+<td><strong>2. Estrutura</strong></td>
+<td>Estruturas / Labirinto</td>
+<td><strong>RF-EST01</strong> (Fixação/chassi: 2.1.1, 2.1.2, 2.1.6)<br><strong>RF-EST02</strong> (Tração mecânica e rodagem: 2.1.3)<br><strong>RF-EST03</strong> (Alinhamento de sensores &lt; 2°: 2.1.1, 2.1.2, 2.1.7)</td>
+<td><strong>RNF-EST01</strong> (Envelope ≤ 160 mm: 2.1.2, 2.1.7, 2.2.3)<br><strong>RNF-EST02</strong> (Locomoção terrestre: 2.1.3)<br><strong>RNF-EST03</strong> (Raios ≥ 1 mm e impacto &lt; 2 N: 2.1.2, 2.1.7)<br><strong>RNF-EST04</strong> (Vão livre ≥ 2 mm: 2.1.2, 2.1.7)<br><strong>RNF-EST05</strong> (Troca de bateria ≤ 60 s: 2.1.2, 2.1.6, 2.1.7)<br><strong>RNF-EST06</strong> (Limpeza de rodagem ≤ 120 s: 2.1.3, 2.1.7)</td>
+</tr>
+<tr>
+<td><strong>3. Firmware / Eletrônica</strong></td>
+<td>Eletrônica / Embarcado</td>
+<td><strong>RF-ELE01</strong> (Sensoriamento: 3.1.1)<br><strong>RF-ELE02</strong> (Odometria: 3.1.2)<br><strong>RF-ELE03</strong> (Acionamento motores/potência: 3.1.2)<br><strong>RF-ELE04</strong> (Telemetria sem fio: 3.2.1)<br><strong>RF-ELE05</strong> (Sinalização visual: 3.1.4)<br><strong>RF-ELE06</strong> (Alarme sonoro: 3.1.4)</td>
+<td><strong>RNF-ELE01</strong> (Amostragem ≥ 20 Hz: 3.1.1, 3.1.5)<br><strong>RNF-ELE02</strong> (Faixa 30-180 mm: 3.1.1, 3.1.5)<br><strong>RNF-ELE03</strong> (Alcance rádio ≥ 8 m: 3.2.1)<br><strong>RNF-ELE04</strong> (Conexão estruturada PCB: 3.1.3)<br><strong>RNF-ELE05</strong> (Imunidade indutiva: 3.1.2, 3.1.3)</td>
+</tr>
+<tr>
+<td><strong>4. Sistema Energético</strong></td>
+<td>Energia</td>
+<td><strong>RF-ENE01</strong> (Distribuição/conversão: 4.1)<br><strong>RF-ENE02</strong> (Monitoramento tensão: 4.2)<br><strong>RF-ENE03</strong> (Corte subtensão: 4.1, 4.2)<br><strong>RF-ENE04</strong> (Chaveamento mecânico: 4.3)</td>
+<td><strong>RNF-ENE01</strong> (Autonomia ≥ 15 min: 4.2, 4.7)<br><strong>RNF-ENE02</strong> (Tolerância ±5% lógica: 4.1, 4.7)<br><strong>RNF-ENE03</strong> (Fusível &lt; 500 ms: 4.1)<br><strong>RNF-ENE04</strong> (Conector assimétrico: 4.2)<br><strong>RNF-ENE05</strong> (Recarga ≤ 90 min: 4.2)</td>
+</tr>
+<tr>
+<td><strong>5. Sistemas de Lógica e Processamento</strong></td>
+<td>Software (Embarcado, Simulação e Web)</td>
+<td><strong>RF-SFT01</strong> a <strong>RF-SFT04</strong> (Navegação autônoma e parada: 5.2.1 a 5.2.3)<br><strong>RF-SFT05</strong> e <strong>RF-SFT06</strong> (Telemetria e Dashboard: 5.1.1)<br><strong>RF-SFT07</strong> e <strong>RF-SFT08</strong> (Histórico e Consulta: 5.1.2)<br><strong>RF-SFT09</strong> e <strong>RF-SFT10</strong> (Speed run e curvas: 5.2.3)<br><strong>RF-SFT11</strong> (Detecção de stall: 5.2.2)<br><em>(Simulador do labirinto: 5.1.3 / Testes automatizados: 5.3.2)</em></td>
+<td><strong>RNF-SFT01</strong> (Autonomia plena: 5.2.2)<br><strong>RNF-SFT02</strong> (Geometrias oficiais 4x4, 8x4, 12x4: 5.1.3, 5.2.2)<br><strong>RNF-SFT03</strong> (Taxa telemetria ≥ 1 Hz: 5.1.1)<br><strong>RNF-SFT04</strong> (Tempo consulta &lt; 2 s: 5.1.2)<br><strong>RNF-SFT05/06</strong> (Responsividade web: 5.1.1, 5.1.2)</td>
+</tr>
+<tr>
+<td><strong>6. Validação</strong></td>
+<td>Todos os Subsistemas</td>
+<td>Verificação de missão e desafio cumprido (6.1 Teste Integrado e 6.2 Teste em Labirinto)</td>
+<td>Cumprimento integral dos critérios mensuráveis do edital e homologação do robô em pista oficial</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../2%20-%20Requisitos/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 2 — Requisitos">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                2 — Requisitos
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Estruturas">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Estruturas
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
