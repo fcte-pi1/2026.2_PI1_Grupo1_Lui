@@ -2,6 +2,11 @@
 .DS_Store
 .vscode
 
+# Python / MkDocs
+.venv/
+site/
+__pycache__/
+
 # Adicione outros arquivos a serem ignorados aqui
 # ...
 
@@ -341,4 +346,3 @@ TSWLatexianTemp*
 # Sistema operacional
 .DS_Store
 Thumbs.db
-
