@@ -95,3 +95,84 @@
   fill: #94a3b8 !important;
   stroke: #94a3b8 !important;
 }
+
+/* ==========================================================================
+   ESTILOS DE IMPRESSÃO / GERAÇÃO DE PDF (A4)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 18mm 16mm 18mm 16mm;
+    @top-left {
+      content: "Micromouse UnB • Grupo 1 — Projeto Integrador 1";
+      font-size: 8pt;
+      color: #64748b;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    @top-right {
+      content: "4.3 - Projeto Conceitual de Hardware";
+      font-size: 8pt;
+      color: #64748b;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    @bottom-right {
+      content: "Página " counter(page) " de " counter(pages);
+      font-size: 8pt;
+      font-weight: 600;
+      color: #0f172a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+  }
+
+  body, .md-typeset {
+    font-size: 9pt !important;
+    line-height: 1.5 !important;
+    color: #0f172a !important;
+  }
+
+  .md-header,
+  .md-tabs,
+  .md-sidebar,
+  .md-footer,
+  .md-top {
+    display: none !important;
+  }
+
+  .md-main__inner {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .md-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  table {
+    page-break-inside: auto !important;
+    width: 100% !important;
+    font-size: 8pt !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  img {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .md-typeset hr {
+    margin: 1.5em 0 !important;
+  }
+}
