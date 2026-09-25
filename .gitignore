@@ -1,6 +1,8 @@
 # Geral
 .DS_Store
 .vscode
+dicas.md
+site/
 
 # Python / MkDocs
 .venv/
