@@ -1,0 +1,2406 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/4.3%20-%20Projeto%20conceitual%20de%20hardware/">
+      
+      
+        <link rel="prev" href="../4.2%20-%20Projeto%20conceitual%20de%20energia/">
+      
+      
+        <link rel="next" href="../4.4%20-%20Projeto%20conceitual%20de%20software/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Hardware - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#projeto-conceitual-de-hardware" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardware
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-da-arquitetura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral da Arquitetura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-diagrama-de-blocos-do-sistema-eletronico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Diagrama de Blocos do Sistema Eletrônico
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-detalhamento-dos-subsistemas-e-justificativa-de-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Detalhamento dos Subsistemas e Justificativa de Componentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Detalhamento dos Subsistemas e Justificativa de Componentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-unidade-central-de-processamento-e-conectividade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Unidade Central de Processamento e Conectividade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-subsistema-de-sensoriamento-de-distancia-e-orientacao-inercial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Subsistema de Sensoriamento de Distância e Orientação Inercial
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Subsistema de Sensoriamento de Distância e Orientação Inercial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-sensores-de-distancia-laser-tof-ortogonais-3x-vl53l0x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Sensores de Distância Laser ToF Ortogonais (3x VL53L0X)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-unidade-de-medicao-inercial-imu-6-dof-mpu6050" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Unidade de Medição Inercial (IMU 6 DOF MPU6050)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-subsistema-de-potencia-atuacao-motriz-e-odometria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Subsistema de Potência, Atuação Motriz e Odometria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Subsistema de Potência, Atuação Motriz e Odometria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-driver-de-motores-ponte-h-dupla-tb6612fng-em-soquete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Driver de Motores (Ponte H Dupla TB6612FNG em Soquete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-motores-n20-com-reducao-metalica-e-encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Motores N20 com Redução Metálica e Encoders
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-interface-de-alimentacao-e-blindagens-eletricas-da-shield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Interface de Alimentação e Blindagens Elétricas da Shield
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-interface-homem-maquina-ihm-e-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Interface Homem Máquina (IHM) e Diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tabela-de-mapeamento-de-pinagem-do-microcontrolador-pinout-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tabela de Mapeamento de Pinagem do Microcontrolador (Pinout Matrix)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-esquematico-eletrico-e-conectores-no-kicad-rev-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Esquemático Elétrico e Conectores no KiCad (Rev 2.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Esquemático Elétrico e Conectores no KiCad (Rev 2.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-esquematico-eletrico-da-placa-shield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Esquemático Elétrico da Placa Shield
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 Esquemático Elétrico da Placa Shield">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#blocos-funcionais-do-esquematico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blocos Funcionais do Esquemático:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-conectores-padronizados-da-placa-shield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Conectores Padronizados da Placa Shield
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-lista-de-materiais-de-hardware-bill-of-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Lista de Materiais de Hardware (Bill of Materials)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-matriz-de-rastreabilidade-com-os-requisitos-de-engenharia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Matriz de Rastreabilidade com os Requisitos de Engenharia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-da-arquitetura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral da Arquitetura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-diagrama-de-blocos-do-sistema-eletronico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Diagrama de Blocos do Sistema Eletrônico
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-detalhamento-dos-subsistemas-e-justificativa-de-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Detalhamento dos Subsistemas e Justificativa de Componentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Detalhamento dos Subsistemas e Justificativa de Componentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-unidade-central-de-processamento-e-conectividade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Unidade Central de Processamento e Conectividade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-subsistema-de-sensoriamento-de-distancia-e-orientacao-inercial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Subsistema de Sensoriamento de Distância e Orientação Inercial
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Subsistema de Sensoriamento de Distância e Orientação Inercial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-sensores-de-distancia-laser-tof-ortogonais-3x-vl53l0x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Sensores de Distância Laser ToF Ortogonais (3x VL53L0X)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-unidade-de-medicao-inercial-imu-6-dof-mpu6050" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Unidade de Medição Inercial (IMU 6 DOF MPU6050)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-subsistema-de-potencia-atuacao-motriz-e-odometria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Subsistema de Potência, Atuação Motriz e Odometria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Subsistema de Potência, Atuação Motriz e Odometria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-driver-de-motores-ponte-h-dupla-tb6612fng-em-soquete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Driver de Motores (Ponte H Dupla TB6612FNG em Soquete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-motores-n20-com-reducao-metalica-e-encoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Motores N20 com Redução Metálica e Encoders
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-interface-de-alimentacao-e-blindagens-eletricas-da-shield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Interface de Alimentação e Blindagens Elétricas da Shield
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-interface-homem-maquina-ihm-e-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Interface Homem Máquina (IHM) e Diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tabela-de-mapeamento-de-pinagem-do-microcontrolador-pinout-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tabela de Mapeamento de Pinagem do Microcontrolador (Pinout Matrix)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-esquematico-eletrico-e-conectores-no-kicad-rev-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Esquemático Elétrico e Conectores no KiCad (Rev 2.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Esquemático Elétrico e Conectores no KiCad (Rev 2.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-esquematico-eletrico-da-placa-shield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Esquemático Elétrico da Placa Shield
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 Esquemático Elétrico da Placa Shield">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#blocos-funcionais-do-esquematico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blocos Funcionais do Esquemático:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-conectores-padronizados-da-placa-shield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Conectores Padronizados da Placa Shield
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-lista-de-materiais-de-hardware-bill-of-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Lista de Materiais de Hardware (Bill of Materials)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-matriz-de-rastreabilidade-com-os-requisitos-de-engenharia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Matriz de Rastreabilidade com os Requisitos de Engenharia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="projeto-conceitual-de-hardware">Projeto Conceitual de Hardware<a class="headerlink" href="#projeto-conceitual-de-hardware" title="Permanent link">&para;</a></h1>
+<p>O projeto conceitual de hardware estabelece a arquitetura eletroeletrônica embarcada do robô autônomo Micromouse (Grupo 1) para a disciplina Projeto Integrador 1 (semestre 2026.2, FCTE/UnB, Prof. Lui). O dimensionamento e a topologia descritos asseguram o cumprimento integral dos requisitos eletroeletrônicos (RF_ELE01 a RF_ELE06 e RNF_ELE01 a RNF_ELE05), viabilizam a navegação autônoma no labirinto (RF_SFT01 a RF_SFT04) e garantem documentação aberta para reprodução integral do sistema.</p>
+<p>A concepção adota o princípio de montagem modular Plug and Play: a placa shield customizada utiliza soquetes para todos os circuitos integrados e módulos, pull ups internos ativados por software e chicotes prontos de fábrica com conectores polarizados. Essa abordagem blinda o circuito contra brownout, sobretensão nas portas lógicas, travamentos de boot e curtos acidentais, permitindo montagem e calibração ágeis com alta confiabilidade em bancada e pista.</p>
+<hr />
+<h2 id="1-visao-geral-da-arquitetura">1. Visão Geral da Arquitetura<a class="headerlink" href="#1-visao-geral-da-arquitetura" title="Permanent link">&para;</a></h2>
+<p>A arquitetura adota uma placa mãe de soquetes (Shield de encaixe) montada sobre barras de pinos fêmea com passo de 2,54 mm, interligando a unidade central de processamento aos sensores, atuadores, módulos de potência e sinalização com travas mecânicas.</p>
+<hr />
+<h2 id="2-diagrama-de-blocos-do-sistema-eletronico">2. Diagrama de Blocos do Sistema Eletrônico<a class="headerlink" href="#2-diagrama-de-blocos-do-sistema-eletronico" title="Permanent link">&para;</a></h2>
+<p>O diagrama de blocos a seguir apresenta a topologia global da eletrônica do Micromouse, os barramentos de alimentação e as interfaces de interconexão, destacando o microcontrolador central ESP32 do robô, o sensoriamento ToF e IMU, a ponte H com retorno dos encoders em 3,3 V, a interface de usuário e a telemetria sem fio via ESP NOW em 2,4 GHz com a estação base acoplada ao computador:</p>
+<p><img alt="Diagrama de Blocos da Eletrônica do Micromouse" src="../figs/diagrama_blocos_hardware.png" />
+<em>Figura 2.1: Diagrama de blocos da arquitetura eletroeletrônica e interfaces do Micromouse.</em></p>
+<hr />
+<h2 id="3-detalhamento-dos-subsistemas-e-justificativa-de-componentes">3. Detalhamento dos Subsistemas e Justificativa de Componentes<a class="headerlink" href="#3-detalhamento-dos-subsistemas-e-justificativa-de-componentes" title="Permanent link">&para;</a></h2>
+<h3 id="31-unidade-central-de-processamento-e-conectividade">3.1 Unidade Central de Processamento e Conectividade<a class="headerlink" href="#31-unidade-central-de-processamento-e-conectividade" title="Permanent link">&para;</a></h3>
+<p>A unidade de processamento central é o módulo ESP32 DevKit V1 de 30 pinos, baseado no SoC Espressif ESP WROOM 32.</p>
+<ul>
+<li><strong>Recursos de Hardware:</strong> Processador dual core Xtensa LX6 de 32 bits a 240 MHz, memória SRAM de 520 kB e memória Flash externa de 4 MB. Periféricos dedicados de contagem de pulsos (PCNT), canais PWM por hardware (LEDC) e módulo WiFi 802.11 b/g/n integrado.</li>
+<li><strong>Critérios de Seleção:</strong></li>
+<li><strong>Processamento Dual Core:</strong> O Core 1 processa a malha de controle cinemático em tempo real estrito (PID de alinhamento e leitura de encoders a 1 kHz) e o algoritmo de navegação do labirinto; o Core 0 gerencia exclusivamente a comunicação sem fio, o envio de telemetria (RF_ELE04) e o servidor de calibração web. Essa divisão impede atrasos na malha motriz decorrentes de operações de rede.</li>
+<li><strong>Isolamento de Pinos de Boot (Strapping Pins):</strong> Os pinos sensíveis de inicialização são protegidos. O pino GPIO 12 permanece totalmente isolado na Shield, prevenindo travamentos de inicialização causados por tensões residuais.</li>
+<li><strong>Conexão por Soquete:</strong> O módulo encaixa em barras fêmea, permitindo substituição imediata sem dessoldagem em caso de manutenção.</li>
+</ul>
+<h3 id="32-subsistema-de-sensoriamento-de-distancia-e-orientacao-inercial">3.2 Subsistema de Sensoriamento de Distância e Orientação Inercial<a class="headerlink" href="#32-subsistema-de-sensoriamento-de-distancia-e-orientacao-inercial" title="Permanent link">&para;</a></h3>
+<p>O sensoriamento periférico mede a proximidade das paredes do labirinto (RF_ELE01, RNF_ELE01, RNF_ELE02) e fornece a velocidade angular de guinada para estabilização de trajetória e curvas ortogonais precisas (RF_SFT01).</p>
+<h4 id="a-sensores-de-distancia-laser-tof-ortogonais-3x-vl53l0x">A. Sensores de Distância Laser ToF Ortogonais (3x VL53L0X)<a class="headerlink" href="#a-sensores-de-distancia-laser-tof-ortogonais-3x-vl53l0x" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Topologia Ortogonal:</strong> Três módulos laser Time of Flight alocados em geometria perpendicular:</li>
+<li>1 sensor frontal apontado para a frente (0 grau longitudinal);</li>
+<li>2 sensores laterais ortogonais apontados perpendicularmente para as paredes (90 graus à esquerda e 90 graus à direita).</li>
+<li><strong>Eliminação de Sensor Traseiro:</strong> O robô avança exclusivamente para a frente. A célula traseira acabou de ser visitada e seu estado já se encontra mapeado em memória. Em becos sem saída, a manobra de rotação de 180 graus posiciona o sensor frontal diante do obstáculo, tornando sensores traseiros redundantes em peso, custo e fiação.</li>
+<li><strong>Vantagens da Visada Ortogonal:</strong> Em corredores de 168 mm, a leitura ortogonal permite detecção booleana direta (distâncias menores que 130 mm indicam parede presente; distâncias maiores indicam passagem livre). O alinhamento central da pista é obtido por controle proporcional direto da diferença de leitura entre os dois sensores laterais.</li>
+<li><strong>Endereçamento e Controle via XSHUT:</strong> Os 3 sensores compartilham as linhas I2C (SDA no GPIO 21 e SCL no GPIO 22). Linhas individuais XSHUT controlam a inicialização sequencial: sensor esquerdo no GPIO 13, frontal no GPIO 32 e direito no GPIO 14. O firmware liga um sensor por vez e atribui novos endereços I2C hexadecimais (0x30, 0x31 e 0x32).</li>
+<li><strong>Proteção contra Travamento I2C:</strong> O firmware aplica timeout de hardware de 25 ms na biblioteca Wire, descartando leituras corrompidas sem bloquear a execução do processador.</li>
+</ul>
+<h4 id="b-unidade-de-medicao-inercial-imu-6-dof-mpu6050">B. Unidade de Medição Inercial (IMU 6 DOF MPU6050)<a class="headerlink" href="#b-unidade-de-medicao-inercial-imu-6-dof-mpu6050" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Funcionalidade:</strong> Giroscópio e acelerômetro integrados em 3 eixos no barramento I2C (endereço 0x68).</li>
+<li><strong>Trava de Rumo e Controle Angular:</strong> Em cruzamentos abertos sem paredes laterais para apoio dos sensores ToF, o giroscópio monitora a velocidade angular em alta frequência (100 Hz), corrigindo derivas e mantendo o deslocamento retilíneo. Em curvas de 90 e 180 graus, a integração angular inercial encerra a manobra quando o robô alcança exatamente o ângulo alvo, mesmo havendo escorregamento dos pneus.</li>
+</ul>
+<h3 id="33-subsistema-de-potencia-atuacao-motriz-e-odometria">3.3 Subsistema de Potência, Atuação Motriz e Odometria<a class="headerlink" href="#33-subsistema-de-potencia-atuacao-motriz-e-odometria" title="Permanent link">&para;</a></h3>
+<p>Responsável pela locomoção diferencial do robô (RF_ELE03, RF_EST02).</p>
+<h4 id="a-driver-de-motores-ponte-h-dupla-tb6612fng-em-soquete">A. Driver de Motores (Ponte H Dupla TB6612FNG em Soquete)<a class="headerlink" href="#a-driver-de-motores-ponte-h-dupla-tb6612fng-em-soquete" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Especificação:</strong> Driver baseado em pontes de MOSFET com capacidade de 1,2 A contínuos por canal (pico de 3,2 A) e resistência interna reduzida (cerca de 0,5 Ohm).</li>
+<li><strong>Vantagens:</strong> Queda de tensão inferior a 0,25 V sob carga nominal, maximizando o aproveitamento da tensão da bateria sem aquecimento elevado. O circuito é montado em soquete fêmea na Shield para fácil substituição.</li>
+<li><strong>Controle:</strong> Modulação PWM em 20 kHz nos pinos PWMA (GPIO 16) e PWMB (GPIO 17); controle de direção lógica em AIN1 (GPIO 18), AIN2 (GPIO 19), BIN1 (GPIO 23) e BIN2 (GPIO 5). O pino STBY é conectado permanentemente em nível lógico alto.</li>
+</ul>
+<h4 id="b-motores-n20-com-reducao-metalica-e-encoders">B. Motores N20 com Redução Metálica e Encoders<a class="headerlink" href="#b-motores-n20-com-reducao-metalica-e-encoders" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Especificação dos Motores:</strong> Motores DC modelo N20 de 6 V com caixa de redução metálica de 50:1 ou 75:1, operando com rotação nominal de 200 a 300 RPM.</li>
+<li><strong>Faixa de Trabalho:</strong> A rotação moderada permite que os motores operem na faixa linear do PWM (40% a 70%) em velocidade de exploração de 0,15 a 0,30 m/s, garantindo partida suave e torque estável.</li>
+<li><strong>Rodas e Pneus:</strong> Rodas com banda de borracha de silicone macia com coeficiente de atrito superior a 0,8, evitando derrapagens sobre o piso de madeira da pista.</li>
+<li><strong>Proteção das Entradas dos Encoders:</strong> Os circuitos de efeito Hall dos encoders são alimentados estritamente na linha de 3,3 V da Shield. Isso limita os pulsos dos canais A e B a 3,3 V, eliminando qualquer risco de queima das portas lógicas da ESP32. As saídas conectam aos pinos com interrupção externa GPIO 27 e GPIO 26 (motor esquerdo) e GPIO 25 e GPIO 33 (motor direito), fornecendo resolução superior a 10 pulsos por milímetro.</li>
+</ul>
+<h3 id="34-interface-de-alimentacao-e-blindagens-eletricas-da-shield">3.4 Interface de Alimentação e Blindagens Elétricas da Shield<a class="headerlink" href="#34-interface-de-alimentacao-e-blindagens-eletricas-da-shield" title="Permanent link">&para;</a></h3>
+<p>A Shield integra proteções físicas para garantir estabilidade operacional:</p>
+<ul>
+<li><strong>Conector de Entrada por Borne Parafuso:</strong> Terminal de 5,08 mm recebendo VMOT (linha da bateria LiPo 2S), VCC (linha lógica de 5,0 V regulada pelo conversor Buck de energia) e GND de referência unificada.</li>
+<li><strong>Capacitor Antibrownout (470 µF / 16 V):</strong> Capacitor eletrolítico posicionado imediatamente junto aos pinos de potência da ponte H TB6612FNG, fornecendo corrente instantânea nas acelerações dos motores e evitando quedas na tensão do microcontrolador.</li>
+<li><strong>Diodo Schottky de Proteção USB (1N5819):</strong> Inserido na entrada lógica de 5,0 V que alimenta o pino VIN da ESP32 DevKit, impedindo retorno de corrente para a porta USB do computador durante ensaios de bancada com a bateria conectada.</li>
+<li><strong>Operação Térmica do Regulador:</strong> O pino VIN recebe 5,0 V regulados, mantendo baixa a dissipação de potência sobre o regulador linear interno da ESP32 DevKit (inferior a 0,35 W).</li>
+<li><strong>Filtros Antirruído:</strong> Capacitores cerâmicos de 100 nF soldados nos motores suprimem ruídos de comutação antes de atingirem o chicote da Shield.</li>
+<li><strong>Divisor de Tensão de Precisão (RF_ENE02):</strong> Composto por resistores de 100 kΩ e 33 kΩ com capacitor de filtro de 100 nF, conectado ao pino GPIO 34 (canal analógico ADC1). A tensão plena da bateria (8,4 V) gera 2,084 V no conversor analógico digital, permitindo monitoramento contínuo sem conflitos com o rádio sem fio.</li>
+</ul>
+<h3 id="35-interface-homem-maquina-ihm-e-diagnostico">3.5 Interface Homem Máquina (IHM) e Diagnóstico<a class="headerlink" href="#35-interface-homem-maquina-ihm-e-diagnostico" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>LED RGB WS2812B (GPIO 2):</strong> Módulo endereçável com resistor de proteção de 330 Ω que exibe visualmente os estados do sistema (RF_ELE05): azul para calibração, verde para largada pronta, amarelo para navegação, roxo para labirinto resolvido e vermelho para alerta de bateria ou falha.</li>
+<li><strong>Buzzer Ativo (GPIO 4):</strong> Módulo com driver de acionamento embutido acoplado a conector de 3 pinos, emitindo alertas sonoros com pressão sonora superior a 60 dB (RF_ELE06).</li>
+<li><strong>Botão Físico com Pull Up Interno (GPIO 15):</strong> Chave táctil conectada diretamente entre o pino GPIO 15 e o terra GND. O resistor de subida interno é ativado por software com rotina de debounce de 50 ms. O firmware atribui funções de teste: 1 toque ativa autoteste dos motores, 2 toques verifica a resposta dos sensores ToF e pressão contínua por 2 segundos dispara a largada autônoma (RNF_SFT01).</li>
+<li><strong>Calibração e Atualizações OTA:</strong> Servidor web embarcado acessível via navegador para ajuste de ganhos do controlador PID e suporte a gravação de firmware sem fio (Over The Air via WiFi).</li>
+</ul>
+<hr />
+<h2 id="4-tabela-de-mapeamento-de-pinagem-do-microcontrolador-pinout-matrix">4. Tabela de Mapeamento de Pinagem do Microcontrolador (Pinout Matrix)<a class="headerlink" href="#4-tabela-de-mapeamento-de-pinagem-do-microcontrolador-pinout-matrix" title="Permanent link">&para;</a></h2>
+<p>A tabela a seguir consolida a pinagem dos 30 pinos do ESP32 DevKit V1 na placa Shield, sem conflitos com pinos de boot:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Pino</th>
+<th style="text-align: center;">Identificação</th>
+<th style="text-align: center;">Direção</th>
+<th style="text-align: center;">Nível</th>
+<th>Conexão no Micromouse</th>
+<th>Observações Técnicas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">P1</td>
+<td style="text-align: center;">3V3</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Alimentação de sensores e encoders</td>
+<td>Linha regulada protegida</td>
+</tr>
+<tr>
+<td style="text-align: center;">P2</td>
+<td style="text-align: center;">GND</td>
+<td style="text-align: center;">Terra</td>
+<td style="text-align: center;">0 V</td>
+<td>Referência comum da Shield</td>
+<td>Plano de terra unificado</td>
+</tr>
+<tr>
+<td style="text-align: center;">P3</td>
+<td style="text-align: center;">GPIO 15</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Botão de largada e diagnóstico</td>
+<td>Pull up interno por software</td>
+</tr>
+<tr>
+<td style="text-align: center;">P4</td>
+<td style="text-align: center;">GPIO 2</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>LED RGB WS2812B</td>
+<td>Sinalização visual de estados</td>
+</tr>
+<tr>
+<td style="text-align: center;">P5</td>
+<td style="text-align: center;">GPIO 4</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Buzzer ativo</td>
+<td>Alarme acústico de eventos</td>
+</tr>
+<tr>
+<td style="text-align: center;">P6</td>
+<td style="text-align: center;">GPIO 16</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Ponte H PWMA</td>
+<td>Modulação PWM 20 kHz motor esquerdo</td>
+</tr>
+<tr>
+<td style="text-align: center;">P7</td>
+<td style="text-align: center;">GPIO 17</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Ponte H PWMB</td>
+<td>Modulação PWM 20 kHz motor direito</td>
+</tr>
+<tr>
+<td style="text-align: center;">P8</td>
+<td style="text-align: center;">GPIO 5</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Ponte H BIN2</td>
+<td>Direção lógica motor direito</td>
+</tr>
+<tr>
+<td style="text-align: center;">P9</td>
+<td style="text-align: center;">GPIO 18</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Ponte H AIN1</td>
+<td>Direção lógica motor esquerdo</td>
+</tr>
+<tr>
+<td style="text-align: center;">P10</td>
+<td style="text-align: center;">GPIO 19</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Ponte H AIN2</td>
+<td>Direção lógica motor esquerdo</td>
+</tr>
+<tr>
+<td style="text-align: center;">P11</td>
+<td style="text-align: center;">GPIO 21</td>
+<td style="text-align: center;">Bidirecional</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Barramento I2C SDA</td>
+<td>Dados compartilhados ToF e IMU</td>
+</tr>
+<tr>
+<td style="text-align: center;">P12</td>
+<td style="text-align: center;">GPIO 3</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>RX Serial USB</td>
+<td>Depuração serial em bancada</td>
+</tr>
+<tr>
+<td style="text-align: center;">P13</td>
+<td style="text-align: center;">GPIO 1</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>TX Serial USB</td>
+<td>Telemetria serial em bancada</td>
+</tr>
+<tr>
+<td style="text-align: center;">P14</td>
+<td style="text-align: center;">GPIO 22</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Barramento I2C SCL</td>
+<td>Relógio I2C em modo rápido 400 kHz</td>
+</tr>
+<tr>
+<td style="text-align: center;">P15</td>
+<td style="text-align: center;">GPIO 23</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Ponte H BIN1</td>
+<td>Direção lógica motor direito</td>
+</tr>
+<tr>
+<td style="text-align: center;">P16</td>
+<td style="text-align: center;">VIN</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">5,0 V</td>
+<td>Entrada 5V da Shield</td>
+<td>Alimentação com diodo Schottky</td>
+</tr>
+<tr>
+<td style="text-align: center;">P17</td>
+<td style="text-align: center;">GND</td>
+<td style="text-align: center;">Terra</td>
+<td style="text-align: center;">0 V</td>
+<td>Terra de potência e lógica</td>
+<td>Retorno unificado dos atuadores</td>
+</tr>
+<tr>
+<td style="text-align: center;">P18</td>
+<td style="text-align: center;">GPIO 13</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>XSHUT ToF Esquerdo</td>
+<td>Habilitação do sensor a 90 graus</td>
+</tr>
+<tr>
+<td style="text-align: center;">P19</td>
+<td style="text-align: center;">GPIO 12</td>
+<td style="text-align: center;">Isolado</td>
+<td style="text-align: center;">N/A</td>
+<td>Não conectado na Shield</td>
+<td>Proteção de boot do microcontrolador</td>
+</tr>
+<tr>
+<td style="text-align: center;">P20</td>
+<td style="text-align: center;">GPIO 14</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>XSHUT ToF Direito</td>
+<td>Habilitação do sensor a 90 graus</td>
+</tr>
+<tr>
+<td style="text-align: center;">P21</td>
+<td style="text-align: center;">GPIO 27</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Encoder Motor Esquerdo Canal A</td>
+<td>Interrupção externa para odometria</td>
+</tr>
+<tr>
+<td style="text-align: center;">P22</td>
+<td style="text-align: center;">GPIO 26</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Encoder Motor Esquerdo Canal B</td>
+<td>Interrupção externa para sentido</td>
+</tr>
+<tr>
+<td style="text-align: center;">P23</td>
+<td style="text-align: center;">GPIO 25</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Encoder Motor Direito Canal A</td>
+<td>Interrupção externa para odometria</td>
+</tr>
+<tr>
+<td style="text-align: center;">P24</td>
+<td style="text-align: center;">GPIO 33</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Encoder Motor Direito Canal B</td>
+<td>Interrupção externa para sentido</td>
+</tr>
+<tr>
+<td style="text-align: center;">P25</td>
+<td style="text-align: center;">GPIO 32</td>
+<td style="text-align: center;">Saída</td>
+<td style="text-align: center;">3,3 V</td>
+<td>XSHUT ToF Frontal</td>
+<td>Habilitação do sensor a 0 grau</td>
+</tr>
+<tr>
+<td style="text-align: center;">P26</td>
+<td style="text-align: center;">GPIO 35</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Entrada analógica reserva</td>
+<td>Canal analógico ADC1 livre</td>
+</tr>
+<tr>
+<td style="text-align: center;">P27</td>
+<td style="text-align: center;">GPIO 34</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Monitoramento da bateria</td>
+<td>Divisor resistivo no canal ADC1</td>
+</tr>
+<tr>
+<td style="text-align: center;">P28</td>
+<td style="text-align: center;">GPIO 39</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Entrada analógica VN</td>
+<td>Não utilizado no circuito</td>
+</tr>
+<tr>
+<td style="text-align: center;">P29</td>
+<td style="text-align: center;">GPIO 36</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Entrada analógica VP</td>
+<td>Não utilizado no circuito</td>
+</tr>
+<tr>
+<td style="text-align: center;">P30</td>
+<td style="text-align: center;">EN</td>
+<td style="text-align: center;">Entrada</td>
+<td style="text-align: center;">3,3 V</td>
+<td>Sinal de reinicialização</td>
+<td>Circuito RC integrado da DevKit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-esquematico-eletrico-e-conectores-no-kicad-rev-20">5. Esquemático Elétrico e Conectores no KiCad (Rev 2.0)<a class="headerlink" href="#5-esquematico-eletrico-e-conectores-no-kicad-rev-20" title="Permanent link">&para;</a></h2>
+<h3 id="51-esquematico-eletrico-da-placa-shield">5.1 Esquemático Elétrico da Placa Shield<a class="headerlink" href="#51-esquematico-eletrico-da-placa-shield" title="Permanent link">&para;</a></h3>
+<p>O esquemático modular da Shield foi projetado no software KiCad e contempla os 7 blocos funcionais com blindagens elétricas:</p>
+<p><img alt="Esquemático Elétrico da Shield do Micromouse" src="../figs/micromouse_shield_sch.png" /></p>
+<ul>
+<li>Arquivo do esquemático: <code>hw/micromouse_shield/micromouse_shield_VERSION2.kicad_sch</code> (repositório do projeto)</li>
+<li>Versão vetorial em PDF: <a href="../figs/micromouse_shield.pdf">Baixar PDF do Esquemático</a></li>
+</ul>
+<h4 id="blocos-funcionais-do-esquematico">Blocos Funcionais do Esquemático:<a class="headerlink" href="#blocos-funcionais-do-esquematico" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Processamento Central:</strong> Barras fêmea de 2,54 mm para encaixe do ESP32 DevKit V1 com pino GPIO 12 isolado.</li>
+<li><strong>Driver de Motores:</strong> Soquete para TB6612FNG recebendo sinais PWM de 20 kHz e sinais de sentido de rotação.</li>
+<li><strong>Motores DC N20 e Encoders:</strong> Conectores com alimentação dos sensores Hall limitada a 3,3 V para proteção da ESP32.</li>
+<li><strong>Sensores ToF VL53L0X:</strong> Conexões com barramento I2C compartilhado e linhas de controle XSHUT individuais.</li>
+<li><strong>IMU Inercial:</strong> Conector para placa GY 521 (MPU6050) em 3,3 V no barramento I2C.</li>
+<li><strong>Interface de Usuário:</strong> Conectores dedicados para buzzer ativo, LED RGB WS2812B e botão de largada.</li>
+<li><strong>Alimentação e Proteções:</strong> Fusível rearmável de 3A, chave geral mecânica, proteção contra polaridade reversa por MOSFET Canal P (AO3401A), soquete para módulo Buck regulador de 5V, capacitor antibrownout de 470 µF e divisor resistivo no GPIO 34.</li>
+</ol>
+<h3 id="52-conectores-padronizados-da-placa-shield">5.2 Conectores Padronizados da Placa Shield<a class="headerlink" href="#52-conectores-padronizados-da-placa-shield" title="Permanent link">&para;</a></h3>
+<p>A tabela descreve os conectores e serigrafias para montagem direta com chicotes prontos de fábrica:</p>
+<table>
+<thead>
+<tr>
+<th>Serigrafia na Placa</th>
+<th style="text-align: center;">Tipo do Conector</th>
+<th style="text-align: center;">Vias</th>
+<th>Ordem dos Sinais</th>
+<th>Destino no Robô</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TB_PWR1 BATERIA</td>
+<td style="text-align: center;">Borne ou Conector Polarizado</td>
+<td style="text-align: center;">2</td>
+<td>1: VBAT (7,4 V), 2: GND</td>
+<td>Entrada da bateria LiPo 2S</td>
+</tr>
+<tr>
+<td>J_BUCK1 REG 5V</td>
+<td style="text-align: center;">Barra Fêmea 2,54 mm</td>
+<td style="text-align: center;">4</td>
+<td>1: VIN+, 2: VIN, 3: VOUT+ (5V), 4: VOUT (GND)</td>
+<td>Soquete do conversor Buck 5V</td>
+</tr>
+<tr>
+<td>MOTOR ESQ</td>
+<td style="text-align: center;">Conector JST 2,0 mm ou Barra 2,54 mm</td>
+<td style="text-align: center;">6</td>
+<td>1: M+, 2: M, 3: VCC (3,3V), 4: GND, 5: Canal A, 6: Canal B</td>
+<td>Chicote do motor N20 esquerdo</td>
+</tr>
+<tr>
+<td>MOTOR DIR</td>
+<td style="text-align: center;">Conector JST 2,0 mm ou Barra 2,54 mm</td>
+<td style="text-align: center;">6</td>
+<td>1: M+, 2: M, 3: VCC (3,3V), 4: GND, 5: Canal A, 6: Canal B</td>
+<td>Chicote do motor N20 direito</td>
+</tr>
+<tr>
+<td>TOF FRONT 0</td>
+<td style="text-align: center;">Barra Macho 2,54 mm</td>
+<td style="text-align: center;">5</td>
+<td>1: VCC (3,3V), 2: GND, 3: SDA, 4: SCL, 5: XSHUT (GPIO 32)</td>
+<td>Sensor ToF dianteiro a 0 grau</td>
+</tr>
+<tr>
+<td>TOF ESQ 90</td>
+<td style="text-align: center;">Barra Macho 2,54 mm</td>
+<td style="text-align: center;">5</td>
+<td>1: VCC (3,3V), 2: GND, 3: SDA, 4: SCL, 5: XSHUT (GPIO 13)</td>
+<td>Sensor ToF lateral a 90 graus</td>
+</tr>
+<tr>
+<td>TOF DIR 90</td>
+<td style="text-align: center;">Barra Macho 2,54 mm</td>
+<td style="text-align: center;">5</td>
+<td>1: VCC (3,3V), 2: GND, 3: SDA, 4: SCL, 5: XSHUT (GPIO 14)</td>
+<td>Sensor ToF lateral a 90 graus</td>
+</tr>
+<tr>
+<td>IMU MPU6050</td>
+<td style="text-align: center;">Barra Fêmea 2,54 mm</td>
+<td style="text-align: center;">8</td>
+<td>1: VCC (3,3V), 2: GND, 3: SCL, 4: SDA, 5: XDA, 6: XCL, 7: AD0, 8: INT</td>
+<td>Módulo GY 521 (IMU inercial)</td>
+</tr>
+<tr>
+<td>IHM BUZZER</td>
+<td style="text-align: center;">Barra Macho 2,54 mm</td>
+<td style="text-align: center;">3</td>
+<td>1: Sinal (GPIO 4), 2: VCC (5V), 3: GND</td>
+<td>Módulo buzzer ativo KY 012</td>
+</tr>
+<tr>
+<td>IHM RGB</td>
+<td style="text-align: center;">Barra Macho 2,54 mm</td>
+<td style="text-align: center;">3</td>
+<td>1: Sinal DIN (GPIO 2), 2: VCC (5V), 3: GND</td>
+<td>Módulo LED RGB WS2812B</td>
+</tr>
+<tr>
+<td>SW_START</td>
+<td style="text-align: center;">Botão Táctil THT</td>
+<td style="text-align: center;">2</td>
+<td>1: GPIO 15, 2: GND</td>
+<td>Botão de diagnóstico e largada</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-lista-de-materiais-de-hardware-bill-of-materials">6. Lista de Materiais de Hardware (Bill of Materials)<a class="headerlink" href="#6-lista-de-materiais-de-hardware-bill-of-materials" title="Permanent link">&para;</a></h2>
+<p>Relação dos componentes do subsistema de hardware com valores alinhados ao orçamento do TAP:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Item</th>
+<th>Componente e Descrição</th>
+<th>Módulo ou Encapsulamento</th>
+<th style="text-align: center;">Quantidade</th>
+<th style="text-align: center;">Custo Unitário (R$)</th>
+<th style="text-align: center;">Custo Total (R$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>Módulo Microcontrolador ESP32 DevKit V1</td>
+<td>DevKit 30 Pinos</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">42,00</td>
+<td style="text-align: center;">42,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>Driver de Motor Ponte H Dupla TB6612FNG</td>
+<td>Módulo com pinos 2,54 mm</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">18,00</td>
+<td style="text-align: center;">18,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>Sensores Laser Time of Flight VL53L0X</td>
+<td>Módulos GY 530</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">28,00</td>
+<td style="text-align: center;">84,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>Unidade de Medição Inercial IMU MPU6050</td>
+<td>Placa GY 521</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">16,00</td>
+<td style="text-align: center;">16,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>Motores DC N20 de 6V com Encoders Hall</td>
+<td>Motor N20 e disco magnético</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">48,00</td>
+<td style="text-align: center;">96,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td>Par de Rodas com Pneus de Silicone Macio</td>
+<td>Diâmetro de 34 mm</td>
+<td style="text-align: center;">1 par</td>
+<td style="text-align: center;">18,00</td>
+<td style="text-align: center;">18,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td>Módulo LED RGB Endereçável WS2812B</td>
+<td>Placa individual 5050</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3,50</td>
+<td style="text-align: center;">3,50</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td>Módulo Buzzer Ativo com Driver Integrado</td>
+<td>Módulo 3 pinos KY 012</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3,00</td>
+<td style="text-align: center;">3,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td>Diodo Schottky de Proteção USB 1N5819</td>
+<td>DO 41 ou SMA</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0,80</td>
+<td style="text-align: center;">0,80</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td>Capacitor Eletrolítico Antibrownout (470 µF / 16V)</td>
+<td>Radial THT</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1,50</td>
+<td style="text-align: center;">1,50</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td>Chave Táctil 6x6 mm para Largada</td>
+<td>THT</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1,00</td>
+<td style="text-align: center;">1,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td>Resistores de Precisão para Divisor e LED</td>
+<td>Axial 1/4W</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0,20</td>
+<td style="text-align: center;">0,60</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td>Capacitores Cerâmicos Antirruído (100 nF)</td>
+<td>Disco THT</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0,50</td>
+<td style="text-align: center;">2,50</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td>Borne Parafuso 3 Vias (Passo 5,08 mm)</td>
+<td>Conector de potência PCB</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2,50</td>
+<td style="text-align: center;">2,50</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td>Chicotes Prontos com Conectores Polarizados</td>
+<td>Conjunto de cabos prontos</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3,00</td>
+<td style="text-align: center;">15,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td>Barras de Pinos Fêmea 1x40 para Soquetes</td>
+<td>Passo 2,54 mm</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3,00</td>
+<td style="text-align: center;">6,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">17</td>
+<td>Fabricação da Placa PCB Shield Dupla Face</td>
+<td>FR4 1.6 mm duas camadas</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">35,00</td>
+<td style="text-align: center;">35,00</td>
+</tr>
+<tr>
+<td style="text-align: center;">Total</td>
+<td>Custo Consolidado de Hardware</td>
+<td>Subsistema de Eletrônica</td>
+<td style="text-align: center;">28 itens</td>
+<td style="text-align: center;">N/A</td>
+<td style="text-align: center;">R$ 345,90</td>
+</tr>
+</tbody>
+</table>
+<p>O custo consolidado de hardware de R$ 345,90 atende ao limite de R$ 400,00 estipulado no TAP para componentes eletroeletrônicos, mantendo margem de contingência favorável de R$ 54,10.</p>
+<hr />
+<h2 id="7-matriz-de-rastreabilidade-com-os-requisitos-de-engenharia">7. Matriz de Rastreabilidade com os Requisitos de Engenharia<a class="headerlink" href="#7-matriz-de-rastreabilidade-com-os-requisitos-de-engenharia" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Requisito</th>
+<th>Descrição Resumida</th>
+<th>Especificação de Hardware Implementada</th>
+<th>Verificação no Projeto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">RF_ELE01</td>
+<td>Sensoriamento de paredes nas 3 direções</td>
+<td>3 sensores Laser ToF VL53L0X (1 frontal 0 grau e 2 laterais 90 graus)</td>
+<td>Cobertura angular das 3 paredes a cada célula</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_ELE02</td>
+<td>Odometria determinística das rodas</td>
+<td>Encoders Hall alimentados a 3,3 V nos motores N20 ligados aos pinos GPIO 27, 26, 25 e 33</td>
+<td>Contagem determinística sem perda de pulsos</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_ELE03</td>
+<td>Modulação e controle de potência motriz</td>
+<td>Ponte H dupla TB6612FNG com PWM de 20 kHz e sinais lógicos reversíveis</td>
+<td>Acionamento linear bidirecional com baixa perda</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_ELE04</td>
+<td>Transmissão sem fio de telemetria</td>
+<td>Enlace sem fio ESP NOW em 2,4 GHz com envio em tempo real para a estação base</td>
+<td>Comunicação de baixa latência independente de roteador</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_ELE05</td>
+<td>Sinalização visual de estados</td>
+<td>LED RGB WS2812B com cores padronizadas para os estados operacionais</td>
+<td>Identificação visual imediata do estado do robô</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_ELE06</td>
+<td>Sinalização acústica de eventos</td>
+<td>Módulo buzzer ativo KY 012 acionado pelo pino GPIO 4</td>
+<td>Emissão sonora com nível superior a 60 dB</td>
+</tr>
+<tr>
+<td style="text-align: center;">RNF_ELE01</td>
+<td>Taxa de leitura sensorial rápida</td>
+<td>Barramento I2C em modo rápido de 400 kHz e ciclo de medição de 20 ms</td>
+<td>Amostragem de parede superior a 30 Hz</td>
+</tr>
+<tr>
+<td style="text-align: center;">RNF_ELE02</td>
+<td>Faixa de detecção de 30 a 180 mm</td>
+<td>Medição laser Time of Flight imune a variações de cor e reflexão</td>
+<td>Precisão milimétrica nas dimensões do labirinto</td>
+</tr>
+<tr>
+<td style="text-align: center;">RNF_ELE03</td>
+<td>Enlace sem fio estável</td>
+<td>Antena da ESP32 posicionada em área desimpedida na placa Shield</td>
+<td>Alcance superior a 8 metros sem atenuação metálica</td>
+</tr>
+<tr>
+<td style="text-align: center;">RNF_ELE04</td>
+<td>Conexão estruturada em PCB</td>
+<td>Placa Shield dedicada com soquetes e conectores prontos polarizados</td>
+<td>Eliminação de protoboard e fiação solta</td>
+</tr>
+<tr>
+<td style="text-align: center;">RNF_ELE05</td>
+<td>Imunidade a ruídos dos motores</td>
+<td>Capacitor antibrownout de 470 µF, filtros locais e diodo Schottky</td>
+<td>Proteção comprovada contra reinicializações espúrias</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_ENE02</td>
+<td>Monitoramento de tensão da bateria</td>
+<td>Divisor resistivo calibrado de 100 kΩ e 33 kΩ no canal analógico ADC1</td>
+<td>Leitura analógica da bateria sem interferência com WiFi</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_SFT01</td>
+<td>Rotações ortogonais precisas</td>
+<td>IMU MPU6050 integrando velocidade angular de guinada no barramento I2C</td>
+<td>Curvas ortogonais com controle inercial em malha fechada</td>
+</tr>
+<tr>
+<td style="text-align: center;">RF_SFT11</td>
+<td>Detecção de parada forçada de motor</td>
+<td>Comparação em software da leitura dos encoders com os comandos PWM</td>
+<td>Corte de segurança dos motores se o giro travar</td>
+</tr>
+<tr>
+<td style="text-align: center;">RNF_SFT01</td>
+<td>Autonomia e disparo físico de largada</td>
+<td>Botão táctil multifunção no pino GPIO 15 para testes e largada</td>
+<td>Partida autônoma em conformidade com o edital</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Energia">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Energia
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Software">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Software
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
