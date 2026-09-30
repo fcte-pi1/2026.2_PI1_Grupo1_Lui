@@ -28,11 +28,11 @@ gantt
     Cronograma e Orçamento :done, 2026-09-28, 2026-10-01
     section AP12
     Compra de materiais :2026-09-30, 2026-10-06
-    Estruturas :2026-09-30, 2026-10-24
-    Energia :2026-09-30, 2026-10-24
-    Eletrônica :2026-09-30, 2026-10-24
-    Software :2026-09-30, 2026-10-24
-    Entrega AP12 :2026-10-24, 2026-10-27
+    Estruturas :2026-09-30, 2026-10-23
+    Energia :2026-09-30, 2026-10-23
+    Eletrônica :2026-09-30, 2026-10-23
+    Software :2026-09-30, 2026-10-23
+    Entrega AP12 :2026-10-23, 2026-10-27
     section AP18
     Montagem final e integração dos subsistemas no chassi :2026-10-27, 2026-11-04
     Dar a largada por botão físico :2026-11-04, 2026-11-07
@@ -40,9 +40,9 @@ gantt
     Executar curvas de 90 graus com precisão :2026-11-04, 2026-11-12
     Ver no painel que o robô travou :2026-11-04, 2026-11-11
     Cortar os motores quando as rodas travarem :2026-11-12, 2026-11-17
-    Integração do algoritmo de navegação com a telemetria no robô :2026-11-12, 2026-11-18
-    Teste de movimentação no labirinto 4x4 :2026-11-18, 2026-11-20
-    Relatório de testes de integração (arquivo 7.5) e envio da AP18 :2026-11-20, 2026-11-24
+    Integração do algoritmo de navegação com a telemetria no robô :2026-11-12, 2026-11-17
+    Teste de movimentação no labirinto 4x4 :2026-11-17, 2026-11-19
+    Relatório de testes de integração (arquivo 7.5) e envio da AP18 :2026-11-19, 2026-11-24
     section APT
     Executar o speed run :2026-11-24, 2026-12-01
     Fazer curvas em movimento contínuo no speed run :2026-11-24, 2026-12-01
@@ -85,27 +85,27 @@ gantt
 | 1.5.1 | Planejamento | 1. Documentação | Elaboração do orçamento (arquivo 6) | 28/09/2026 | 29/09/2026 | Pedro Ian / Antônio Lucas | 2.1.1.1, 3.1.3.2, 4.1.3 | 100% | Concluído | AP6 · Cronograma e Orçamento |
 | 1.2.1 | Planejamento | 1. Documentação | Elaboração e exportação do cronograma (arquivo 5) | 28/09/2026 | 30/09/2026 | Pedro Ian / Antônio Lucas | 1.4.2 | 100% | Concluído | AP6 · Cronograma e Orçamento |
 | **AP12** | **Execução** | **-** | **Testes de subsistemas** | **30/09/2026** | **26/10/2026** | **-** | **-** | **0%** | **A fazer** | **AP12 · Testes de subsistemas** |
-| 1.5.2 | Execução | 1. Documentação | Compra dos componentes e materiais | 30/09/2026 | 05/10/2026 | Antônio Lucas | 1.5.1 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 1.5.2 | Execução | 1. Documentação | Compra dos componentes e materiais | 30/09/2026 | 05/10/2026 | Antônio Lucas / Daniel Almeida | 1.5.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 2.1.6.1 | Execução | 2. Estrutura | Impressão 3D, montagem e aferição dimensional | 30/09/2026 | 09/10/2026 | Humberto Alencar / João Vitor | 2.1.2.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 2.2.2.1 | Execução | 2. Estrutura | Construção do labirinto de testes 4x4 | 06/10/2026 | 09/10/2026 | Mariana Solano / João Vitor | 1.5.2 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 2.1.7.1 | Execução | 2. Estrutura | Teste dinâmico de atrito e giro no corredor | 13/10/2026 | 19/10/2026 | Mariana Solano / Carlos Henrique | 2.1.6.1, 2.2.2.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 2.1.7.2 | Execução | 2. Estrutura | Escrita do relatório 7.1 | 20/10/2026 | 23/10/2026 | Carlos Henrique | 2.1.7.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 4.1.1 | Execução | 4. Sistema Energético | Alinhar o 4.2 com a comunicação ESP-NOW | 30/09/2026 | 02/10/2026 | Rafaela Trajano | 4.1.3 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 2.1.7.2 | Execução | 2. Estrutura | Escrita do relatório 7.1 | 20/10/2026 | 22/10/2026 | Carlos Henrique / Humberto Alencar | 2.1.7.1 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 4.1.1 | Execução | 4. Sistema Energético | Alinhar o 4.2 com a comunicação ESP-NOW | 30/09/2026 | 02/10/2026 | Lucas Peixoto / Rafaela Trajano | 4.1.3 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 4.1.2 | Execução | 4. Sistema Energético | Montagem do circuito e aferição de tensão | 06/10/2026 | 14/10/2026 | Lucas Oliveira / Rafaela Trajano | 1.5.2 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 4.7.1 | Execução | 4. Sistema Energético | Teste de carga, autonomia e proteção | 15/10/2026 | 19/10/2026 | Lucas Peixoto / Lucas Oliveira | 4.1.2 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 4.7.2 | Execução | 4. Sistema Energético | Escrita do relatório 7.2 | 20/10/2026 | 23/10/2026 | Rafaela Trajano | 4.7.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 3.1.3.1 | Execução | 3. Firmware / Eletrônica | Alinhar o 4.3 com a comunicação ESP-NOW (BOM e OTA) | 30/09/2026 | 02/10/2026 | Leonardo Augusto | 3.1.3.2 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 4.7.2 | Execução | 4. Sistema Energético | Escrita do relatório 7.2 | 20/10/2026 | 22/10/2026 | Rafaela Trajano / Antônio Lucas | 4.7.1 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 3.1.3.1 | Execução | 3. Firmware / Eletrônica | Alinhar o 4.3 com a comunicação ESP-NOW (BOM e OTA) | 30/09/2026 | 02/10/2026 | Daniel Almeida / Leonardo Augusto | 3.1.3.2 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 3.1.2.1 | Execução | 3. Firmware / Eletrônica | Acionamento da ponte H e leitura dos encoders | 06/10/2026 | 16/10/2026 | Breno Teixeira / Eduardo Lobo | 1.5.2 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 3.1.1.1 | Execução | 3. Firmware / Eletrônica | Calibração e leitura dos sensores VL53L0X | 13/10/2026 | 19/10/2026 | Pedro Franco / Daniel Almeida | 2.2.2.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 3.1.5.1 | Execução | 3. Firmware / Eletrônica | Enlace ESP-NOW: perda de pacotes a 8 m | 14/10/2026 | 19/10/2026 | Leonardo Augusto / Pedro Franco | 3.2.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 3.1.5.2 | Execução | 3. Firmware / Eletrônica | Escrita do relatório 7.3 | 20/10/2026 | 23/10/2026 | Leonardo Augusto | 3.1.1.1, 3.1.2.1, 3.1.5.1 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 3.1.5.1 | Execução | 3. Firmware / Eletrônica | Enlace ESP-NOW: perda de pacotes a 8 m | 14/10/2026 | 19/10/2026 | Pedro Franco / Eduardo Lobo | 3.2.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 3.1.5.2 | Execução | 3. Firmware / Eletrônica | Escrita do relatório 7.3 | 20/10/2026 | 22/10/2026 | Leonardo Augusto / Eduardo Lobo | 3.1.1.1, 3.1.2.1, 3.1.5.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 5.3.1.1 | Execução | 5. Lógica e Processamento | Contrato de dados, estrutura do src e CI com cobertura | 30/09/2026 | 06/10/2026 | Pedro Ian / Alexandre Henrique | 5.3.2.3 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 3.2.1.1 | Execução | 3. Firmware / Eletrônica | Protocolo de telemetria e firmware do gateway ESP-NOW | 07/10/2026 | 13/10/2026 | João Pedro Jaime / Davi Sakai | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 5.1.3.1 | Execução | 5. Lógica e Processamento | Simulador de corridas para testes | 07/10/2026 | 13/10/2026 | Pedro Ian / Alexandre Henrique | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-08 | Execução | 5. Lógica e Processamento | Transmitir os dados da prova a cada segundo | 07/10/2026 | 14/10/2026 | Pedro Ian / Alexandre Henrique | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-09 | Execução | 5. Lógica e Processamento | Ser avisado quando a conexão com o robô cair | 07/10/2026 | 14/10/2026 | Pedro Ian / Alexandre Henrique | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-12 | Execução | 5. Lógica e Processamento | Salvar automaticamente cada corrida | 07/10/2026 | 13/10/2026 | Pedro Ian / Alexandre Henrique | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 5.1.2.1 | Execução | 5. Lógica e Processamento | API do histórico e replay | 14/10/2026 | 17/10/2026 | Pedro Ian / Alexandre Henrique | HU-12 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 5.1.2.1 | Execução | 5. Lógica e Processamento | API do histórico e replay | 14/10/2026 | 16/10/2026 | Pedro Ian / Alexandre Henrique | HU-12 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-04 | Execução | 5. Lógica e Processamento | Selecionar a geometria da pista antes da largada | 07/10/2026 | 16/10/2026 | Antônio José / Gustavo Antônio | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-10 | Execução | 5. Lógica e Processamento | Visualizar o mapa do labirinto em tempo real | 07/10/2026 | 16/10/2026 | Antônio José / Gustavo Antônio | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-11 | Execução | 5. Lógica e Processamento | Acompanhar os indicadores da prova | 07/10/2026 | 16/10/2026 | Antônio José / Gustavo Antônio | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
@@ -116,23 +116,23 @@ gantt
 | HU-07 | Execução | 5. Lógica e Processamento | Parar automaticamente ao chegar no objetivo | 07/10/2026 | 20/10/2026 | João Pedro Jaime / Davi Sakai | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | HU-15 | Execução | 5. Lógica e Processamento | Calcular a rota mais curta após a exploração | 07/10/2026 | 20/10/2026 | João Pedro Jaime / Davi Sakai | 5.3.1.1 | 0% | A fazer | AP12 · Testes de subsistemas |
 | 5.3.2.1 | Execução | 5. Lógica e Processamento | Testes E2E com Playwright | 14/10/2026 | 20/10/2026 | Antônio José / Gustavo Antônio | 5.1.3.1 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 5.3.2.2 | Execução | 5. Lógica e Processamento | Escrita do relatório 7.4 | 21/10/2026 | 23/10/2026 | Pedro Ian | 5.3.2.1, HU-15 | 0% | A fazer | AP12 · Testes de subsistemas |
-| 1.1.1 | Execução | 1. Documentação | Revisão dos PRs, geração do PDF e envio da AP12 | 24/10/2026 | 26/10/2026 | Antônio Lucas | 2.1.7.2, 3.1.5.2, 4.7.2, 5.3.2.2 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 5.3.2.2 | Execução | 5. Lógica e Processamento | Escrita do relatório 7.4 | 21/10/2026 | 22/10/2026 | Pedro Ian / Gustavo Antônio | 5.3.2.1, HU-15 | 0% | A fazer | AP12 · Testes de subsistemas |
+| 1.1.1 | Execução | 1. Documentação | Revisão dos PRs, geração do PDF e envio da AP12 | 23/10/2026 | 26/10/2026 | Antônio Lucas / Breno Teixeira | 2.1.7.2, 3.1.5.2, 4.7.2, 5.3.2.2 | 0% | A fazer | AP12 · Testes de subsistemas |
 | **AP18** | **Execução** | **-** | **Testes de integração** | **27/10/2026** | **23/11/2026** | **-** | **-** | **0%** | **A fazer** | **AP18 · Testes de integração** |
-| 2.1.6.2 | Execução | 2. Estrutura | Montagem final e integração dos subsistemas no chassi | 27/10/2026 | 03/11/2026 | Carlos Henrique / Rafaela Trajano | 1.1.1 | 0% | A fazer | AP18 · Testes de integração |
+| 2.1.6.2 | Execução | 2. Estrutura | Montagem final e integração dos subsistemas no chassi | 27/10/2026 | 03/11/2026 | Humberto Alencar / Lucas Oliveira | 1.1.1 | 0% | A fazer | AP18 · Testes de integração |
 | HU-05 | Execução | 5. Lógica e Processamento | Dar a largada por botão físico | 04/11/2026 | 06/11/2026 | Pedro Ian / Alexandre Henrique | 2.1.6.2 | 0% | A fazer | AP18 · Testes de integração |
 | HU-01 | Execução | 5. Lógica e Processamento | Manter o robô centralizado nas retas | 04/11/2026 | 11/11/2026 | João Pedro Jaime / Davi Sakai | 2.1.6.2 | 0% | A fazer | AP18 · Testes de integração |
 | HU-02 | Execução | 5. Lógica e Processamento | Executar curvas de 90 graus com precisão | 04/11/2026 | 11/11/2026 | João Pedro Jaime / Davi Sakai | 2.1.6.2 | 0% | A fazer | AP18 · Testes de integração |
 | HU-19 | Execução | 5. Lógica e Processamento | Ver no painel que o robô travou | 04/11/2026 | 10/11/2026 | Antônio José / Gustavo Antônio | 2.1.6.2 | 0% | A fazer | AP18 · Testes de integração |
 | HU-18 | Execução | 5. Lógica e Processamento | Cortar os motores quando as rodas travarem | 12/11/2026 | 16/11/2026 | João Pedro Jaime / Davi Sakai | HU-01, HU-02 | 0% | A fazer | AP18 · Testes de integração |
-| 5.3.1.3 | Execução | 5. Lógica e Processamento | Integração do algoritmo de navegação com a telemetria no robô | 12/11/2026 | 17/11/2026 | Pedro Ian / Alexandre Henrique | HU-01, HU-02 | 0% | A fazer | AP18 · Testes de integração |
-| 6.2.1 | Execução | 6. Validação | Teste de movimentação no labirinto 4x4 | 18/11/2026 | 19/11/2026 | Antônio Lucas / Leonardo Augusto | 5.3.1.3, HU-18 | 0% | A fazer | AP18 · Testes de integração |
-| 6.1.1 | Execução | 6. Validação | Relatório de testes de integração (arquivo 7.5) e envio da AP18 | 20/11/2026 | 23/11/2026 | Antônio Lucas | 6.2.1 | 0% | A fazer | AP18 · Testes de integração |
+| 5.3.1.3 | Execução | 5. Lógica e Processamento | Integração do algoritmo de navegação com a telemetria no robô | 12/11/2026 | 16/11/2026 | Pedro Ian / Alexandre Henrique | HU-01, HU-02 | 0% | A fazer | AP18 · Testes de integração |
+| 6.2.1 | Execução | 6. Validação | Teste de movimentação no labirinto 4x4 | 17/11/2026 | 18/11/2026 | Antônio Lucas / Leonardo Augusto | 5.3.1.3, HU-18 | 0% | A fazer | AP18 · Testes de integração |
+| 6.1.1 | Execução | 6. Validação | Relatório de testes de integração (arquivo 7.5) e envio da AP18 | 19/11/2026 | 23/11/2026 | Antônio Lucas / João Vitor | 6.2.1 | 0% | A fazer | AP18 · Testes de integração |
 | **APT** | **Encerramento** | **-** | **Apresentação do produto** | **24/11/2026** | **01/12/2026** | **-** | **-** | **0%** | **A fazer** | **APT · Apresentação do produto** |
 | HU-16 | Encerramento | 5. Lógica e Processamento | Executar o speed run | 24/11/2026 | 30/11/2026 | João Pedro Jaime / Davi Sakai | 6.2.1 | 0% | A fazer | APT · Apresentação do produto |
 | HU-17 | Encerramento | 5. Lógica e Processamento | Fazer curvas em movimento contínuo no speed run | 24/11/2026 | 30/11/2026 | João Pedro Jaime / Davi Sakai | 6.2.1 | 0% | A fazer | APT · Apresentação do produto |
-| 6.2.2 | Encerramento | 6. Validação | Ensaio geral nas geometrias 4x4, 8x4 e 12x4 | 24/11/2026 | 01/12/2026 | Leonardo Augusto / Carlos Henrique | 6.2.1 | 0% | A fazer | APT · Apresentação do produto |
-| 1.1.2 | Encerramento | 1. Documentação | Preparação da apresentação do produto | 24/11/2026 | 01/12/2026 | Antônio Lucas | 6.2.1 | 0% | A fazer | APT · Apresentação do produto |
+| 6.2.2 | Encerramento | 6. Validação | Ensaio geral nas geometrias 4x4, 8x4 e 12x4 | 24/11/2026 | 01/12/2026 | Mariana Solano / Breno Teixeira | 6.2.1 | 0% | A fazer | APT · Apresentação do produto |
+| 1.1.2 | Encerramento | 1. Documentação | Preparação da apresentação do produto | 24/11/2026 | 01/12/2026 | Antônio Lucas / Carlos Henrique | 6.2.1 | 0% | A fazer | APT · Apresentação do produto |
 | **AP20** | **Encerramento** | **-** | **Encerramento** | **02/12/2026** | **04/12/2026** | **-** | **-** | **0%** | **A fazer** | **AP20 · Encerramento** |
-| 6.2.3 | Encerramento | 6. Validação | Avaliação de desempenho (arquivo 8) | 02/12/2026 | 04/12/2026 | Rafaela Trajano / Leonardo Augusto | 1.1.2, 6.2.2 | 0% | A fazer | AP20 · Encerramento |
-| 1.1.3 | Encerramento | 1. Documentação | Relatório de encerramento do projeto (arquivo 9) e envio da AP20 | 02/12/2026 | 04/12/2026 | Antônio Lucas | 1.1.2 | 0% | A fazer | AP20 · Encerramento |
+| 6.2.3 | Encerramento | 6. Validação | Avaliação de desempenho (arquivo 8) | 02/12/2026 | 04/12/2026 | Rafaela Trajano / Lucas Peixoto | 1.1.2, 6.2.2 | 0% | A fazer | AP20 · Encerramento |
+| 1.1.3 | Encerramento | 1. Documentação | Relatório de encerramento do projeto (arquivo 9) e envio da AP20 | 02/12/2026 | 04/12/2026 | Antônio Lucas / Pedro Franco | 1.1.2 | 0% | A fazer | AP20 · Encerramento |
