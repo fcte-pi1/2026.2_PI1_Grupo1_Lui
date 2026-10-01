@@ -14,8 +14,8 @@ void test_mapa_default_geometry(void) {
     
     // Testa estado inicial que deve ser 4x4
     TEST_ASSERT_EQUAL(LAB_4X4, mapa.getGeometria());
-    TEST_ASSERT_EQUAL(4, mapa.getMaxX());
-    TEST_ASSERT_EQUAL(4, mapa.getMaxY());
+    TEST_ASSERT_EQUAL(4, mapa.getMaxLinhas());
+    TEST_ASSERT_EQUAL(4, mapa.getMaxColunas());
 }
 
 void test_mapa_change_to_8x4(void) {
@@ -24,8 +24,8 @@ void test_mapa_change_to_8x4(void) {
     // Troca para 8x4 e verifica
     mapa.setGeometria(LAB_8X4);
     TEST_ASSERT_EQUAL(LAB_8X4, mapa.getGeometria());
-    TEST_ASSERT_EQUAL(8, mapa.getMaxX());
-    TEST_ASSERT_EQUAL(4, mapa.getMaxY());
+    TEST_ASSERT_EQUAL(8, mapa.getMaxLinhas());
+    TEST_ASSERT_EQUAL(4, mapa.getMaxColunas());
 }
 
 void test_mapa_change_to_12x4(void) {
@@ -34,8 +34,8 @@ void test_mapa_change_to_12x4(void) {
     // Troca para 12x4 e verifica
     mapa.setGeometria(LAB_12X4);
     TEST_ASSERT_EQUAL(LAB_12X4, mapa.getGeometria());
-    TEST_ASSERT_EQUAL(12, mapa.getMaxX());
-    TEST_ASSERT_EQUAL(4, mapa.getMaxY());
+    TEST_ASSERT_EQUAL(12, mapa.getMaxLinhas());
+    TEST_ASSERT_EQUAL(4, mapa.getMaxColunas());
 }
 
 void test_mapa_cycle_geometry(void) {
@@ -48,10 +48,10 @@ void test_mapa_cycle_geometry(void) {
     
     // Ao final deve retornar a 4x4
     TEST_ASSERT_EQUAL(LAB_4X4, mapa.getGeometria());
-    TEST_ASSERT_EQUAL(4, mapa.getMaxX());
+    TEST_ASSERT_EQUAL(4, mapa.getMaxLinhas());
 }
 
-int main(int argc, char **argv) {
+int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_mapa_default_geometry);
     RUN_TEST(test_mapa_change_to_8x4);
@@ -59,3 +59,4 @@ int main(int argc, char **argv) {
     RUN_TEST(test_mapa_cycle_geometry);
     return UNITY_END();
 }
+
