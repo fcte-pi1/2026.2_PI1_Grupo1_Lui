@@ -1,0 +1,172 @@
+.labirinto-container {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 32px;
+    flex: 2;
+    min-width: 500px;
+    color: #1a1a1a;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.labirinto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.header-textos h2 {
+    font-size: 1.1rem;
+    margin: 0 0 8px 0;
+    color: #2d3748;
+    text-transform: uppercase;
+}
+
+.header-textos p {
+    font-size: 0.85rem;
+    color: #718096;
+    margin: 0;
+}
+
+.legendas {
+    display: flex;
+    gap: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.legenda-start, .legenda-finish {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legenda-start { color: #48bb78; }
+.legenda-finish { color: #f56565; }
+
+.box-start {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #e6fffa;
+    border: 1px solid #48bb78;
+}
+
+.box-finish {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #fff5f5;
+    border: 1px solid #f56565;
+}
+
+.labirinto-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-header-cols {
+    display: flex;
+    width: 400px;
+    margin-left: 40px; /* alinha com as colunas, ignorando os headers de linha */
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 0.9rem;
+}
+
+.grid-header-cols > div {
+    flex: 1;
+    text-align: center;
+    padding-bottom: 12px;
+}
+
+.grid-body {
+    display: flex;
+}
+
+.grid-header-rows {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: #4a5568;
+    margin-right: 16px;
+    font-size: 0.9rem;
+}
+
+.grid-header-rows > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.labirinto-grid {
+    display: grid;
+    position: relative;
+}
+
+.celula {
+    box-sizing: border-box;
+    position: relative;
+    background-color: white;
+}
+
+.celula.start {
+    background-color: #e6fffa;
+}
+
+.celula.finish {
+    background-color: #fff5f5;
+}
+
+.label-start {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #48bb78;
+}
+
+.label-finish {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #f56565;
+}
+
+.trajeto-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.robo-icon {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background-color: white;
+    border: 2px solid #1a1a1a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.robo-seta {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
