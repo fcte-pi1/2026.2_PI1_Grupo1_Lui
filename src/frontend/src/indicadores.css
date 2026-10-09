@@ -1,0 +1,124 @@
+.painel-container {
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.controles-simulacao {
+    margin-top: 30px;
+}
+
+.indicadores-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px;
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.indicador {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 16px;
+    flex: 1;
+    min-width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.indicador .cabecalho {
+    font-size: 0.85rem;
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.indicador .valor {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Indicador Tempo */
+.indicador.tempo .limite {
+    font-size: 0.9rem;
+    color: #606060;
+}
+
+.barra-progresso {
+    width: 100%;
+    height: 8px;
+    background-color: #333333;
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.barra-progresso .progresso {
+    height: 100%;
+    background-color: #00bcd4;
+    transition: width 0.3s ease;
+}
+
+/* Indicador Velocidade */
+.indicador.velocidade .valores {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.indicador.velocidade .vel-bloco {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+}
+
+.indicador.velocidade .label {
+    color: #a0a0a0;
+}
+
+/* Indicador Bateria */
+.indicador.bateria .valores {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.indicador.bateria .valor-porcentagem {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4caf50;
+}
+
+.indicador.bateria.alerta .valor-porcentagem {
+    color: #f44336;
+}
+
+.indicador.bateria .valor-volts {
+    font-size: 1rem;
+    color: #888888;
+}
+
+.aviso-bateria {
+    margin-top: 8px;
+    color: #f44336;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Indicador Status */
+.indicador.status.estilo-normal .valor {
+    color: #00bcd4;
+}
+
+.indicador.status.estilo-alerta {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid #f44336;
+}
+
+.indicador.status.estilo-alerta .valor {
+    color: #f44336;
+}

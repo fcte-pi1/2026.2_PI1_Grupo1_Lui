@@ -9,6 +9,21 @@ Esta pasta deverá armazenar arquivos referentes a:
 - Arquivos de configuração de ambiente: `.env.example` com as variáveis de ambiente públicas necessárias (ex.: URL base da API).
 - Arquivos de containerização: `Dockerfile` e `docker-compose.yml`, caso a aplicação seja servida via contêiner.
 
+## Como Executar
+
+Para instalar as dependências e executar a aplicação localmente:
+
+```bash
+# Instalar dependências
+npm install
+
+# Iniciar o servidor de desenvolvimento
+npm run dev
+
+# Executar os testes unitários
+npm test
+```
+
 Evite incluir:
 
 - Dependências instaladas: a pasta `node_modules/` deve ser gerada localmente via `npm install` ou equivalente e nunca incluída no repositório.
