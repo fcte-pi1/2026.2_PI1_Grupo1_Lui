@@ -1,0 +1,5070 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/4.4%20-%20Projeto%20conceitual%20de%20software/">
+      
+      
+        <link rel="prev" href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/">
+      
+      
+        <link rel="next" href="../5%20-%20Cronograma/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Software - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#projeto-conceitual-de-software" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Software
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-e-premissas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral e Premissas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Visão Geral e Premissas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-premissas-de-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Premissas de hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-escopo-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Escopo do documento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-diagrama-de-atividades-uml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Diagrama de Atividades UML
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-backlog-do-produto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Backlog do Produto
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Backlog do Produto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-requisitos-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Requisitos Funcionais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Requisitos Funcionais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft01-controle-e-alinhamento-de-trajetoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT01: Controle e Alinhamento de Trajetória
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft02-mapeamento-topologico-das-geometrias-oficiais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT02: Mapeamento Topológico das Geometrias Oficiais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft03-navegacao-e-resolucao-autonoma-de-labirinto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT03: Navegação e Resolução Autônoma de Labirinto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft04-reconhecimento-de-objetivo-e-parada-automatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT04: Reconhecimento de Objetivo e Parada Automática
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft05-despacho-continuo-dos-parametros-de-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT05: Despacho Contínuo dos Parâmetros de Telemetria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft06-dashboard-web-de-monitoramento-em-tempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT06: Dashboard Web de Monitoramento em Tempo Real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft07-persistencia-historica-de-corridas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT07: Persistência Histórica de Corridas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft08-consulta-e-filtragem-historica-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT08: Consulta e Filtragem Histórica Web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft09-execucao-de-trajetoria-otimizada-speed-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT09: Execução de Trajetória Otimizada (Speed Run)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft10-suavizacao-continua-de-trajetoria-em-curva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT10: Suavização Contínua de Trajetória em Curva
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft11-deteccao-e-tratamento-de-travamento-mecanico-stall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT11: Detecção e Tratamento de Travamento Mecânico (Stall)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-prototipos-de-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Protótipos de Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Protótipos de Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-tela-de-monitoramento-em-tempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Tela de Monitoramento em Tempo Real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-tela-de-historico-de-corridas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Tela de Histórico de Corridas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-requisitos-nao-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Requisitos Não Funcionais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-arquitetura-da-solucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Arquitetura da Solução
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Arquitetura da Solução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-proposito-e-padrao-adotado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Propósito e Padrão Adotado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-visao-logica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Visão Lógica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-visao-de-processos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Visão de Processos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-visao-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Visão de Implementação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-visao-de-implantacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Visão de Implantação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-visao-de-dados-mer-e-der" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Visão de Dados (MER e DER)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 Visão de Dados (MER e DER)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#461-modelo-entidade-relacionamento-mer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.1 Modelo Entidade-Relacionamento (MER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#462-diagrama-entidade-relacionamento-der" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.2 Diagrama Entidade-Relacionamento (DER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-detalhamento-dos-algoritmos-de-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Detalhamento dos Algoritmos de Firmware
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detalhamento dos Algoritmos de Firmware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-mapeamento-topologico-do-labirinto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Mapeamento Topológico do Labirinto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-controle-de-movimento-e-alinhamento-de-trajetoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Controle de Movimento e Alinhamento de Trajetória
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-deteccao-e-tratamento-de-travamento-stall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Detecção e Tratamento de Travamento (Stall)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-protocolo-de-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Protocolo de Telemetria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Protocolo de Telemetria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-visao-geral-da-arquitetura-de-comunicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Visão Geral da Arquitetura de Comunicação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-camada-de-radio-payload-binario-esp-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Camada de Rádio: Payload Binário ESP-NOW
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-camada-serial-gateway-para-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Camada Serial (Gateway para Backend)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-camada-de-aplicacao-websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Camada de Aplicação: WebSocket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-dicionario-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Dicionário de Dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-ciclo-de-vida-da-corrida-no-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Ciclo de Vida da Corrida no Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-confiabilidade-e-watchdog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Confiabilidade e Watchdog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-roteiro-de-testes-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Roteiro de Testes Funcionais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Roteiro de Testes Funcionais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ct-01-centralizacao-do-robo-em-reta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-01: Centralização do robô em reta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-02-precisao-das-rotacoes-de-90" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-02: Precisão das rotações de 90°
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-03-fidelidade-do-mapeamento-nas-tres-geometrias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-03: Fidelidade do mapeamento nas três geometrias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-04-selecao-da-geometria-antes-da-largada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-04: Seleção da geometria antes da largada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-05-largada-e-navegacao-autonoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-05: Largada e navegação autônoma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-06-parada-automatica-no-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-06: Parada automática no objetivo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-07-transmissao-da-telemetria-a-1-hz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-07: Transmissão da telemetria a 1 Hz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-08-aviso-de-perda-de-conexao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-08: Aviso de perda de conexão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-09-painel-sincronizado-com-a-pista" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-09: Painel sincronizado com a pista
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-10-persistencia-de-corridas-concluidas-e-interrompidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-10: Persistência de corridas concluídas e interrompidas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-11-filtragem-do-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-11: Filtragem do histórico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-12-reproducao-de-corrida-passada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-12: Reprodução de corrida passada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-13-speed-run-mais-rapido-que-a-exploracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-13: Speed run mais rápido que a exploração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-14-curva-em-movimento-continuo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-14: Curva em movimento contínuo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-15-corte-de-tracao-por-travamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-15: Corte de tração por travamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-e-premissas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral e Premissas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Visão Geral e Premissas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-premissas-de-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Premissas de hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-escopo-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Escopo do documento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-diagrama-de-atividades-uml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Diagrama de Atividades UML
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-backlog-do-produto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Backlog do Produto
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Backlog do Produto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-requisitos-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Requisitos Funcionais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Requisitos Funcionais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft01-controle-e-alinhamento-de-trajetoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT01: Controle e Alinhamento de Trajetória
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft02-mapeamento-topologico-das-geometrias-oficiais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT02: Mapeamento Topológico das Geometrias Oficiais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft03-navegacao-e-resolucao-autonoma-de-labirinto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT03: Navegação e Resolução Autônoma de Labirinto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft04-reconhecimento-de-objetivo-e-parada-automatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT04: Reconhecimento de Objetivo e Parada Automática
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft05-despacho-continuo-dos-parametros-de-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT05: Despacho Contínuo dos Parâmetros de Telemetria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft06-dashboard-web-de-monitoramento-em-tempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT06: Dashboard Web de Monitoramento em Tempo Real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft07-persistencia-historica-de-corridas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT07: Persistência Histórica de Corridas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft08-consulta-e-filtragem-historica-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT08: Consulta e Filtragem Histórica Web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft09-execucao-de-trajetoria-otimizada-speed-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT09: Execução de Trajetória Otimizada (Speed Run)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft10-suavizacao-continua-de-trajetoria-em-curva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT10: Suavização Contínua de Trajetória em Curva
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-rf-sft11-deteccao-e-tratamento-de-travamento-mecanico-stall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Épico RF-SFT11: Detecção e Tratamento de Travamento Mecânico (Stall)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-prototipos-de-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Protótipos de Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Protótipos de Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-tela-de-monitoramento-em-tempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Tela de Monitoramento em Tempo Real
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-tela-de-historico-de-corridas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Tela de Histórico de Corridas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-requisitos-nao-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Requisitos Não Funcionais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-arquitetura-da-solucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Arquitetura da Solução
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Arquitetura da Solução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-proposito-e-padrao-adotado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Propósito e Padrão Adotado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-visao-logica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Visão Lógica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-visao-de-processos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Visão de Processos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-visao-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Visão de Implementação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-visao-de-implantacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Visão de Implantação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-visao-de-dados-mer-e-der" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Visão de Dados (MER e DER)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 Visão de Dados (MER e DER)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#461-modelo-entidade-relacionamento-mer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.1 Modelo Entidade-Relacionamento (MER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#462-diagrama-entidade-relacionamento-der" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6.2 Diagrama Entidade-Relacionamento (DER)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-detalhamento-dos-algoritmos-de-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Detalhamento dos Algoritmos de Firmware
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detalhamento dos Algoritmos de Firmware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-mapeamento-topologico-do-labirinto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Mapeamento Topológico do Labirinto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-controle-de-movimento-e-alinhamento-de-trajetoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Controle de Movimento e Alinhamento de Trajetória
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-deteccao-e-tratamento-de-travamento-stall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Detecção e Tratamento de Travamento (Stall)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-protocolo-de-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Protocolo de Telemetria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Protocolo de Telemetria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-visao-geral-da-arquitetura-de-comunicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Visão Geral da Arquitetura de Comunicação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-camada-de-radio-payload-binario-esp-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Camada de Rádio: Payload Binário ESP-NOW
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-camada-serial-gateway-para-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Camada Serial (Gateway para Backend)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-camada-de-aplicacao-websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Camada de Aplicação: WebSocket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-dicionario-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Dicionário de Dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-ciclo-de-vida-da-corrida-no-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Ciclo de Vida da Corrida no Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-confiabilidade-e-watchdog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Confiabilidade e Watchdog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-roteiro-de-testes-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Roteiro de Testes Funcionais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Roteiro de Testes Funcionais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ct-01-centralizacao-do-robo-em-reta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-01: Centralização do robô em reta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-02-precisao-das-rotacoes-de-90" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-02: Precisão das rotações de 90°
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-03-fidelidade-do-mapeamento-nas-tres-geometrias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-03: Fidelidade do mapeamento nas três geometrias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-04-selecao-da-geometria-antes-da-largada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-04: Seleção da geometria antes da largada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-05-largada-e-navegacao-autonoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-05: Largada e navegação autônoma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-06-parada-automatica-no-objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-06: Parada automática no objetivo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-07-transmissao-da-telemetria-a-1-hz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-07: Transmissão da telemetria a 1 Hz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-08-aviso-de-perda-de-conexao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-08: Aviso de perda de conexão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-09-painel-sincronizado-com-a-pista" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-09: Painel sincronizado com a pista
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-10-persistencia-de-corridas-concluidas-e-interrompidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-10: Persistência de corridas concluídas e interrompidas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-11-filtragem-do-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-11: Filtragem do histórico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-12-reproducao-de-corrida-passada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-12: Reprodução de corrida passada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-13-speed-run-mais-rapido-que-a-exploracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-13: Speed run mais rápido que a exploração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-14-curva-em-movimento-continuo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-14: Curva em movimento contínuo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ct-15-corte-de-tracao-por-travamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CT-15: Corte de tração por travamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="projeto-conceitual-de-software">Projeto Conceitual de Software<a class="headerlink" href="#projeto-conceitual-de-software" title="Permanent link">&para;</a></h1>
+<h2 id="1-visao-geral-e-premissas">1. Visão Geral e Premissas<a class="headerlink" href="#1-visao-geral-e-premissas" title="Permanent link">&para;</a></h2>
+<h3 id="11-proposito">1.1 Propósito<a class="headerlink" href="#11-proposito" title="Permanent link">&para;</a></h3>
+<p>O software do Grupo 1 é responsável por duas frentes complementares:</p>
+<ol>
+<li><strong>Firmware embarcado</strong>, executado no microcontrolador do robô, responsável por perceber o ambiente, mapear o labirinto, decidir a trajetória, acionar os atuadores e empacotar a telemetria.</li>
+<li><strong>Aplicação web de telemetria</strong>, executada fora do robô, responsável por receber os pacotes transmitidos durante a prova, exibir o estado da corrida em tempo real e persistir o histórico para consulta posterior.</li>
+</ol>
+<p>As duas frentes são independentes em execução: o robô cumpre a prova de forma autônoma mesmo sem o painel web conectado, conforme o RNF-SFT01. A aplicação web é um observador do processo, nunca um controlador.</p>
+<h3 id="12-premissas-de-hardware">1.2 Premissas de hardware<a class="headerlink" href="#12-premissas-de-hardware" title="Permanent link">&para;</a></h3>
+<p>As decisões deste documento partem das definições registradas no TAP e na EAP. Os itens abaixo dependem de confirmação do núcleo de Eletrônica (issues #20 a #22) e devem ser revisados caso a especificação mude.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Premissa</th>
+<th style="text-align: left;">Origem</th>
+<th style="text-align: left;">Impacto no software</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Microcontrolador ESP32 no robô</td>
+<td style="text-align: left;">TAP / EAP</td>
+<td style="text-align: left;">Linguagem do firmware e rádio integrado para a telemetria</td>
+</tr>
+<tr>
+<td style="text-align: left;">Segundo ESP32 na bancada, conectado por USB ao computador, atuando como receptor ESP-NOW</td>
+<td style="text-align: left;">Proposta do núcleo de Software (seção 6)</td>
+<td style="text-align: left;">Canal de telemetria sem dependência de rede Wi-Fi, atendendo ao RF-ELE04</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sensores de distância do tipo ToF (VL53L0X) nas laterais e à frente</td>
+<td style="text-align: left;">TAP</td>
+<td style="text-align: left;">Base do controle de trajetória e da detecção de paredes</td>
+</tr>
+<tr>
+<td style="text-align: left;">Motores com encoder acoplado</td>
+<td style="text-align: left;">TAP / RF-ELE02</td>
+<td style="text-align: left;">Odometria, controle de deslocamento e detecção de travamento</td>
+</tr>
+<tr>
+<td style="text-align: left;">Unidade inercial (IMU) para referência angular</td>
+<td style="text-align: left;">EAP</td>
+<td style="text-align: left;">Precisão das rotações ortogonais</td>
+</tr>
+<tr>
+<td style="text-align: left;">Botão físico de largada e seleção de geometria</td>
+<td style="text-align: left;">RF-SFT02 / regulamento</td>
+<td style="text-align: left;">Estados iniciais do fluxo de operação</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-escopo-do-documento">1.3 Escopo do documento<a class="headerlink" href="#13-escopo-do-documento" title="Permanent link">&para;</a></h3>
+<p>Este documento trata do projeto conceitual, ou seja, da definição de comportamento, estrutura e arquitetura que antecede a implementação. Não contém código-fonte, que será produzido na fase de desenvolvimento prevista na EAP.</p>
+<hr />
+<h2 id="2-diagrama-de-atividades-uml">2. Diagrama de Atividades UML<a class="headerlink" href="#2-diagrama-de-atividades-uml" title="Permanent link">&para;</a></h2>
+<p>O diagrama a seguir representa o comportamento funcional do produto, do acionamento do robô até o encerramento da corrida, organizado em raias por ator.</p>
+<p><strong>Atores e responsabilidades</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Raia</th>
+<th style="text-align: left;">Papel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Operador</td>
+<td style="text-align: left;">Aciona o robô, seleciona a geometria da pista e dá a largada física. Não interfere durante a prova (RNF-SFT01).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Firmware</td>
+<td style="text-align: left;">Executa a lógica de mapeamento, decisão de trajetória, monitoramento de segurança e empacotamento da telemetria.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sensores e Atuadores</td>
+<td style="text-align: left;">Fornecem leituras de distância, odometria e tensão de bateria, e convertem comandos em movimento.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Painel Web</td>
+<td style="text-align: left;">Recebe os pacotes de telemetria, atualiza a interface em tempo real e persiste a corrida.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Entradas e saídas do fluxo</strong></p>
+<ul>
+<li>Entradas: geometria selecionada, sinal de largada, leituras de distância, pulsos de encoder, leitura de tensão da bateria.</li>
+<li>Saídas: comandos de tração, matriz de paredes descobertas, pacotes de telemetria a 1 Hz, registro histórico da corrida.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TB
+    subgraph OP[Raia: Operador]
+        A1([Início]) --&gt; A2[Ligar o robô]
+        A2 --&gt; A3[Selecionar geometria 4x4, 8x4 ou 12x4]
+        A3 --&gt; A4[Acionar largada]
+    end
+
+    subgraph FW[Raia: Firmware]
+        B1[Inicializar periféricos]
+        B2[Calibrar sensores e zerar odometria]
+        B3[Aguardar sinal de largada]
+        B4[Iniciar cronômetro]
+        B5[Ler sensores de distância]
+        B6[Registrar paredes na matriz do labirinto]
+        B7{Objetivo alcançado?}
+        B8[Decidir próxima célula]
+        B9[Comandar deslocamento ou rotação]
+        B10{Travamento detectado?}
+        B11[Cortar tração e sinalizar erro]
+        B12[Parar motores e congelar cronômetro]
+        B13{Executar speed run?}
+        B14[Calcular rota ótima e percorrer]
+        B15[Empacotar telemetria]
+        B16([Fim])
+    end
+
+    subgraph HW[Raia: Sensores e Atuadores]
+        C1[Fornecer distâncias, odometria e tensão]
+        C2[Converter comando em movimento das rodas]
+    end
+
+    subgraph WEB[Raia: Painel Web]
+        D1[Receber pacote de telemetria]
+        D2[Atualizar grade, rastro e indicadores]
+        D3[Persistir corrida no banco de dados]
+    end
+
+    A2 --&gt; B1 --&gt; B2 --&gt; B3
+    A4 --&gt; B3
+    B3 --&gt; B4 --&gt; B5
+    C1 --&gt; B5
+    B5 --&gt; B6 --&gt; B7
+    B7 -- Não --&gt; B8 --&gt; B9 --&gt; C2
+    C2 --&gt; B10
+    B10 -- Sim --&gt; B11 --&gt; B16
+    B10 -- Não --&gt; B5
+    B7 -- Sim --&gt; B12 --&gt; B13
+    B13 -- Sim --&gt; B14 --&gt; B12
+    B13 -- Não --&gt; B16
+    B4 -.fluxo paralelo a 1 Hz.-&gt; B15
+    B15 --&gt; D1 --&gt; D2 --&gt; D3</code></pre>
+<blockquote>
+<p>Observação: o envio de telemetria ocorre em paralelo ao laço de navegação, a uma taxa fixa de 1 Hz, conforme RF-SFT05 e RNF-SFT03. A verificação de travamento acompanha continuamente qualquer comando de tração ativo.</p>
+</blockquote>
+<hr />
+<h2 id="3-backlog-do-produto">3. Backlog do Produto<a class="headerlink" href="#3-backlog-do-produto" title="Permanent link">&para;</a></h2>
+<h3 id="31-requisitos-funcionais">3.1 Requisitos Funcionais<a class="headerlink" href="#31-requisitos-funcionais" title="Permanent link">&para;</a></h3>
+<p>O backlog do produto foi registrado no GitHub Projects da equipe, na coluna <strong>Backlog do Produto</strong> do quadro de tarefas. Cada requisito funcional de software corresponde a um <strong>épico</strong>, desdobrado em <strong>histórias de usuário (HUs)</strong> cadastradas como sub-issues. As tabelas a seguir foram geradas a partir da exportação da visão <em>Backlog do Produto</em> do projeto.</p>
+<p><strong>Atores das histórias</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Ator</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Operador</td>
+<td style="text-align: left;">Membro da equipe que prepara o robô, dá a largada e acompanha a prova pelo painel</td>
+</tr>
+<tr>
+<td style="text-align: left;">Equipe</td>
+<td style="text-align: left;">Equipe de desenvolvimento, que utiliza os dados e comportamentos do sistema para validar e aprimorar o robô</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Prioridade:</strong> P0 corresponde a <em>Must have</em>, P1 a <em>Should have</em> e P2 a <em>Could have</em>, conforme a classificação do documento de requisitos.</p>
+<h4 id="epico-rf-sft01-controle-e-alinhamento-de-trajetoria">Épico RF-SFT01: Controle e Alinhamento de Trajetória<a class="headerlink" href="#epico-rf-sft01-controle-e-alinhamento-de-trajetoria" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/31">#31</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-01</td>
+<td style="text-align: left;"><strong>Manter o robô centralizado nas retas</strong><br>Eu, como equipe, quero que o robô se mantenha centralizado no corredor durante as retas, para que ele percorra o labirinto sem encostar nas paredes.</td>
+<td style="text-align: left;">• O robô percorre 3 células consecutivas em reta com desvio lateral inferior a 15 mm em relação à linha de centro<br>• Não há contato com as paredes laterais durante o percurso<br>• Em trechos sem parede lateral, o robô mantém o rumo usando IMU e encoders</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/32">#32</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-02</td>
+<td style="text-align: left;"><strong>Executar curvas de 90 graus com precisão</strong><br>Eu, como equipe, quero que o robô faça rotações de 90° com precisão, para que a orientação real do robô continue coerente com o mapa em memória.</td>
+<td style="text-align: left;">• O erro angular acumulado das rotações é de no máximo ±3°<br>• Ao final de cada rotação, o robô está alinhado ao eixo do corredor<br>• A orientação interna do firmware é atualizada após cada rotação</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/33">#33</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft02-mapeamento-topologico-das-geometrias-oficiais">Épico RF-SFT02: Mapeamento Topológico das Geometrias Oficiais<a class="headerlink" href="#epico-rf-sft02-mapeamento-topologico-das-geometrias-oficiais" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/34">#34</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-03</td>
+<td style="text-align: left;"><strong>Registrar as paredes de cada célula visitada</strong><br>Eu, como equipe, quero que o robô registre em memória as paredes de cada célula que visita, para que ele construa o mapa do labirinto durante a exploração.</td>
+<td style="text-align: left;">• Cada célula visitada é marcada como visitada na matriz<br>• Uma parede registrada em uma célula também é registrada na célula vizinha correspondente<br>• Ao final da exploração, a matriz é 100% idêntica à configuração física da pista</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/35">#35</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-04</td>
+<td style="text-align: left;"><strong>Selecionar a geometria da pista antes da largada</strong><br>Eu, como operador, quero informar ao robô, antes da largada, se a pista é 4x4, 8x4 ou 12x4, para que ele trabalhe com as dimensões corretas do labirinto.</td>
+<td style="text-align: left;">• A seleção da geometria está disponível antes da largada<br>• Os limites da matriz em memória correspondem à geometria selecionada<br>• A geometria selecionada é enviada na telemetria (campo <code>labirinto</code>)</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/36">#36</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft03-navegacao-e-resolucao-autonoma-de-labirinto">Épico RF-SFT03: Navegação e Resolução Autônoma de Labirinto<a class="headerlink" href="#epico-rf-sft03-navegacao-e-resolucao-autonoma-de-labirinto" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/37">#37</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-05</td>
+<td style="text-align: left;"><strong>Dar a largada por botão físico</strong><br>Eu, como operador, quero iniciar a prova por um botão no próprio robô, para dar a largada sem enviar nenhum comando remoto.</td>
+<td style="text-align: left;">• Após ligado, o robô permanece parado no estado AGUARDANDO até o acionamento do botão<br>• O cronômetro da prova inicia no acionamento<br>• O status muda para MAPEANDO e o painel passa a exibir "Explorando"</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/38">#38</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-06</td>
+<td style="text-align: left;"><strong>Decidir o caminho de forma autônoma</strong><br>Eu, como equipe, quero que o robô escolha sozinho a próxima célula com base no mapa descoberto, para que ele alcance o objetivo sem nenhuma intervenção externa.</td>
+<td style="text-align: left;">• O robô conclui a corrida em pista 4x4 em menos de 3 minutos<br>• Nenhum comando externo é recebido durante a prova<br>• O robô não repete indefinidamente um mesmo trajeto entre células já exploradas</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/39">#39</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft04-reconhecimento-de-objetivo-e-parada-automatica">Épico RF-SFT04: Reconhecimento de Objetivo e Parada Automática<a class="headerlink" href="#epico-rf-sft04-reconhecimento-de-objetivo-e-parada-automatica" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/40">#40</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-07</td>
+<td style="text-align: left;"><strong>Parar automaticamente ao chegar no objetivo</strong><br>Eu, como operador, quero que o robô pare sozinho ao entrar na célula de chegada, para que o tempo da prova seja registrado corretamente.</td>
+<td style="text-align: left;">• A tração é interrompida em menos de 200 ms após a entrada na célula de chegada<br>• O cronômetro da prova é congelado no mesmo instante<br>• A telemetria passa a enviar status CONCLUIDO e desafio cumprido verdadeiro</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/41">#41</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft05-despacho-continuo-dos-parametros-de-telemetria">Épico RF-SFT05: Despacho Contínuo dos Parâmetros de Telemetria<a class="headerlink" href="#epico-rf-sft05-despacho-continuo-dos-parametros-de-telemetria" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/42">#42</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-08</td>
+<td style="text-align: left;"><strong>Transmitir os dados da prova a cada segundo</strong><br>Eu, como operador, quero que o robô envie os dados da corrida a cada segundo, para acompanhar a prova pelo computador enquanto ela acontece.</td>
+<td style="text-align: left;">• Um pacote é enviado a cada 1 segundo (1 Hz)<br>• O pacote contém os 6 parâmetros do edital: tipo do labirinto, trajeto percorrido (posição), bateria, velocidade média, tempo decorrido e status de desafio cumprido<br>• Os pacotes chegam íntegros ao gateway receptor durante todo o percurso</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/43">#43</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-09</td>
+<td style="text-align: left;"><strong>Ser avisado quando a conexão com o robô cair</strong><br>Eu, como operador, quero ser avisado quando o painel parar de receber dados do robô, para saber que as informações exibidas não estão mais atualizadas.</td>
+<td style="text-align: left;">• Após 3 segundos sem pacote válido, o painel exibe "Conexão RF perdida"<br>• O painel volta ao estado normal assim que a recepção é retomada<br>• A perda de conexão não interfere na navegação do robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/44">#44</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft06-dashboard-web-de-monitoramento-em-tempo-real">Épico RF-SFT06: Dashboard Web de Monitoramento em Tempo Real<a class="headerlink" href="#epico-rf-sft06-dashboard-web-de-monitoramento-em-tempo-real" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/45">#45</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-10</td>
+<td style="text-align: left;"><strong>Visualizar o mapa do labirinto em tempo real</strong><br>Eu, como operador, quero ver a grade do labirinto sendo desenhada conforme o robô explora, para acompanhar o mapeamento durante a prova.</td>
+<td style="text-align: left;">• A grade é exibida na geometria da prova (4x4, 8x4 ou 12x4)<br>• As paredes detectadas aparecem na tela em até 1 segundo<br>• A posição atual e a orientação do robô ficam destacadas<br>• O rastro percorrido é exibido sobre a grade<br><em>Protótipo: seção 3.2</em></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/46">#46</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-11</td>
+<td style="text-align: left;"><strong>Acompanhar os indicadores da prova</strong><br>Eu, como operador, quero ver tempo, velocidade, bateria e status do robô durante a prova, para avaliar o desempenho e antecipar problemas.</td>
+<td style="text-align: left;">• O cronômetro é exibido junto ao limite de 10 minutos<br>• Velocidade média e instantânea são exibidas em cm/s<br>• A bateria é exibida em porcentagem e tensão, com destaque visual quando baixa<br>• O status é exibido com rótulo legível (Em espera, Explorando, Travado etc.)<br><em>Protótipo: seção 3.2</em></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/47">#47</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft07-persistencia-historica-de-corridas">Épico RF-SFT07: Persistência Histórica de Corridas<a class="headerlink" href="#epico-rf-sft07-persistencia-historica-de-corridas" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/48">#48</a> | Prioridade: <strong>P1</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-12</td>
+<td style="text-align: left;"><strong>Salvar automaticamente cada corrida</strong><br>Eu, como equipe, quero que cada corrida seja salva automaticamente, inclusive as interrompidas, para analisar o desempenho do robô depois da prova.</td>
+<td style="text-align: left;">• O registro da corrida é criado no momento da largada<br>• Cada leitura de telemetria é gravada assim que recebida<br>• A corrida é encerrada com status final, incluindo INTERROMPIDA quando não houver encerramento normal<br>• A corrida fica disponível para consulta imediatamente após o encerramento</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/49">#49</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft08-consulta-e-filtragem-historica-web">Épico RF-SFT08: Consulta e Filtragem Histórica Web<a class="headerlink" href="#epico-rf-sft08-consulta-e-filtragem-historica-web" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/50">#50</a> | Prioridade: <strong>P1</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-13</td>
+<td style="text-align: left;"><strong>Filtrar as corridas anteriores</strong><br>Eu, como equipe, quero filtrar o histórico por geometria do labirinto e por data, para encontrar rapidamente as corridas que quero comparar.</td>
+<td style="text-align: left;">• Há filtro por geometria (4x4, 8x4, 12x4) e por data de execução<br>• A lista filtrada exibe data, geometria, modo, tentativa, tempo final e status<br>• O resultado é exibido em menos de 2 segundos com até 500 corridas registradas<br><em>Protótipo: seção 3.2</em></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/51">#51</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-14</td>
+<td style="text-align: left;"><strong>Rever o trajeto de uma corrida passada</strong><br>Eu, como equipe, quero reproduzir o trajeto de uma corrida salva, para identificar onde o robô perdeu tempo ou tomou decisões ruins.</td>
+<td style="text-align: left;">• Ao selecionar uma corrida, o mapa final e as estatísticas são exibidos<br>• A reprodução percorre as posições em ordem de tempo<br>• Há controle de reproduzir, pausar e avançar pela barra de tempo<br>• Os detalhes da corrida carregam em menos de 2 segundos<br><em>Protótipo: seção 3.2</em></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/52">#52</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft09-execucao-de-trajetoria-otimizada-speed-run">Épico RF-SFT09: Execução de Trajetória Otimizada (Speed Run)<a class="headerlink" href="#epico-rf-sft09-execucao-de-trajetoria-otimizada-speed-run" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/53">#53</a> | Prioridade: <strong>P1</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-15</td>
+<td style="text-align: left;"><strong>Calcular a rota mais curta após a exploração</strong><br>Eu, como equipe, quero que, após a exploração, o robô calcule a menor rota até o objetivo, para utilizá-la na tentativa rápida.</td>
+<td style="text-align: left;">• A rota é calculada apenas com células e paredes já conhecidas<br>• A rota escolhida tem o menor número de células entre as rotas possíveis no mapa conhecido</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/54">#54</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-16</td>
+<td style="text-align: left;"><strong>Executar o speed run</strong><br>Eu, como operador, quero que o robô percorra a rota ótima em velocidade maior que a de exploração, para reduzir o tempo da prova.</td>
+<td style="text-align: left;">• O tempo do speed run é pelo menos 20% menor que o tempo da exploração<br>• A telemetria envia status SPEED_RUN durante o percurso<br>• A corrida é registrada com modo Speed Run no histórico</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/55">#55</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft10-suavizacao-continua-de-trajetoria-em-curva">Épico RF-SFT10: Suavização Contínua de Trajetória em Curva<a class="headerlink" href="#epico-rf-sft10-suavizacao-continua-de-trajetoria-em-curva" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/56">#56</a> | Prioridade: <strong>P2</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-17</td>
+<td style="text-align: left;"><strong>Fazer curvas em movimento contínuo no speed run</strong><br>Eu, como equipe, quero que no speed run o robô faça as curvas sem parar, para não perder tempo freando e girando parado.</td>
+<td style="text-align: left;">• A curva de 90° é executada sem parada total do robô<br>• Cada transição de célula com curva é pelo menos 300 ms mais rápida que o giro parado<br>• Não há contato com as paredes durante a curva</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/57">#57</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="epico-rf-sft11-deteccao-e-tratamento-de-travamento-mecanico-stall">Épico RF-SFT11: Detecção e Tratamento de Travamento Mecânico (Stall)<a class="headerlink" href="#epico-rf-sft11-deteccao-e-tratamento-de-travamento-mecanico-stall" title="Permanent link">&para;</a></h4>
+<p>Issue: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/58">#58</a> | Prioridade: <strong>P0</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">História de usuário</th>
+<th style="text-align: left;">Critérios de aceitação</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-18</td>
+<td style="text-align: left;"><strong>Cortar os motores quando as rodas travarem</strong><br>Eu, como equipe, quero que o robô corte os motores quando as rodas travarem, para evitar danos aos motores e ao driver de potência.</td>
+<td style="text-align: left;">• Com comando de tração ativo e sem rotação das rodas por mais de 1,0 s, o travamento é detectado<br>• A potência dos motores é cortada em no máximo 1,2 s após o bloqueio físico<br>• O robô sinaliza o travamento por indicador local e envia status TRAVADO na telemetria</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/59">#59</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-19</td>
+<td style="text-align: left;"><strong>Ver no painel que o robô travou</strong><br>Eu, como operador, quero ser avisado no painel quando o robô travar, para saber o motivo do encerramento da tentativa.</td>
+<td style="text-align: left;">• O status "Travado" é exibido em destaque no painel<br>• A corrida é encerrada no histórico com status final TRAVADO<br><em>Protótipo: seção 3.2</em></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/60">#60</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-prototipos-de-interface">3.2 Protótipos de Interface<a class="headerlink" href="#32-prototipos-de-interface" title="Permanent link">&para;</a></h3>
+<p><strong>Requisitos atendidos:</strong> RF-SFT05, RF-SFT06, RF-SFT07 e RF-SFT08.</p>
+<p>A aplicação web é composta por duas telas: a <strong>tela de monitoramento</strong>, usada durante a prova, e a <strong>tela de histórico</strong>, usada para consulta posterior das corridas registradas.</p>
+<h4 id="321-tela-de-monitoramento-em-tempo-real">3.2.1 Tela de Monitoramento em Tempo Real<a class="headerlink" href="#321-tela-de-monitoramento-em-tempo-real" title="Permanent link">&para;</a></h4>
+<p>A tela de monitoramento é atualizada a cada pacote de telemetria recebido (1 Hz) e se adapta às três geometrias oficiais do edital.</p>
+<p><img alt="Painel de monitoramento, labirinto 4x4" src="../figs/dashboard-4x4.png" /></p>
+<p><img alt="Painel de monitoramento, labirinto 8x4" src="../figs/dashboard-8x4.png" /></p>
+<p><img alt="Painel de monitoramento, labirinto 12x4" src="../figs/dashboard-12x4.png" /></p>
+<p><img alt="Painel de monitoramento, robô em espera" src="../figs/dashboard-4x4-parado.png" /></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Bloco</th>
+<th style="text-align: left;">Conteúdo exibido</th>
+<th style="text-align: left;">Origem do dado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Cabeçalho</td>
+<td style="text-align: left;">Indicador de conexão com o gateway receptor</td>
+<td style="text-align: left;">Watchdog de enlace (seção 6.7)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mapeamento em tempo real</td>
+<td style="text-align: left;">Grade na geometria da prova, células de largada e chegada, paredes detectadas, rastro percorrido e posição e orientação atuais do robô</td>
+<td style="text-align: left;">Campos <code>posicao</code>, <code>orientacao</code> e <code>paredes</code> do pacote</td>
+</tr>
+<tr>
+<td style="text-align: left;">Status</td>
+<td style="text-align: left;">Estado atual do robô e número da tentativa</td>
+<td style="text-align: left;">Campo <code>status</code> e contagem de tentativas do backend</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tempo</td>
+<td style="text-align: left;">Cronômetro da prova e barra de progresso até o limite de 10 minutos</td>
+<td style="text-align: left;">Campo <code>timestamp_ms</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Velocidade</td>
+<td style="text-align: left;">Velocidade média e instantânea</td>
+<td style="text-align: left;">Campos <code>velocidade_media</code> e <code>velocidade_atual</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Bateria</td>
+<td style="text-align: left;">Carga em porcentagem, tensão e faixa de alerta</td>
+<td style="text-align: left;">Campos <code>bateria_pct</code> e <code>bateria_volts</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Histórico da sessão</td>
+<td style="text-align: left;">Tentativas já realizadas no labirinto atual e seus tempos</td>
+<td style="text-align: left;">Tabela Corrida (seção 4.6)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Convenção de exibição:</strong> a coluna é identificada por letra (A a D) e a linha por número (1 a 12). A largada fica na célula A1, no canto superior esquerdo da grade, e o norte corresponde ao topo da tela.</p>
+<p><strong>Estados exibidos no painel</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Estado no protocolo</th>
+<th style="text-align: left;">Rótulo na tela</th>
+<th style="text-align: left;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>AGUARDANDO</code></td>
+<td style="text-align: left;">Em espera</td>
+<td style="text-align: left;">Robô ligado, aguardando a largada</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MAPEANDO</code></td>
+<td style="text-align: left;">Explorando</td>
+<td style="text-align: left;">Exploração do labirinto em andamento</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SPEED_RUN</code></td>
+<td style="text-align: left;">Speed Run</td>
+<td style="text-align: left;">Percurso otimizado após a exploração (RF-SFT09)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CONCLUIDO</code></td>
+<td style="text-align: left;">Concluído</td>
+<td style="text-align: left;">Robô alcançou a célula objetivo</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>COLISAO</code></td>
+<td style="text-align: left;">Colisão</td>
+<td style="text-align: left;">Prova encerrada por colisão</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TIMEOUT</code></td>
+<td style="text-align: left;">Tempo esgotado</td>
+<td style="text-align: left;">Limite de 10 minutos atingido</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TRAVADO</code></td>
+<td style="text-align: left;">Travado</td>
+<td style="text-align: left;">Corte de tração por travamento das rodas (RF-SFT11)</td>
+</tr>
+<tr>
+<td style="text-align: left;">(estado do painel)</td>
+<td style="text-align: left;">Conexão RF perdida</td>
+<td style="text-align: left;">Nenhum pacote recebido há mais de 3 segundos</td>
+</tr>
+</tbody>
+</table>
+<h4 id="322-tela-de-historico-de-corridas">3.2.2 Tela de Histórico de Corridas<a class="headerlink" href="#322-tela-de-historico-de-corridas" title="Permanent link">&para;</a></h4>
+<p>A tela de histórico lista todas as corridas persistidas e permite inspecionar individualmente cada uma delas.</p>
+<p><img alt="Tela de histórico de corridas" src="../figs/prototipoHistoricoCorrida.png" /></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Bloco</th>
+<th style="text-align: left;">Conteúdo exibido</th>
+<th style="text-align: left;">Origem do dado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Histórico geral</td>
+<td style="text-align: left;">Lista de corridas com identificador, data, geometria, modo, tentativa, tempo final, velocidade média, células visitadas e status final</td>
+<td style="text-align: left;">Tabela Corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">Filtros</td>
+<td style="text-align: left;">Seleção por geometria do labirinto e por data de execução (RF-SFT08)</td>
+<td style="text-align: left;">Consulta à tabela Corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">Inspecionar corrida</td>
+<td style="text-align: left;">Mapa final da corrida selecionada e reprodução do trajeto com controle de tempo</td>
+<td style="text-align: left;">Tabelas Celula e Leitura</td>
+</tr>
+<tr>
+<td style="text-align: left;">Estatísticas da corrida</td>
+<td style="text-align: left;">Tempo final, velocidade média e eficiência de rota</td>
+<td style="text-align: left;">Tabela Corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">Métricas comparativas</td>
+<td style="text-align: left;">Bateria inicial e final, tempo estimado e real, células novas descobertas</td>
+<td style="text-align: left;">Tabelas Corrida e Celula</td>
+</tr>
+</tbody>
+</table>
+<p>A reprodução do trajeto percorre os registros da tabela Leitura em ordem de <code>timestamp_ms</code>, deslocando o marcador do robô pelas posições registradas. Com o campo <code>visitada_em_ms</code> da tabela Celula, o mapa pode ser revelado progressivamente conforme o instante reproduzido.</p>
+<h3 id="33-requisitos-nao-funcionais">3.3 Requisitos Não Funcionais<a class="headerlink" href="#33-requisitos-nao-funcionais" title="Permanent link">&para;</a></h3>
+<p>Os requisitos não funcionais de software também integram o backlog do produto, cadastrados como issues independentes. A coluna de rastreabilidade relaciona cada RNF aos requisitos funcionais e às histórias de usuário que ele restringe.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Requisito</th>
+<th style="text-align: left;">Descrição</th>
+<th style="text-align: left;">Critério de aceitação</th>
+<th style="text-align: left;">Prioridade</th>
+<th style="text-align: left;">Rastreabilidade</th>
+<th style="text-align: left;">Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">RNF-SFT01</td>
+<td style="text-align: left;">Autonomia Operacional Plena e Não-Intervenção</td>
+<td style="text-align: left;">Uma vez acionada a largada física na pista, o robô deve operar de forma 100% autônoma, sendo estritamente proibida qualquer intervenção humana externa, pilotagem remota, envio manual de instruções ou carregamento de mapas prévios do traçado do labirinto durante a execução da prova.</td>
+<td style="text-align: left;">Demonstração prática de corrida autônoma sem recepção de sinais de controle externo e auditoria do código-fonte para comprovar ausência de mapas pré-carregados.</td>
+<td style="text-align: left;">P0</td>
+<td style="text-align: left;">RF-SFT03<br>HU-05, HU-06</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/61">#61</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">RNF-SFT02</td>
+<td style="text-align: left;">Compatibilidade com as Geometrias Oficiais do Labirinto</td>
+<td style="text-align: left;">O software embarcado e o sistema de telemetria devem ser plenamente compatíveis e capazes de explorar, mapear e exibir os dados para as três geometrias oficiais estipuladas pelo edital: labirintos de 4x4, 8x4 e 12x4 células (células de 180x180 mm, paredes de 12x50 mm e corredores de 168 mm).</td>
+<td style="text-align: left;">Execução de baterias de testes de navegação autônoma e exibição correta no painel web nas três configurações oficiais (4x4, 8x4 e 12x4).</td>
+<td style="text-align: left;">P0</td>
+<td style="text-align: left;">RF-SFT02, RF-SFT06<br>HU-04, HU-10</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/62">#62</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">RNF-SFT03</td>
+<td style="text-align: left;">Taxa de Atualização e Latência da Telemetria Web</td>
+<td style="text-align: left;">A aplicação web deve receber dados e atualizar os componentes do painel em tempo real com taxa mínima de 1 Hz e latência de exibição ponta a ponta inferior a 1,0 segundo em rede local.</td>
+<td style="text-align: left;">Comparação por gravação em vídeo de alta taxa de quadros entre a movimentação física do robô na pista e a atualização do componente gráfico no painel web.</td>
+<td style="text-align: left;">P0</td>
+<td style="text-align: left;">RF-SFT05, RF-SFT06<br>HU-09, HU-10</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/63">#63</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">RNF-SFT04</td>
+<td style="text-align: left;">Tempo de Resposta de Consultas ao Histórico</td>
+<td style="text-align: left;">As consultas e recuperação de corridas armazenadas no banco de dados devem apresentar tempo de renderização na interface web inferior a 2,0 segundos para bases com até 500 registros.</td>
+<td style="text-align: left;">Medição do tempo de resposta (Time to First Byte e renderização completa) no console de desenvolvimento (DevTools) do navegador.</td>
+<td style="text-align: left;">P1</td>
+<td style="text-align: left;">RF-SFT08<br>HU-13, HU-14</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/64">#64</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">RNF-SFT05</td>
+<td style="text-align: left;">Compatibilidade e Responsividade Desktop</td>
+<td style="text-align: left;">A aplicação web deve ser plenamente funcional e sem distorções visuais nos principais navegadores modernos (Google Chrome e Mozilla Firefox) em resoluções a partir de 1366 x 768 pixels.</td>
+<td style="text-align: left;">Testes automatizados ou manuais de layout e redimensionamento de janela nos navegadores em resolução 1366x768 e 1920x1080.</td>
+<td style="text-align: left;">P1</td>
+<td style="text-align: left;">RF-SFT06, RF-SFT08<br>HU-10, HU-11, HU-13</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/65">#65</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">RNF-SFT06</td>
+<td style="text-align: left;">Responsividade para Dispositivos Móveis</td>
+<td style="text-align: left;">A interface do dashboard web deve adaptar seus componentes principais (status, cronômetro e telemetria essencial) para visualização legível em telas verticais de smartphones (largura a partir de 360 px).</td>
+<td style="text-align: left;">Emulação de viewport móvel (360x640 px a 412x915 px) com conferência de legibilidade e ausência de barra de rolagem horizontal desnecessária.</td>
+<td style="text-align: left;">P2</td>
+<td style="text-align: left;">RF-SFT06<br>HU-11</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/66">#66</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-arquitetura-da-solucao">4. Arquitetura da Solução<a class="headerlink" href="#4-arquitetura-da-solucao" title="Permanent link">&para;</a></h2>
+<h3 id="41-proposito-e-padrao-adotado">4.1 Propósito e Padrão Adotado<a class="headerlink" href="#41-proposito-e-padrao-adotado" title="Permanent link">&para;</a></h3>
+<p><strong>Propósito do software</strong></p>
+<p>O software desempenha dois papéis no sistema. O <strong>firmware embarcado</strong> é o núcleo de decisão do robô: interpreta os sensores, mantém o mapa do labirinto, escolhe a trajetória e comanda os atuadores, garantindo a operação autônoma exigida pelo RNF-SFT01. A <strong>aplicação web</strong> é a camada de observação: recebe a telemetria, exibe a prova em tempo real e preserva o histórico das corridas para análise posterior. A aplicação web nunca envia comandos ao robô.</p>
+<p><strong>Padrão arquitetural: monolito cliente-servidor em camadas</strong></p>
+<p>A solução web adota uma arquitetura <strong>monolítica cliente-servidor</strong>: um único backend concentra ingestão da telemetria, regras de negócio, persistência e API, e um único frontend, do tipo aplicação de página única (SPA), consome esse backend. Internamente, o backend é organizado em <strong>camadas</strong> (interface, serviços e acesso a dados) e o frontend em <strong>componentes</strong> reutilizáveis.</p>
+<p>Justificativa:</p>
+<ul>
+<li><strong>Escopo e equipe:</strong> o sistema tem um único produtor de dados (o robô), poucos usuários simultâneos e uma equipe pequena. Microsserviços trariam custos de implantação, comunicação entre serviços e monitoramento sem benefício proporcional.</li>
+<li><strong>Implantação local:</strong> todo o software web roda em um único computador na bancada de prova (seção 4.5). Um monolito é implantado com um só processo, o que reduz pontos de falha no dia da avaliação.</li>
+<li><strong>Tempo real simples:</strong> como ingestão e difusão ocorrem no mesmo processo, o pacote recebido pela serial é repassado ao navegador sem intermediários, favorecendo a latência inferior a 1 segundo do RNF-SFT03.</li>
+<li><strong>Evolução:</strong> a separação em camadas mantém o código organizado e permite extrair partes no futuro, caso o projeto cresça.</li>
+</ul>
+<p>O firmware segue uma organização própria de sistemas embarcados: <strong>módulos funcionais coordenados por uma máquina de estados</strong>, executados como tarefas concorrentes do FreeRTOS, sistema operacional de tempo real já incluído no suporte ao ESP32.</p>
+<p><strong>Resumo das tecnologias</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Camada</th>
+<th style="text-align: left;">Linguagem</th>
+<th style="text-align: left;">Frameworks e bibliotecas</th>
+<th style="text-align: left;">Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Firmware do robô</td>
+<td style="text-align: left;">C++</td>
+<td style="text-align: left;">Arduino-ESP32 sobre FreeRTOS, compilado com PlatformIO</td>
+<td style="text-align: left;">Suporte nativo ao ESP32, bibliotecas consolidadas para sensores ToF, encoders e ESP-NOW</td>
+</tr>
+<tr>
+<td style="text-align: left;">Firmware do gateway</td>
+<td style="text-align: left;">C++</td>
+<td style="text-align: left;">Arduino-ESP32, ArduinoJson</td>
+<td style="text-align: left;">Recebe o pacote ESP-NOW e o converte em JSON na porta serial com pouco código</td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: left;">Python</td>
+<td style="text-align: left;">FastAPI, Uvicorn, pySerial, SQLAlchemy</td>
+<td style="text-align: left;">WebSocket e API REST nativos, documentação automática da API e acesso simples à porta serial</td>
+</tr>
+<tr>
+<td style="text-align: left;">Frontend</td>
+<td style="text-align: left;">JavaScript</td>
+<td style="text-align: left;">React, Vite, Recharts</td>
+<td style="text-align: left;">Componentização adequada à grade do labirinto e aos indicadores; grade desenhada em SVG</td>
+</tr>
+<tr>
+<td style="text-align: left;">Banco de dados</td>
+<td style="text-align: left;">SQL</td>
+<td style="text-align: left;">MySQL</td>
+<td style="text-align: left;">Ver justificativa abaixo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Banco de dados: relacional (MySQL) em vez de NoSQL</strong></p>
+<p>Os dados de telemetria têm estrutura fixa e conhecida (dicionário de dados da seção 6.5), e as consultas exigidas pelo RF-SFT08 combinam filtros por geometria e intervalo de datas, além de junções entre corrida, leituras e células. Esse perfil favorece um banco relacional, que oferece integridade referencial entre as entidades (seção 4.6) e consultas por índice dentro do limite de 2 segundos do RNF-SFT04. Um banco orientado a documentos não traria vantagem, pois não há variação de esquema entre corridas.</p>
+<h3 id="42-visao-logica">4.2 Visão Lógica<a class="headerlink" href="#42-visao-logica" title="Permanent link">&para;</a></h3>
+<p>A visão lógica apresenta os módulos do sistema e suas responsabilidades, organizados pelos quatro elementos de software.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph ROBO["Firmware do Robô (ESP32)"]
+        FSM["Máquina de Estados"]
+        SEN["Sensoriamento"]
+        ODO["Odometria"]
+        MAP["Mapeamento"]
+        NAV["Navegação"]
+        CTL["Controle de Movimento"]
+        SEG["Segurança (stall)"]
+        TEL["Telemetria"]
+    end
+
+    subgraph GW["Firmware do Gateway (ESP32)"]
+        REC["Receptor ESP-NOW"]
+        CONV["Conversor para JSON"]
+    end
+
+    subgraph BACK["Backend (FastAPI)"]
+        ING["Ingestão Serial"]
+        SRV["Serviço de Corridas"]
+        REPO["Repositórios"]
+        WS["WebSocket /ws/telemetria"]
+        API["API REST /api/corridas"]
+        WD["Watchdog de Enlace"]
+    end
+
+    subgraph FRONT["Frontend (React)"]
+        PAINEL["Painel em Tempo Real"]
+        HIST["Histórico de Corridas"]
+        SIM["Simulador do Labirinto"]
+    end
+
+    DB[("MySQL")]
+
+    SEN --&gt; MAP --&gt; NAV --&gt; CTL
+    ODO --&gt; CTL
+    ODO --&gt; SEG
+    FSM --&gt; NAV
+    SEG --&gt; FSM
+    MAP --&gt; TEL
+    FSM --&gt; TEL
+    TEL -. "ESP-NOW" .-&gt; REC --&gt; CONV
+    CONV -. "Serial USB" .-&gt; ING
+    ING --&gt; SRV --&gt; REPO --&gt; DB
+    ING --&gt; WS
+    WD --&gt; WS
+    API --&gt; REPO
+    WS --&gt; PAINEL
+    API --&gt; HIST</code></pre>
+<p><strong>Firmware do robô</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Responsabilidade</th>
+<th style="text-align: left;">Requisitos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Máquina de Estados</td>
+<td style="text-align: left;">Controla o ciclo da prova: espera, exploração, speed run e encerramentos (seção 4.3)</td>
+<td style="text-align: left;">RF-SFT03, RF-SFT04</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sensoriamento</td>
+<td style="text-align: left;">Lê os sensores de distância e converte as leituras em presença de parede</td>
+<td style="text-align: left;">RF-SFT02</td>
+</tr>
+<tr>
+<td style="text-align: left;">Odometria</td>
+<td style="text-align: left;">Lê encoders e IMU para estimar deslocamento, velocidade e orientação</td>
+<td style="text-align: left;">RF-SFT01</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mapeamento</td>
+<td style="text-align: left;">Mantém a matriz do labirinto e registra as paredes de cada célula (seção 5.1)</td>
+<td style="text-align: left;">RF-SFT02</td>
+</tr>
+<tr>
+<td style="text-align: left;">Navegação</td>
+<td style="text-align: left;">Decide a próxima célula durante a exploração e calcula a rota ótima para o speed run</td>
+<td style="text-align: left;">RF-SFT03, RF-SFT09, RF-SFT10</td>
+</tr>
+<tr>
+<td style="text-align: left;">Controle de Movimento</td>
+<td style="text-align: left;">Executa retas centralizadas e rotações ortogonais (seção 5.2)</td>
+<td style="text-align: left;">RF-SFT01</td>
+</tr>
+<tr>
+<td style="text-align: left;">Segurança</td>
+<td style="text-align: left;">Detecta travamento das rodas e corta a tração (seção 5.3)</td>
+<td style="text-align: left;">RF-SFT11</td>
+</tr>
+<tr>
+<td style="text-align: left;">Telemetria</td>
+<td style="text-align: left;">Monta e transmite o pacote a cada segundo (seção 6.2)</td>
+<td style="text-align: left;">RF-SFT05</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Firmware do gateway</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Responsabilidade</th>
+<th style="text-align: left;">Requisitos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Receptor ESP-NOW</td>
+<td style="text-align: left;">Recebe e valida os pacotes binários enviados pelo robô</td>
+<td style="text-align: left;">RF-ELE04</td>
+</tr>
+<tr>
+<td style="text-align: left;">Conversor para JSON</td>
+<td style="text-align: left;">Converte o pacote para o formato de exibição e o envia pela porta serial (seções 6.2 e 6.3)</td>
+<td style="text-align: left;">RF-SFT05</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Backend</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Camada</th>
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Responsabilidade</th>
+<th style="text-align: left;">Requisitos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Interface</td>
+<td style="text-align: left;">Ingestão Serial</td>
+<td style="text-align: left;">Lê as linhas JSON da porta serial e valida cada pacote contra o dicionário de dados</td>
+<td style="text-align: left;">RF-SFT05</td>
+</tr>
+<tr>
+<td style="text-align: left;">Interface</td>
+<td style="text-align: left;">WebSocket</td>
+<td style="text-align: left;">Difunde cada pacote válido aos navegadores conectados</td>
+<td style="text-align: left;">RF-SFT06, RNF-SFT03</td>
+</tr>
+<tr>
+<td style="text-align: left;">Interface</td>
+<td style="text-align: left;">API REST</td>
+<td style="text-align: left;">Atende as consultas ao histórico com filtros</td>
+<td style="text-align: left;">RF-SFT08</td>
+</tr>
+<tr>
+<td style="text-align: left;">Serviços</td>
+<td style="text-align: left;">Serviço de Corridas</td>
+<td style="text-align: left;">Aplica o ciclo de vida da corrida: abertura, registro de leituras, atualização de células e encerramento (seção 6.6)</td>
+<td style="text-align: left;">RF-SFT07</td>
+</tr>
+<tr>
+<td style="text-align: left;">Serviços</td>
+<td style="text-align: left;">Watchdog de Enlace</td>
+<td style="text-align: left;">Sinaliza perda de conexão após 3 segundos sem pacotes (seção 6.7)</td>
+<td style="text-align: left;">RF-SFT05</td>
+</tr>
+<tr>
+<td style="text-align: left;">Dados</td>
+<td style="text-align: left;">Repositórios</td>
+<td style="text-align: left;">Isolam o acesso ao banco de dados para Corrida, Leitura e Celula</td>
+<td style="text-align: left;">RF-SFT07</td>
+</tr>
+</tbody>
+</table>
+<p><strong>API REST prevista</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Método</th>
+<th style="text-align: left;">Rota</th>
+<th style="text-align: left;">Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/corridas</code></td>
+<td style="text-align: left;">Lista corridas, com filtros opcionais por <code>labirinto</code>, <code>data_inicio</code> e <code>data_fim</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/corridas/{id}</code></td>
+<td style="text-align: left;">Retorna os dados consolidados de uma corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/corridas/{id}/leituras</code></td>
+<td style="text-align: left;">Retorna as leituras da corrida em ordem de tempo, usadas na reprodução do trajeto</td>
+</tr>
+<tr>
+<td style="text-align: left;">GET</td>
+<td style="text-align: left;"><code>/api/corridas/{id}/celulas</code></td>
+<td style="text-align: left;">Retorna o mapa final da corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">WS</td>
+<td style="text-align: left;"><code>/ws/telemetria</code></td>
+<td style="text-align: left;">Canal de tempo real do painel (seção 6.4)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Frontend</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Responsabilidade</th>
+<th style="text-align: left;">Requisitos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Painel em Tempo Real</td>
+<td style="text-align: left;">Grade do labirinto, rastro, posição e indicadores da prova, alimentados pelo WebSocket</td>
+<td style="text-align: left;">RF-SFT06</td>
+</tr>
+<tr>
+<td style="text-align: left;">Histórico de Corridas</td>
+<td style="text-align: left;">Lista com filtros, inspeção e reprodução de corridas, alimentado pela API REST</td>
+<td style="text-align: left;">RF-SFT08</td>
+</tr>
+<tr>
+<td style="text-align: left;">Simulador do Labirinto</td>
+<td style="text-align: left;">Ambiente virtual para validar a lógica de navegação e a interface sem o robô físico, reaproveitando o componente de grade (pacote 5.1.3 da EAP)</td>
+<td style="text-align: left;">RNF-SFT02</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-visao-de-processos">4.3 Visão de Processos<a class="headerlink" href="#43-visao-de-processos" title="Permanent link">&para;</a></h3>
+<p>A visão de processos descreve o que executa em paralelo e como os elementos se comunicam ao longo do tempo.</p>
+<p><strong>Estados do robô</strong></p>
+<p>O comportamento do firmware é governado por uma máquina de estados, cujos estados são os mesmos transmitidos no campo <code>status</code> da telemetria.</p>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; AGUARDANDO
+    AGUARDANDO --&gt; MAPEANDO: largada (exploração)
+    AGUARDANDO --&gt; SPEED_RUN: largada (rota conhecida)
+    MAPEANDO --&gt; CONCLUIDO: objetivo alcançado
+    SPEED_RUN --&gt; CONCLUIDO: objetivo alcançado
+    CONCLUIDO --&gt; AGUARDANDO: robô reposicionado na largada
+    MAPEANDO --&gt; TRAVADO: rodas bloqueadas
+    SPEED_RUN --&gt; TRAVADO: rodas bloqueadas
+    MAPEANDO --&gt; COLISAO: colisão detectada
+    SPEED_RUN --&gt; COLISAO: colisão detectada
+    MAPEANDO --&gt; TIMEOUT: 10 minutos
+    SPEED_RUN --&gt; TIMEOUT: 10 minutos
+    TRAVADO --&gt; [*]
+    COLISAO --&gt; [*]
+    TIMEOUT --&gt; [*]</code></pre>
+<p><strong>Concorrência no firmware do robô</strong></p>
+<p>O firmware executa tarefas independentes do FreeRTOS, de modo que a transmissão de telemetria nunca atrase o controle do robô:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Tarefa</th>
+<th style="text-align: left;">Frequência</th>
+<th style="text-align: left;">Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Controle e navegação</td>
+<td style="text-align: left;">Laço contínuo, com leitura de sensores a no mínimo 20 Hz (pacote 3.1.5 da EAP)</td>
+<td style="text-align: left;">Sensoriamento, mapeamento, decisão de trajetória e controle dos motores</td>
+</tr>
+<tr>
+<td style="text-align: left;">Monitor de segurança</td>
+<td style="text-align: left;">Contínua, em paralelo ao controle</td>
+<td style="text-align: left;">Verificação de travamento enquanto houver comando de tração</td>
+</tr>
+<tr>
+<td style="text-align: left;">Telemetria</td>
+<td style="text-align: left;">1 Hz</td>
+<td style="text-align: left;">Leitura do estado compartilhado e envio do pacote ESP-NOW</td>
+</tr>
+</tbody>
+</table>
+<p>O estado compartilhado entre as tarefas (posição, orientação, mapa e indicadores) é protegido por mecanismos de exclusão mútua do FreeRTOS, evitando que a telemetria leia um estado parcialmente atualizado.</p>
+<p><strong>Concorrência no backend</strong></p>
+<p>O backend opera de forma assíncrona em um único processo, com tarefas em paralelo:</p>
+<ul>
+<li><strong>Leitor serial:</strong> aguarda continuamente novas linhas na porta USB e as encaminha para validação.</li>
+<li><strong>Processamento do pacote:</strong> valida o pacote, difunde pelo WebSocket e registra no banco por meio do Serviço de Corridas.</li>
+<li><strong>Watchdog:</strong> verifica a cada segundo o tempo desde o último pacote válido.</li>
+<li><strong>Requisições HTTP:</strong> consultas ao histórico são atendidas em paralelo à ingestão, sem bloqueá-la.</li>
+</ul>
+<p><strong>Fluxo de um pacote de telemetria</strong></p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant R as Robô (ESP32)
+    participant G as Gateway (ESP32)
+    participant B as Backend
+    participant D as MySQL
+    participant F as Navegador
+
+    loop a cada 1 segundo
+        R-&gt;&gt;G: Pacote binário (ESP-NOW, 18 bytes)
+        G-&gt;&gt;B: Linha JSON (serial USB, 115200 bps)
+        B-&gt;&gt;B: Validação do pacote
+        B--&gt;&gt;F: Mensagem JSON (WebSocket)
+        F-&gt;&gt;F: Atualiza grade e indicadores
+        B-&gt;&gt;D: Insere Leitura e atualiza Celula
+    end</code></pre>
+<p>A difusão ao navegador ocorre antes da gravação no banco, para que eventuais atrasos de persistência não afetem a exibição. Estimativa do tempo total, frente ao limite de 1 segundo do RNF-SFT03:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Etapa</th>
+<th style="text-align: left;">Tempo estimado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Transmissão ESP-NOW</td>
+<td style="text-align: left;">menos de 5 ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Transmissão serial de cerca de 350 bytes a 115200 bps</td>
+<td style="text-align: left;">cerca de 30 ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Validação e difusão no backend</td>
+<td style="text-align: left;">poucos milissegundos</td>
+</tr>
+<tr>
+<td style="text-align: left;">Entrega WebSocket em rede local e renderização</td>
+<td style="text-align: left;">dezenas de milissegundos</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: left;"><strong>bem abaixo de 1 segundo</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="44-visao-de-implementacao">4.4 Visão de Implementação<a class="headerlink" href="#44-visao-de-implementacao" title="Permanent link">&para;</a></h3>
+<p>A visão de implementação descreve como o código é organizado no repositório. A estrutura segue as pastas do template da disciplina, com uma subpasta por elemento de software:</p>
+<div class="highlight"><pre><span></span><code>src/
+├── firmware/
+│   ├── robo/                  # Firmware do robô (PlatformIO)
+│   │   ├── platformio.ini
+│   │   ├── include/           # Cabeçalhos e estruturas compartilhadas (TelemetriaPacket)
+│   │   └── src/
+│   │       ├── main.cpp       # Inicialização e criação das tarefas
+│   │       ├── estados/       # Máquina de estados
+│   │       ├── sensores/      # Sensoriamento e odometria
+│   │       ├── mapa/          # Matriz do labirinto
+│   │       ├── navegacao/     # Exploração e rota ótima
+│   │       ├── controle/      # Controle de movimento
+│   │       ├── seguranca/     # Detecção de travamento
+│   │       └── telemetria/    # Envio ESP-NOW
+│   └── gateway/               # Firmware do receptor (PlatformIO)
+│       ├── platformio.ini
+│       └── src/main.cpp
+├── backend/
+│   ├── requirements.txt
+│   └── app/
+│       ├── main.py            # Inicialização do FastAPI e das tarefas
+│       ├── api/               # Rotas REST e WebSocket
+│       ├── ingestao/          # Leitura da porta serial e watchdog
+│       ├── servicos/          # Ciclo de vida da corrida
+│       ├── repositorios/      # Acesso ao banco
+│       └── modelos/           # Entidades e esquemas de validação
+└── frontend/
+    ├── package.json
+    └── src/
+        ├── componentes/       # Grade, indicadores, tabela
+        ├── paginas/           # Painel, Histórico, Simulador
+        └── servicos/          # Clientes WebSocket e REST
+</code></pre></div>
+<p><strong>Principais dependências</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Elemento</th>
+<th style="text-align: left;">Dependência</th>
+<th style="text-align: left;">Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Firmware do robô</td>
+<td style="text-align: left;">Arduino-ESP32</td>
+<td style="text-align: left;">Base de desenvolvimento, FreeRTOS e ESP-NOW</td>
+</tr>
+<tr>
+<td style="text-align: left;">Firmware do robô</td>
+<td style="text-align: left;">Biblioteca do sensor ToF (VL53L0X)</td>
+<td style="text-align: left;">Leitura de distância às paredes</td>
+</tr>
+<tr>
+<td style="text-align: left;">Firmware do gateway</td>
+<td style="text-align: left;">ArduinoJson</td>
+<td style="text-align: left;">Montagem da linha JSON</td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: left;">FastAPI e Uvicorn</td>
+<td style="text-align: left;">API REST, WebSocket e servidor</td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: left;">pySerial</td>
+<td style="text-align: left;">Leitura da porta USB do gateway</td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: left;">SQLAlchemy e PyMySQL</td>
+<td style="text-align: left;">Mapeamento objeto-relacional e conexão com o MySQL</td>
+</tr>
+<tr>
+<td style="text-align: left;">Frontend</td>
+<td style="text-align: left;">React e Vite</td>
+<td style="text-align: left;">Construção da interface</td>
+</tr>
+<tr>
+<td style="text-align: left;">Frontend</td>
+<td style="text-align: left;">Recharts</td>
+<td style="text-align: left;">Gráficos de velocidade e bateria</td>
+</tr>
+</tbody>
+</table>
+<p>A estrutura <code>TelemetriaPacket</code> (seção 6.2) é definida em um único cabeçalho compartilhado entre o firmware do robô e o do gateway, garantindo que emissor e receptor usem exatamente o mesmo formato.</p>
+<h3 id="45-visao-de-implantacao">4.5 Visão de Implantação<a class="headerlink" href="#45-visao-de-implantacao" title="Permanent link">&para;</a></h3>
+<p>Todo o sistema é implantado localmente na bancada de prova, sem dependência de internet ou de rede Wi-Fi externa.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph PISTA["Pista"]
+        ROBO["Robô&lt;br/&gt;ESP32 emissor&lt;br/&gt;Firmware do robô"]
+    end
+
+    subgraph BANCADA["Bancada de prova"]
+        GW["ESP32 receptor&lt;br/&gt;Firmware do gateway"]
+        subgraph NOTE["Notebook da equipe"]
+            BACK["Backend&lt;br/&gt;FastAPI + Uvicorn"]
+            DB[("MySQL")]
+            WEB["Frontend&lt;br/&gt;arquivos estáticos"]
+        end
+    end
+
+    subgraph CLIENTES["Clientes"]
+        NAV1["Navegador&lt;br/&gt;no notebook"]
+        NAV2["Navegador em outro&lt;br/&gt;dispositivo da rede local"]
+    end
+
+    ROBO -. "ESP-NOW 2,4 GHz" .-&gt; GW
+    GW -- "USB serial" --&gt; BACK
+    BACK --&gt; DB
+    BACK -- "serve" --&gt; WEB
+    WEB -- "HTTP e WebSocket" --&gt; NAV1
+    WEB -. "HTTP e WebSocket" .-&gt; NAV2</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Nó</th>
+<th style="text-align: left;">Hardware</th>
+<th style="text-align: left;">Software implantado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Robô</td>
+<td style="text-align: left;">ESP32 embarcado</td>
+<td style="text-align: left;">Firmware do robô</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gateway</td>
+<td style="text-align: left;">ESP32 na bancada, ligado ao notebook por cabo USB</td>
+<td style="text-align: left;">Firmware do gateway</td>
+</tr>
+<tr>
+<td style="text-align: left;">Notebook da equipe</td>
+<td style="text-align: left;">Computador da bancada</td>
+<td style="text-align: left;">Backend, banco MySQL e arquivos do frontend, servidos pelo próprio backend</td>
+</tr>
+<tr>
+<td style="text-align: left;">Clientes</td>
+<td style="text-align: left;">Navegador no notebook ou em outro dispositivo da mesma rede local</td>
+<td style="text-align: left;">Aplicação web (SPA)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Observações de implantação</strong></p>
+<ul>
+<li>O backend identifica a porta serial do gateway por configuração (<code>COMx</code> no Windows, <code>/dev/ttyUSBx</code> no Linux).</li>
+<li>O frontend é compilado para arquivos estáticos e servido pelo próprio backend, de modo que a aplicação inteira é iniciada com um único comando.</li>
+<li>Recomenda-se executar o MySQL em contêiner Docker, padronizando o ambiente entre os computadores da equipe.</li>
+<li>Dispositivos móveis na mesma rede local podem acompanhar o painel pelo navegador, o que viabiliza o RNF-SFT06.</li>
+</ul>
+<h3 id="46-visao-de-dados-mer-e-der">4.6 Visão de Dados (MER e DER)<a class="headerlink" href="#46-visao-de-dados-mer-e-der" title="Permanent link">&para;</a></h3>
+<p>A persistência utiliza banco de dados relacional (MySQL), adequado à natureza estruturada da telemetria e às consultas históricas com filtros exigidas pelo RF-SFT08.</p>
+<h4 id="461-modelo-entidade-relacionamento-mer">4.6.1 Modelo Entidade-Relacionamento (MER)<a class="headerlink" href="#461-modelo-entidade-relacionamento-mer" title="Permanent link">&para;</a></h4>
+<p><strong>Entidades</strong></p>
+<p><strong>Corrida</strong>: representa uma prova completa, da largada ao encerramento. É criada no início da prova e completada ao seu término.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Atributo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">idCorrida</td>
+<td style="text-align: left;">Identificador único da corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">inicio</td>
+<td style="text-align: left;">Data e hora da largada</td>
+</tr>
+<tr>
+<td style="text-align: left;">fim</td>
+<td style="text-align: left;">Data e hora do encerramento</td>
+</tr>
+<tr>
+<td style="text-align: left;">tempo_total_ms</td>
+<td style="text-align: left;">Duração total da prova em milissegundos</td>
+</tr>
+<tr>
+<td style="text-align: left;">labirinto</td>
+<td style="text-align: left;">Geometria da pista: 4x4, 8x4 ou 12x4</td>
+</tr>
+<tr>
+<td style="text-align: left;">modo</td>
+<td style="text-align: left;">Exploração ou Speed Run</td>
+</tr>
+<tr>
+<td style="text-align: left;">tentativa</td>
+<td style="text-align: left;">Número sequencial da tentativa no mesmo labirinto</td>
+</tr>
+<tr>
+<td style="text-align: left;">status_final</td>
+<td style="text-align: left;">CONCLUIDO, COLISAO, TIMEOUT, TRAVADO ou INTERROMPIDA</td>
+</tr>
+<tr>
+<td style="text-align: left;">desafio_cumprido</td>
+<td style="text-align: left;">Indica se o robô alcançou a célula objetivo</td>
+</tr>
+<tr>
+<td style="text-align: left;">velocidade_media</td>
+<td style="text-align: left;">Velocidade média da prova em cm/s</td>
+</tr>
+<tr>
+<td style="text-align: left;">celulas_visitadas</td>
+<td style="text-align: left;">Quantidade de células fisicamente visitadas</td>
+</tr>
+<tr>
+<td style="text-align: left;">bateria_inicial_pct</td>
+<td style="text-align: left;">Carga da bateria na largada, em porcentagem</td>
+</tr>
+<tr>
+<td style="text-align: left;">bateria_final_pct</td>
+<td style="text-align: left;">Carga da bateria no encerramento, em porcentagem</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leitura</strong>: representa um pacote de telemetria recebido, ou seja, o estado do robô em um instante da prova. Uma corrida de 5 minutos gera cerca de 300 leituras.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Atributo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">idLeitura</td>
+<td style="text-align: left;">Identificador único da leitura</td>
+</tr>
+<tr>
+<td style="text-align: left;">Corrida_idCorrida</td>
+<td style="text-align: left;">Corrida à qual a leitura pertence</td>
+</tr>
+<tr>
+<td style="text-align: left;">timestamp_ms</td>
+<td style="text-align: left;">Tempo decorrido de prova no momento da leitura</td>
+</tr>
+<tr>
+<td style="text-align: left;">coluna</td>
+<td style="text-align: left;">Coluna atual do robô: A, B, C ou D</td>
+</tr>
+<tr>
+<td style="text-align: left;">linha</td>
+<td style="text-align: left;">Linha atual do robô: 1 a 12</td>
+</tr>
+<tr>
+<td style="text-align: left;">orientacao</td>
+<td style="text-align: left;">Direção para a qual o robô aponta: Norte, Sul, Leste ou Oeste</td>
+</tr>
+<tr>
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">Estado do robô no instante da leitura</td>
+</tr>
+<tr>
+<td style="text-align: left;">velocidade_atual</td>
+<td style="text-align: left;">Velocidade instantânea em cm/s</td>
+</tr>
+<tr>
+<td style="text-align: left;">velocidade_media</td>
+<td style="text-align: left;">Velocidade média acumulada até o instante, em cm/s</td>
+</tr>
+<tr>
+<td style="text-align: left;">bateria_pct</td>
+<td style="text-align: left;">Carga da bateria em porcentagem</td>
+</tr>
+<tr>
+<td style="text-align: left;">bateria_volts</td>
+<td style="text-align: left;">Tensão da bateria em volts</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Celula</strong>: representa uma célula do labirinto e as paredes detectadas nela durante uma corrida. Todas as células da geometria são criadas no início da corrida.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Atributo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">idCelula</td>
+<td style="text-align: left;">Identificador único da célula</td>
+</tr>
+<tr>
+<td style="text-align: left;">Corrida_idCorrida</td>
+<td style="text-align: left;">Corrida à qual a célula pertence</td>
+</tr>
+<tr>
+<td style="text-align: left;">coluna</td>
+<td style="text-align: left;">Coluna da célula: A, B, C ou D</td>
+</tr>
+<tr>
+<td style="text-align: left;">linha</td>
+<td style="text-align: left;">Linha da célula: 1 a 12</td>
+</tr>
+<tr>
+<td style="text-align: left;">parede_norte, parede_sul, parede_leste, parede_oeste</td>
+<td style="text-align: left;">Presença de parede em cada lado: detectada, ausente ou nulo quando ainda não observada</td>
+</tr>
+<tr>
+<td style="text-align: left;">visitada_em_ms</td>
+<td style="text-align: left;">Instante da primeira visita do robô à célula; nulo se a célula nunca foi visitada</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Relacionamentos</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Relacionamento</th>
+<th style="text-align: left;">Cardinalidade</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Corrida registra Leitura</td>
+<td style="text-align: left;">1 : N</td>
+<td style="text-align: left;">Uma corrida possui várias leituras; cada leitura pertence a exatamente uma corrida</td>
+</tr>
+<tr>
+<td style="text-align: left;">Corrida mapeia Celula</td>
+<td style="text-align: left;">1 : N</td>
+<td style="text-align: left;">Uma corrida possui uma célula para cada posição da geometria (16, 32 ou 48); cada célula pertence a exatamente uma corrida</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regras de integridade</strong></p>
+<ul>
+<li>A combinação de Corrida_idCorrida, coluna e linha é única na entidade Celula, de modo que uma nova passagem do robô pela mesma posição atualiza a célula existente em vez de criar outra.</li>
+<li>O valor de linha deve respeitar a geometria da corrida: 1 a 4, 1 a 8 ou 1 a 12.</li>
+<li>O trajeto percorrido, um dos parâmetros obrigatórios do edital, é obtido pela sequência de posições da entidade Leitura ordenada por timestamp_ms, sem necessidade de armazenamento separado.</li>
+</ul>
+<h4 id="462-diagrama-entidade-relacionamento-der">4.6.2 Diagrama Entidade-Relacionamento (DER)<a class="headerlink" href="#462-diagrama-entidade-relacionamento-der" title="Permanent link">&para;</a></h4>
+<p><img alt="Diagrama Entidade-Relacionamento" src="../figs/DER_db.png" /></p>
+<hr />
+<h2 id="5-detalhamento-dos-algoritmos-de-firmware">5. Detalhamento dos Algoritmos de Firmware<a class="headerlink" href="#5-detalhamento-dos-algoritmos-de-firmware" title="Permanent link">&para;</a></h2>
+<h3 id="51-mapeamento-topologico-do-labirinto">5.1 Mapeamento Topológico do Labirinto<a class="headerlink" href="#51-mapeamento-topologico-do-labirinto" title="Permanent link">&para;</a></h3>
+<p><strong>Requisitos atendidos:</strong> RF-SFT02 e RNF-SFT02.</p>
+<p>O labirinto é representado na memória como uma <strong>matriz de células</strong>, em que cada posição corresponde a uma célula física de 180 x 180 mm da pista. A célula inicial ocupa a posição (0,0) e a numeração cresce conforme o robô avança.</p>
+<p><strong>Convenção de coordenadas</strong></p>
+<p>Internamente, o firmware indexa linhas e colunas a partir de zero, com a célula de largada na posição (0,0), conforme o RF-SFT03. Na telemetria e no painel web, a mesma posição é exibida como <strong>A1</strong>: colunas identificadas pelas letras A a D e linhas numeradas de 1 a 12. A largada fica no canto superior esquerdo da grade, e o norte corresponde ao topo. A conversão entre os dois formatos é feita pelo gateway receptor (seção 6.2).</p>
+<p>Cada célula armazena:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Tamanho</th>
+<th style="text-align: left;">Conteúdo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Paredes</td>
+<td style="text-align: left;">4 bits</td>
+<td style="text-align: left;">Presença de parede nas direções norte, sul, leste e oeste</td>
+</tr>
+<tr>
+<td style="text-align: left;">Visitada</td>
+<td style="text-align: left;">1 bit</td>
+<td style="text-align: left;">Indica se o robô já esteve fisicamente na célula</td>
+</tr>
+<tr>
+<td style="text-align: left;">Distância ao objetivo</td>
+<td style="text-align: left;">1 byte</td>
+<td style="text-align: left;">Valor usado pelo algoritmo de busca durante a navegação</td>
+</tr>
+</tbody>
+</table>
+<p>As três geometrias oficiais são atendidas por <strong>parametrização</strong>: o número de linhas e colunas é definido na inicialização, a partir da seleção feita pelo operador, e toda a lógica opera sobre esses limites. Isso evita qualquer código específico por tamanho de pista e atende o RNF-SFT02.</p>
+<p><strong>Atualização do mapa</strong></p>
+<ol>
+<li>Ao entrar em uma célula, o firmware marca o bit de visitada.</li>
+<li>As leituras dos sensores frontal e laterais são convertidas em presença ou ausência de parede, considerando a orientação atual do robô.</li>
+<li>A informação é gravada de forma simétrica: ao registrar parede a leste da célula (r, c), a mesma parede é registrada a oeste da célula (r, c+1), mantendo a consistência do mapa.</li>
+<li>As paredes de perímetro são conhecidas de antemão, pois toda pista oficial é fechada nas bordas.</li>
+</ol>
+<p><strong>Orientação e posição</strong></p>
+<p>O firmware mantém dois estados internos: a célula atual e a direção apontada (norte, sul, leste ou oeste). Cada avanço incrementa a posição na direção corrente, e cada rotação ortogonal atualiza a direção. A consistência entre esses estados e a odometria é o que garante que o mapa gerado corresponda à pista real.</p>
+<p><strong>Exemplo de representação</strong></p>
+<p>Em uma pista 4x4 na qual o robô partiu de (0,0), seguiu para o leste até (0,2) e encontrou parede à frente, o estado parcial da matriz seria:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Célula</th>
+<th style="text-align: left;">Paredes registradas</th>
+<th style="text-align: left;">Visitada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">(0,0)</td>
+<td style="text-align: left;">Norte, Oeste</td>
+<td style="text-align: left;">Sim</td>
+</tr>
+<tr>
+<td style="text-align: left;">(0,1)</td>
+<td style="text-align: left;">Norte</td>
+<td style="text-align: left;">Sim</td>
+</tr>
+<tr>
+<td style="text-align: left;">(0,2)</td>
+<td style="text-align: left;">Norte, Leste</td>
+<td style="text-align: left;">Sim</td>
+</tr>
+<tr>
+<td style="text-align: left;">Demais</td>
+<td style="text-align: left;">Não determinadas</td>
+<td style="text-align: left;">Não</td>
+</tr>
+</tbody>
+</table>
+<p>Ao fim da exploração, essa matriz deve ser idêntica à configuração física da pista, que é o critério de aceitação do RF-SFT02.</p>
+<h3 id="52-controle-de-movimento-e-alinhamento-de-trajetoria">5.2 Controle de Movimento e Alinhamento de Trajetória<a class="headerlink" href="#52-controle-de-movimento-e-alinhamento-de-trajetoria" title="Permanent link">&para;</a></h3>
+<p><strong>Requisitos atendidos:</strong> RF-SFT01.</p>
+<p>O robô não navega apenas apontando para frente: ele se guia pela <strong>distância às paredes laterais</strong> do corredor. Durante o avanço em linha reta, os sensores ToF laterais medem continuamente a distância até a parede esquerda e até a parede direita.</p>
+<ul>
+<li>Se as duas distâncias forem iguais, o robô está centralizado no corredor e mantém a mesma velocidade nas duas rodas.</li>
+<li>Se uma distância for menor que a outra, o robô está se aproximando de um dos lados. O firmware reduz a velocidade da roda do lado mais próximo da parede, ou aumenta a do lado oposto, trazendo o robô de volta ao centro.</li>
+<li>A correção é proporcional ao tamanho do desvio, com um termo adicional que reage à velocidade de variação do erro, caracterizando um controle <strong>proporcional e derivativo (PD)</strong>. O erro é a diferença entre as distâncias laterais, e a saída ajusta a velocidade diferencial entre as rodas até que o erro tenda a zero.</li>
+</ul>
+<p>O critério de aceitação do RF-SFT01 exige que o robô percorra três células consecutivas em reta mantendo desvio lateral inferior a <strong>15 mm</strong> em relação à linha de centro, sem contato com as paredes. Como o corredor livre tem 168 mm, um desvio de 15 mm para cada lado só ocorre sem contato se a largura do robô for de no máximo 138 mm (168 mm menos 2 x 15 mm). Essa restrição deve ser compatibilizada com o projeto estrutural, já que o TAP admite largura de até 165 mm.</p>
+<p><strong>Trechos sem parede de referência</strong></p>
+<p>Em cruzamentos e entradas de corredores a comparação lateral deixa de ser confiável. Nesses trechos o firmware recorre a um critério auxiliar, mantendo o rumo pela referência angular da IMU e pela diferença de contagem entre os encoders, até voltar a ter parede nos dois lados.</p>
+<p><strong>Rotações ortogonais</strong></p>
+<p>As curvas de 90° são executadas por rotação diferencial das rodas, com o ângulo controlado por encoders e IMU. O RF-SFT01 limita o <strong>erro angular acumulado a ±3°</strong>, o que exige que cada rotação seja verificada ao final e corrigida antes do próximo avanço, evitando que pequenos desvios se somem ao longo da prova.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Medir distância lateral esquerda e direita] --&gt; B{Há parede dos dois lados?}
+    B -- Sim --&gt; C[Calcular erro entre as distâncias]
+    C --&gt; D{Erro próximo de zero?}
+    D -- Sim --&gt; E[Manter velocidade igual nas duas rodas]
+    D -- Não --&gt; F[Aplicar correção proporcional na roda mais próxima]
+    B -- Não --&gt; G[Manter rumo por IMU e encoders]
+    E --&gt; A
+    F --&gt; A
+    G --&gt; A</code></pre>
+<h3 id="53-deteccao-e-tratamento-de-travamento-stall">5.3 Detecção e Tratamento de Travamento (Stall)<a class="headerlink" href="#53-deteccao-e-tratamento-de-travamento-stall" title="Permanent link">&para;</a></h3>
+<p><strong>Requisitos atendidos:</strong> RF-SFT11.</p>
+<p>Se o firmware está comandando os motores e a odometria não registra rotação das rodas por mais de <strong>1,0 segundo</strong>, considera-se que o robô está travado, seja por roda presa, obstáculo ou perda de contato com o piso. Nessa condição a tração deve ser cortada para prevenir danos aos motores e ao driver.</p>
+<p>O monitoramento ocorre em paralelo ao controle de movimento:</p>
+<ol>
+<li>A cada pulso de encoder registrado, o firmware guarda o instante da última rotação detectada.</li>
+<li>Enquanto houver comando de tração ativo, verifica-se periodicamente o tempo decorrido desde esse instante.</li>
+<li>Ultrapassado 1,0 segundo sem rotação, o travamento é confirmado: a potência dos motores é zerada, o robô entra em estado de erro e a condição é sinalizada por indicador local e pelo status <code>TRAVADO</code> na telemetria (seção 6).</li>
+<li>Se a odometria continuar respondendo, o temporizador é reiniciado e a navegação segue normalmente.</li>
+</ol>
+<p>O critério de aceitação do RF-SFT11 admite o corte em até <strong>1,2 segundo</strong> após o bloqueio físico das rodas, o que reserva 200 ms para o ciclo de verificação e a atuação do corte.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Comando de tração ativo] --&gt; B[Monitorar pulsos do encoder]
+    B --&gt; C{Passou mais de 1,0 s sem rotação?}
+    C -- Não --&gt; B
+    C -- Sim --&gt; D[Zerar potência dos motores]
+    D --&gt; E[Entrar em estado de erro e enviar status TRAVADO]</code></pre>
+<hr />
+<h2 id="6-protocolo-de-telemetria">6. Protocolo de Telemetria<a class="headerlink" href="#6-protocolo-de-telemetria" title="Permanent link">&para;</a></h2>
+<p><strong>Requisitos atendidos:</strong> RF-SFT05, RF-ELE04 e RNF-SFT03.</p>
+<h3 id="61-visao-geral-da-arquitetura-de-comunicacao">6.1 Visão Geral da Arquitetura de Comunicação<a class="headerlink" href="#61-visao-geral-da-arquitetura-de-comunicacao" title="Permanent link">&para;</a></h3>
+<p>A telemetria opera via protocolo de rádio <strong>ESP-NOW</strong>, protocolo de camada de enlace em 2,4 GHz da Espressif que dispensa roteador ou rede Wi-Fi. A transmissão ocorre na frequência nominal de <strong>1 Hz</strong>, com um envio a cada 1000 ms.</p>
+<p>A integração com o computador de monitoramento utiliza um <strong>gateway receptor dedicado</strong>:</p>
+<div class="highlight"><pre><span></span><code>+--------------------------+                      +--------------------------+
+|   ESP32 Emissor (Robo)   |       ESP-NOW        | ESP32 Receptor (Bancada) |
+|   - Amostragem a 1 Hz    | ===================&gt; | - Gateway / Bridge       |
+|   - Payload: Struct C    |   (Pacote Binario)   | - Valida e converte      |
++--------------------------+                      +--------------------------+
+                                                               |
+                                                               | Serial / USB (JSON a 115200 bps)
+                                                               v
++--------------------------+                      +--------------------------+
+|      Dashboard Web       |      WebSocket       |     Servidor Backend     |
+|  - Renderizacao da grade | &lt;=================== | - Leitura da porta serial|
+|  - Rastro e Metricas     |    ws://... (JSON)   | - Broadcast e Banco      |
++--------------------------+                      +--------------------------+
+</code></pre></div>
+<ol>
+<li><strong>ESP32 emissor (robô):</strong> coleta dados dos sensores, odometria, paredes e bateria, empacota em uma estrutura binária em C e transmite via ESP-NOW para o endereço MAC do receptor a cada 1 segundo.</li>
+<li><strong>ESP32 receptor (gateway USB):</strong> conectado à porta USB da estação base. Recebe a estrutura binária, converte para JSON e envia pela interface serial.</li>
+<li><strong>Servidor backend:</strong> lê continuamente a porta serial (<code>/dev/ttyUSBx</code> ou <code>COMx</code>), valida o pacote, redistribui via <strong>WebSocket</strong> para o front-end e persiste os dados no banco.</li>
+<li><strong>Dashboard web:</strong> consome o WebSocket e atualiza o mapa e os indicadores em tempo real.</li>
+</ol>
+<h3 id="62-camada-de-radio-payload-binario-esp-now">6.2 Camada de Rádio: Payload Binário ESP-NOW<a class="headerlink" href="#62-camada-de-radio-payload-binario-esp-now" title="Permanent link">&para;</a></h3>
+<p>No firmware do robô, a transmissão utiliza uma estrutura compactada de 18 bytes, bem abaixo do limite de 250 bytes por pacote do ESP-NOW. Posição e velocidade trafegam em formato interno do firmware e são convertidas pelo gateway para o formato de exibição.</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">__attribute__</span><span class="p">((</span><span class="n">packed</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timestamp_ms</span><span class="p">;</span><span class="w">     </span><span class="c1">// Tempo decorrido de corrida (ms)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">labirinto_id</span><span class="p">;</span><span class="w">     </span><span class="c1">// 1: 4x4, 2: 8x4, 3: 12x4</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">status_id</span><span class="p">;</span><span class="w">        </span><span class="c1">// 0: AGUARDANDO, 1: MAPEANDO, 2: SPEED_RUN, 3: COLISAO,</span>
+<span class="w">                               </span><span class="c1">// 4: CONCLUIDO, 5: TIMEOUT, 6: TRAVADO</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">desafio_cumprido</span><span class="p">;</span><span class="w"> </span><span class="c1">// 0: Nao, 1: Sim</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">bateria_pct</span><span class="p">;</span><span class="w">      </span><span class="c1">// 0 a 100 %</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">bateria_mv</span><span class="p">;</span><span class="w">       </span><span class="c1">// Tensao em milivolts (ex: 7420 mV = 7.42 V)</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w">  </span><span class="n">velocidade_atual</span><span class="p">;</span><span class="w"> </span><span class="c1">// Velocidade instantanea em mm/s</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w">  </span><span class="n">velocidade_media</span><span class="p">;</span><span class="w"> </span><span class="c1">// Velocidade media acumulada em mm/s</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">coluna</span><span class="p">;</span><span class="w">           </span><span class="c1">// Indice interno 0 a 3 (exibido como A a D)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">linha</span><span class="p">;</span><span class="w">            </span><span class="c1">// Indice interno 0 a 11 (exibido como 1 a 12)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">orientacao</span><span class="p">;</span><span class="w">       </span><span class="c1">// 0: Norte, 1: Sul, 2: Leste, 3: Oeste</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">paredes</span><span class="p">;</span><span class="w">          </span><span class="c1">// Bitmask: bit0=N, bit1=S, bit2=L, bit3=O</span>
+<span class="p">}</span><span class="w"> </span><span class="n">TelemetriaPacket</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>Conversões realizadas pelo gateway</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">No pacote binário</th>
+<th style="text-align: left;">No JSON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Coluna</td>
+<td style="text-align: left;">Índice 0 a 3</td>
+<td style="text-align: left;">Letra A a D</td>
+</tr>
+<tr>
+<td style="text-align: left;">Linha</td>
+<td style="text-align: left;">Índice 0 a 11</td>
+<td style="text-align: left;">Número 1 a 12</td>
+</tr>
+<tr>
+<td style="text-align: left;">Velocidades</td>
+<td style="text-align: left;">Inteiro em mm/s</td>
+<td style="text-align: left;">Decimal em cm/s</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bateria</td>
+<td style="text-align: left;">Inteiro em mV</td>
+<td style="text-align: left;">Decimal em V</td>
+</tr>
+<tr>
+<td style="text-align: left;">Paredes</td>
+<td style="text-align: left;">Bitmask de 4 bits</td>
+<td style="text-align: left;">Quatro campos booleanos</td>
+</tr>
+</tbody>
+</table>
+<p>As direções de parede e de orientação são <strong>absolutas</strong>, isto é, referenciadas ao labirinto e não à frente do robô. O firmware converte as leituras dos sensores a partir da orientação atual antes de montar o pacote.</p>
+<h3 id="63-camada-serial-gateway-para-backend">6.3 Camada Serial (Gateway para Backend)<a class="headerlink" href="#63-camada-serial-gateway-para-backend" title="Permanent link">&para;</a></h3>
+<p>O ESP32 receptor emite pela porta USB uma linha de texto em JSON a cada pacote recebido:</p>
+<ul>
+<li><strong>Taxa de transmissão:</strong> 115200 bps</li>
+<li><strong>Delimitador de quadro:</strong> quebra de linha (<code>\n</code>)</li>
+</ul>
+<h3 id="64-camada-de-aplicacao-websocket">6.4 Camada de Aplicação: WebSocket<a class="headerlink" href="#64-camada-de-aplicacao-websocket" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Protocolo:</strong> WebSocket (RFC 6455)</li>
+<li><strong>Endpoint:</strong> <code>ws://&lt;host&gt;:&lt;porta&gt;/ws/telemetria</code></li>
+<li><strong>Frequência:</strong> 1 Hz</li>
+<li><strong>Formato:</strong> JSON em UTF-8</li>
+</ul>
+<p>Exemplo de mensagem:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"timestamp_ms"</span><span class="p">:</span><span class="w"> </span><span class="mi">142000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"labirinto"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8x4"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MAPEANDO"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"desafio_cumprido"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"bateria_pct"</span><span class="p">:</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"bateria_volts"</span><span class="p">:</span><span class="w"> </span><span class="mf">7.42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"velocidade_atual"</span><span class="p">:</span><span class="w"> </span><span class="mf">35.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"velocidade_media"</span><span class="p">:</span><span class="w"> </span><span class="mf">28.5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"posicao"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"coluna"</span><span class="p">:</span><span class="w"> </span><span class="s2">"B"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"linha"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"orientacao"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LESTE"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"paredes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"norte"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"sul"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"leste"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"oeste"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="65-dicionario-de-dados">6.5 Dicionário de Dados<a class="headerlink" href="#65-dicionario-de-dados" title="Permanent link">&para;</a></h3>
+<p>Todos os campos são obrigatórios.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Tipo</th>
+<th style="text-align: left;">Unidade</th>
+<th style="text-align: left;">Descrição e restrições</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>timestamp_ms</code></td>
+<td style="text-align: left;">Inteiro</td>
+<td style="text-align: left;">ms</td>
+<td style="text-align: left;">Tempo decorrido de prova, de 0 a 600.000 ms (limite de 10 minutos)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>labirinto</code></td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Geometria em execução: <code>"4x4"</code>, <code>"8x4"</code> ou <code>"12x4"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Estado do robô: <code>"AGUARDANDO"</code>, <code>"MAPEANDO"</code>, <code>"SPEED_RUN"</code>, <code>"COLISAO"</code>, <code>"CONCLUIDO"</code>, <code>"TIMEOUT"</code> ou <code>"TRAVADO"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>desafio_cumprido</code></td>
+<td style="text-align: left;">Booleano</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;"><code>true</code> se o robô alcançou a célula objetivo</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bateria_pct</code></td>
+<td style="text-align: left;">Inteiro</td>
+<td style="text-align: left;">%</td>
+<td style="text-align: left;">Carga restante estimada, de 0 a 100</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bateria_volts</code></td>
+<td style="text-align: left;">Decimal</td>
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">Tensão da bateria medida via ADC</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>velocidade_atual</code></td>
+<td style="text-align: left;">Decimal</td>
+<td style="text-align: left;">cm/s</td>
+<td style="text-align: left;">Velocidade instantânea estimada pela odometria</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>velocidade_media</code></td>
+<td style="text-align: left;">Decimal</td>
+<td style="text-align: left;">cm/s</td>
+<td style="text-align: left;">Velocidade média acumulada na prova</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>posicao.coluna</code></td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Coluna atual: <code>"A"</code>, <code>"B"</code>, <code>"C"</code> ou <code>"D"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>posicao.linha</code></td>
+<td style="text-align: left;">Inteiro</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Linha atual: 1 a 4, 1 a 8 ou 1 a 12, conforme a geometria</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>orientacao</code></td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Direção absoluta do robô: <code>"NORTE"</code>, <code>"SUL"</code>, <code>"LESTE"</code> ou <code>"OESTE"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>paredes.norte</code></td>
+<td style="text-align: left;">Booleano</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Parede detectada ao norte da célula atual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>paredes.sul</code></td>
+<td style="text-align: left;">Booleano</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Parede detectada ao sul da célula atual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>paredes.leste</code></td>
+<td style="text-align: left;">Booleano</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Parede detectada a leste da célula atual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>paredes.oeste</code></td>
+<td style="text-align: left;">Booleano</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Parede detectada a oeste da célula atual</td>
+</tr>
+</tbody>
+</table>
+<h3 id="66-ciclo-de-vida-da-corrida-no-backend">6.6 Ciclo de Vida da Corrida no Backend<a class="headerlink" href="#66-ciclo-de-vida-da-corrida-no-backend" title="Permanent link">&para;</a></h3>
+<p>O backend identifica o início e o fim de cada corrida a partir das transições de status recebidas:</p>
+<ol>
+<li><strong>Início:</strong> a transição de <code>AGUARDANDO</code> para <code>MAPEANDO</code> ou <code>SPEED_RUN</code> cria um registro na tabela Corrida, com o modo derivado do status e a tentativa numerada sequencialmente para o mesmo labirinto na sessão de monitoramento. No mesmo momento são criadas todas as células da geometria (16, 32 ou 48), com paredes ainda não observadas.</li>
+<li><strong>Durante a prova:</strong> cada pacote recebido gera uma nova Leitura e atualiza a Celula correspondente à posição atual, registrando as paredes detectadas e o instante da primeira visita.</li>
+<li><strong>Encerramento:</strong> um status terminal (<code>CONCLUIDO</code>, <code>COLISAO</code>, <code>TIMEOUT</code> ou <code>TRAVADO</code>) fecha a corrida, preenchendo horário de fim, tempo total, status final, velocidade média, células visitadas e bateria final.</li>
+</ol>
+<p>O trajeto percorrido é reconstruído pela sequência de leituras ordenada por <code>timestamp_ms</code>.</p>
+<h3 id="67-confiabilidade-e-watchdog">6.7 Confiabilidade e Watchdog<a class="headerlink" href="#67-confiabilidade-e-watchdog" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Watchdog de enlace (3 segundos):</strong> se o backend passar 3000 ms consecutivos sem receber um pacote válido, o painel passa a exibir o estado <code>CONEXAO RF PERDIDA</code>, retornando ao normal quando a recepção for retomada.</li>
+<li><strong>Descarte de pacotes corrompidos:</strong> o ESP-NOW possui verificação CRC em hardware, e pacotes com ruído são descartados pelo receptor antes do envio à porta serial.</li>
+<li><strong>Persistência incremental:</strong> cada leitura é gravada no momento em que é recebida, e não apenas ao final da prova, preservando os dados em caso de falha. Uma corrida que não receba status terminal, por perda definitiva de conexão ou início de uma nova corrida, é encerrada com status final <code>INTERROMPIDA</code>, atendendo ao RF-SFT07 para corridas concluídas ou interrompidas.</li>
+</ul>
+<hr />
+<h2 id="7-roteiro-de-testes-funcionais">7. Roteiro de Testes Funcionais<a class="headerlink" href="#7-roteiro-de-testes-funcionais" title="Permanent link">&para;</a></h2>
+<p>Os casos de teste abaixo verificam os requisitos funcionais de software a partir dos critérios de aceitação definidos no documento de requisitos e nas histórias de usuário (seção 3.1). Cada caso referencia as issues correspondentes no GitHub.</p>
+<p><strong>Resumo</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Código</th>
+<th style="text-align: left;">Caso de teste</th>
+<th style="text-align: left;">Rastreabilidade</th>
+<th style="text-align: left;">Prioridade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CT-01</td>
+<td style="text-align: left;">Centralização do robô em reta</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/31">RF-SFT01</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/32">HU-01</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-02</td>
+<td style="text-align: left;">Precisão das rotações de 90°</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/31">RF-SFT01</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/33">HU-02</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-03</td>
+<td style="text-align: left;">Fidelidade do mapeamento nas três geometrias</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/34">RF-SFT02</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/35">HU-03</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/62">RNF-SFT02</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-04</td>
+<td style="text-align: left;">Seleção da geometria antes da largada</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/34">RF-SFT02</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/36">HU-04</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-05</td>
+<td style="text-align: left;">Largada e navegação autônoma</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/37">RF-SFT03</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/38">HU-05</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/39">HU-06</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/61">RNF-SFT01</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-06</td>
+<td style="text-align: left;">Parada automática no objetivo</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/40">RF-SFT04</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/41">HU-07</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-07</td>
+<td style="text-align: left;">Transmissão da telemetria a 1 Hz</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/42">RF-SFT05</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/43">HU-08</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-08</td>
+<td style="text-align: left;">Aviso de perda de conexão</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/42">RF-SFT05</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/44">HU-09</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-09</td>
+<td style="text-align: left;">Painel sincronizado com a pista</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/45">RF-SFT06</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/46">HU-10</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/47">HU-11</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/63">RNF-SFT03</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-10</td>
+<td style="text-align: left;">Persistência de corridas concluídas e interrompidas</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/48">RF-SFT07</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/49">HU-12</a></td>
+<td style="text-align: left;">P1</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-11</td>
+<td style="text-align: left;">Filtragem do histórico</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/50">RF-SFT08</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/51">HU-13</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/64">RNF-SFT04</a></td>
+<td style="text-align: left;">P1</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-12</td>
+<td style="text-align: left;">Reprodução de corrida passada</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/50">RF-SFT08</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/52">HU-14</a></td>
+<td style="text-align: left;">P1</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-13</td>
+<td style="text-align: left;">Speed run mais rápido que a exploração</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/53">RF-SFT09</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/54">HU-15</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/55">HU-16</a></td>
+<td style="text-align: left;">P1</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-14</td>
+<td style="text-align: left;">Curva em movimento contínuo</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/56">RF-SFT10</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/57">HU-17</a></td>
+<td style="text-align: left;">P2</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-15</td>
+<td style="text-align: left;">Corte de tração por travamento</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/58">RF-SFT11</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/59">HU-18</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/60">HU-19</a></td>
+<td style="text-align: left;">P0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-01-centralizacao-do-robo-em-reta">CT-01: Centralização do robô em reta<a class="headerlink" href="#ct-01-centralizacao-do-robo-em-reta" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-01</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Centralização do robô em reta</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/31">RF-SFT01</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/32">HU-01</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o controle de movimento mantém o robô centralizado no corredor durante trechos retos.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Robô calibrado e com bateria acima de 50%<br>• Pista montada com um corredor reto de pelo menos 3 células com paredes nos dois lados<br>• Linha de centro do corredor marcada no piso para referência</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Posicionar o robô no início do corredor, alinhado à linha de centro<br>2. Acionar a largada<br>3. Filmar o percurso de cima, com régua milimetrada visível ao lado do corredor<br>4. Medir no vídeo o maior afastamento lateral em relação à linha de centro<br>5. Repetir o ensaio 5 vezes</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">Em todas as repetições, o desvio lateral máximo é inferior a 15 mm e não há contato com as paredes.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-02-precisao-das-rotacoes-de-90">CT-02: Precisão das rotações de 90°<a class="headerlink" href="#ct-02-precisao-das-rotacoes-de-90" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-02</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Precisão das rotações de 90°</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/31">RF-SFT01</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/33">HU-02</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se as rotações ortogonais mantêm o erro angular acumulado dentro do limite.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Robô calibrado e com bateria acima de 50%<br>• Área livre com marcação de referência angular no piso</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Posicionar o robô sobre a marcação de referência<br>2. Comandar uma sequência de 8 rotações de 90° no mesmo sentido (duas voltas completas)<br>3. Medir o ângulo final do robô em relação à orientação inicial<br>4. Repetir no sentido oposto</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">O erro angular acumulado ao final de cada sequência é de no máximo ±3°.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-03-fidelidade-do-mapeamento-nas-tres-geometrias">CT-03: Fidelidade do mapeamento nas três geometrias<a class="headerlink" href="#ct-03-fidelidade-do-mapeamento-nas-tres-geometrias" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-03</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Fidelidade do mapeamento nas três geometrias</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/34">RF-SFT02</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/35">HU-03</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/62">RNF-SFT02</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se a matriz registrada pelo firmware ao final da exploração corresponde à pista física.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Pistas 4x4, 8x4 e 12x4 montadas com traçados conhecidos e desenhados em papel<br>• Painel web em execução para leitura do mapa final</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Selecionar a geometria correspondente à pista<br>2. Executar a exploração completa<br>3. Ao final, comparar célula a célula as paredes exibidas no mapa final com o desenho da pista<br>4. Repetir para as três geometrias</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">Em todas as geometrias, as paredes registradas nas células visitadas são 100% idênticas à configuração física da pista.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-04-selecao-da-geometria-antes-da-largada">CT-04: Seleção da geometria antes da largada<a class="headerlink" href="#ct-04-selecao-da-geometria-antes-da-largada" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-04</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Seleção da geometria antes da largada</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/34">RF-SFT02</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/36">HU-04</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se a geometria escolhida pelo operador é aplicada ao mapa e informada na telemetria.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Robô ligado no estado AGUARDANDO<br>• Painel web conectado ao gateway</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Selecionar a geometria 8x4 no robô<br>2. Observar a grade exibida no painel<br>3. Acionar a largada e conferir o campo labirinto da telemetria<br>4. Repetir para 4x4 e 12x4</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">O painel exibe a grade com as dimensões da geometria selecionada e a telemetria informa o valor correspondente em todos os casos.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-05-largada-e-navegacao-autonoma">CT-05: Largada e navegação autônoma<a class="headerlink" href="#ct-05-largada-e-navegacao-autonoma" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-05</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Largada e navegação autônoma</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/37">RF-SFT03</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/38">HU-05</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/39">HU-06</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/61">RNF-SFT01</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o robô inicia a prova pelo botão físico e alcança o objetivo sem intervenção externa.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Pista 4x4 com traçado desconhecido pela equipe de firmware<br>• Robô sem mapa pré-carregado<br>• Robô ligado no estado AGUARDANDO</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Verificar que o robô permanece parado antes do acionamento<br>2. Acionar o botão de largada e iniciar um cronômetro externo<br>3. Acompanhar a prova sem qualquer interação com o robô<br>4. Registrar o tempo até a chegada à célula objetivo</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">O robô permanece parado até a largada, muda para o status MAPEANDO ao ser acionado e alcança o objetivo em menos de 3 minutos sem intervenção.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-06-parada-automatica-no-objetivo">CT-06: Parada automática no objetivo<a class="headerlink" href="#ct-06-parada-automatica-no-objetivo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Parada automática no objetivo</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/40">RF-SFT04</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/41">HU-07</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o robô para e congela o cronômetro ao entrar na célula de chegada.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Pista 4x4 montada<br>• Câmera com gravação de alta taxa de quadros posicionada sobre a célula de chegada</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Executar uma prova completa<br>2. No vídeo, identificar o quadro em que o robô cruza a entrada da célula de chegada e o quadro em que as rodas param<br>3. Calcular o intervalo entre os dois quadros<br>4. Conferir no painel o status e o tempo final</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">A tração é interrompida em menos de 200 ms após a entrada na célula, o cronômetro é congelado e a telemetria informa CONCLUIDO com desafio cumprido.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-07-transmissao-da-telemetria-a-1-hz">CT-07: Transmissão da telemetria a 1 Hz<a class="headerlink" href="#ct-07-transmissao-da-telemetria-a-1-hz" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-07</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Transmissão da telemetria a 1 Hz</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/42">RF-SFT05</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/43">HU-08</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o robô envia os 6 parâmetros obrigatórios do edital na frequência especificada.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Gateway conectado ao computador<br>• Monitor serial ou registro do backend ativo</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Executar uma prova de pelo menos 60 segundos<br>2. Registrar todos os pacotes recebidos pelo backend com seus horários de chegada<br>3. Conferir em cada pacote a presença dos campos de tipo de labirinto, posição, bateria, velocidade média, tempo e desafio cumprido<br>4. Calcular o intervalo médio entre pacotes e a quantidade de pacotes perdidos</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">Todos os pacotes contêm os 6 parâmetros do edital, o intervalo médio entre pacotes é de 1 segundo e não há perda de pacotes ao longo do percurso.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-08-aviso-de-perda-de-conexao">CT-08: Aviso de perda de conexão<a class="headerlink" href="#ct-08-aviso-de-perda-de-conexao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-08</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Aviso de perda de conexão</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/42">RF-SFT05</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/44">HU-09</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o painel sinaliza a interrupção da telemetria e se o robô continua a prova.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Prova em andamento com o painel recebendo dados</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Durante a prova, desconectar o cabo USB do gateway<br>2. Cronometrar o tempo até a mudança de estado no painel<br>3. Reconectar o cabo após 10 segundos<br>4. Observar o comportamento do robô durante todo o intervalo</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">O painel exibe Conexão RF perdida cerca de 3 segundos após a desconexão, volta ao normal ao reconectar, e o robô continua navegando sem interrupção.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-09-painel-sincronizado-com-a-pista">CT-09: Painel sincronizado com a pista<a class="headerlink" href="#ct-09-painel-sincronizado-com-a-pista" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-09</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Painel sincronizado com a pista</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/45">RF-SFT06</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/46">HU-10</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/47">HU-11</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/63">RNF-SFT03</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o painel reflete a movimentação e as paredes descobertas em tempo real.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Prova em andamento<br>• Câmera gravando simultaneamente a pista e a tela do painel</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Executar uma prova de exploração<br>2. No vídeo, comparar o instante em que o robô entra em cada célula com o instante em que o painel atualiza a posição<br>3. Conferir se paredes, rastro, orientação, tempo, velocidade, bateria e status são exibidos<br>4. Medir o maior atraso observado</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">Todos os indicadores são exibidos, a grade reflete as paredes descobertas e o atraso entre a pista e o painel é inferior a 1 segundo.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-10-persistencia-de-corridas-concluidas-e-interrompidas">CT-10: Persistência de corridas concluídas e interrompidas<a class="headerlink" href="#ct-10-persistencia-de-corridas-concluidas-e-interrompidas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-10</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Persistência de corridas concluídas e interrompidas</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/48">RF-SFT07</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/49">HU-12</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se as corridas são gravadas integralmente no banco de dados, inclusive quando interrompidas.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Backend e banco de dados em execução</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Executar uma prova completa até o objetivo<br>2. Consultar a corrida no histórico logo após o encerramento<br>3. Iniciar uma nova prova e desligar o robô no meio do percurso<br>4. Consultar a segunda corrida no histórico</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">A primeira corrida aparece com status CONCLUIDO e todas as leituras; a segunda aparece com status INTERROMPIDA e as leituras recebidas até a interrupção.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-11-filtragem-do-historico">CT-11: Filtragem do histórico<a class="headerlink" href="#ct-11-filtragem-do-historico" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-11</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Filtragem do histórico</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/50">RF-SFT08</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/51">HU-13</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/64">RNF-SFT04</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se os filtros por geometria e data retornam as corridas corretas no tempo exigido.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Banco de dados populado com corridas nas três geometrias e em datas diferentes, totalizando até 500 registros<br>• Ferramentas de desenvolvedor do navegador abertas na aba de rede</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Abrir a tela de histórico<br>2. Aplicar o filtro de geometria 8x4<br>3. Aplicar um intervalo de datas<br>4. Registrar o tempo de resposta e renderização</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">Somente as corridas que atendem aos filtros são listadas e o resultado é exibido em menos de 2 segundos.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-12-reproducao-de-corrida-passada">CT-12: Reprodução de corrida passada<a class="headerlink" href="#ct-12-reproducao-de-corrida-passada" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-12</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Reprodução de corrida passada</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/50">RF-SFT08</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/52">HU-14</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se uma corrida salva pode ser inspecionada e reproduzida.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Ao menos uma corrida concluída registrada no banco</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Selecionar a corrida na tela de histórico<br>2. Conferir o mapa final e as estatísticas exibidas<br>3. Acionar a reprodução e usar a barra de tempo para avançar e retroceder<br>4. Comparar o trajeto reproduzido com o vídeo da prova original</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">O mapa e as estatísticas carregam em menos de 2 segundos, e a reprodução percorre as posições na mesma ordem da prova real.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-13-speed-run-mais-rapido-que-a-exploracao">CT-13: Speed run mais rápido que a exploração<a class="headerlink" href="#ct-13-speed-run-mais-rapido-que-a-exploracao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-13</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Speed run mais rápido que a exploração</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/53">RF-SFT09</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/54">HU-15</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/55">HU-16</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se a corrida pela rota ótima reduz o tempo em relação à exploração.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Exploração completa realizada na pista, com o mapa mantido na memória do robô</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Registrar o tempo da exploração<br>2. Reposicionar o robô na largada<br>3. Acionar a largada do speed run<br>4. Registrar o tempo do speed run e conferir o modo registrado no histórico</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">O tempo do speed run é pelo menos 20% menor que o da exploração, e a corrida é registrada com modo Speed Run.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-14-curva-em-movimento-continuo">CT-14: Curva em movimento contínuo<a class="headerlink" href="#ct-14-curva-em-movimento-continuo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-14</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Curva em movimento contínuo</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/56">RF-SFT10</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/57">HU-17</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se as curvas suavizadas reduzem o tempo de transição entre células.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Trecho de pista com uma curva de 90° entre dois corredores<br>• Câmera com gravação de alta taxa de quadros</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Percorrer o trecho com giro parado e medir o tempo de transição na curva<br>2. Percorrer o mesmo trecho com curva contínua e medir o tempo<br>3. Repetir cada modo 5 vezes e calcular as médias</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">A curva contínua é executada sem parada total, sem contato com as paredes e com tempo médio pelo menos 300 ms menor que o giro parado.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ct-15-corte-de-tracao-por-travamento">CT-15: Corte de tração por travamento<a class="headerlink" href="#ct-15-corte-de-tracao-por-travamento" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Código</td>
+<td style="text-align: left;">CT-15</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nome</td>
+<td style="text-align: left;">Corte de tração por travamento</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rastreabilidade</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/58">RF-SFT11</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/59">HU-18</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/60">HU-19</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Verificar se o robô corta os motores ao detectar as rodas bloqueadas e se o painel informa o travamento.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pré-condições</td>
+<td style="text-align: left;">• Robô em movimento em trecho reto<br>• Painel conectado<br>• Câmera gravando o robô e a tela</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procedimento</td>
+<td style="text-align: left;">1. Bloquear manualmente as rodas motrizes com o robô em movimento<br>2. No vídeo, medir o tempo entre o bloqueio e o corte dos motores<br>3. Conferir o status exibido no painel e o registro da corrida no histórico</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado esperado</td>
+<td style="text-align: left;">Os motores são cortados em no máximo 1,2 segundo após o bloqueio, o painel exibe o status Travado e a corrida é encerrada com status final TRAVADO.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Hardware">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Hardware
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../5%20-%20Cronograma/" class="md-footer__link md-footer__link--next" aria-label="Próximo: 5 — Cronograma">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                5 — Cronograma
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
