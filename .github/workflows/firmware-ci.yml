@@ -1,0 +1,53 @@
+name: Firmware CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/firmware/**'
+      - '.github/workflows/firmware-ci.yml'
+  pull_request:
+    paths:
+      - 'src/firmware/**'
+      - '.github/workflows/firmware-ci.yml'
+
+jobs:
+  firmware:
+    name: ${{ matrix.projeto }} (testes nativos + build ESP32)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projeto: [robo, gateway]
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache do PlatformIO
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ runner.os }}-${{ hashFiles('src/firmware/*/platformio.ini', 'src/firmware/lib/**/library.json') }}
+          restore-keys: pio-${{ runner.os }}-
+
+      - name: Instalar PlatformIO
+        run: pip install platformio
+
+      - name: Testes nativos (Unity)
+        run: pio test -d src/firmware/${{ matrix.projeto }} -e native --junit-output-path test-report-${{ matrix.projeto }}.xml
+
+      - name: Compilar firmware para o ESP32
+        run: pio run -d src/firmware/${{ matrix.projeto }} -e esp32dev
+
+      - name: Publicar relatório dos testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{ matrix.projeto }}
+          path: test-report-${{ matrix.projeto }}.xml

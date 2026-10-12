@@ -37,5 +37,7 @@ struct __attribute__((packed)) TelemetriaPacket {
     uint8_t  paredes;          // Bitmask: bit0=N, bit1=S, bit2=L, bit3=O
 };
 
-#endif
+// O contrato de dados (doc 4.4, seção 6.2) fixa o pacote em exatamente 18 bytes.
+static_assert(sizeof(TelemetriaPacket) == 18, "TelemetriaPacket deve ter exatamente 18 bytes");
 
+#endif
