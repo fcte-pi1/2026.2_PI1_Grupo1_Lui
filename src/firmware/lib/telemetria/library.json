@@ -1,0 +1,7 @@
+{
+  "name": "telemetria",
+  "version": "1.0.0",
+  "description": "Contrato de dados da telemetria do Micromouse: pacote de 18 bytes, codec, validacao e conversao para JSON (compartilhado entre robo e gateway).",
+  "frameworks": "*",
+  "platforms": "*"
+}

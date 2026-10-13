@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include "TelemetriaPacket.h"
+#include "TelemetriaConfig.h"
+#include "TemporizadorPeriodico.h"
 #include "mapa/Mapa.h"
+#include "radio/RadioTelemetria.h"
 
 // Definições de pinos (conforme projeto de hardware 4.3)
 const int BOTAO_LARGADA_PIN = 15;   // Botão de controle (GPIO 15 conforme shield 4.3)
@@ -13,6 +16,19 @@ Adafruit_NeoPixel pixels(NUMPIXELS, LED_STATUS_PIN, NEO_GRB + NEO_KHZ800);
 EstadoRobo estadoAtual = AGUARDANDO;
 Mapa mapa;
 TelemetriaPacket telemetria;
+
+// Telemetria ESP-NOW a 1 Hz (RNF-SFT03), sem bloquear o laço principal
+TemporizadorPeriodico temporizadorTelemetria(TELEMETRIA_PERIODO_MS);
+bool radioPronto = false;
+
+void enviarTelemetria() {
+    if (!radioPronto) return;
+    telemetria.status_id = (uint8_t)estadoAtual;
+    telemetria.labirinto_id = (uint8_t)mapa.getGeometria();
+    // Os demais campos (posição, bateria, velocidades, paredes) serão preenchidos
+    // pelas issues de navegação/sensoriamento; por ora seguem os valores atuais da struct.
+    radioTelemetriaEnviar(telemetria);
+}
 
 // Controle de debounce e gestos do botão
 int estadoBotaoEstavel = HIGH;
@@ -80,6 +96,9 @@ void setup() {
     telemetria.status_id = AGUARDANDO;
     telemetria.labirinto_id = LAB_4X4;
     mapa.setGeometria(LAB_4X4);
+
+    radioPronto = radioTelemetriaInit();
+    Serial.println(radioPronto ? "ESP-NOW pronto (telemetria a 1 Hz)." : "ERRO: falha ao iniciar ESP-NOW.");
     
     Serial.println("Robô ligado. Estado: AGUARDANDO");
     Serial.println("Pressione o botão 3 VEZES para selecionar a pista (toque triplo).");
@@ -87,6 +106,10 @@ void setup() {
 
 void loop() {
     unsigned long tempoAtual = millis();
+
+    if (temporizadorTelemetria.vencido((uint32_t)tempoAtual)) {
+        enviarTelemetria();
+    }
 
     switch (estadoAtual) {
         case AGUARDANDO: {

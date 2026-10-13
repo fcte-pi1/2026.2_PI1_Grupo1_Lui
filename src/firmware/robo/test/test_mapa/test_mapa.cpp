@@ -1,5 +1,5 @@
 #include <unity.h>
-#include "../src/mapa/Mapa.h"
+#include "../../src/mapa/Mapa.h"
 
 void setUp(void) {
     // Configuração antes de cada teste
