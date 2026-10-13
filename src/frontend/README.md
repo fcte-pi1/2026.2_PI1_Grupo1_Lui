@@ -22,7 +22,15 @@ npm run dev
 
 # Executar os testes unitários
 npm test
+
+# Executar os testes uma vez, com relatório de cobertura em coverage/
+npm run test:coverage
+
+# Verificar o código com o ESLint
+npm run lint
 ```
+
+O workflow [`frontend-ci.yml`](../../.github/workflows/frontend-ci.yml) roda lint, testes com cobertura e build em todo PR que altere `src/frontend` e publica a tabela de cobertura no resumo da execução. O formato das mensagens recebidas pelo WebSocket está no [contrato de dados](../README.md#contrato-de-dados).
 
 Evite incluir:
 

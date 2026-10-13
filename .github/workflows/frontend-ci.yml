@@ -1,0 +1,61 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/frontend/**'
+      - '.github/workflows/frontend-ci.yml'
+      - '.github/scripts/resumo_cobertura.py'
+  pull_request:
+    paths:
+      - 'src/frontend/**'
+      - '.github/workflows/frontend-ci.yml'
+      - '.github/scripts/resumo_cobertura.py'
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Lint, testes com cobertura e build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/frontend
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Lint (ESLint)
+        run: npm run lint
+
+      - name: Testes com cobertura (Vitest)
+        run: npm run test:coverage
+
+      - name: Publicar resumo da cobertura
+        run: >-
+          python3 ../../.github/scripts/resumo_cobertura.py istanbul
+          coverage/coverage-summary.json
+          --titulo "Cobertura do frontend (Vitest)"
+          >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build (Vite)
+        run: npm run build
+
+      - name: Publicar relatório HTML da cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-frontend
+          path: src/frontend/coverage
