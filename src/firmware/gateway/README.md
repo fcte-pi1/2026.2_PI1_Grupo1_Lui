@@ -22,7 +22,7 @@ Ambos usam **canal Wi-Fi 1** (`TELEMETRIA_CANAL_WIFI` em `lib/telemetria/src/Tel
 ## Formato da saída
 
 ```json
-{"seq":42,"rssi":-58,"timestamp_ms":142000,"labirinto":"8x4","status":"MAPEANDO","desafio_cumprido":false,"bateria_pct":78,"bateria_volts":7.42,"velocidade_atual":35.0,"velocidade_media":28.5,"posicao":{"coluna":"B","linha":4},"orientacao":"LESTE","paredes":{"norte":false,"sul":true,"leste":true,"oeste":false}}
+{"seq":42,"rssi":-58,"timestamp_ms":142000,"labirinto":"8x4","status":"MAPEANDO","desafio_cumprido":false,"bateria_pct":78,"bateria_volts":7.42,"velocidade_atual":35,"velocidade_media":28.5,"posicao":{"coluna":"B","linha":4},"orientacao":"LESTE","paredes":{"norte":false,"sul":true,"leste":true,"oeste":false}}
 ```
 
 | Campo | Origem |
@@ -30,6 +30,8 @@ Ambos usam **canal Wi-Fi 1** (`TELEMETRIA_CANAL_WIFI` em `lib/telemetria/src/Tel
 | `seq` | Contador de pacotes **válidos** recebidos pelo gateway, começa em 1 (reinicia ao religar o gateway) |
 | `rssi` | Potência do quadro recebido, em dBm (ex.: `-58`; mais perto de 0 = sinal mais forte) |
 | demais campos | Conversões do doc 4.4 §6.2: índices → `A`–`D` / `1`–`12`, mm/s → cm/s, mV → V, bitmask → booleanos |
+
+O ArduinoJson escreve decimais sem parte fracionária como inteiros (`35.0` sai como `35`). O formato completo, congelado, está no [contrato de dados](../../README.md#contrato-de-dados).
 
 ## Diagnóstico opcional
 
@@ -41,7 +43,7 @@ Para ver pacotes descartados e o MAC do gateway, compile com `-DGATEWAY_DEBUG` (
 pio test -e native      # em src/firmware/gateway e em src/firmware/robo
 ```
 
-A lógica (decodificação, validação, JSON, `seq`) fica em `src/firmware/lib/telemetria` e é testada nativamente, sem hardware. O CI (`.github/workflows/firmware-ci.yml`) roda esses testes e compila os dois firmwares a cada push/PR.
+A lógica (decodificação, validação, JSON, `seq`) fica em `src/firmware/lib/telemetria` e é testada nativamente, sem hardware. O CI (`.github/workflows/firmware-ci.yml`) roda esses testes, publica a cobertura (gcovr) no resumo da execução e compila os dois firmwares a cada push/PR.
 
 ## Teste de enlace (EAP 3.1.5.1) — @LeonardoAAugusto e @PedroFCR
 
