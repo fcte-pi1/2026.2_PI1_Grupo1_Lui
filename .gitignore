@@ -113,6 +113,8 @@ acs-*.bib
 *.tfm
 
 #(r)(e)ledmac/(r)(e)ledpar
+!docs/evidencias/5.3.1.1/
+!docs/evidencias/5.3.1.1/**
 *.end
 *.?end
 *.[1-9]
