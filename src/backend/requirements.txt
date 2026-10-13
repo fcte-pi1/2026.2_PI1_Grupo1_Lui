@@ -1,0 +1,11 @@
+# Dependências do backend (doc 4.4, seção 4.4 - Principais dependências)
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+pyserial==3.5
+SQLAlchemy==2.1.4
+PyMySQL==1.2.3
+
+# Testes e cobertura
+pytest==9.1.1
+pytest-cov==7.1.0
+httpx==0.28.1

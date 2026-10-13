@@ -1,0 +1,14 @@
+# Configuração das ferramentas de teste do backend (não é um pacote instalável).
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["app"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
