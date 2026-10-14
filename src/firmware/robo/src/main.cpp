@@ -1,8 +1,11 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include "TelemetriaPacket.h"
+#include "TelemetriaCodec.h"
 #include "TelemetriaConfig.h"
 #include "TemporizadorPeriodico.h"
+#include "botao/Botao.h"
+#include "cronometro/Cronometro.h"
 #include "mapa/Mapa.h"
 #include "radio/RadioTelemetria.h"
 
@@ -17,30 +20,23 @@ EstadoRobo estadoAtual = AGUARDANDO;
 Mapa mapa;
 TelemetriaPacket telemetria;
 
+// Gestos do botão (debounce, toques e largada) e cronômetro da prova
+Botao botao;
+Cronometro cronometro(TELEMETRIA_TIMESTAMP_MAX_MS); // limitado aos 10 min do contrato
+
 // Telemetria ESP-NOW a 1 Hz (RNF-SFT03), sem bloquear o laço principal
 TemporizadorPeriodico temporizadorTelemetria(TELEMETRIA_PERIODO_MS);
 bool radioPronto = false;
 
 void enviarTelemetria() {
     if (!radioPronto) return;
+    telemetria.timestamp_ms = cronometro.decorridoMs((uint32_t)millis()); // 0 antes da largada
     telemetria.status_id = (uint8_t)estadoAtual;
     telemetria.labirinto_id = (uint8_t)mapa.getGeometria();
     // Os demais campos (posição, bateria, velocidades, paredes) serão preenchidos
     // pelas issues de navegação/sensoriamento; por ora seguem os valores atuais da struct.
     radioTelemetriaEnviar(telemetria);
 }
-
-// Controle de debounce e gestos do botão
-int estadoBotaoEstavel = HIGH;
-int ultimaLeituraBotao = HIGH;
-unsigned long ultimoTempoDebounce = 0;
-const unsigned long DEBOUNCE_DELAY_MS = 25; // 25ms de leitura estável para debounce
-
-unsigned long tempoPressionado = 0;
-unsigned long ultimoTempoToque = 0;
-int contagemToques = 0;
-const unsigned long JANELA_GESTO_MS = 400;          // Janela de silêncio para considerar fim dos toques
-const unsigned long LIMITE_PRESSAO_LONGA_MS = 1000;  // Pressão >= 1s não conta como toque curto
 
 void piscarFeedbackLED(int vezes, uint32_t cor) {
     for (int i = 0; i < vezes; i++) {
@@ -56,8 +52,13 @@ void piscarFeedbackLED(int vezes, uint32_t cor) {
 void atualizarLEDStatus() {
     switch (estadoAtual) {
         case AGUARDANDO:
-            // Verde constante conforme 4.3
-            pixels.setPixelColor(0, pixels.Color(0, 255, 0));
+            if (botao.largadaArmada()) {
+                // Branco constante: botão pressionado há 2 s, pode soltar para dar a largada
+                pixels.setPixelColor(0, pixels.Color(255, 255, 255));
+            } else {
+                // Verde constante conforme 4.3
+                pixels.setPixelColor(0, pixels.Color(0, 255, 0));
+            }
             break;
         case MAPEANDO:
             // Amarelo piscante em exploração conforme 4.3
@@ -102,77 +103,63 @@ void setup() {
     
     Serial.println("Robô ligado. Estado: AGUARDANDO");
     Serial.println("Pressione o botão 3 VEZES para selecionar a pista (toque triplo).");
+    Serial.println("Para a largada, segure o botão por 2 s (LED branco) e solte.");
+}
+
+void selecionarProximaGeometria() {
+    GeometriaLabirinto geo = mapa.getGeometria();
+
+    // Alterna geometrias (4x4 -> 8x4 -> 12x4 -> 4x4)
+    if (geo == LAB_4X4) geo = LAB_8X4;
+    else if (geo == LAB_8X4) geo = LAB_12X4;
+    else geo = LAB_4X4;
+
+    mapa.setGeometria(geo);
+    telemetria.labirinto_id = geo;
+
+    Serial.print("Geometria selecionada: ");
+    int piscaCount = 1;
+    if (geo == LAB_4X4) { Serial.println("4x4"); piscaCount = 1; }
+    else if (geo == LAB_8X4) { Serial.println("8x4"); piscaCount = 2; }
+    else if (geo == LAB_12X4) { Serial.println("12x4"); piscaCount = 3; }
+
+    Serial.print("Limites da matriz (linhas x colunas): ");
+    Serial.print(mapa.getMaxLinhas());
+    Serial.print(" x ");
+    Serial.println(mapa.getMaxColunas());
+
+    // Feedback visual com cor única (Ciano) e quantidade de piscadas
+    uint32_t corCiano = pixels.Color(0, 255, 255);
+    piscarFeedbackLED(piscaCount, corCiano);
+}
+
+void darLargada(uint32_t tempoAtual) {
+    cronometro.iniciar(tempoAtual);
+    estadoAtual = MAPEANDO;
+    Serial.println("Largada! Estado: MAPEANDO (cronômetro iniciado)");
 }
 
 void loop() {
-    unsigned long tempoAtual = millis();
+    const uint32_t tempoAtual = (uint32_t)millis();
 
-    if (temporizadorTelemetria.vencido((uint32_t)tempoAtual)) {
+    if (temporizadorTelemetria.vencido(tempoAtual)) {
         enviarTelemetria();
     }
 
+    // O botão é lido em todo ciclo para o debounce acompanhar o estado real, mas os
+    // gestos só têm efeito em AGUARDANDO: depois da largada não há intervenção (RNF-SFT01).
+    const EventoBotao evento = botao.atualizar(digitalRead(BOTAO_LARGADA_PIN) == LOW, tempoAtual);
+
     switch (estadoAtual) {
-        case AGUARDANDO: {
-            int leituraBruta = digitalRead(BOTAO_LARGADA_PIN);
-
-            // Debounce com leitura estável de 25ms
-            if (leituraBruta != ultimaLeituraBotao) {
-                ultimoTempoDebounce = tempoAtual;
+        case AGUARDANDO:
+            if (evento.tipo == BOTAO_LARGADA) {
+                darLargada(tempoAtual);
+            } else if (evento.tipo == BOTAO_TOQUES && evento.toques == 3) {
+                selecionarProximaGeometria();
             }
-            ultimaLeituraBotao = leituraBruta;
-
-            if ((tempoAtual - ultimoTempoDebounce) > DEBOUNCE_DELAY_MS) {
-                if (leituraBruta != estadoBotaoEstavel) {
-                    estadoBotaoEstavel = leituraBruta;
-
-                    if (estadoBotaoEstavel == LOW) {
-                        // Pressionou
-                        tempoPressionado = tempoAtual;
-                    } else {
-                        // Soltou (borda de subida estável)
-                        unsigned long duracaoPressao = tempoAtual - tempoPressionado;
-                        if (duracaoPressao < LIMITE_PRESSAO_LONGA_MS) {
-                            contagemToques++;
-                            ultimoTempoToque = tempoAtual;
-                        }
-                        // Pressão longa >= 1s ignorada para a contagem de toques
-                    }
-                }
-            }
-
-            // Processa sequência de toques após janela de silêncio
-            if (contagemToques > 0 && (tempoAtual - ultimoTempoToque > JANELA_GESTO_MS)) {
-                if (contagemToques == 3) { // Toque triplo -> Geometria
-                    GeometriaLabirinto geo = mapa.getGeometria();
-                    
-                    // Alterna geometrias (4x4 -> 8x4 -> 12x4 -> 4x4)
-                    if (geo == LAB_4X4) geo = LAB_8X4;
-                    else if (geo == LAB_8X4) geo = LAB_12X4;
-                    else geo = LAB_4X4;
-                    
-                    mapa.setGeometria(geo);
-                    telemetria.labirinto_id = geo;
-                    
-                    Serial.print("Geometria selecionada: ");
-                    int piscaCount = 1;
-                    if (geo == LAB_4X4) { Serial.println("4x4"); piscaCount = 1; }
-                    else if (geo == LAB_8X4) { Serial.println("8x4"); piscaCount = 2; }
-                    else if (geo == LAB_12X4) { Serial.println("12x4"); piscaCount = 3; }
-                    
-                    Serial.print("Limites da matriz (linhas x colunas): ");
-                    Serial.print(mapa.getMaxLinhas());
-                    Serial.print(" x ");
-                    Serial.println(mapa.getMaxColunas());
-
-                    // Feedback visual com cor única (Ciano) e quantidade de piscadas
-                    uint32_t corCiano = pixels.Color(0, 255, 255);
-                    piscarFeedbackLED(piscaCount, corCiano);
-                }
-                
-                contagemToques = 0;
-            }
+            // 1 e 2 toques ficam reservados ao autoteste dos motores e dos sensores ToF
+            // (doc 4.3), que dependem de hardware e são de outras issues.
             break;
-        }
 
         case MAPEANDO:
         case SPEED_RUN:
