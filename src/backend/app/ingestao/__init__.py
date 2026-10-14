@@ -1,5 +1,5 @@
-"""Leitura da porta serial do gateway e watchdog de enlace (doc 4.4, seções 6.3 e 6.7).
+"""Fontes de telemetria (gateway pela serial ou simulador) e difusão no WebSocket.
 
-Ainda não implementado: a ingestão valida cada linha com app.modelos.TelemetriaMensagem
-e o watchdog atende o HU-09 (#44).
+Doc 4.4, seções 6.3 e 6.4. O watchdog de enlace (seção 6.7) ainda não está
+implementado: HU-09 (#44).
 """
