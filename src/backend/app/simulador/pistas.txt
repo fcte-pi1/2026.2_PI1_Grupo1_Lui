@@ -1,0 +1,67 @@
+# Pistas de exemplo dos slides do tema do PI1 (slides 3, 4 e 5).
+# L = largada (A1), C = chegada.
+#
+# Formato: cada célula ocupa 3 caracteres de largura. "---" é parede horizontal,
+# "|" é parede vertical e espaço é passagem. A coluna A fica à esquerda e a linha 1
+# no topo (norte). O interior das células é ignorado. Linhas começadas por "#" são
+# comentários.
+#
+# As figuras do 8x4 e do 12x4 têm regiões fechadas, sem acesso a partir da largada
+# (7 células no 8x4 e 8 no 12x4), fiéis aos slides.
+
+[4x4]
++---+---+---+---+
+| L             |
++---+---+   +---+
+|       |   |   |
++   +   +   +   +
+|               |
++   +---+---+---+
+|             C |
++---+---+---+---+
+
+[8x4]
++---+---+---+---+
+| L             |
++---+   +---+---+
+|   |   |       |
++   +   +   +   +
+|   |   |       |
++   +   +---+   +
+|           |   |
++   +   +---+   +
+|       |       |
++---+   +---+---+
+|   |           |
++   +---+---+   +
+|               |
++   +---+---+   +
+|             C |
++---+---+---+---+
+
+[12x4]
++---+---+---+---+
+| L             |
++---+   +---+---+
+|   |           |
++   +---+   +   +
+|       |       |
++   +   +---+   +
+|           |   |
++   +   +   +   +
+|           |   |
++---+   +---+   +
+|   |           |
++   +---+   +   +
+|       |       |
++   +---+   +---+
+|   |       |   |
++---+   +---+   +
+|       |       |
++   +   +---+   +
+|           |   |
++   +---+   +---+
+|   |   |       |
++   +   +---+---+
+|             C |
++---+---+---+---+
