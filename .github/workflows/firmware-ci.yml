@@ -7,10 +7,15 @@ on:
     paths:
       - 'src/firmware/**'
       - '.github/workflows/firmware-ci.yml'
+      - '.github/scripts/resumo_cobertura.py'
   pull_request:
     paths:
       - 'src/firmware/**'
       - '.github/workflows/firmware-ci.yml'
+      - '.github/scripts/resumo_cobertura.py'
+
+permissions:
+  contents: read
 
 jobs:
   firmware:
@@ -36,11 +41,34 @@ jobs:
           key: pio-${{ runner.os }}-${{ hashFiles('src/firmware/*/platformio.ini', 'src/firmware/lib/**/library.json') }}
           restore-keys: pio-${{ runner.os }}-
 
-      - name: Instalar PlatformIO
-        run: pip install platformio
+      - name: Instalar PlatformIO e gcovr
+        run: pip install platformio gcovr==8.6
 
       - name: Testes nativos (Unity)
         run: pio test -d src/firmware/${{ matrix.projeto }} -e native --junit-output-path test-report-${{ matrix.projeto }}.xml
+
+      # O env native compila com --coverage; o gcovr lê os .gcda gerados pelos testes.
+      # Só entram no relatório a biblioteca compartilhada e o código do próprio projeto.
+      - name: Relatório de cobertura (gcovr)
+        working-directory: src/firmware
+        run: |
+          mkdir -p cobertura-${{ matrix.projeto }}
+          gcovr --root . \
+            --filter 'lib/' --filter '${{ matrix.projeto }}/src/' \
+            --exclude-throw-branches --exclude-unreachable-branches \
+            --txt-summary \
+            --json-summary cobertura-${{ matrix.projeto }}/resumo.json \
+            --html-details cobertura-${{ matrix.projeto }}/index.html \
+            ${{ matrix.projeto }}/.pio/build/native
+          python ../../.github/scripts/resumo_cobertura.py gcovr \
+            cobertura-${{ matrix.projeto }}/resumo.json \
+            --titulo "Cobertura do firmware (${{ matrix.projeto }})" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar relatório HTML da cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-firmware-${{ matrix.projeto }}
+          path: src/firmware/cobertura-${{ matrix.projeto }}
 
       - name: Compilar firmware para o ESP32
         run: pio run -d src/firmware/${{ matrix.projeto }} -e esp32dev

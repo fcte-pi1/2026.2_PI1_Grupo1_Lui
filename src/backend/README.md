@@ -1,19 +1,74 @@
-# _Backend_
+# Backend
 
-Esta pasta deverá armazenar arquivos referentes a:
+Servidor da telemetria em Python 3.11 com FastAPI. Recebe as linhas JSON do gateway pela serial, difunde cada pacote pelo WebSocket e persiste as corridas no MySQL (doc 4.4, seção 4).
 
-- Código-fonte da API REST: rotas, controladores, modelos e lógica de negócio.
-- Arquivos de configuração do servidor: `app.py`, `server.js`, `main.go` etc., dependendo da linguagem/framework utilizado ([Flask](https://flask.palletsprojects.com/), [FastAPI](https://fastapi.tiangolo.com/), [Express](https://expressjs.com/), [Django](https://www.djangoproject.com/) etc.).
-- Arquivos de definição de dependências: `requirements.txt` ou `pyproject.toml` (Python), `package.json` (Node.js), `pom.xml` (Java/Maven) etc.
-- Scripts de migração e esquemas de banco de dados: arquivos `.sql`, scripts de migração ([Alembic](https://alembic.sqlalchemy.org/), [Sequelize](https://sequelize.org/) etc.) e seeds de dados para desenvolvimento.
-- Arquivos de configuração de ambiente: `.env.example` com as variáveis de ambiente necessárias (nunca o `.env` real).
-- Arquivos de containerização: `Dockerfile` e `docker-compose.yml`, caso o serviço seja executado em contêiner.
+O formato das mensagens é o [contrato de dados](../README.md#contrato-de-dados), que está congelado.
 
-Evite incluir:
+## Estado atual
 
-- Credenciais e segredos: arquivos `.env`, chaves de API, senhas, tokens de acesso ou qualquer dado sensível **nunca** devem ser versionados.
-- Artefatos de build: diretórios como `__pycache__/`, `dist/`, `build/`, `.eggs/` devem ser gerados localmente e ignorados via `.gitignore`.
-- Dependências instaladas: pastas como `node_modules/` ou ambientes virtuais Python (`venv/`, `.env/`) não devem ser incluídos no repositório.
-- Arquivos temporários/específicos do sistema operacional: arquivos gerados automaticamente pelo sistema ou pelo gerenciador de arquivos (ex.: `*~`, `.DS_Store`, `Thumbs.db`).
-> [!WARNING]
-> **Não acrescente arquivos referentes ao _frontend_ nesta pasta.** Eles deverão ser armazenados na pasta [frontend](https://github.com/fcte-pi1/template/tree/main/src/frontend) deste repositório.
+| Parte | Situação |
+|:---|:---|
+| `GET /health` | Pronto |
+| WebSocket `/ws/telemetria` com difusão para todos os clientes | Pronto |
+| Validação da mensagem (`TelemetriaMensagem`) | Pronta |
+| Ingestão serial e watchdog de enlace (`app/ingestao`) | A implementar |
+| Ciclo de vida da corrida e persistência (`app/servicos`, `app/repositorios`) | A implementar (HU-12, #49) |
+| API REST do histórico (`/api/corridas`) | A implementar (#142) |
+
+## Estrutura
+
+```text
+backend/
+├── requirements.txt       # Dependências de execução e de teste
+├── pyproject.toml         # Configuração do pytest e da cobertura
+├── app/
+│   ├── main.py            # criar_app() e a instância usada pelo Uvicorn
+│   ├── api/               # GET /health e WebSocket /ws/telemetria
+│   ├── ingestao/          # Leitura da porta serial e watchdog
+│   ├── servicos/          # Ciclo de vida da corrida
+│   ├── repositorios/      # Acesso ao banco
+│   └── modelos/           # Esquemas de validação (TelemetriaMensagem)
+└── tests/
+```
+
+## Como executar
+
+```bash
+cd src/backend
+python -m venv .venv
+.venv\Scripts\activate          # Windows (PowerShell)
+source .venv/bin/activate       # Linux e macOS
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+- Saúde: <http://127.0.0.1:8000/health>
+- Documentação interativa da API: <http://127.0.0.1:8000/docs>
+- Telemetria em tempo real: `ws://127.0.0.1:8000/ws/telemetria`
+
+## Testes e cobertura
+
+```bash
+pytest --cov=app --cov-report=term-missing
+```
+
+O workflow [`backend-ci.yml`](../../.github/workflows/backend-ci.yml) roda esse comando em todo PR que altere `src/backend` e publica a tabela de cobertura no resumo da execução.
+
+## Difundindo uma mensagem
+
+A ingestão serial, quando implementada, deve validar cada linha e repassá-la ao gerenciador de conexões guardado em `app.state`:
+
+```python
+from pydantic import ValidationError
+
+from app.modelos import TelemetriaMensagem
+
+try:
+    mensagem = TelemetriaMensagem.model_validate_json(linha)
+except ValidationError:
+    ...  # linha descartada (ruído, diagnóstico do gateway ou campo fora do contrato)
+else:
+    await app.state.gerenciador.difundir(mensagem)
+```
+
+Não versione `.env`, `.venv/`, `__pycache__/` nem os relatórios de cobertura; o `.gitignore` desta pasta já os ignora.
