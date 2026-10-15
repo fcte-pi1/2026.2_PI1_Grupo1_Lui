@@ -152,7 +152,8 @@ body {
     text-transform: uppercase;
 }
 
-.status-online {
+.status-online,
+.status-conexao {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -161,11 +162,21 @@ body {
     font-size: 0.85rem;
 }
 
-.status-online .dot {
+.status-online .dot,
+.status-conexao .dot {
     width: 8px;
     height: 8px;
     background-color: #48bb78;
     border-radius: 50%;
+}
+
+.status-conexao.neutro {
+    color: #718096;
+    font-weight: 500;
+}
+
+.status-conexao.neutro .dot {
+    background-color: #a0aec0;
 }
 
 .dashboard-layout {

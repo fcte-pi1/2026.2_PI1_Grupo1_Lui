@@ -6,33 +6,40 @@ import {
     aplicarParedes,
     normalizarOrientacao,
     calcularPosicaoPixelRobo,
-    gerarPontosSvg,
-    obterCenarioMock
+    gerarPontosSvg
 } from '../servicos/labirinto';
 
 export default function Labirinto({
     linhas = 4,
-    paredes,
+    paredes = [],
+    cells: celulasProp,
+    celulas,
     roboPosicao,
+    posicao,
     roboOrientacao,
-    trajeto
+    orientacao,
+    trajeto,
+    rastro
 }) {
     const cellSize = calcularCellSize(linhas);
-    const cenarioPadrao = obterCenarioMock(linhas);
-
-    // Usa dados passados via props ou fallback para o cenario mockado
-    const paredesAtivas = paredes !== undefined ? paredes : cenarioPadrao.paredes;
-    const posicaoRoboAtiva = roboPosicao !== undefined ? roboPosicao : cenarioPadrao.roboPos;
-    const orientacaoAtiva = roboOrientacao !== undefined ? roboOrientacao : cenarioPadrao.roboRotacao;
-    const trajetoAtivo = trajeto !== undefined ? trajeto : cenarioPadrao.trajeto;
-
-    // Gera grid e aplica paredes
     const { cells: celulasBase, cols, rowsList } = gerarGrid(linhas);
-    const cells = aplicarParedes(celulasBase, paredesAtivas);
+
+    // Se celulas pré-computadas forem passadas (ex: por aplicarPacote), usa-as diretamente.
+    // Senão, aplica as paredes recebidas sobre o grid base (sem fallback para mock).
+    let cellsAtivas = celulasProp || celulas;
+    if (!cellsAtivas) {
+        cellsAtivas = (paredes && paredes.length > 0)
+            ? aplicarParedes(celulasBase, paredes)
+            : celulasBase;
+    }
+
+    const posicaoRoboAtiva = roboPosicao !== undefined ? roboPosicao : posicao;
+    const orientacaoAtiva = roboOrientacao !== undefined ? roboOrientacao : orientacao;
+    const trajetoAtivo = rastro !== undefined ? rastro : (trajeto !== undefined ? trajeto : []);
 
     // Cálculos de renderização
-    const roboPosPixel = calcularPosicaoPixelRobo(posicaoRoboAtiva, cellSize);
-    const roboRotacao = normalizarOrientacao(orientacaoAtiva);
+    const roboPosPixel = posicaoRoboAtiva ? calcularPosicaoPixelRobo(posicaoRoboAtiva, cellSize) : null;
+    const roboRotacao = normalizarOrientacao(orientacaoAtiva || 'NORTE');
     const pathPoints = gerarPontosSvg(trajetoAtivo, cellSize);
 
     return (
@@ -71,7 +78,7 @@ export default function Labirinto({
                             gridTemplateRows: `repeat(${linhas}, ${cellSize}px)`
                         }}
                     >
-                        {cells.map(cell => (
+                        {cellsAtivas.map(cell => (
                             <div 
                                 key={cell.id} 
                                 data-testid={`celula-${cell.id}`}
@@ -88,19 +95,21 @@ export default function Labirinto({
                             </div>
                         ))}
                         
-                        {pathPoints && (
+                        {pathPoints ? (
                             <svg className="trajeto-overlay" viewBox={`0 0 ${cellSize * 4} ${cellSize * linhas}`}>
                                 <polyline points={pathPoints} fill="none" stroke="#1a1a1a" strokeWidth="3" strokeDasharray="6,6" />
                             </svg>
-                        )}
+                        ) : null}
 
-                        <div 
-                            className="robo-icon" 
-                            data-testid="robo-icon"
-                            style={{ top: `${roboPosPixel.y}px`, left: `${roboPosPixel.x}px` }}
-                        >
-                            <div className="robo-seta" style={{ transform: `rotate(${roboRotacao})` }}>➔</div>
-                        </div>
+                        {posicaoRoboAtiva && roboPosPixel && (
+                            <div 
+                                className="robo-icon" 
+                                data-testid="robo-icon"
+                                style={{ top: `${roboPosPixel.y}px`, left: `${roboPosPixel.x}px` }}
+                            >
+                                <div className="robo-seta" style={{ transform: `rotate(${roboRotacao})` }}>➔</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

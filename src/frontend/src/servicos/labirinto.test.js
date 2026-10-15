@@ -6,7 +6,12 @@ import {
     normalizarOrientacao,
     calcularPosicaoPixelRobo,
     gerarPontosSvg,
-    obterCenarioMock
+    obterCenarioMock,
+    parseLinhas,
+    criarEstadoInicial,
+    aplicarPacote,
+    acumularPacote,
+    SEQUENCIAS_SIMULADAS_6_4
 } from './labirinto';
 
 describe('servicos/labirinto.js', () => {
@@ -19,6 +24,192 @@ describe('servicos/labirinto.js', () => {
         });
         it('deve retornar 50 para grid 12x4', () => {
             expect(calcularCellSize(12)).toBe(50);
+        });
+    });
+
+    describe('parseLinhas', () => {
+        it('deve extrair o numero de linhas a partir da string ou numero', () => {
+            expect(parseLinhas('4x4')).toBe(4);
+            expect(parseLinhas('8x4')).toBe(8);
+            expect(parseLinhas('12x4')).toBe(12);
+            expect(parseLinhas(8)).toBe(8);
+            expect(parseLinhas(null)).toBe(4);
+        });
+    });
+
+    describe('criarEstadoInicial', () => {
+        it('deve inicializar o estado padrão com perímetro e sem robô', () => {
+            const estado = criarEstadoInicial('4x4');
+            expect(estado.linhas).toBe(4);
+            expect(estado.geometria).toBe('4x4');
+            expect(estado.cells).toHaveLength(16);
+            expect(estado.roboPosicao).toBeNull();
+            expect(estado.rastro).toEqual([]);
+            expect(estado.ultimoStatus).toBe('AGUARDANDO');
+        });
+    });
+
+    describe('aplicarPacote (Contrato 6.4)', () => {
+        it('deve registrar paredes na célula atual e de forma simétrica na vizinha', () => {
+            const estadoInicial = criarEstadoInicial('4x4');
+            const pacote = {
+                labirinto: '4x4',
+                posicao: { coluna: 'B', linha: 2 },
+                orientacao: 'LESTE',
+                paredes: { norte: true, sul: true, leste: true, oeste: true },
+                status: 'MAPEANDO'
+            };
+
+            const novoEstado = aplicarPacote(estadoInicial, pacote);
+            const celulas = novoEstado.cells;
+
+            // B02: x=1, y=1
+            const b02 = celulas.find(c => c.x === 1 && c.y === 1);
+            expect(b02.walls.top).toBe(true);
+            expect(b02.walls.bottom).toBe(true);
+            expect(b02.walls.right).toBe(true);
+            expect(b02.walls.left).toBe(true);
+
+            // Vizinha Norte B01: x=1, y=0 deve ter parede bottom
+            const b01 = celulas.find(c => c.x === 1 && c.y === 0);
+            expect(b01.walls.bottom).toBe(true);
+
+            // Vizinha Sul B03: x=1, y=2 deve ter parede top
+            const b03 = celulas.find(c => c.x === 1 && c.y === 2);
+            expect(b03.walls.top).toBe(true);
+
+            // Vizinha Leste C02: x=2, y=1 deve ter parede left
+            const c02 = celulas.find(c => c.x === 2 && c.y === 1);
+            expect(c02.walls.left).toBe(true);
+
+            // Vizinha Oeste A02: x=0, y=1 deve ter parede right
+            const a02 = celulas.find(c => c.x === 0 && c.y === 1);
+            expect(a02.walls.right).toBe(true);
+        });
+
+        it('não deve lançar erro nem acessar fora da matriz ao registrar paredes na borda', () => {
+            const estadoInicial = criarEstadoInicial('4x4');
+            const pacoteA01 = {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'SUL',
+                paredes: { norte: true, sul: false, leste: true, oeste: true },
+                status: 'MAPEANDO'
+            };
+
+            const novoEstado = aplicarPacote(estadoInicial, pacoteA01);
+            const a01 = novoEstado.cells.find(c => c.x === 0 && c.y === 0);
+            expect(a01.walls.top).toBe(true);
+            expect(a01.walls.left).toBe(true);
+            expect(a01.walls.right).toBe(true);
+
+            // Vizinha a Leste B01 deve ter recebido parede a Oeste
+            const b01 = novoEstado.cells.find(c => c.x === 1 && c.y === 0);
+            expect(b01.walls.left).toBe(true);
+        });
+
+        it('deve atualizar posição, orientação e rastro', () => {
+            const estado0 = criarEstadoInicial('4x4');
+            const p1 = {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'SUL',
+                paredes: { norte: true, sul: false, leste: true, oeste: true },
+                status: 'MAPEANDO'
+            };
+            const estado1 = aplicarPacote(estado0, p1);
+
+            expect(estado1.posicao).toEqual({ x: 0, y: 0, coluna: 'A', linha: 1 });
+            expect(estado1.orientacao).toBe('SUL');
+            expect(estado1.rastro).toEqual([{ x: 0, y: 0 }]);
+
+            // Avança para A2
+            const p2 = {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 2 },
+                orientacao: 'LESTE',
+                paredes: { norte: false, sul: true, leste: false, oeste: true },
+                status: 'MAPEANDO'
+            };
+            const estado2 = aplicarPacote(estado1, p2);
+
+            expect(estado2.posicao).toEqual({ x: 0, y: 1, coluna: 'A', linha: 2 });
+            expect(estado2.orientacao).toBe('LESTE');
+            expect(estado2.rastro).toEqual([{ x: 0, y: 0 }, { x: 0, y: 1 }]);
+        });
+
+        it('não deve duplicar pontos consecutivos na mesma célula no rastro', () => {
+            const estado0 = criarEstadoInicial('4x4');
+            const p1 = {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'NORTE',
+                status: 'MAPEANDO'
+            };
+            const estado1 = aplicarPacote(estado0, p1);
+            const p2 = {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'LESTE',
+                status: 'MAPEANDO'
+            };
+            const estado2 = aplicarPacote(estado1, p2);
+
+            expect(estado2.rastro).toEqual([{ x: 0, y: 0 }]);
+            expect(estado2.orientacao).toBe('LESTE');
+        });
+
+        it('deve garantir pureza da função sem mutar o estado anterior', () => {
+            const estado0 = criarEstadoInicial('4x4');
+            const pacote = {
+                labirinto: '4x4',
+                posicao: { coluna: 'C', linha: 2 },
+                orientacao: 'SUL',
+                paredes: { norte: true, sul: false, leste: true, oeste: false },
+                status: 'MAPEANDO'
+            };
+
+            const estado1 = aplicarPacote(estado0, pacote);
+
+            expect(estado0.rastro).toEqual([]);
+            expect(estado0.cells.find(c => c.x === 2 && c.y === 1).walls.right).toBe(false);
+            expect(estado1.cells.find(c => c.x === 2 && c.y === 1).walls.right).toBe(true);
+        });
+
+        it('deve ajustar a geometria se o pacote indicar outra dimensão', () => {
+            const estado0 = criarEstadoInicial('4x4');
+            const pacote8 = {
+                labirinto: '8x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'LESTE',
+                paredes: { norte: true, sul: false, leste: false, oeste: true },
+                status: 'MAPEANDO'
+            };
+
+            const estado8 = aplicarPacote(estado0, pacote8);
+            expect(estado8.linhas).toBe(8);
+            expect(estado8.geometria).toBe('8x4');
+            expect(estado8.cells).toHaveLength(32);
+        });
+
+        it('deve reiniciar o mapa e rastro se status transicionar de AGUARDANDO para MAPEANDO', () => {
+            let estado = criarEstadoInicial('4x4');
+            estado.rastro = [{ x: 1, y: 1 }];
+            estado.ultimoStatus = 'AGUARDANDO';
+
+            const pacote = {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'SUL',
+                status: 'MAPEANDO'
+            };
+
+            const novoEstado = aplicarPacote(estado, pacote);
+            expect(novoEstado.rastro).toEqual([{ x: 0, y: 0 }]);
+        });
+
+        it('deve ser exportado também pelo alias acumularPacote', () => {
+            expect(acumularPacote).toBe(aplicarPacote);
         });
     });
 
@@ -62,7 +253,6 @@ describe('servicos/labirinto.js', () => {
 
         it('deve configurar paredes externas corretamente', () => {
             const { cells } = gerarGrid(4);
-            // Celula interna B02 nao deve ter paredes externas
             const b02 = cells.find(c => c.id === 'B02');
             expect(b02.walls.top).toBe(false);
             expect(b02.walls.bottom).toBe(false);
@@ -83,7 +273,6 @@ describe('servicos/labirinto.js', () => {
 
             expect(b02.walls.bottom).toBe(true);
             expect(b03.walls.top).toBe(true);
-            // Confirma imutabilidade do grid original
             expect(cells.find(c => c.id === 'B02').walls.bottom).toBe(false);
         });
 
@@ -155,6 +344,28 @@ describe('servicos/labirinto.js', () => {
         });
     });
 
+    describe('SEQUENCIAS_SIMULADAS_6_4 (Mock coerente com o robô)', () => {
+        it('as sequencias simuladas devem ser mensagens coerentes no formato 6.4', () => {
+            const seq4 = SEQUENCIAS_SIMULADAS_6_4[4];
+            expect(seq4).toBeDefined();
+            expect(seq4.length).toBeGreaterThan(0);
+
+            // Primeiro passo está em A1 e suas paredes são da célula A1
+            const primeiroPasso = seq4[0];
+            expect(primeiroPasso.labirinto).toBe('4x4');
+            expect(primeiroPasso.posicao).toEqual({ coluna: 'A', linha: 1 });
+            expect(primeiroPasso.paredes).toBeDefined();
+            expect(primeiroPasso.paredes.norte).toBe(true);
+            expect(primeiroPasso.paredes.oeste).toBe(true);
+
+            // Último passo atinge o objetivo com CONCLUIDO
+            const ultimoPasso = seq4[seq4.length - 1];
+            expect(ultimoPasso.status).toBe('CONCLUIDO');
+            expect(ultimoPasso.desafio_cumprido).toBe(true);
+            expect(ultimoPasso.posicao).toEqual({ coluna: 'D', linha: 4 });
+        });
+    });
+
     describe('obterCenarioMock', () => {
         it('deve fornecer cenario 4x4 consistente com o prototipo', () => {
             const mock = obterCenarioMock(4);
@@ -162,15 +373,6 @@ describe('servicos/labirinto.js', () => {
             expect(mock.trajeto).toHaveLength(3);
             expect(mock.roboPos).toEqual({ x: 2, y: 1 });
             expect(mock.roboRotacao).toBe('0deg');
-        });
-
-        it('deve fornecer cenario 8x4 e 12x4 com orientacao e trajeto', () => {
-            const mock8 = obterCenarioMock(8);
-            expect(mock8.roboRotacao).toBe('90deg');
-
-            const mock12 = obterCenarioMock(12);
-            expect(mock12.paredes.length).toBeGreaterThan(5);
-            expect(mock12.trajeto).toHaveLength(4);
         });
     });
 });

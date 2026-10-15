@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 import Labirinto from './Labirinto';
 
 describe('componentes/Labirinto.jsx', () => {
-    it('deve renderizar o container e titulos da geometria 4x4', () => {
+    it('sem dados, deve exibir só a grade com o perímetro e sem robô/rastro', () => {
         const html = ReactDOMServer.renderToString(<Labirinto linhas={4} />);
         expect(html).toContain('MAPEAMENTO EM TEMPO REAL - GRID 4x4');
         expect(html).toContain('Grid de 4x4');
@@ -13,23 +13,28 @@ describe('componentes/Labirinto.jsx', () => {
         // Deve conter 16 celulas
         const cellCount = (html.match(/class="celula/g) || []).length;
         expect(cellCount).toBe(16);
+        // Sem fallback de mock: sem robo e sem overlay de trajeto
+        expect(html).not.toContain('robo-icon');
+        expect(html).not.toContain('trajeto-overlay');
     });
 
-    it('deve renderizar 32 celulas para geometria 8x4', () => {
+    it('deve renderizar 32 celulas para geometria 8x4 sem fallback de mock', () => {
         const html = ReactDOMServer.renderToString(<Labirinto linhas={8} />);
         expect(html).toContain('MAPEAMENTO EM TEMPO REAL - GRID 8x4');
         const cellCount = (html.match(/class="celula/g) || []).length;
         expect(cellCount).toBe(32);
+        expect(html).not.toContain('robo-icon');
     });
 
-    it('deve renderizar 48 celulas para geometria 12x4', () => {
+    it('deve renderizar 48 celulas para geometria 12x4 sem fallback de mock', () => {
         const html = ReactDOMServer.renderToString(<Labirinto linhas={12} />);
         expect(html).toContain('MAPEAMENTO EM TEMPO REAL - GRID 12x4');
         const cellCount = (html.match(/class="celula/g) || []).length;
         expect(cellCount).toBe(48);
+        expect(html).not.toContain('robo-icon');
     });
 
-    it('deve renderizar o robo com posicao e orientacao dinamicas', () => {
+    it('deve renderizar o robo com posicao e orientacao dinamicas quando fornecidos', () => {
         const html = ReactDOMServer.renderToString(
             <Labirinto 
                 linhas={4} 
@@ -67,5 +72,15 @@ describe('componentes/Labirinto.jsx', () => {
         );
         // Deve renderizar borda escura de parede (3px solid #1a1a1a)
         expect(html).toContain('3px solid #1a1a1a');
+    });
+
+    it('deve aceitar lista de celulas acumuladas diretamente', () => {
+        const celulasCustom = [
+            { id: 'A01', x: 0, y: 0, isStart: true, isFinish: false, walls: { top: true, bottom: true, left: true, right: true } }
+        ];
+        const html = ReactDOMServer.renderToString(
+            <Labirinto linhas={4} cells={celulasCustom} />
+        );
+        expect(html).toContain('celula-A01');
     });
 });
