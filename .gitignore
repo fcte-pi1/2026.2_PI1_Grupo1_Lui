@@ -3,6 +3,7 @@
 .vscode
 dicas.md
 site/
+.pio/
 
 # Python / MkDocs
 .venv/
