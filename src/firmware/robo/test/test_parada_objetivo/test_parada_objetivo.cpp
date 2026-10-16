@@ -1,4 +1,3 @@
-#include <string.h>
 #include <unity.h>
 
 #include "../../src/parada/ParadaObjetivo.h"
@@ -54,7 +53,7 @@ void setUp(void) {}
 void tearDown(void) {}
 
 // ---------------------------------------------------------------------------
-// Critérios de aceitação da HU-07
+// Critérios de aceitação da HU-07 (parada da tração e cronômetro)
 // ---------------------------------------------------------------------------
 
 void test_nao_para_fora_da_area_objetivo(void) {
@@ -103,78 +102,6 @@ void test_tracao_para_antes_do_cronometro_no_mesmo_ciclo(void) {
     parada.atualizar(1, 1);
 
     TEST_ASSERT_EQUAL_STRING("PC", ev.ordem);
-}
-
-void test_telemetria_recebe_concluido_e_desafio_cumprido(void) {
-    Eventos ev;
-    TracaoFalsa tracao(ev);
-    CronometroFalso cron(ev);
-    ParadaObjetivo parada(tracao, cron);
-    const CelulaObjetivo obj[] = {{3, 3}};
-    parada.configurarObjetivo(obj, 1);
-
-    TelemetriaPacket pacote;
-    memset(&pacote, 0, sizeof(pacote));
-    pacote.status_id = (uint8_t)SPEED_RUN;
-
-    parada.atualizar(3, 3);
-    parada.aplicarNoPacote(pacote);
-
-    TEST_ASSERT_EQUAL_UINT8(CONCLUIDO, pacote.status_id);
-    TEST_ASSERT_EQUAL_UINT8(1, pacote.desafio_cumprido);
-}
-
-void test_pacote_nao_e_alterado_antes_da_chegada(void) {
-    Eventos ev;
-    TracaoFalsa tracao(ev);
-    CronometroFalso cron(ev);
-    ParadaObjetivo parada(tracao, cron);
-    const CelulaObjetivo obj[] = {{3, 3}};
-    parada.configurarObjetivo(obj, 1);
-
-    TelemetriaPacket pacote;
-    memset(&pacote, 0, sizeof(pacote));
-    pacote.status_id = (uint8_t)MAPEANDO;
-
-    parada.atualizar(0, 0);
-    parada.aplicarNoPacote(pacote);
-
-    TEST_ASSERT_EQUAL_UINT8(MAPEANDO, pacote.status_id);
-    TEST_ASSERT_EQUAL_UINT8(0, pacote.desafio_cumprido);
-}
-
-void test_aplicar_no_pacote_preserva_os_outros_campos(void) {
-    Eventos ev;
-    TracaoFalsa tracao(ev);
-    CronometroFalso cron(ev);
-    ParadaObjetivo parada(tracao, cron);
-    const CelulaObjetivo obj[] = {{3, 3}};
-    parada.configurarObjetivo(obj, 1);
-
-    TelemetriaPacket pacote;
-    memset(&pacote, 0, sizeof(pacote));
-    pacote.timestamp_ms = 12345;
-    pacote.labirinto_id = LAB_4X4;
-    pacote.bateria_pct = 87;
-    pacote.bateria_mv = 7420;
-    pacote.velocidade_atual = -15;
-    pacote.coluna = 3;
-    pacote.linha = 3;
-    pacote.orientacao = 2;
-    pacote.paredes = 0x0B;
-
-    parada.atualizar(3, 3);
-    parada.aplicarNoPacote(pacote);
-
-    TEST_ASSERT_EQUAL_UINT32(12345, pacote.timestamp_ms);
-    TEST_ASSERT_EQUAL_UINT8(LAB_4X4, pacote.labirinto_id);
-    TEST_ASSERT_EQUAL_UINT8(87, pacote.bateria_pct);
-    TEST_ASSERT_EQUAL_UINT16(7420, pacote.bateria_mv);
-    TEST_ASSERT_EQUAL_INT16(-15, pacote.velocidade_atual);
-    TEST_ASSERT_EQUAL_UINT8(3, pacote.coluna);
-    TEST_ASSERT_EQUAL_UINT8(3, pacote.linha);
-    TEST_ASSERT_EQUAL_UINT8(2, pacote.orientacao);
-    TEST_ASSERT_EQUAL_HEX8(0x0B, pacote.paredes);
 }
 
 // ---------------------------------------------------------------------------
@@ -277,12 +204,6 @@ void test_iniciar_prova_permite_nova_parada(void) {
     parada.iniciarProva();
     TEST_ASSERT_FALSE(parada.concluido());
     TEST_ASSERT_FALSE(parada.desafioCumprido());
-
-    TelemetriaPacket pacote;
-    memset(&pacote, 0, sizeof(pacote));
-    pacote.status_id = (uint8_t)AGUARDANDO;
-    parada.aplicarNoPacote(pacote);
-    TEST_ASSERT_EQUAL_UINT8(AGUARDANDO, pacote.status_id);  // não vaza estado da prova anterior
 
     parada.atualizar(4, 1);
     TEST_ASSERT_EQUAL(2, tracao.chamadas);
@@ -398,9 +319,6 @@ int main(void) {
     RUN_TEST(test_nao_para_fora_da_area_objetivo);
     RUN_TEST(test_para_tracao_e_congela_cronometro_ao_entrar_no_objetivo);
     RUN_TEST(test_tracao_para_antes_do_cronometro_no_mesmo_ciclo);
-    RUN_TEST(test_telemetria_recebe_concluido_e_desafio_cumprido);
-    RUN_TEST(test_pacote_nao_e_alterado_antes_da_chegada);
-    RUN_TEST(test_aplicar_no_pacote_preserva_os_outros_campos);
     RUN_TEST(test_nao_repete_comandos_e_nao_libera_a_tracao);
     RUN_TEST(test_linha_e_coluna_nao_sao_confundidas);
     RUN_TEST(test_area_objetivo_com_quatro_celulas);

@@ -5,12 +5,18 @@
 //
 // Módulo só de cabeçalho (como o Mapa), sem dependência de Arduino, sem
 // alocação dinâmica e sem STL. Tração, cronômetro e relógio entram por
-// interfaces; a telemetria é atendida preenchendo o TelemetriaPacket
-// (lib telemetria) com status CONCLUIDO e desafio cumprido.
+// interfaces.
+//
+// O estado do robô fica em um lugar só (o `estadoAtual` do main). Na
+// integração, o main consulta concluido() e muda o próprio estado para
+// CONCLUIDO; o pacote de telemetria e o LED saem certos pelo fluxo normal:
+//
+//   parada.atualizar(linha, coluna);
+//   if (parada.concluido()) estadoAtual = CONCLUIDO;
 
 #include <stdint.h>
 
-#include "TelemetriaPacket.h"  // EstadoRobo, TelemetriaPacket (lib/telemetria)
+#include "TelemetriaPacket.h"  // GeometriaLabirinto (lib/telemetria)
 
 // Célula da área objetivo, no mesmo padrão do Mapa: (linha, coluna).
 struct CelulaObjetivo {
@@ -118,15 +124,6 @@ public:
 
     // Latência de software da última parada, em µs (0 se não houver relógio ou parada).
     uint32_t latenciaUltimaParadaUs() const { return latenciaUs_; }
-
-    // Para o módulo de telemetria chamar antes de codificar o pacote: se a prova
-    // foi concluída, grava status_id = CONCLUIDO e desafio_cumprido = 1.
-    // Antes disso não altera nada, para não atrapalhar MAPEANDO/SPEED_RUN etc.
-    void aplicarNoPacote(TelemetriaPacket& pacote) const {
-        if (!concluido_) return;
-        pacote.status_id = (uint8_t)CONCLUIDO;
-        pacote.desafio_cumprido = 1;
-    }
 
 private:
     bool naAreaObjetivo(uint8_t linha, uint8_t coluna) const {
