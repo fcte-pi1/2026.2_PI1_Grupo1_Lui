@@ -12,6 +12,73 @@ A arquitetura completa está no [Projeto conceitual de software](../docs/4.4%20-
 
 ---
 
+## Rodando o sistema com o simulador
+
+Com o simulador, o backend gera a mesma telemetria do gateway e o painel funciona de ponta a ponta sem o robô. São dois terminais do PowerShell abertos ao mesmo tempo: um para o backend e outro para o frontend. Os comandos abaixo partem da pasta raiz do repositório.
+
+**Pré-requisitos:** Python 3.11 e Node.js 22 instalados.
+
+### Terminal 1: backend
+
+```powershell
+cd src\backend
+
+# Só na primeira vez: cria o ambiente virtual e instala as dependências
+python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements.txt
+
+# Escolhe o simulador e a corrida
+$env:TELEMETRIA_FONTE = "simulador"
+$env:SIMULADOR_LABIRINTO = "4x4"      # 4x4, 8x4 ou 12x4
+$env:SIMULADOR_CENARIO = "completa"   # completa, travado ou perda_conexao
+$env:SIMULADOR_REPETIR = "1"          # recomeça a corrida ao terminar
+
+.\.venv\Scripts\python -m uvicorn app.main:app
+```
+
+O backend está pronto quando aparecem as linhas `fonte de telemetria: simulador (4x4, cenário completa, velocidade 1.0x)` e `Uvicorn running on http://127.0.0.1:8000`. Chamar o Python de dentro do `.venv` dispensa ativar o ambiente virtual e evita o erro de política de execução de scripts do PowerShell.
+
+### Terminal 2: frontend
+
+```powershell
+cd src\frontend
+npm install      # só na primeira vez
+npm run dev
+```
+
+Abra <http://localhost:5173> no navegador.
+
+### O que deve aparecer
+
+- No canto superior direito, **CONECTADO** em verde.
+- O status passa de "Em espera" para "Explorando", e o labirinto é desenhado célula a célula, com o rastro e o robô.
+- Tempo, velocidade e bateria são atualizados a cada segundo.
+- No fim da corrida, o status depende do cenário: "Concluído" na chegada (`completa`), "Travado" no meio do percurso (`travado`), ou os dados param de chegar ainda em "Explorando" (`perda_conexao`).
+- Com `SIMULADOR_REPETIR=1`, depois de 5 segundos o status volta para "Em espera" e o mapa recomeça vazio, sem desenhar uma corrida por cima da outra.
+
+Sem `SIMULADOR_REPETIR=1`, a corrida acontece uma vez só, logo que o backend sobe; se o painel for aberto depois, ele mostra só o fim dela.
+
+### Trocar a geometria, o cenário ou a velocidade
+
+No Terminal 1, pare o backend com **Ctrl+C**, mude as variáveis e suba de novo:
+
+```powershell
+$env:SIMULADOR_LABIRINTO = "12x4"
+$env:SIMULADOR_CENARIO = "travado"
+$env:SIMULADOR_VELOCIDADE = "2"       # opcional: duas vezes mais rápido
+.\.venv\Scripts\python -m uvicorn app.main:app
+```
+
+Não é preciso mexer no frontend nem recarregar a página: enquanto o backend está parado o painel mostra **DESCONECTADO** em vermelho, reconecta sozinho quando ele volta e redesenha a pista na geometria nova.
+
+### Parar tudo
+
+Aperte **Ctrl+C** nos dois terminais. As variáveis `$env:` valem só para o terminal em que foram definidas; ao fechá-lo, elas somem.
+
+Para usar o gateway real em vez do simulador, veja a seção "Fonte da telemetria" do [README do backend](backend/README.md). Se o backend estiver em outra máquina ou porta, crie `src/frontend/.env.local` com `VITE_TELEMETRIA_WS_URL=ws://<ip>:<porta>/ws/telemetria`.
+
+---
+
 ## Contrato de dados
 
 > [!IMPORTANT]
