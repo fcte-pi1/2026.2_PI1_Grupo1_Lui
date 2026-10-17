@@ -56,7 +56,7 @@ Abra <http://localhost:5173> no navegador.
 - No fim da corrida, o status depende do cenário: "Concluído" na chegada (`completa`), "Travado" no meio do percurso (`travado`), ou os dados param de chegar ainda em "Explorando" (`perda_conexao`).
 - Com `SIMULADOR_REPETIR=1`, depois de 5 segundos o status volta para "Em espera" e o mapa recomeça vazio, sem desenhar uma corrida por cima da outra.
 
-Sem `SIMULADOR_REPETIR=1`, a corrida acontece uma vez só, logo que o backend sobe; se o painel for aberto depois, ele mostra só o fim dela.
+Enquanto nenhum painel estiver conectado, o simulador fica em "Em espera" na largada, como o robô real esperando o botão; a corrida só começa quando o painel conecta, então ela aparece inteira, desde A1, não importa quando a página é aberta. Sem `SIMULADOR_REPETIR=1`, a corrida acontece uma vez só; para ver de novo, suba o backend outra vez.
 
 ### Trocar a geometria, o cenário ou a velocidade
 
