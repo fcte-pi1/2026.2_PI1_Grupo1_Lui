@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Cliente do WebSocket de telemetria do backend (ws://<host>:<porta>/ws/telemetria).
 // O formato de cada pacote é o do contrato de dados, documentado em src/README.md.
@@ -82,15 +82,31 @@ export function criarConexaoTelemetria({
 // Hook para os componentes do painel: devolve o pacote mais recente (null até o
 // primeiro chegar) e se a conexão com o backend está aberta. A conexão é fechada
 // quando o componente é desmontado.
-export function useTelemetria({ url, intervaloReconexaoMs = INTERVALO_RECONEXAO_MS } = {}) {
+// aoReceber(pacote), opcional, é chamado para cada pacote, na ordem de chegada.
+// Use-o para acumular dados (por exemplo com o dispatch de um useReducer): o
+// pacote devolvido é só o mais recente, e pacotes que chegam juntos podem ser
+// reunidos num único render.
+export function useTelemetria({
+    url,
+    intervaloReconexaoMs = INTERVALO_RECONEXAO_MS,
+    aoReceber,
+} = {}) {
     const endereco = url ?? urlTelemetria();
     const [pacote, setPacote] = useState(null);
     const [conectado, setConectado] = useState(false);
+    const aoReceberAtual = useRef(aoReceber);
+
+    useEffect(() => {
+        aoReceberAtual.current = aoReceber;
+    });
 
     useEffect(() => {
         const conexao = criarConexaoTelemetria({
             url: endereco,
-            aoReceber: setPacote,
+            aoReceber: (novo) => {
+                setPacote(novo);
+                aoReceberAtual.current?.(novo);
+            },
             aoMudarConexao: setConectado,
             intervaloReconexaoMs,
         });
