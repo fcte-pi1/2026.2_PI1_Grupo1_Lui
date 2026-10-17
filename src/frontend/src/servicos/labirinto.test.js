@@ -192,20 +192,28 @@ describe('servicos/labirinto.js', () => {
             expect(estado8.cells).toHaveLength(32);
         });
 
-        it('deve reiniciar o mapa e rastro se status transicionar de AGUARDANDO para MAPEANDO', () => {
-            let estado = criarEstadoInicial('4x4');
-            estado.rastro = [{ x: 1, y: 1 }];
-            estado.ultimoStatus = 'AGUARDANDO';
-
-            const pacote = {
+        it('deve preservar a largada ao passar de AGUARDANDO para MAPEANDO', () => {
+            // O início de uma corrida nova é decidido em painelTelemetria.js; aqui a
+            // transição não pode apagar as paredes de A1 vistas antes da largada.
+            const emEspera = aplicarPacote(criarEstadoInicial('4x4'), {
                 labirinto: '4x4',
+                status: 'AGUARDANDO',
                 posicao: { coluna: 'A', linha: 1 },
-                orientacao: 'SUL',
-                status: 'MAPEANDO'
-            };
+                orientacao: 'LESTE',
+                paredes: { norte: true, sul: true, leste: false, oeste: true }
+            });
 
-            const novoEstado = aplicarPacote(estado, pacote);
-            expect(novoEstado.rastro).toEqual([{ x: 0, y: 0 }]);
+            const novoEstado = aplicarPacote(emEspera, {
+                labirinto: '4x4',
+                status: 'MAPEANDO',
+                posicao: { coluna: 'B', linha: 1 },
+                orientacao: 'LESTE',
+                paredes: { norte: true, sul: false, leste: false, oeste: false }
+            });
+
+            expect(novoEstado.rastro).toEqual([{ x: 0, y: 0 }, { x: 1, y: 0 }]);
+            const a1 = novoEstado.cells.find(c => c.x === 0 && c.y === 0);
+            expect(a1.walls.bottom).toBe(true);
         });
 
         it('deve ser exportado também pelo alias acumularPacote', () => {

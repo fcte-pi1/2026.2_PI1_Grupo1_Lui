@@ -20,8 +20,11 @@ from app.ingestao.fonte import FonteTelemetria
 from app.ingestao.servico import criar_fonte, ingerir
 
 
-def criar_app(fonte: FonteTelemetria | None = None) -> FastAPI:
-    gerenciador = GerenciadorConexoes()
+def criar_app(
+    fonte: FonteTelemetria | None = None,
+    gerenciador: GerenciadorConexoes | None = None,
+) -> FastAPI:
+    gerenciador = gerenciador or GerenciadorConexoes()
 
     @contextlib.asynccontextmanager
     async def ciclo_de_vida(_app: FastAPI):
@@ -47,7 +50,9 @@ def _app_da_configuracao() -> FastAPI:
     logging.basicConfig(
         level=logging.INFO, format="%(levelname)s:     %(name)s - %(message)s"
     )
-    return criar_app(criar_fonte(Configuracao.do_ambiente()))
+    gerenciador = GerenciadorConexoes()
+    fonte = criar_fonte(Configuracao.do_ambiente(), gerenciador)
+    return criar_app(fonte, gerenciador)
 
 
 app = _app_da_configuracao()
