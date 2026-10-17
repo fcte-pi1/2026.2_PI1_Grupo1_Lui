@@ -10,6 +10,11 @@ vi.mock('react', () => ({
         if (!(i in react.valores)) react.valores[i] = inicial;
         return [react.valores[i], (novo) => { react.valores[i] = novo; }];
     },
+    useRef(inicial) {
+        const i = react.indice++;
+        if (!(i in react.valores)) react.valores[i] = { current: inicial };
+        return react.valores[i];
+    },
     useEffect(efeito, dependencias) {
         react.efeitos.push({ efeito, dependencias });
     },
@@ -221,10 +226,24 @@ describe('useTelemetria', () => {
         return executarHookTelemetria(opcoes);
     }
 
+    // Executa os efeitos do render, como no commit do React; devolve a limpeza e as
+    // dependências do efeito que abre a conexão.
     function montar(opcoes) {
         renderizar(opcoes);
-        const [{ efeito, dependencias }] = react.efeitos;
-        return { desmontar: efeito(), dependencias };
+        let conexao = null;
+        for (const { efeito, dependencias } of react.efeitos) {
+            const limpeza = efeito();
+            if (dependencias) conexao = { desmontar: limpeza, dependencias };
+        }
+        return conexao;
+    }
+
+    // Novo render com efeitos sem dependências (os que rodam a cada render).
+    function rerenderizar(opcoes) {
+        renderizar(opcoes);
+        for (const { efeito, dependencias } of react.efeitos) {
+            if (!dependencias) efeito();
+        }
     }
 
     it('começa sem pacote e desconectado, e conecta ao montar', () => {
@@ -285,5 +304,38 @@ describe('useTelemetria', () => {
         montar();
 
         expect(ultimoSocket().url).toBe('ws://robo.local:9000/ws/telemetria');
+    });
+
+    it('chama aoReceber para cada pacote, mesmo quando chegam juntos', () => {
+        const recebidos = [];
+        montar({ url: URL, aoReceber: (p) => recebidos.push(p.seq) });
+        ultimoSocket().abrir();
+
+        // Rajada sem render entre os pacotes: o hook só guarda o último, mas
+        // aoReceber vê todos, na ordem.
+        ultimoSocket().receber({ ...PACOTE, seq: 1 });
+        ultimoSocket().receber({ ...PACOTE, seq: 2 });
+        ultimoSocket().receber({ ...PACOTE, seq: 3 });
+
+        expect(recebidos).toEqual([1, 2, 3]);
+        expect(renderizar({ url: URL }).pacote.seq).toBe(3);
+    });
+
+    it('usa sempre o aoReceber do render mais recente', () => {
+        const primeiro = [];
+        const segundo = [];
+        montar({ url: URL, aoReceber: (p) => primeiro.push(p.seq) });
+        rerenderizar({ url: URL, aoReceber: (p) => segundo.push(p.seq) });
+
+        ultimoSocket().receber({ ...PACOTE, seq: 9 });
+
+        expect(primeiro).toEqual([]);
+        expect(segundo).toEqual([9]);
+        expect(WebSocketFalso.instancias).toHaveLength(1); // sem reconectar
+    });
+
+    it('aoReceber é opcional', () => {
+        montar({ url: URL });
+        expect(() => ultimoSocket().receber(PACOTE)).not.toThrow();
     });
 });
