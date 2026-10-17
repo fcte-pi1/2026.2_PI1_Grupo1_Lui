@@ -1,0 +1,2078 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/4.1%20-%20Projeto%20conceitual%20de%20estruturas/">
+      
+      
+        <link rel="prev" href="../3%20-%20EAP/">
+      
+      
+        <link rel="next" href="../4.2%20-%20Projeto%20conceitual%20de%20energia/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Estruturas - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#41-projeto-conceitual-de-estruturas" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Estruturas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo-e-requisitos-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo e Requisitos de Referência
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-desenho-em-catia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Desenho em CATIA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Desenho em CATIA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-vista-superior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Vista Superior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-vista-lateral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Vista Lateral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-vista-frontal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Vista Frontal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-vista-isometrica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Vista Isométrica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-conceito-adotado-chassi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Conceito Adotado (Chassi)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Conceito Adotado (Chassi)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-dimensoes-e-posicionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Dimensões e Posicionamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-perfil-de-alturas-a-partir-do-piso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Perfil de Alturas (a partir do piso)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-materiais-utilizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Materiais Utilizados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-partes-fundamentais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Partes Fundamentais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-explicacao-do-desenho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Explicação do Desenho
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sistema-de-tracao-e-rodagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sistema de Tração e Rodagem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Sistema de Tração e Rodagem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-rodas-e-atrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Rodas e Atrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-acoplamento-eixo-do-motor-roda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Acoplamento (eixo do motor → roda)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-posicionamento-geometria-de-rodagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Posicionamento (geometria de rodagem)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-manutencao-e-limpeza-da-rodagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Manutenção e Limpeza da Rodagem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-prevencao-de-cantos-vivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Prevenção de Cantos Vivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-verificacao-dos-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Verificação dos Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-justificativa-das-principais-decisoes-de-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Justificativa das Principais Decisões de Projeto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-matriz-de-rastreabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Matriz de Rastreabilidade
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo-e-requisitos-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo e Requisitos de Referência
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-desenho-em-catia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Desenho em CATIA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Desenho em CATIA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-vista-superior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Vista Superior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-vista-lateral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Vista Lateral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-vista-frontal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Vista Frontal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-vista-isometrica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Vista Isométrica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-conceito-adotado-chassi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Conceito Adotado (Chassi)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Conceito Adotado (Chassi)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-dimensoes-e-posicionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Dimensões e Posicionamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-perfil-de-alturas-a-partir-do-piso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Perfil de Alturas (a partir do piso)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-materiais-utilizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Materiais Utilizados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-partes-fundamentais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Partes Fundamentais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-explicacao-do-desenho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Explicação do Desenho
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sistema-de-tracao-e-rodagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sistema de Tração e Rodagem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Sistema de Tração e Rodagem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-rodas-e-atrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Rodas e Atrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-acoplamento-eixo-do-motor-roda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Acoplamento (eixo do motor → roda)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-posicionamento-geometria-de-rodagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Posicionamento (geometria de rodagem)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-manutencao-e-limpeza-da-rodagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Manutenção e Limpeza da Rodagem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-prevencao-de-cantos-vivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Prevenção de Cantos Vivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-verificacao-dos-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Verificação dos Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-justificativa-das-principais-decisoes-de-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Justificativa das Principais Decisões de Projeto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-matriz-de-rastreabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Matriz de Rastreabilidade
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="41-projeto-conceitual-de-estruturas">4.1 — Projeto Conceitual de Estruturas<a class="headerlink" href="#41-projeto-conceitual-de-estruturas" title="Permanent link">&para;</a></h1>
+<p>Documento que consolida as duas sub-issues do núcleo de Estruturas: <strong>Modelagem CATIA e Restrições Dimensionais</strong> (chassi) e <strong>Especificação do Sistema de Tração e Rodagem</strong> (rodas, acoplamento, posicionamento e manutenção).</p>
+<hr />
+<h2 id="1-objetivo-e-requisitos-de-referencia">1. Objetivo e Requisitos de Referência<a class="headerlink" href="#1-objetivo-e-requisitos-de-referencia" title="Permanent link">&para;</a></h2>
+<p>Definir conceitualmente a base mecânica (chassi) do Micromouse — posicionamento de bateria, placa eletrônica, sensores e motores — e o sistema de tração e rodagem responsável pela sua locomoção, em conformidade com:</p>
+<ul>
+<li><strong>RF-EST01</strong> — Acomodação e fixação dos componentes;</li>
+<li><strong>RF-EST02</strong> — Tração mecânica e transmissão de movimento;</li>
+<li><strong>RF-EST03</strong> — Posicionamento fixo e desobstruído de sensores;</li>
+<li><strong>RNF-EST01</strong> — Dimensões físicas e envelope de giro (diâmetro de giro &lt; 160 mm, comprimento e largura ≤ 165 mm);</li>
+<li><strong>RNF-EST03</strong> — Preservação da integridade da pista (sem cantos vivos, sem manchar);</li>
+<li><strong>RNF-EST04</strong> — Altura livre do solo (<em>ground clearance</em>) ≥ 2,0 mm;</li>
+<li><strong>RNF-EST06</strong> — Acessibilidade para limpeza da rodagem (≤ 120 s).</li>
+</ul>
+<hr />
+<h2 id="2-desenho-em-catia">2. Desenho em CATIA<a class="headerlink" href="#2-desenho-em-catia" title="Permanent link">&para;</a></h2>
+<h3 id="21-vista-superior">2.1 Vista Superior<a class="headerlink" href="#21-vista-superior" title="Permanent link">&para;</a></h3>
+<p><img alt="Vista superior do chassi" src="../figs/micromouse_chassi_vista_superior.png" /></p>
+<p><em>Contorno da PCB, posicionamento dos componentes, cones de campo óptico dos sensores e os círculos de giro (Ø 132 mm de projeto / Ø 160 mm limite regulamentar).</em></p>
+<h3 id="22-vista-lateral">2.2 Vista Lateral<a class="headerlink" href="#22-vista-lateral" title="Permanent link">&para;</a></h3>
+<p><img alt="Vista lateral do chassi" src="../figs/micromouse_chassi_vista_lateral.png" /></p>
+<p><em>Perfil de alturas dos componentes e o ground clearance (altura livre do solo).</em></p>
+<h3 id="23-vista-frontal">2.3 Vista Frontal<a class="headerlink" href="#23-vista-frontal" title="Permanent link">&para;</a></h3>
+<p><img alt="Vista frontal do chassi" src="../figs/micromouse_chassi_vista_frontal.png" /></p>
+<p><em>Bitola das rodas e largura total do robô.</em></p>
+<h3 id="24-vista-isometrica">2.4 Vista Isométrica<a class="headerlink" href="#24-vista-isometrica" title="Permanent link">&para;</a></h3>
+<p><img alt="Vista isométrica do chassi no CATIA" src="../figs/visao_isometrica_catia.jpg" /></p>
+<p><em>Visão geral tridimensional do conjunto montado.</em></p>
+<hr />
+<h2 id="3-conceito-adotado-chassi">3. Conceito Adotado (Chassi)<a class="headerlink" href="#3-conceito-adotado-chassi" title="Permanent link">&para;</a></h2>
+<p>O chassi usa a <strong>própria PCB como estrutura</strong> (contorno arredondado, cantos R12), reduzindo massa e altura. A tração é <strong>diferencial</strong>, com duas rodas motrizes no eixo central e dois apoios de baixo atrito (<em>skids</em>), um na frente e um atrás, mantendo o chassi nivelado sem adicionar um segundo par de motores. A bateria fica sobre o eixo das rodas para aproximar o centro de massa do centro de giro.</p>
+<p><strong>Sistema de coordenadas:</strong> origem no centro do eixo das rodas; X para a direita; Y para a frente.</p>
+<h3 id="31-dimensoes-e-posicionamento">3.1 Dimensões e Posicionamento<a class="headerlink" href="#31-dimensoes-e-posicionamento" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Posição / dimensão (mm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contorno da PCB</td>
+<td>X ±33, Y de −42 a +60, cantos R12, espessura 1,6</td>
+</tr>
+<tr>
+<td>Rodas</td>
+<td>Ø 22, largura 8, centros em X ±39 (bitola 78)</td>
+</tr>
+<tr>
+<td>Motores (tipo N20)</td>
+<td>24 × 12 × 10, X de ±14 a ±35, Y ±6</td>
+</tr>
+<tr>
+<td>Bateria (LiPo)</td>
+<td>24 × 22 × 8, centrada em (0, 0)</td>
+</tr>
+<tr>
+<td>Placa/MCU</td>
+<td>44 × 28, Y de +16 a +44</td>
+</tr>
+<tr>
+<td>Drivers e regulador</td>
+<td>44 × 16, Y de −30 a −14</td>
+</tr>
+<tr>
+<td>Apoio frontal (<em>skid</em>)</td>
+<td>Ø 6, em (0, +52)</td>
+</tr>
+<tr>
+<td>Apoio traseiro (<em>skid</em>)</td>
+<td>Ø 6, em (0, −36)</td>
+</tr>
+<tr>
+<td>Sensores IR frontais (×2)</td>
+<td>(±18, +58), apontados a 0°</td>
+</tr>
+<tr>
+<td>Sensores IR laterais (×2)</td>
+<td>(±33, +40), apontados a 45°</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dimensões gerais:</strong> largura 86 mm, comprimento 102 mm, altura 22 mm (até o topo da roda).</p>
+<h3 id="32-perfil-de-alturas-a-partir-do-piso">3.2 Perfil de Alturas (a partir do piso)<a class="headerlink" href="#32-perfil-de-alturas-a-partir-do-piso" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Altura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Face inferior da PCB</td>
+<td>3,0 mm</td>
+</tr>
+<tr>
+<td>Topo da PCB</td>
+<td>4,6 mm</td>
+</tr>
+<tr>
+<td>Eixo das rodas</td>
+<td>11 mm</td>
+</tr>
+<tr>
+<td>Topo dos sensores IR</td>
+<td>≈ 7,6 mm</td>
+</tr>
+<tr>
+<td>Topo das placas (drivers)</td>
+<td>≈ 10 mm</td>
+</tr>
+<tr>
+<td>Topo da bateria</td>
+<td>≈ 12,6 mm</td>
+</tr>
+<tr>
+<td>Topo da roda (altura total do robô)</td>
+<td>22 mm</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-materiais-utilizados">4. Materiais Utilizados<a class="headerlink" href="#4-materiais-utilizados" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Material</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chassi</td>
+<td>PCB (FR-4), 1,6 mm de espessura</td>
+<td>A própria placa eletrônica atua como estrutura, reduzindo massa e número de peças</td>
+</tr>
+<tr>
+<td>Cubos das rodas, suportes de eixo, apoios (<em>skids</em>)</td>
+<td>Impressão 3D — PLA ou PETG</td>
+<td>PETG preferido onde há maior exigência dimensional (furo tipo D)</td>
+</tr>
+<tr>
+<td>Pneus</td>
+<td>O-ring de silicone (item comercial)</td>
+<td>Compressível, alto atrito, não mancha o piso</td>
+</tr>
+<tr>
+<td>Motores</td>
+<td>N20 (corpo metálico + caixa de redução plástica), eixo tipo D</td>
+<td>Padrão de mercado, já inclui a interface de acoplamento</td>
+</tr>
+<tr>
+<td>Bateria</td>
+<td>LiPo 2S</td>
+<td>Fixada sobre o eixo das rodas</td>
+</tr>
+<tr>
+<td>Sensores</td>
+<td>Infravermelho (IR), montados em SMD na própria PCB</td>
+<td>Frontais e laterais</td>
+</tr>
+<tr>
+<td>Elementos de fixação</td>
+<td>Parafusos de aço (<em>grub screw</em>)</td>
+<td>Reforço do acoplamento eixo–roda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-partes-fundamentais">5. Partes Fundamentais<a class="headerlink" href="#5-partes-fundamentais" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Chassi:</strong> a própria PCB, com contorno arredondado (R12 nos cantos) fazendo o papel de estrutura mecânica — não há chassi separado da eletrônica.</li>
+<li><strong>Rodas (atuadas):</strong> duas rodas motrizes centralizadas no eixo transversal, com pneu de O-ring de silicone sobre cubo impresso em 3D.</li>
+<li><strong>Apoios deslizantes (<em>skids</em>):</strong> dois pontos de apoio de baixo atrito, um dianteiro e um traseiro, mantendo o chassi nivelado sem necessidade de rodas adicionais.</li>
+<li><strong>Transmissão/acoplamento:</strong> eixo tipo D do motor N20 encaixado por pressão no cubo da roda, reforçado com parafuso lateral.</li>
+<li><strong>Atuadores:</strong> dois motores N20 com caixa de redução, um por roda motriz (tração diferencial).</li>
+<li><strong>Eletrônica embarcada:</strong> placa/MCU, drivers de motor e regulador de tensão, todos integrados à própria PCB estrutural.</li>
+<li><strong>Bateria:</strong> LiPo 2S, posicionada sobre o eixo das rodas para aproximar o centro de massa do centro de giro.</li>
+<li><strong>Sensores:</strong> dois sensores IR frontais (0°) e dois laterais (45°), com campo óptico desobstruído por chassi ou rodas.</li>
+</ul>
+<p><em>(Não há carenagem/cobertura própria no conceito atual — a rodagem permanece exposta, decisão justificada na seção 9.)</em></p>
+<hr />
+<h2 id="6-explicacao-do-desenho">6. Explicação do Desenho<a class="headerlink" href="#6-explicacao-do-desenho" title="Permanent link">&para;</a></h2>
+<p>O robô é modelado a partir de um sistema de coordenadas com origem no centro do eixo das rodas (X para a direita, Y para a frente). A PCB ocupa toda a extensão do chassi (Y de −42 a +60 mm), funcionando como base estrutural: sobre ela ficam fixados a bateria (centralizada, sobre o eixo das rodas), a placa/MCU (parte traseira-superior) e os drivers/regulador (parte inferior-central), enquanto os motores N20 ficam alojados nas laterais, entre o centro e as rodas.</p>
+<p>As rodas motrizes ficam no eixo central (X ±39 mm), permitindo tração diferencial com giro no próprio eixo. Dois apoios deslizantes — um na extremidade dianteira (Y +52) e outro na traseira (Y −36) — sustentam o chassi nos dois pontos restantes, formando uma base de 4 pontos de contato com o piso (2 rodas + 2 apoios).</p>
+<p>Os sensores infravermelhos ficam distribuídos na borda: dois frontais na ponta dianteira (Y +58), apontados para frente, e dois laterais mais recuados (Y +40), apontados a 45° para fora — posicionamento que garante campo óptico livre tanto do próprio chassi quanto das rodas.</p>
+<p>O contorno externo é arredondado (raio R12 nos cantos da PCB, e raio ≥ 1,0 mm em todas as peças impressas próximas às rodas), evitando arestas vivas que possam arranhar as paredes do labirinto durante o giro.</p>
+<hr />
+<h2 id="7-sistema-de-tracao-e-rodagem">7. Sistema de Tração e Rodagem<a class="headerlink" href="#7-sistema-de-tracao-e-rodagem" title="Permanent link">&para;</a></h2>
+<h3 id="71-rodas-e-atrito">7.1 Rodas e Atrito<a class="headerlink" href="#71-rodas-e-atrito" title="Permanent link">&para;</a></h3>
+<p><strong>Decisão:</strong> pneus de <strong>O-ring de silicone</strong> (Ø externo 22 mm, largura 8 mm — compatível com as cotas definidas no chassi) montados sobre cubos (<em>hubs</em>) impressos em 3D.</p>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Material do pneu</td>
+<td>Silicone (O-ring comercial) em vez de borracha convencional: atrito elevado sobre o piso preto liso, sem deixar resíduo escuro ou manchar as paredes brancas em contatos acidentais — atende <strong>RNF-EST03</strong>.</td>
+</tr>
+<tr>
+<td>Diâmetro/largura</td>
+<td>Ø 22 mm / 8 mm, já validados no perfil de alturas do chassi (eixo a 11 mm do piso = raio da roda) e na bitola de 78 mm que resulta na largura total de 86 mm.</td>
+</tr>
+<tr>
+<td>Cubo (hub)</td>
+<td>Impresso em PLA/PETG, com canaleta para encaixe justo do O-ring — permite trocar o pneu isoladamente sem trocar a roda inteira.</td>
+</tr>
+</tbody>
+</table>
+<p>Alternativas descartadas: pneus de borracha comum (risco de manchar a pista) e rodas lisas de plástico/impressão 3D sem pneu (atrito insuficiente, risco de patinação — viola <strong>RF-EST02</strong>).</p>
+<h3 id="72-acoplamento-eixo-do-motor-roda">7.2 Acoplamento (eixo do motor → roda)<a class="headerlink" href="#72-acoplamento-eixo-do-motor-roda" title="Permanent link">&para;</a></h3>
+<p><strong>Decisão:</strong> encaixe por <strong>eixo tipo "D" (D-shaft)</strong>, padrão do motor N20 já definido no chassi, com furo correspondente no cubo da roda, fixado por interferência (pressão) e reforçado com parafuso de fixação (<em>grub screw</em>) ou gota de adesivo estrutural removível.</p>
+<ul>
+<li>Evita escorregamento angular entre eixo e roda mesmo sob torque de arranque.</li>
+<li>Furo do cubo impresso com folga controlada (~0,1–0,2 mm) para montagem por pressão sem ferramentas na operação normal.</li>
+<li>Reforço lateral garante fixação segura durante a corrida, sem comprometer o tempo-alvo de troca (<strong>RNF-EST06</strong>).</li>
+</ul>
+<h3 id="73-posicionamento-geometria-de-rodagem">7.3 Posicionamento (geometria de rodagem)<a class="headerlink" href="#73-posicionamento-geometria-de-rodagem" title="Permanent link">&para;</a></h3>
+<p><strong>Decisão:</strong> tração diferencial com as duas rodas motrizes centralizadas (X ±39, conforme item 3.1) + dois apoios deslizantes (<em>skids</em> Ø6) dianteiro (Y +52) e traseiro (Y −36), já definidos na modelagem do chassi.</p>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 rodas motrizes (centralizadas)</td>
+<td>Permitem giro no próprio eixo (raio de giro ≈ 0), essencial para navegação em corredores de 168 mm sem tocar as paredes — atende <strong>RNF-EST01</strong>.</td>
+</tr>
+<tr>
+<td>2 <em>skids</em> (frente/trás)</td>
+<td>Mantêm o chassi nivelado e estável sem adicionar atrito de rotação significativo nem exigir segundo par de motores.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-manutencao-e-limpeza-da-rodagem">7.4 Manutenção e Limpeza da Rodagem<a class="headerlink" href="#74-manutencao-e-limpeza-da-rodagem" title="Permanent link">&para;</a></h3>
+<p><strong>Decisão:</strong> rodas expostas nas laterais do chassi (fora do contorno da PCB, X ±39 vs. contorno ±33), sem carenagem que as encubra, com fixação <em>tool-less</em> na operação de rotina.</p>
+<ul>
+<li>Limpeza de rotina: passar um pano/escova diretamente sobre o O-ring já montado, sem remover a roda.</li>
+<li>Limpeza profunda (substituição do O-ring): desmontagem por pressão, sem ferramentas especiais.</li>
+<li>Meta de verificação: <strong>&lt; 120 segundos</strong>, medida em bancada com 3 execuções por membros distintos — atende <strong>RNF-EST06</strong>.</li>
+</ul>
+<h3 id="75-prevencao-de-cantos-vivos">7.5 Prevenção de Cantos Vivos<a class="headerlink" href="#75-prevencao-de-cantos-vivos" title="Permanent link">&para;</a></h3>
+<p>Todas as peças impressas relacionadas à rodagem (cubos, suportes de eixo, contorno lateral próximo às rodas) devem ter <strong>raio de curvatura mínimo de 1,0 mm</strong> em qualquer aresta que possa tocar as paredes — mesmo critério já aplicado ao contorno da PCB (R12 nos cantos), reforçando <strong>RNF-EST03</strong> e evitando desqualificação por dano à pista.</p>
+<hr />
+<h2 id="8-verificacao-dos-requisitos">8. Verificação dos Requisitos<a class="headerlink" href="#8-verificacao-dos-requisitos" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Verificação</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Largura/comprimento ≤ 165 mm</td>
+<td>86 mm × 102 mm</td>
+<td>OK -  Folga de 79 mm (largura) e 63 mm (comprimento)</td>
+</tr>
+<tr>
+<td>Diâmetro de giro &lt; 160 mm</td>
+<td>Ponto mais distante do centro de giro: canto frontal arredondado, a ~64,4 mm → diâmetro ≈ <strong>129 mm</strong> (círculo de projeto Ø 132 mm, já envolvendo sensores e rodas)</td>
+<td>OK -  Folga de ~31 mm</td>
+</tr>
+<tr>
+<td>Ground clearance ≥ 2,0 mm</td>
+<td>Face inferior da PCB a <strong>3,0 mm</strong> do piso (raio da roda 11 mm − altura do eixo acima da face inferior da PCB, 8 mm = 3 mm). Sem componentes ou soldas na face inferior.</td>
+<td>OK -  Margem de 1,0 mm</td>
+</tr>
+<tr>
+<td>Campo óptico dos sensores desobstruído</td>
+<td>Frontais: nada à frente invade o cone de ±15°. Laterais: ficam ~29 mm à frente da borda da roda (que fica atrás), cone aponta para fora/frente — a roda nunca entra no campo. Nenhum componente mais alto que os sensores (≈7,6 mm) fica à frente deles.</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Tração sem patinar e sem manchar a pista</td>
+<td>Pneu de O-ring de silicone</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Limpeza da rodagem em &lt; 120 s</td>
+<td>Rodas expostas, sem desmontagem necessária</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>Sem cantos vivos que arranhem a pista</td>
+<td>Raio ≥ 1,0 mm em todas as arestas de contato</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Atestado do limite dimensional:</strong> o robô, com largura de 86 mm e comprimento de 102 mm, está integralmente dentro do limite máximo de <strong>16,5 cm (165 mm)</strong> de comprimento e largura exigido pelo edital da disciplina.</p>
+</blockquote>
+<hr />
+<h2 id="9-justificativa-das-principais-decisoes-de-projeto">9. Justificativa das Principais Decisões de Projeto<a class="headerlink" href="#9-justificativa-das-principais-decisoes-de-projeto" title="Permanent link">&para;</a></h2>
+<p><strong>PCB como estrutura (chassi único):</strong> elimina a necessidade de uma peça estrutural separada, reduzindo massa, altura total e número de componentes a fabricar — direto benefício para o diâmetro de giro e para o <em>ground clearance</em>.</p>
+<p><strong>Tração diferencial centralizada + apoios deslizantes (em vez de 4 rodas ou direção tipo automotiva):</strong> é a configuração que permite giro no próprio eixo (raio ≈ 0), essencial para navegar nos corredores de 168 mm de largura sem tocar as paredes, com metade do hardware (motores/drivers) de uma tração 4WD.</p>
+<p><strong>Pneu de O-ring de silicone (em vez de borracha comum ou roda de PU/TPU):</strong> é a única opção, entre as avaliadas, que garante boa aderência no piso preto sem risco de manchar a pista — critério que desqualificaria o robô — mantendo custo e prazo compatíveis com o orçamento do projeto.</p>
+<p><strong>Acoplamento por eixo D + fixação removível (em vez de fixação só por parafuso, luva flexível ou engrenagens):</strong> aproveita a interface que o motor N20 já oferece de fábrica, transmite torque por encaixe geométrico (sem escorregamento) e ainda permite desmontagem rápida para manutenção.</p>
+<p><strong>Rodagem exposta, sem carenagem (em vez de tampa removível, roda com trava rápida ou sistema de autolimpeza):</strong> é a alternativa mais simples que já atende ao requisito de limpeza em menos de 120 segundos, sem adicionar peças ou passos extras.</p>
+<p><strong>Arredondamento de cantos já no projeto (R ≥ 1,0 mm), em vez de chanfro, lixamento isolado ou revestimento protetor:</strong> resolve o risco de dano à pista na origem (geometria), em vez de mascará-lo depois — a alternativa com menor risco de desqualificação.</p>
+<p><strong>Posicionamento dos sensores (frontais a 0°, laterais a 40 mm à frente da roda, a 45°):</strong> garante que nenhum sensor tenha seu campo óptico obstruído pelo próprio chassi ou pelas rodas, condição necessária para o mapeamento confiável do labirinto.</p>
+<hr />
+<h2 id="10-matriz-de-rastreabilidade">10. Matriz de Rastreabilidade<a class="headerlink" href="#10-matriz-de-rastreabilidade" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Decisão de Projeto</th>
+<th>Requisito Atendido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PCB como estrutura do chassi</td>
+<td>RF-EST01</td>
+</tr>
+<tr>
+<td>Posicionamento e orientação dos sensores IR</td>
+<td>RF-EST03</td>
+</tr>
+<tr>
+<td>Pneu de silicone (O-ring), sem resíduo</td>
+<td>RNF-EST03</td>
+</tr>
+<tr>
+<td>Diâmetro/largura da roda (Ø22×8) coerente com o perfil de alturas do chassi</td>
+<td>RNF-EST01, RNF-EST04</td>
+</tr>
+<tr>
+<td>Acoplamento por eixo D (motor N20) + fixação removível</td>
+<td>RF-EST02, RNF-EST06</td>
+</tr>
+<tr>
+<td>Tração diferencial centralizada + <em>skids</em> dianteiro/traseiro</td>
+<td>RF-EST02, RNF-EST01</td>
+</tr>
+<tr>
+<td>Rodagem exposta e sem ferramentas para limpeza</td>
+<td>RNF-EST06</td>
+</tr>
+<tr>
+<td>Raio de curvatura ≥ 1,0 mm nas peças da rodagem</td>
+<td>RNF-EST03</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../3%20-%20EAP/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 3 — EAP">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                3 — EAP
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Energia">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Energia
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
