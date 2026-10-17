@@ -93,6 +93,8 @@ export function aplicarParedes(cells, paredes = []) {
  * Registra as paredes da célula atual e a parede simétrica na vizinha,
  * adiciona a posição ao rastro e atualiza posição e orientação.
  * A geometria do mapa vem do campo labirinto.
+ * Quando começa uma corrida nova é decidido em painelTelemetria.js
+ * (iniciaNovaCorrida); aqui o mapa só é recriado se a geometria mudar.
  */
 export function aplicarPacote(estado, pacote) {
     if (!pacote) {
@@ -101,12 +103,11 @@ export function aplicarPacote(estado, pacote) {
 
     const linhas = parseLinhas(pacote.labirinto || estado?.linhas || 4);
 
-    // Se o estado não existe, mudou de geometria ou reiniciou de AGUARDANDO para MAPEANDO, inicializa
+    // Se o estado não existe ou mudou de geometria, inicializa
     let cellsBase;
     const mudouGeometria = !estado || !estado.cells || estado.linhas !== linhas;
-    const reiniciouProva = estado?.ultimoStatus === 'AGUARDANDO' && pacote.status === 'MAPEANDO';
 
-    if (mudouGeometria || reiniciouProva) {
+    if (mudouGeometria) {
         const gridNovo = gerarGrid(linhas);
         cellsBase = gridNovo.cells;
     } else {
@@ -181,7 +182,7 @@ export function aplicarPacote(estado, pacote) {
     }
 
     // Atualiza rastro (sem duplicar pontos consecutivos na mesma célula)
-    const rastroAnterior = (mudouGeometria || reiniciouProva) ? [] : (estado?.rastro || estado?.trajeto || []);
+    const rastroAnterior = mudouGeometria ? [] : (estado?.rastro || estado?.trajeto || []);
     const ultimoPonto = rastroAnterior[rastroAnterior.length - 1];
     let novoRastro;
     if (!ultimoPonto || ultimoPonto.x !== x || ultimoPonto.y !== y) {
