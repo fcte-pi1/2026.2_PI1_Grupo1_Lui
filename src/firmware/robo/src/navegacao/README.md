@@ -114,6 +114,12 @@ Para ver as métricas dos cenários: `pio test -d src/firmware/robo -e native -f
 - Falhas de avanço são apenas contadas e repetidas; não há recalibração de posição por divergência entre estimada e real.
 - A HU-03 (branch `feat/35-hu-03-registrar-paredes`) ainda não está na `main`; esta branch parte dela.
 - Cenários de speed run estão fora do escopo.
+- `estadoRobo()` converte `NAV_INALCANCAVEL` e `NAV_FALHA` em `TRAVADO`. Na telemetria, o painel mostra "Travado" nos dois casos, sem distinguir destino inalcançável de falha de movimento ou leitura.
+
+### Pontos para a integração
+
+- **Detecção de chegada.** A chegada é detectada aqui (`NAV_CHEGOU`) e também no `ParadaObjetivo` da HU-07. Sugere-se que o `main` passe a posição do `Navegador` ao `ParadaObjetivo`, que para a tração e congela o cronômetro, de modo que o estado `CONCLUIDO` seja definido em um único lugar.
+- **Chamadas bloqueantes.** `passo()` bloqueia durante o giro e o avanço. Ao implementar o `ExecutorMovimento`, é preciso garantir que a telemetria a 1 Hz e a leitura do botão continuem sendo atendidas durante o movimento.
 
 ## 12. Considerações finais
 
