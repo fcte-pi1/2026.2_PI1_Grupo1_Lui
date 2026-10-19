@@ -1,6 +1,8 @@
 #include <unity.h>
 
 #include "../../src/parada/ParadaObjetivo.h"
+#include "../../src/parada/AdaptadorCronometro.h"
+#include "TelemetriaCodec.h"  // TELEMETRIA_TIMESTAMP_MAX_MS
 
 // ---------------------------------------------------------------------------
 // Dublês de teste
@@ -313,6 +315,45 @@ void test_geometria_invalida_e_rejeitada_e_mantem_a_anterior(void) {
     TEST_ASSERT_TRUE(parada.concluido());
 }
 
+// ---------------------------------------------------------------------------
+// Integração com o Cronometro real, pelo AdaptadorCronometro
+// ---------------------------------------------------------------------------
+
+// Relógio em ms usado pelo adaptador (no robô seria um invólucro de millis()).
+static uint32_t relogioMs = 0;
+static uint32_t agoraMsFalso() { return relogioMs; }
+
+void test_parada_congela_o_cronometro_real_na_chegada(void) {
+    Eventos ev;
+    TracaoFalsa tracao(ev);
+    Cronometro cronometro(TELEMETRIA_TIMESTAMP_MAX_MS);
+    AdaptadorCronometro adaptador(cronometro, agoraMsFalso);
+    ParadaObjetivo parada(tracao, adaptador);
+    TEST_ASSERT_TRUE(parada.configurarObjetivoPorGeometria(LAB_4X4));
+
+    relogioMs = 10000;
+    cronometro.iniciar(relogioMs);  // largada
+    parada.iniciarProva();
+
+    relogioMs = 25000;
+    parada.atualizar(2, 3);  // D3: ainda não é a chegada
+    TEST_ASSERT_TRUE(cronometro.emAndamento());
+    TEST_ASSERT_EQUAL_UINT32(15000, cronometro.decorridoMs(relogioMs));
+
+    relogioMs = 41250;
+    parada.atualizar(3, 3);  // D4: chegada
+    TEST_ASSERT_TRUE(parada.concluido());
+    TEST_ASSERT_EQUAL(1, tracao.chamadas);
+    TEST_ASSERT_TRUE(cronometro.congelado());
+    TEST_ASSERT_EQUAL_UINT32(31250, cronometro.decorridoMs(relogioMs));
+
+    // O tempo da prova continua o da chegada, mesmo com o robô parado nela.
+    relogioMs = 120000;
+    parada.atualizar(3, 3);
+    TEST_ASSERT_EQUAL_UINT32(31250, cronometro.decorridoMs(relogioMs));
+    TEST_ASSERT_EQUAL(1, tracao.chamadas);
+}
+
 int main(void) {
     UNITY_BEGIN();
 
@@ -331,6 +372,7 @@ int main(void) {
     RUN_TEST(test_celulas_vizinhas_da_chegada_nao_disparam);
     RUN_TEST(test_chegada_da_8x4_nao_e_a_da_4x4);
     RUN_TEST(test_geometria_invalida_e_rejeitada_e_mantem_a_anterior);
+    RUN_TEST(test_parada_congela_o_cronometro_real_na_chegada);
 
     return UNITY_END();
 }
