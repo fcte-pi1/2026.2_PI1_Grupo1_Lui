@@ -12,7 +12,11 @@ from app.simulador.pistas import pista_de_referencia
 logger = logging.getLogger(__name__)
 
 
-def criar_fonte(config: Configuracao) -> FonteTelemetria | None:
+def criar_fonte(
+    config: Configuracao, gerenciador: GerenciadorConexoes | None = None
+) -> FonteTelemetria | None:
+    """Cria a fonte configurada. Com o gerenciador, o simulador espera na largada
+    até haver um painel conectado ao WebSocket."""
     if config.fonte == "simulador":
         logger.info(
             "fonte de telemetria: simulador (%s, cenário %s, velocidade %sx)",
@@ -26,6 +30,7 @@ def criar_fonte(config: Configuracao) -> FonteTelemetria | None:
             fator_velocidade=config.simulador_velocidade,
             repetir=config.simulador_repetir,
             semente=config.simulador_semente,
+            ha_painel=(lambda: gerenciador.total > 0) if gerenciador else None,
         )
     if config.fonte == "serial":
         logger.info("fonte de telemetria: gateway na porta %s", config.serial_porta)

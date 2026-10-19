@@ -1,0 +1,1004 @@
+{
+ "_origem": "Gerado pelo simulador do backend (src/backend/app/simulador): pista 4x4 dos slides, semente 141.",
+ "paredes": {
+  "A1": {
+   "norte": true,
+   "sul": true,
+   "leste": false,
+   "oeste": true
+  },
+  "B1": {
+   "norte": true,
+   "sul": true,
+   "leste": false,
+   "oeste": false
+  },
+  "C1": {
+   "norte": true,
+   "sul": false,
+   "leste": false,
+   "oeste": false
+  },
+  "D1": {
+   "norte": true,
+   "sul": true,
+   "leste": true,
+   "oeste": false
+  },
+  "A2": {
+   "norte": true,
+   "sul": false,
+   "leste": false,
+   "oeste": true
+  },
+  "B2": {
+   "norte": true,
+   "sul": false,
+   "leste": true,
+   "oeste": false
+  },
+  "C2": {
+   "norte": false,
+   "sul": false,
+   "leste": true,
+   "oeste": true
+  },
+  "D2": {
+   "norte": true,
+   "sul": false,
+   "leste": true,
+   "oeste": true
+  },
+  "A3": {
+   "norte": false,
+   "sul": false,
+   "leste": false,
+   "oeste": true
+  },
+  "B3": {
+   "norte": false,
+   "sul": true,
+   "leste": false,
+   "oeste": false
+  },
+  "C3": {
+   "norte": false,
+   "sul": true,
+   "leste": false,
+   "oeste": false
+  },
+  "D3": {
+   "norte": false,
+   "sul": true,
+   "leste": true,
+   "oeste": false
+  },
+  "A4": {
+   "norte": false,
+   "sul": true,
+   "leste": false,
+   "oeste": true
+  },
+  "B4": {
+   "norte": true,
+   "sul": true,
+   "leste": false,
+   "oeste": false
+  },
+  "C4": {
+   "norte": true,
+   "sul": true,
+   "leste": false,
+   "oeste": false
+  },
+  "D4": {
+   "norte": true,
+   "sul": true,
+   "leste": true,
+   "oeste": false
+  }
+ },
+ "completa": [
+  {
+   "seq": 1,
+   "rssi": -48,
+   "timestamp_ms": 0,
+   "labirinto": "4x4",
+   "status": "AGUARDANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.196,
+   "velocidade_atual": 0,
+   "velocidade_media": 0,
+   "posicao": {
+    "coluna": "A",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 2,
+   "rssi": -54,
+   "timestamp_ms": 0,
+   "labirinto": "4x4",
+   "status": "AGUARDANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 86,
+   "bateria_volts": 8.2,
+   "velocidade_atual": 0,
+   "velocidade_media": 0,
+   "posicao": {
+    "coluna": "A",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 3,
+   "rssi": -54,
+   "timestamp_ms": 1000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 86,
+   "bateria_volts": 8.197,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 18.7,
+   "posicao": {
+    "coluna": "B",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 4,
+   "rssi": -64,
+   "timestamp_ms": 2000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.196,
+   "velocidade_atual": 18.6,
+   "velocidade_media": 18.6,
+   "posicao": {
+    "coluna": "C",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": false,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 5,
+   "rssi": -59,
+   "timestamp_ms": 3000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.192,
+   "velocidade_atual": 17.2,
+   "velocidade_media": 18.2,
+   "posicao": {
+    "coluna": "D",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 6,
+   "rssi": -56,
+   "timestamp_ms": 4000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.19,
+   "velocidade_atual": 9.9,
+   "velocidade_media": 16.1,
+   "posicao": {
+    "coluna": "C",
+    "linha": 1
+   },
+   "orientacao": "OESTE",
+   "paredes": {
+    "norte": true,
+    "sul": false,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 7,
+   "rssi": -49,
+   "timestamp_ms": 5000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.186,
+   "velocidade_atual": 14.3,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "C",
+    "linha": 2
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": false,
+    "leste": true,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 8,
+   "rssi": -67,
+   "timestamp_ms": 6000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.184,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 16.2,
+   "posicao": {
+    "coluna": "C",
+    "linha": 3
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 9,
+   "rssi": -61,
+   "timestamp_ms": 7000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.184,
+   "velocidade_atual": 13.7,
+   "velocidade_media": 15.9,
+   "posicao": {
+    "coluna": "D",
+    "linha": 3
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 10,
+   "rssi": -49,
+   "timestamp_ms": 8000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.18,
+   "velocidade_atual": 9.9,
+   "velocidade_media": 15.1,
+   "posicao": {
+    "coluna": "C",
+    "linha": 3
+   },
+   "orientacao": "OESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 11,
+   "rssi": -55,
+   "timestamp_ms": 9000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.179,
+   "velocidade_atual": 18,
+   "velocidade_media": 15.4,
+   "posicao": {
+    "coluna": "B",
+    "linha": 3
+   },
+   "orientacao": "OESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 12,
+   "rssi": -57,
+   "timestamp_ms": 10000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.178,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 15.8,
+   "posicao": {
+    "coluna": "A",
+    "linha": 3
+   },
+   "orientacao": "OESTE",
+   "paredes": {
+    "norte": false,
+    "sul": false,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 13,
+   "rssi": -67,
+   "timestamp_ms": 11000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.175,
+   "velocidade_atual": 14,
+   "velocidade_media": 15.6,
+   "posicao": {
+    "coluna": "A",
+    "linha": 4
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 14,
+   "rssi": -61,
+   "timestamp_ms": 12000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.175,
+   "velocidade_atual": 14.8,
+   "velocidade_media": 15.5,
+   "posicao": {
+    "coluna": "B",
+    "linha": 4
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 15,
+   "rssi": -55,
+   "timestamp_ms": 13000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.17,
+   "velocidade_atual": 17.3,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "C",
+    "linha": 4
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 16,
+   "rssi": -55,
+   "timestamp_ms": 14000,
+   "labirinto": "4x4",
+   "status": "CONCLUIDO",
+   "desafio_cumprido": true,
+   "bateria_pct": 84,
+   "bateria_volts": 8.169,
+   "velocidade_atual": 0,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "D",
+    "linha": 4
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 17,
+   "rssi": -58,
+   "timestamp_ms": 14000,
+   "labirinto": "4x4",
+   "status": "CONCLUIDO",
+   "desafio_cumprido": true,
+   "bateria_pct": 83,
+   "bateria_volts": 8.168,
+   "velocidade_atual": 0,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "D",
+    "linha": 4
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 18,
+   "rssi": -69,
+   "timestamp_ms": 14000,
+   "labirinto": "4x4",
+   "status": "CONCLUIDO",
+   "desafio_cumprido": true,
+   "bateria_pct": 84,
+   "bateria_volts": 8.172,
+   "velocidade_atual": 0,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "D",
+    "linha": 4
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  }
+ ],
+ "perda_conexao": [
+  {
+   "seq": 1,
+   "rssi": -48,
+   "timestamp_ms": 0,
+   "labirinto": "4x4",
+   "status": "AGUARDANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.196,
+   "velocidade_atual": 0,
+   "velocidade_media": 0,
+   "posicao": {
+    "coluna": "A",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 2,
+   "rssi": -54,
+   "timestamp_ms": 0,
+   "labirinto": "4x4",
+   "status": "AGUARDANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 86,
+   "bateria_volts": 8.2,
+   "velocidade_atual": 0,
+   "velocidade_media": 0,
+   "posicao": {
+    "coluna": "A",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 3,
+   "rssi": -54,
+   "timestamp_ms": 1000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 86,
+   "bateria_volts": 8.197,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 18.7,
+   "posicao": {
+    "coluna": "B",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 4,
+   "rssi": -64,
+   "timestamp_ms": 2000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.196,
+   "velocidade_atual": 18.6,
+   "velocidade_media": 18.6,
+   "posicao": {
+    "coluna": "C",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": false,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 5,
+   "rssi": -59,
+   "timestamp_ms": 3000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.192,
+   "velocidade_atual": 17.2,
+   "velocidade_media": 18.2,
+   "posicao": {
+    "coluna": "D",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 6,
+   "rssi": -56,
+   "timestamp_ms": 4000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.19,
+   "velocidade_atual": 9.9,
+   "velocidade_media": 16.1,
+   "posicao": {
+    "coluna": "C",
+    "linha": 1
+   },
+   "orientacao": "OESTE",
+   "paredes": {
+    "norte": true,
+    "sul": false,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 7,
+   "rssi": -49,
+   "timestamp_ms": 5000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.186,
+   "velocidade_atual": 14.3,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "C",
+    "linha": 2
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": false,
+    "leste": true,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 8,
+   "rssi": -67,
+   "timestamp_ms": 6000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.184,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 16.2,
+   "posicao": {
+    "coluna": "C",
+    "linha": 3
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 9,
+   "rssi": -61,
+   "timestamp_ms": 7000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.184,
+   "velocidade_atual": 13.7,
+   "velocidade_media": 15.9,
+   "posicao": {
+    "coluna": "D",
+    "linha": 3
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  }
+ ],
+ "travado": [
+  {
+   "seq": 1,
+   "rssi": -48,
+   "timestamp_ms": 0,
+   "labirinto": "4x4",
+   "status": "AGUARDANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.196,
+   "velocidade_atual": 0,
+   "velocidade_media": 0,
+   "posicao": {
+    "coluna": "A",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 2,
+   "rssi": -54,
+   "timestamp_ms": 0,
+   "labirinto": "4x4",
+   "status": "AGUARDANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 86,
+   "bateria_volts": 8.2,
+   "velocidade_atual": 0,
+   "velocidade_media": 0,
+   "posicao": {
+    "coluna": "A",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 3,
+   "rssi": -54,
+   "timestamp_ms": 1000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 86,
+   "bateria_volts": 8.197,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 18.7,
+   "posicao": {
+    "coluna": "B",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 4,
+   "rssi": -64,
+   "timestamp_ms": 2000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.196,
+   "velocidade_atual": 18.6,
+   "velocidade_media": 18.6,
+   "posicao": {
+    "coluna": "C",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": false,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 5,
+   "rssi": -59,
+   "timestamp_ms": 3000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.192,
+   "velocidade_atual": 17.2,
+   "velocidade_media": 18.2,
+   "posicao": {
+    "coluna": "D",
+    "linha": 1
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": true,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 6,
+   "rssi": -56,
+   "timestamp_ms": 4000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.19,
+   "velocidade_atual": 9.9,
+   "velocidade_media": 16.1,
+   "posicao": {
+    "coluna": "C",
+    "linha": 1
+   },
+   "orientacao": "OESTE",
+   "paredes": {
+    "norte": true,
+    "sul": false,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 7,
+   "rssi": -49,
+   "timestamp_ms": 5000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.186,
+   "velocidade_atual": 14.3,
+   "velocidade_media": 15.7,
+   "posicao": {
+    "coluna": "C",
+    "linha": 2
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": false,
+    "leste": true,
+    "oeste": true
+   }
+  },
+  {
+   "seq": 8,
+   "rssi": -67,
+   "timestamp_ms": 6000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.184,
+   "velocidade_atual": 18.7,
+   "velocidade_media": 16.2,
+   "posicao": {
+    "coluna": "C",
+    "linha": 3
+   },
+   "orientacao": "SUL",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": false,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 9,
+   "rssi": -61,
+   "timestamp_ms": 7000,
+   "labirinto": "4x4",
+   "status": "MAPEANDO",
+   "desafio_cumprido": false,
+   "bateria_pct": 85,
+   "bateria_volts": 8.184,
+   "velocidade_atual": 13.7,
+   "velocidade_media": 15.9,
+   "posicao": {
+    "coluna": "D",
+    "linha": 3
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 10,
+   "rssi": -65,
+   "timestamp_ms": 8000,
+   "labirinto": "4x4",
+   "status": "TRAVADO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.18,
+   "velocidade_atual": 0,
+   "velocidade_media": 15.9,
+   "posicao": {
+    "coluna": "D",
+    "linha": 3
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 11,
+   "rssi": -49,
+   "timestamp_ms": 8000,
+   "labirinto": "4x4",
+   "status": "TRAVADO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.18,
+   "velocidade_atual": 0,
+   "velocidade_media": 15.9,
+   "posicao": {
+    "coluna": "D",
+    "linha": 3
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  },
+  {
+   "seq": 12,
+   "rssi": -64,
+   "timestamp_ms": 8000,
+   "labirinto": "4x4",
+   "status": "TRAVADO",
+   "desafio_cumprido": false,
+   "bateria_pct": 84,
+   "bateria_volts": 8.18,
+   "velocidade_atual": 0,
+   "velocidade_media": 15.9,
+   "posicao": {
+    "coluna": "D",
+    "linha": 3
+   },
+   "orientacao": "LESTE",
+   "paredes": {
+    "norte": false,
+    "sul": true,
+    "leste": true,
+    "oeste": false
+   }
+  }
+ ]
+}
