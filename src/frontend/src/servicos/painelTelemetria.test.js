@@ -163,5 +163,15 @@ describe('painelTelemetria.js', () => {
             expect(final.mapa.cells).toHaveLength(32);
             expect(final.mapa.rastro).toEqual([{ x: 0, y: 0 }]);
         });
+
+        it('salva corridas finalizadas e interrompidas no histórico com leituras para reprodução (HU-14)', () => {
+            const final = aplicarTodos(emSequencia(perdaConexao, completa));
+            expect(final.historico).toHaveLength(2);
+            expect(final.historico[0].id).toBe('002');
+            expect(final.historico[0].status).toBe('CONCLUIDO');
+            expect(final.historico[0].leituras.length).toBeGreaterThan(0);
+            expect(final.historico[1].id).toBe('001');
+        });
     });
 });
+

@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import IndicadorTempo from '../componentes/IndicadorTempo';
 import IndicadorVelocidade from '../componentes/IndicadorVelocidade';
 import IndicadorBateria from '../componentes/IndicadorBateria';
@@ -20,14 +20,17 @@ const SEM_DADOS = {
     status: null,
 };
 
-export default function Painel() {
+export default function Painel({ corridasHistorico = null }) {
     // Cada pacote do WebSocket passa pelo reducer, na ordem de chegada: ele acumula
-    // o mapa da corrida atual e recomeça quando começa uma corrida nova.
+    // o mapa da corrida atual, recomeça quando começa uma corrida nova e salva as
+    // corridas concluídas em estado.historico para inspeção e reprodução.
     const [estado, aplicar] = useReducer(reduzirTelemetria, undefined, criarEstadoPainel);
     const { conectado } = useTelemetria({ aoReceber: aplicar });
+    const [corridaSelecionadaId, setCorridaSelecionadaId] = useState(null);
 
     const pacote = estado.pacote ?? SEM_DADOS;
     const { mapa } = estado;
+    const corridas = corridasHistorico ?? estado.historico ?? [];
 
     return (
         <div className="painel-container">
@@ -59,10 +62,27 @@ export default function Painel() {
                     <IndicadorVelocidade atual={pacote.velocidade_atual} media={pacote.velocidade_media} />
                     <IndicadorBateria porcentagem={pacote.bateria_pct} volts={pacote.bateria_volts} />
 
-                    {/* Histórico desacoplado, pronto para persistência futura (HU-12) */}
-                    <HistoricoCorridas corridas={[]} modo="compacto" />
+                    {/* Resumo lateral das corridas registradas */}
+                    <HistoricoCorridas
+                        corridas={corridas}
+                        modo="compacto"
+                        aoSelecionarCorrida={(corrida) => setCorridaSelecionadaId(corrida.id)}
+                    />
                 </div>
             </div>
+
+            {/* Seção de Histórico de Corridas: Tabela + Filtros (HU-13) + Inspeção e Reprodução (HU-14) */}
+            <section style={{ marginTop: '36px' }} data-testid="secao-historico-corridas">
+                <header className="painel-header" style={{ marginBottom: '20px' }}>
+                    <h1>HISTÓRICO DE CORRIDAS</h1>
+                </header>
+                <HistoricoCorridas
+                    corridas={corridas}
+                    modo="tabela"
+                    corridaSelecionadaId={corridaSelecionadaId}
+                    aoSelecionarCorrida={(corrida) => setCorridaSelecionadaId(corrida.id)}
+                />
+            </section>
         </div>
     );
 }
