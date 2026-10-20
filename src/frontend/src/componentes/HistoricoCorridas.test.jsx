@@ -53,7 +53,7 @@ describe('componentes/HistoricoCorridas.jsx', () => {
 
         it('deve renderizar o cabeçalho e todas as colunas exigidas', () => {
             const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={mockCorridas} />);
-            expect(html).toContain('Histórico Geral (General History)');
+            expect(html).toContain('Histórico Geral');
             expect(html).toContain('Grid');
             expect(html).toContain('Modo');
             expect(html).toContain('Tentativas');

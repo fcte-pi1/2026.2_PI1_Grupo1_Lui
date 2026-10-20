@@ -19,7 +19,8 @@ export default function Labirinto({
     roboOrientacao,
     orientacao,
     trajeto,
-    rastro
+    rastro,
+    ocultarCabecalho = false
 }) {
     const cellSize = calcularCellSize(linhas);
     const { cells: celulasBase, cols, rowsList } = gerarGrid(linhas);
@@ -43,17 +44,19 @@ export default function Labirinto({
     const pathPoints = gerarPontosSvg(trajetoAtivo, cellSize);
 
     return (
-        <div className="labirinto-container" data-testid="labirinto-container">
-            <div className="labirinto-header">
-                <div className="header-textos">
-                    <h2>{`MAPEAMENTO EM TEMPO REAL - GRID ${linhas}x4`}</h2>
-                    <p>{`Grid de ${linhas}x4 • Escaneando perímetro interno`}</p>
+        <div className={`labirinto-container ${ocultarCabecalho ? 'labirinto-inspecao' : ''}`} data-testid="labirinto-container">
+            {!ocultarCabecalho && (
+                <div className="labirinto-header">
+                    <div className="header-textos">
+                        <h2>{`MAPEAMENTO EM TEMPO REAL - GRID ${linhas}x4`}</h2>
+                        <p>{`Grid de ${linhas}x4 • Escaneando perímetro interno`}</p>
+                    </div>
+                    <div className="legendas">
+                        <span className="legenda-start"><span className="box-start"></span> START</span>
+                        <span className="legenda-finish"><span className="box-finish"></span> FINISH</span>
+                    </div>
                 </div>
-                <div className="legendas">
-                    <span className="legenda-start"><span className="box-start"></span> START</span>
-                    <span className="legenda-finish"><span className="box-finish"></span> FINISH</span>
-                </div>
-            </div>
+            )}
 
             <div className="labirinto-wrapper">
                 {/* Headers das Colunas (A, B, C, D) */}

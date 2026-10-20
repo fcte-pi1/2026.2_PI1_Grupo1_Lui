@@ -1,5 +1,3 @@
-/* Estilos da Tela e Tabela de Histórico de Corridas (HU-13 / Protótipo prototipoHistoricoCorrida.png) */
-
 .historico-geral-container {
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
@@ -171,4 +169,181 @@
     padding: 32px;
     color: #718096;
     font-style: italic;
+}
+
+/* --- Layout Lado a Lado: Tabela Geral + Inspeção de Corrida (HU-14) --- */
+.historico-layout-completo {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.historico-layout-completo .historico-geral-container {
+    flex: 1.5;
+    min-width: 0;
+}
+
+.inspecao-coluna {
+    flex: 1;
+    min-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.inspecao-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+}
+
+.inspecao-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.inspecao-titulo {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1a202c;
+    letter-spacing: 0.4px;
+    margin: 0 0 14px 0;
+    text-transform: uppercase;
+}
+
+.inspecao-card-header .inspecao-titulo {
+    margin: 0;
+}
+
+.inspecao-dot {
+    color: #a0aec0;
+    font-size: 1.1rem;
+}
+
+.inspecao-mensagem-vazia {
+    color: #718096;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.inspecao-mapa-wrapper .labirinto-container.labirinto-inspecao {
+    border: none;
+    box-shadow: none;
+    padding: 4px 0 12px 0;
+    min-width: auto;
+}
+
+/* Barra de Reprodução (Play/Pause + Timeline) */
+.reproducao-controles {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #edf2f7;
+}
+
+.botao-play-pause {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.botao-play-pause:hover {
+    background-color: #f7fafc;
+    border-color: #a0aec0;
+}
+
+.reproducao-tempo {
+    font-size: 0.8rem;
+    color: #718096;
+    font-variant-numeric: tabular-nums;
+}
+
+.barra-tempo-reproducao {
+    flex: 1;
+    cursor: pointer;
+    accent-color: #4a5568;
+}
+
+/* Estatísticas da Corrida (Run Stats) */
+.estatisticas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.estatistica-box {
+    background-color: #f7fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.estatistica-label {
+    font-size: 0.78rem;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.estatistica-valor {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+/* Métricas Comparativas (Comparative Metrics) */
+.metricas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.metrica-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #2d3748;
+}
+
+.metrica-linha strong {
+    font-weight: 700;
+    color: #1a202c;
+}
+
+@media (max-width: 1100px) {
+    .historico-layout-completo {
+        flex-direction: column;
+    }
+
+    .inspecao-coluna {
+        width: 100%;
+        min-width: 0;
+    }
 }
