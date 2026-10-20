@@ -7,6 +7,7 @@
 #include "botao/Botao.h"
 #include "cronometro/Cronometro.h"
 #include "mapa/Mapa.h"
+#include "navegacao/Navegador.h"
 #include "radio/RadioTelemetria.h"
 
 // Definições de pinos (conforme projeto de hardware 4.3)
@@ -18,6 +19,10 @@ Adafruit_NeoPixel pixels(NUMPIXELS, LED_STATUS_PIN, NEO_GRB + NEO_KHZ800);
 
 EstadoRobo estadoAtual = AGUARDANDO;
 Mapa mapa;
+// Navegação autônoma (HU-06). A lógica está pronta e testada em ambiente nativo, mas só
+// será acionada quando existirem a largada (HU-05) e os drivers de sensores/motores,
+// que implementam SensoresParedes e ExecutorMovimento (navegacao/InterfacesNavegacao.h).
+Navegador navegador(mapa);
 TelemetriaPacket telemetria;
 
 // Gestos do botão (debounce, toques e largada) e cronômetro da prova
@@ -33,8 +38,9 @@ void enviarTelemetria() {
     telemetria.timestamp_ms = cronometro.decorridoMs((uint32_t)millis()); // 0 antes da largada
     telemetria.status_id = (uint8_t)estadoAtual;
     telemetria.labirinto_id = (uint8_t)mapa.getGeometria();
-    // Os demais campos (posição, bateria, velocidades, paredes) serão preenchidos
-    // pelas issues de navegação/sensoriamento; por ora seguem os valores atuais da struct.
+    // Posição, orientação e paredes vêm do navegador quando a prova está em andamento;
+    // os demais campos (bateria, velocidades) serão preenchidos por outras issues.
+    if (navegador.estado() != NAV_NAO_INICIADO) navegador.preencherPosicao(telemetria);
     radioTelemetriaEnviar(telemetria);
 }
 
