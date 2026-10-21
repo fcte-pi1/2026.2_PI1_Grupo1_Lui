@@ -163,5 +163,44 @@ describe('painelTelemetria.js', () => {
             expect(final.mapa.cells).toHaveLength(32);
             expect(final.mapa.rastro).toEqual([{ x: 0, y: 0 }]);
         });
+
+        it('registra a corrida no histórico da sessão com status final TRAVADO sem duplicar pacotes repetidos (HU-19)', () => {
+            const estado = aplicarTodos(travado);
+
+            expect(estado.pacote.status).toBe('TRAVADO');
+            expect(estado.historico).toHaveLength(1);
+            expect(estado.historico[0]).toMatchObject({
+                id: 1,
+                nome: 'Tentativa 1',
+                labirinto: '4x4',
+                status: 'TRAVADO',
+                resultado: 'Travado',
+            });
+        });
+
+        it('mantém o status TRAVADO em destaque até começar uma nova corrida (HU-19)', () => {
+            const aposTravamento = aplicarTodos(travado);
+            const pacoteAtrasado = {
+                ...base,
+                status: 'MAPEANDO',
+                timestamp_ms: 8500,
+                posicao: { coluna: 'D', linha: 3 },
+            };
+
+            const aindaNaMesmaCorrida = reduzirTelemetria(aposTravamento, pacoteAtrasado);
+            expect(aindaNaMesmaCorrida.pacote.status).toBe('TRAVADO');
+
+            const novaLargada = {
+                ...base,
+                status: 'AGUARDANDO',
+                timestamp_ms: 0,
+                posicao: { coluna: 'A', linha: 1 },
+            };
+            const proximaCorrida = reduzirTelemetria(aindaNaMesmaCorrida, novaLargada);
+            expect(proximaCorrida.corrida).toBe(2);
+            expect(proximaCorrida.pacote.status).toBe('AGUARDANDO');
+            expect(proximaCorrida.historico).toHaveLength(1);
+            expect(proximaCorrida.historico[0].status).toBe('TRAVADO');
+        });
     });
 });
