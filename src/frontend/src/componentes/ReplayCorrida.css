@@ -1,0 +1,137 @@
+/* Estilos do Painel de Inspeção e Reprodução de Corrida (HU-14 / Protótipo prototipoHistoricoCorrida.png) */
+
+.replay-corrida-painel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+    min-width: 340px;
+}
+
+.replay-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.replay-card-titulo {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a202c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 16px 0;
+}
+
+.replay-mapa-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.replay-controles {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.botao-play-pause {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #edf2f7;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.botao-play-pause:hover {
+    background-color: #e2e8f0;
+}
+
+.tempo-replay-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #718096;
+    min-width: 42px;
+    text-align: center;
+}
+
+.barra-tempo-replay {
+    flex: 1;
+    cursor: pointer;
+    accent-color: #4a5568;
+}
+
+/* Estatísticas da Corrida (3 colunas como no protótipo) */
+.estatisticas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.estatistica-item {
+    background-color: #f7fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.estatistica-rotulo {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.estatistica-valor {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+/* Métricas Comparativas (linhas horizontais como no protótipo) */
+.metricas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.metrica-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+}
+
+.metrica-rotulo {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.metrica-valor {
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.replay-vazio {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 24px;
+}

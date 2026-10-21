@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { filtrarCorridas, formatarDataHora } from '../servicos/historicoFiltros';
 import { rotuloStatus } from '../servicos/formatacao';
+import ReplayCorrida from './ReplayCorrida';
 import './HistoricoCorridas.css';
 
 /**
@@ -34,11 +35,13 @@ export default function HistoricoCorridas({
     corridas = [],
     modo = 'tabela',
     corridaSelecionadaId = null,
-    aoSelecionarCorrida = () => {}
+    aoSelecionarCorrida = () => {},
+    exibirInspecao = false
 }) {
     const [filtroGeometria, setFiltroGeometria] = useState('todas');
     const [filtroDataInicio, setFiltroDataInicio] = useState('');
     const [filtroDataFim, setFiltroDataFim] = useState('');
+    const [selecionadaInternaId, setSelecionadaInternaId] = useState(null);
 
     const corridasFiltradas = useMemo(() => {
         return filtrarCorridas(corridas, {
@@ -47,6 +50,17 @@ export default function HistoricoCorridas({
             dataFim: filtroDataFim
         });
     }, [corridas, filtroGeometria, filtroDataInicio, filtroDataFim]);
+
+    const idAtivo = corridaSelecionadaId ?? selecionadaInternaId ?? (exibirInspecao && corridasFiltradas[0]?.id);
+    const corridaAtiva = useMemo(() => {
+        if (!idAtivo) return corridasFiltradas[0] || null;
+        return corridasFiltradas.find((c) => c.id === idAtivo) || corridasFiltradas[0] || null;
+    }, [corridasFiltradas, idAtivo]);
+
+    const selecionarCorrida = (corrida) => {
+        setSelecionadaInternaId(corrida?.id ?? null);
+        aoSelecionarCorrida(corrida);
+    };
 
     const limparFiltros = () => {
         setFiltroGeometria('todas');
@@ -164,14 +178,14 @@ export default function HistoricoCorridas({
                             corridasFiltradas.map((c, idx) => {
                                 const idExibicao = c.id || String(idx + 1).padStart(3, '0');
                                 const statusFormatado = obterEstiloStatus(c.status);
-                                const isSelecionada = corridaSelecionadaId === c.id;
+                                const isSelecionada = idAtivo !== null && idAtivo !== undefined && idAtivo === c.id;
 
                                 return (
                                     <tr
                                         key={c.id || idx}
                                         className={`linha-corrida ${isSelecionada ? 'selecionada' : ''}`}
                                         data-testid={`linha-corrida-${c.id || idx}`}
-                                        onClick={() => aoSelecionarCorrida(c)}
+                                        onClick={() => selecionarCorrida(c)}
                                     >
                                         <td className="col-id">{idExibicao}</td>
                                         <td>{formatarDataHora(c.data || c.inicio)}</td>
@@ -194,6 +208,12 @@ export default function HistoricoCorridas({
                     </tbody>
                 </table>
             </div>
+
+            {exibirInspecao && (
+                <div style={{ marginTop: '24px' }} data-testid="secao-inspecao-historico">
+                    <ReplayCorrida corrida={corridaAtiva} />
+                </div>
+            )}
         </div>
     );
 }
