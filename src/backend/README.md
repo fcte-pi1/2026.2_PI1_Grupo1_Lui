@@ -37,11 +37,23 @@ backend/
 
 ## Como executar
 
+No Windows (PowerShell):
+
+```powershell
+cd src\backend
+python -m venv .venv                                         # só na primeira vez
+.\.venv\Scripts\python -m pip install -r requirements.txt    # só na primeira vez
+.\.venv\Scripts\python -m uvicorn app.main:app --reload
+```
+
+Os comandos chamam o Python de dentro do `.venv`, então não é preciso ativar o ambiente virtual. Rodar só `uvicorn` sem o ambiente ativado dá o erro "O termo 'uvicorn' não é reconhecido", e ativá-lo com `.venv\Scripts\Activate.ps1` costuma ser bloqueado pela política de execução de scripts do PowerShell.
+
+No Linux e no macOS:
+
 ```bash
 cd src/backend
-python -m venv .venv
-.venv\Scripts\activate          # Windows (PowerShell)
-source .venv/bin/activate       # Linux e macOS
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
@@ -73,7 +85,7 @@ O padrão é nenhuma fonte, para que um esquecimento no dia da prova não exiba 
 # PowerShell
 $env:TELEMETRIA_FONTE = "serial"
 $env:SERIAL_PORTA = "COM3"
-uvicorn app.main:app
+.\.venv\Scripts\python -m uvicorn app.main:app
 ```
 
 ```bash
@@ -91,7 +103,7 @@ $env:TELEMETRIA_FONTE = "simulador"
 $env:SIMULADOR_LABIRINTO = "8x4"
 $env:SIMULADOR_CENARIO = "completa"
 $env:SIMULADOR_REPETIR = "1"
-uvicorn app.main:app
+.\.venv\Scripts\python -m uvicorn app.main:app
 ```
 
 ```bash
@@ -121,18 +133,22 @@ Em `CONCLUIDO` e `TRAVADO` a última mensagem se repete duas vezes com o cronôm
 
 O simulador também roda sozinho, escrevendo as linhas na saída padrão:
 
-```bash
-python -m app.simulador --labirinto 12x4 --cenario travado
-python -m app.simulador --labirinto 8x4 --tempo-real --velocidade 2
+```powershell
+.\.venv\Scripts\python -m app.simulador --labirinto 12x4 --cenario travado
+.\.venv\Scripts\python -m app.simulador --labirinto 8x4 --tempo-real --velocidade 2
 ```
+
+No Linux e no macOS, com o ambiente ativado, use `python -m app.simulador` com os mesmos argumentos.
 
 **Testar a fonte serial sem o gateway:** `SERIAL_PORTA` aceita `socket://host:porta`. Um programa que sirva as linhas do simulador por TCP faz o papel do ESP32, e o backend as lê pelo pyserial exatamente como leria a porta COM.
 
 ## Testes e cobertura
 
-```bash
-pytest --cov=app --cov-report=term-missing
+```powershell
+.\.venv\Scripts\python -m pytest --cov=app --cov-report=term-missing
 ```
+
+No Linux e no macOS, com o ambiente ativado: `pytest --cov=app --cov-report=term-missing`.
 
 O workflow [`backend-ci.yml`](../../.github/workflows/backend-ci.yml) roda esse comando em todo PR que altere `src/backend` e publica a tabela de cobertura no resumo da execução. Os testes não abrem portas reais: a serial é testada com uma porta falsa e com um gateway emulado por socket local.
 
