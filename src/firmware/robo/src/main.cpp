@@ -9,7 +9,10 @@
 #include "mapa/Mapa.h"
 #include "navegacao/Navegador.h"
 #include "navegacao/VelocidadeMedia.h"
+#include "parada/AdaptadorCronometro.h"
+#include "parada/ParadaObjetivo.h"
 #include "radio/RadioTelemetria.h"
+#include "seguranca/MonitorTravamento.h"
 #include "sensores/Bateria.h"
 
 // Definições de pinos (conforme projeto de hardware 4.3)
