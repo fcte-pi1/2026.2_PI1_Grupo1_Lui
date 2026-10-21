@@ -1,0 +1,174 @@
+/* Estilos da Tela e Tabela de Histórico de Corridas (HU-13 / Protótipo prototipoHistoricoCorrida.png) */
+
+.historico-geral-container {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+}
+
+.historico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.historico-titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a202c;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Painel de Filtros */
+.historico-filtros {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.filtro-grupo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.filtro-grupo label {
+    white-space: nowrap;
+}
+
+.filtro-select,
+.filtro-input {
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.875rem;
+    color: #2d3748;
+    background-color: #f7fafc;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filtro-select:focus,
+.filtro-input:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.botao-limpar-filtros {
+    background-color: transparent;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.botao-limpar-filtros:hover {
+    background-color: #edf2f7;
+    color: #2d3748;
+}
+
+/* Tabela de Corridas */
+.tabela-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.tabela-historico {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.875rem;
+    text-align: left;
+}
+
+.tabela-historico th {
+    background-color: #f7fafc;
+    color: #718096;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 14px;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.tabela-historico td {
+    padding: 14px;
+    border-bottom: 1px solid #edf2f7;
+    color: #2d3748;
+    white-space: nowrap;
+}
+
+.linha-corrida {
+    transition: background-color 0.15s;
+    cursor: pointer;
+}
+
+.linha-corrida:hover {
+    background-color: #f7fafc;
+}
+
+.linha-corrida.selecionada {
+    background-color: #ebf8ff;
+}
+
+.linha-corrida td.col-id {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.col-geometria {
+    font-weight: 600;
+    color: #2b6cb0;
+}
+
+/* Badges de Status (conforme protótipo: verde para sucesso, vermelho para falhas/colisão) */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.status-badge.sucesso {
+    color: #276749;
+    background-color: #c6f6d5;
+}
+
+.status-badge.alerta {
+    color: #9b2c2c;
+    background-color: #fed7d7;
+}
+
+.status-badge.info {
+    color: #2b6cb0;
+    background-color: #bee3f8;
+}
+
+.historico-tabela-vazia {
+    text-align: center;
+    padding: 32px;
+    color: #718096;
+    font-style: italic;
+}
