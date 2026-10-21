@@ -8,7 +8,9 @@
 #include "cronometro/Cronometro.h"
 #include "mapa/Mapa.h"
 #include "navegacao/Navegador.h"
+#include "navegacao/VelocidadeMedia.h"
 #include "radio/RadioTelemetria.h"
+#include "sensores/Bateria.h"
 
 // Definições de pinos (conforme projeto de hardware 4.3)
 const int BOTAO_LARGADA_PIN = 15;   // Botão de controle (GPIO 15 conforme shield 4.3)
@@ -33,14 +35,27 @@ Cronometro cronometro(TELEMETRIA_TIMESTAMP_MAX_MS); // limitado aos 10 min do co
 TemporizadorPeriodico temporizadorTelemetria(TELEMETRIA_PERIODO_MS);
 bool radioPronto = false;
 
+// Leitura da bateria pelo divisor no GPIO 34 (doc 4.3)
+Bateria bateria;
+
 void enviarTelemetria() {
     if (!radioPronto) return;
     telemetria.timestamp_ms = cronometro.decorridoMs((uint32_t)millis()); // 0 antes da largada
     telemetria.status_id = (uint8_t)estadoAtual;
     telemetria.labirinto_id = (uint8_t)mapa.getGeometria();
-    // Posição, orientação e paredes vêm do navegador quando a prova está em andamento;
-    // os demais campos (bateria, velocidades) serão preenchidos por outras issues.
+    // Posição, orientação e paredes vêm do navegador quando a prova está em andamento.
     if (navegador.estado() != NAV_NAO_INICIADO) navegador.preencherPosicao(telemetria);
+
+    const uint16_t bateriaMv = bateria.lerMilivolts();
+    telemetria.bateria_mv = bateriaMv;
+    telemetria.bateria_pct = porcentagemBateria(bateriaMv);
+
+    // Média da prova: células andadas pelo navegador no tempo do cronômetro (congela
+    // junto com ele na chegada). A velocidade atual fica em 0 até existirem os
+    // encoders, de onde ela virá.
+    telemetria.velocidade_media = velocidadeMediaMmS(navegador.deslocamentos(), telemetria.timestamp_ms);
+    telemetria.velocidade_atual = 0;
+
     radioTelemetriaEnviar(telemetria);
 }
 
@@ -104,6 +119,7 @@ void setup() {
     telemetria.labirinto_id = LAB_4X4;
     mapa.setGeometria(LAB_4X4);
 
+    bateria.iniciar();
     radioPronto = radioTelemetriaInit();
     Serial.println(radioPronto ? "ESP-NOW pronto (telemetria a 1 Hz)." : "ERRO: falha ao iniciar ESP-NOW.");
     
