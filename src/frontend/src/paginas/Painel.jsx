@@ -60,7 +60,7 @@ export default function Painel() {
                     <IndicadorBateria porcentagem={pacote.bateria_pct} volts={pacote.bateria_volts} />
 
                     {/* Histórico desacoplado, pronto para persistência futura (HU-12) */}
-                    <HistoricoCorridas corridas={[]} />
+                    <HistoricoCorridas corridas={[]} modo="compacto" />
                 </div>
             </div>
         </div>
