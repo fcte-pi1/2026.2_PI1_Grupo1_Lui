@@ -91,5 +91,14 @@ describe('componentes/HistoricoCorridas.jsx', () => {
             expect(html).toContain('8x4');
             expect(html).toContain('12x4');
         });
+
+        it('deve exibir o painel de inspeção e replay quando exibirInspecao for verdadeiro (HU-14)', () => {
+            const html = ReactDOMServer.renderToString(
+                <HistoricoCorridas corridas={mockCorridas} corridaSelecionadaId="042" exibirInspecao={true} />
+            );
+            expect(html).toContain('secao-inspecao-historico');
+            expect(html).toContain('INSPECIONAR CORRIDA (INSPECT RUN) - #042');
+            expect(html).toContain('05:12.30');
+        });
     });
 });
