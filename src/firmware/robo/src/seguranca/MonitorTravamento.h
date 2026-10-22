@@ -4,15 +4,19 @@
 // HU-18 / RF-SFT11 — Monitoramento periódico e corte de tração por travamento (stall).
 //
 // Aplica a regra pura do DetectorTravamento a cada ciclo de segurança (50 ms) e age
-// imediatamente ao confirmar o bloqueio mecânico:
+// imediatamente ao confirmar o bloqueio mecânico (em ambas ou em qualquer uma das rodas):
 //  1. Corta a potência dos motores (ITracao::parar) — garantindo reação entre 1000 e 1050 ms
 //     (abaixo do teto de 1200 ms do RF-SFT11);
 //  2. Congela o cronômetro da prova (ICronometro::congelar, opcional);
 //  3. Aciona o indicador visual local em estado TRAVADO (ISinalizacaoEstado, opcional);
 //  4. Trava o estado em TRAVADO (estado terminal na tentativa).
 //
-// Na integração no main.cpp (mesmo padrão do ParadaObjetivo):
-//   monitorTravamento.verificar(tracaoAtiva, ultimoPulsoMs, tempoAtual);
+// Nota de calibração (zona morta):
+//  - O laço de controle do robô deve calibrar e respeitar o patamar mínimo de velocidade
+//    operacional, prevenindo acionamento contínuo abaixo da zona morta dos motores.
+//
+// Na integração no main.cpp:
+//   monitorTravamento.verificar(tempoAtual);
 //   if (monitorTravamento.travado()) estadoAtual = TRAVADO;
 
 #include <stdint.h>
@@ -28,11 +32,13 @@ public:
     virtual bool tracaoAtiva() const = 0;
 };
 
-// Fonte do instante do último pulso de encoder (compatível com Odometria da HU-02).
+// Fonte dos instantes dos últimos pulsos de encoder (compatível com Odometria da HU-02).
 class IFontePulsos {
 public:
     virtual ~IFontePulsos() {}
-    virtual uint32_t getUltimoPulsoMs() const = 0;
+    virtual uint32_t getUltimoPulsoMs() const { return 0; }
+    virtual uint32_t getUltimoPulsoEsqMs() const { return getUltimoPulsoMs(); }
+    virtual uint32_t getUltimoPulsoDirMs() const { return getUltimoPulsoMs(); }
 };
 
 // Indicador local de estado (LED RGB / buzzer da HU-05).
@@ -77,16 +83,19 @@ public:
     bool verificar(uint32_t agoraMs) {
         if (travado_) return true;
         if (fonteTracao_ == nullptr || odometria_ == nullptr) return false;
-        return verificar(fonteTracao_->tracaoAtiva(), odometria_->getUltimoPulsoMs(), agoraMs);
+        return verificar(fonteTracao_->tracaoAtiva(),
+                         odometria_->getUltimoPulsoEsqMs(),
+                         odometria_->getUltimoPulsoDirMs(),
+                         agoraMs);
     }
 
-    // Verificação periódica com parâmetros explícitos.
+    // Verificação periódica com pulsos de cada roda monitorados separadamente.
     // Na primeira confirmação de travamento: corta os motores, congela o cronômetro e
     // sinaliza TRAVADO. Permanece em estado terminal até iniciarProva().
-    bool verificar(bool tracaoAtiva, uint32_t ultimoPulsoMs, uint32_t agoraMs) {
+    bool verificar(bool tracaoAtiva, uint32_t ultimoPulsoEsqMs, uint32_t ultimoPulsoDirMs, uint32_t agoraMs) {
         if (travado_) return true;
 
-        if (!detector_.verificar(tracaoAtiva, ultimoPulsoMs, agoraMs)) {
+        if (!detector_.verificar(tracaoAtiva, ultimoPulsoEsqMs, ultimoPulsoDirMs, agoraMs)) {
             return false;
         }
 
@@ -108,6 +117,11 @@ public:
         return true;
     }
 
+    // Sobrecarga de conveniência para fonte agregada de pulsos.
+    bool verificar(bool tracaoAtiva, uint32_t ultimoPulsoMs, uint32_t agoraMs) {
+        return verificar(tracaoAtiva, ultimoPulsoMs, ultimoPulsoMs, agoraMs);
+    }
+
     // Reinicia o monitor para uma nova tentativa/corrida.
     void iniciarProva() {
         travado_ = false;
@@ -118,6 +132,9 @@ public:
     bool travado() const { return travado_; }
     uint32_t instanteCorteMs() const { return instanteCorteMs_; }
     uint32_t tempoSemPulsoMs() const { return detector_.tempoSemPulsoMs(); }
+    uint32_t tempoSemPulsoEsqMs() const { return detector_.tempoSemPulsoEsqMs(); }
+    uint32_t tempoSemPulsoDirMs() const { return detector_.tempoSemPulsoDirMs(); }
+    RodaTravada rodaTravada() const { return detector_.rodaTravada(); }
     EstadoRobo estadoRobo() const { return travado_ ? TRAVADO : MAPEANDO; }
 
 private:

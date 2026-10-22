@@ -37,9 +37,16 @@ struct TracaoFalsaTravamento : IFonteTracao {
 };
 
 struct OdometriaFalsaTravamento : IFontePulsos {
-    uint32_t ultimoPulsoMs;
-    explicit OdometriaFalsaTravamento(uint32_t inicialMs = 0) : ultimoPulsoMs(inicialMs) {}
-    uint32_t getUltimoPulsoMs() const override { return ultimoPulsoMs; }
+    uint32_t ultimoPulsoEsqMs;
+    uint32_t ultimoPulsoDirMs;
+    explicit OdometriaFalsaTravamento(uint32_t inicialMs = 0)
+        : ultimoPulsoEsqMs(inicialMs), ultimoPulsoDirMs(inicialMs) {}
+
+    uint32_t getUltimoPulsoMs() const override {
+        return (ultimoPulsoEsqMs > ultimoPulsoDirMs) ? ultimoPulsoEsqMs : ultimoPulsoDirMs;
+    }
+    uint32_t getUltimoPulsoEsqMs() const override { return ultimoPulsoEsqMs; }
+    uint32_t getUltimoPulsoDirMs() const override { return ultimoPulsoDirMs; }
 };
 
 struct CronometroFalsoTravamento : ICronometro {
@@ -80,8 +87,9 @@ void test_nao_dispara_com_pulsos_regulares(void) {
     uint32_t ultimoPulso = 0;
     for (uint32_t t = 0; t <= 5000; t += 50) {
         if (t % 100 == 0) ultimoPulso = t;
-        TEST_ASSERT_FALSE(detector.verificar(true, ultimoPulso, t));
+        TEST_ASSERT_FALSE(detector.verificar(true, ultimoPulso, ultimoPulso, t));
         TEST_ASSERT_FALSE(detector.travamentoDetectado());
+        TEST_ASSERT_EQUAL(RODA_NENHUMA, detector.rodaTravada());
     }
 }
 
@@ -89,25 +97,60 @@ void test_dispara_aos_1000ms_sem_pulso_com_tracao_ativa(void) {
     DetectorTravamento detector;
 
     // Largada em t = 1000 ms com um pulso inicial em 1000 ms
-    TEST_ASSERT_FALSE(detector.verificar(true, 1000, 1000));
+    TEST_ASSERT_FALSE(detector.verificar(true, 1000, 1000, 1000));
     TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoMs());
 
     // Em 1999 ms (999 ms sem pulso): ainda não deve disparar
-    TEST_ASSERT_FALSE(detector.verificar(true, 1000, 1999));
+    TEST_ASSERT_FALSE(detector.verificar(true, 1000, 1000, 1999));
     TEST_ASSERT_EQUAL_UINT32(999, detector.tempoSemPulsoMs());
 
     // Em 2000 ms (exatos 1000 ms sem pulso): travamento confirmado
-    TEST_ASSERT_TRUE(detector.verificar(true, 1000, 2000));
+    TEST_ASSERT_TRUE(detector.verificar(true, 1000, 1000, 2000));
     TEST_ASSERT_TRUE(detector.travamentoDetectado());
+    TEST_ASSERT_EQUAL(AMBAS_RODAS, detector.rodaTravada());
     TEST_ASSERT_EQUAL_UINT32(1000, detector.tempoSemPulsoMs());
+}
+
+void test_dispara_quando_apenas_roda_esquerda_trava(void) {
+    DetectorTravamento detector;
+
+    // Roda esquerda para de pulsar em t = 1000 ms, enquanto a direita continua avançando
+    for (uint32_t t = 1000; t < 2000; t += 50) {
+        const uint32_t pulsoDir = t;  // direita recebendo pulsos normalmente
+        TEST_ASSERT_FALSE(detector.verificar(true, 1000, pulsoDir, t));
+        TEST_ASSERT_EQUAL(RODA_NENHUMA, detector.rodaTravada());
+    }
+
+    // Aos 1000 ms sem pulso na esquerda: trava mesmo com a direita girando livre
+    TEST_ASSERT_TRUE(detector.verificar(true, 1000, 2000, 2000));
+    TEST_ASSERT_TRUE(detector.travamentoDetectado());
+    TEST_ASSERT_EQUAL(RODA_ESQUERDA, detector.rodaTravada());
+    TEST_ASSERT_EQUAL_UINT32(1000, detector.tempoSemPulsoEsqMs());
+    TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoDirMs());
+}
+
+void test_dispara_quando_apenas_roda_direita_trava(void) {
+    DetectorTravamento detector;
+
+    // Roda direita para de pulsar em t = 1000 ms, enquanto a esquerda continua avançando
+    for (uint32_t t = 1000; t < 2000; t += 50) {
+        const uint32_t pulsoEsq = t;
+        TEST_ASSERT_FALSE(detector.verificar(true, pulsoEsq, 1000, t));
+    }
+
+    TEST_ASSERT_TRUE(detector.verificar(true, 2000, 1000, 2000));
+    TEST_ASSERT_TRUE(detector.travamentoDetectado());
+    TEST_ASSERT_EQUAL(RODA_DIREITA, detector.rodaTravada());
+    TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoEsqMs());
+    TEST_ASSERT_EQUAL_UINT32(1000, detector.tempoSemPulsoDirMs());
 }
 
 void test_nao_dispara_com_tracao_desligada(void) {
     DetectorTravamento detector;
 
-    TEST_ASSERT_FALSE(detector.verificar(false, 0, 0));
-    TEST_ASSERT_FALSE(detector.verificar(false, 0, 1000));
-    TEST_ASSERT_FALSE(detector.verificar(false, 0, 10000));
+    TEST_ASSERT_FALSE(detector.verificar(false, 0, 0, 0));
+    TEST_ASSERT_FALSE(detector.verificar(false, 0, 0, 1000));
+    TEST_ASSERT_FALSE(detector.verificar(false, 0, 0, 10000));
     TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoMs());
     TEST_ASSERT_FALSE(detector.travamentoDetectado());
 }
@@ -116,37 +159,38 @@ void test_nao_dispara_logo_apos_ligar_tracao_com_ultimo_pulso_antigo(void) {
     DetectorTravamento detector;
 
     // Último pulso foi em t = 200 ms, mas o robô ficou parado até t = 5000 ms
-    TEST_ASSERT_FALSE(detector.verificar(false, 200, 4950));
+    TEST_ASSERT_FALSE(detector.verificar(false, 200, 200, 4950));
 
     // Tração liga em t = 5000 ms: não pode disparar na largada!
-    TEST_ASSERT_FALSE(detector.verificar(true, 200, 5000));
+    TEST_ASSERT_FALSE(detector.verificar(true, 200, 200, 5000));
     TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoMs());
 
     // 950 ms após ligar a tração sem nenhum pulso novo: ainda dentro da janela
-    TEST_ASSERT_FALSE(detector.verificar(true, 200, 5950));
+    TEST_ASSERT_FALSE(detector.verificar(true, 200, 200, 5950));
     TEST_ASSERT_EQUAL_UINT32(950, detector.tempoSemPulsoMs());
 
     // 1000 ms após ligar a tração sem pulso: agora sim confirma o travamento
-    TEST_ASSERT_TRUE(detector.verificar(true, 200, 6000));
+    TEST_ASSERT_TRUE(detector.verificar(true, 200, 200, 6000));
 }
 
 void test_pulso_simultaneo_ou_adiantado_zera_tempo_sem_pulso(void) {
     DetectorTravamento detector;
 
-    TEST_ASSERT_FALSE(detector.verificar(true, 1000, 1000));
-    TEST_ASSERT_FALSE(detector.verificar(true, 1550, 1500));
+    TEST_ASSERT_FALSE(detector.verificar(true, 1000, 1000, 1000));
+    TEST_ASSERT_FALSE(detector.verificar(true, 1550, 1550, 1500));
     TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoMs());
 }
 
 void test_reiniciar_limpa_historico_do_detector(void) {
     DetectorTravamento detector;
 
-    TEST_ASSERT_FALSE(detector.verificar(true, 0, 0));
-    TEST_ASSERT_TRUE(detector.verificar(true, 0, 1000));
+    TEST_ASSERT_FALSE(detector.verificar(true, 0, 0, 0));
+    TEST_ASSERT_TRUE(detector.verificar(true, 0, 0, 1000));
     TEST_ASSERT_TRUE(detector.travamentoDetectado());
 
     detector.reiniciar();
     TEST_ASSERT_FALSE(detector.travamentoDetectado());
+    TEST_ASSERT_EQUAL(RODA_NENHUMA, detector.rodaTravada());
     TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoMs());
 }
 
@@ -172,6 +216,7 @@ void test_monitor_corta_motores_congela_cronometro_e_sinaliza_travado_em_ordem(v
     TEST_ASSERT_TRUE(monitor.verificar(2000));
     TEST_ASSERT_TRUE(monitor.travado());
     TEST_ASSERT_EQUAL(TRAVADO, monitor.estadoRobo());
+    TEST_ASSERT_EQUAL(AMBAS_RODAS, monitor.rodaTravada());
     TEST_ASSERT_EQUAL_UINT32(2000, monitor.instanteCorteMs());
     TEST_ASSERT_EQUAL_STRING("PCS", ev.ordem);
     TEST_ASSERT_EQUAL(1, tracao.chamadasParar);
@@ -179,6 +224,28 @@ void test_monitor_corta_motores_congela_cronometro_e_sinaliza_travado_em_ordem(v
     TEST_ASSERT_EQUAL(1, cron.chamadasCongelar);
     TEST_ASSERT_EQUAL(1, sin.chamadas);
     TEST_ASSERT_EQUAL(TRAVADO, sin.ultimoEstado);
+}
+
+void test_monitor_corta_quando_apenas_uma_das_rodas_trava(void) {
+    EventosTravamento ev;
+    TracaoFalsaTravamento tracao(ev, true);
+    OdometriaFalsaTravamento odom(0);
+
+    MonitorTravamento monitor(tracao, odom);
+
+    // Inicializa tração
+    monitor.verificar(0);
+
+    // Roda direita continua recebendo pulsos, roda esquerda bloqueada
+    odom.ultimoPulsoEsqMs = 0;
+    odom.ultimoPulsoDirMs = 900;
+    TEST_ASSERT_FALSE(monitor.verificar(900));
+
+    odom.ultimoPulsoDirMs = 1000;
+    TEST_ASSERT_TRUE(monitor.verificar(1000));
+    TEST_ASSERT_TRUE(monitor.travado());
+    TEST_ASSERT_EQUAL(RODA_ESQUERDA, monitor.rodaTravada());
+    TEST_ASSERT_EQUAL(1, tracao.chamadasParar);
 }
 
 void test_monitor_corta_em_no_maximo_1200ms_com_verificacao_a_cada_50ms(void) {
@@ -190,11 +257,13 @@ void test_monitor_corta_em_no_maximo_1200ms_com_verificacao_a_cada_50ms(void) {
 
     // Robô anda normalmente até t = 2310 ms, quando a roda trava fisicamente
     for (uint32_t t = 0; t <= 2300; t += PERIODO_SEGURANCA_MS) {
-        odom.ultimoPulsoMs = t;
+        odom.ultimoPulsoEsqMs = t;
+        odom.ultimoPulsoDirMs = t;
         TEST_ASSERT_FALSE(monitor.verificar(t));
     }
     const uint32_t instanteBloqueioFisicoMs = 2310;
-    odom.ultimoPulsoMs = instanteBloqueioFisicoMs;
+    odom.ultimoPulsoEsqMs = instanteBloqueioFisicoMs;
+    odom.ultimoPulsoDirMs = instanteBloqueioFisicoMs;
 
     // Continua o laço de 50 ms sem novos pulsos até o corte acontecer
     uint32_t t = 2350;
@@ -226,7 +295,8 @@ void test_monitor_estado_travado_e_terminal_ate_iniciar_nova_prova(void) {
 
     // Reinício explícito para nova corrida
     tracao.ativa = true;
-    odom.ultimoPulsoMs = 2000;
+    odom.ultimoPulsoEsqMs = 2000;
+    odom.ultimoPulsoDirMs = 2000;
     monitor.iniciarProva();
     TEST_ASSERT_FALSE(monitor.travado());
     TEST_ASSERT_EQUAL_UINT32(0, monitor.instanteCorteMs());
@@ -264,11 +334,14 @@ int main(void) {
 
     RUN_TEST(test_nao_dispara_com_pulsos_regulares);
     RUN_TEST(test_dispara_aos_1000ms_sem_pulso_com_tracao_ativa);
+    RUN_TEST(test_dispara_quando_apenas_roda_esquerda_trava);
+    RUN_TEST(test_dispara_quando_apenas_roda_direita_trava);
     RUN_TEST(test_nao_dispara_com_tracao_desligada);
     RUN_TEST(test_nao_dispara_logo_apos_ligar_tracao_com_ultimo_pulso_antigo);
     RUN_TEST(test_pulso_simultaneo_ou_adiantado_zera_tempo_sem_pulso);
     RUN_TEST(test_reiniciar_limpa_historico_do_detector);
     RUN_TEST(test_monitor_corta_motores_congela_cronometro_e_sinaliza_travado_em_ordem);
+    RUN_TEST(test_monitor_corta_quando_apenas_uma_das_rodas_trava);
     RUN_TEST(test_monitor_corta_em_no_maximo_1200ms_com_verificacao_a_cada_50ms);
     RUN_TEST(test_monitor_estado_travado_e_terminal_ate_iniciar_nova_prova);
     RUN_TEST(test_monitor_construtor_enxuto_com_cronometro_real);
