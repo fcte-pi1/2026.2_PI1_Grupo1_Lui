@@ -54,13 +54,13 @@ export default function Painel() {
 
                 {/* Lado Direito: Indicadores de Telemetria */}
                 <div className="indicadores-coluna">
-                    <IndicadorStatus status={pacote.status} />
+                    <IndicadorStatus status={pacote.status} tentativa={estado.corrida || null} />
                     <IndicadorTempo timestampMs={pacote.timestamp_ms} />
                     <IndicadorVelocidade atual={pacote.velocidade_atual} media={pacote.velocidade_media} />
                     <IndicadorBateria porcentagem={pacote.bateria_pct} volts={pacote.bateria_volts} />
 
-                    {/* Histórico desacoplado, pronto para persistência futura (HU-12) */}
-                    <HistoricoCorridas corridas={[]} modo="compacto" />
+                    {/* Histórico da sessão, registrando corridas encerradas inclusive por TRAVADO (HU-19) */}
+                    <HistoricoCorridas corridas={estado.historico} modo="compacto" />
                 </div>
             </div>
         </div>
