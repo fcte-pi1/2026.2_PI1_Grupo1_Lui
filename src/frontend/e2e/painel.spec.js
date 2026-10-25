@@ -17,9 +17,42 @@ async function roboNaCelula(page, id) {
     return x >= celula.x && x <= celula.x + celula.width && y >= celula.y && y <= celula.y + celula.height;
 }
 
-// Posição do robô na tela, para saber se ele andou.
-async function posicaoRobo(page) {
-    return page.getByTestId('robo-icon').evaluate((el) => `${el.style.left},${el.style.top}`).catch(() => null);
+// Registra, dentro da página, cada posição do robô, o maior rastro desenhado e a
+// sequência de status exibidos. Um observador na própria página vê todas as
+// atualizações da tela; amostrar pelo Playwright perde passos quando a máquina
+// está carregada.
+async function registrarPercurso(page) {
+    await page.addInitScript(() => {
+        window.__percurso = { posicoes: new Set(), maiorRastro: 0, status: [] };
+        const registrar = () => {
+            const valor = document.querySelector('[data-testid="valor-status"]');
+            const status = valor?.textContent.replace('⚠', '').trim();
+            const vistos = window.__percurso.status;
+            if (status && vistos[vistos.length - 1] !== status) vistos.push(status);
+            const robo = document.querySelector('[data-testid="robo-icon"]');
+            if (robo) window.__percurso.posicoes.add(`${robo.style.left},${robo.style.top}`);
+            const linha = document.querySelector('.trajeto-overlay polyline');
+            if (linha) {
+                const pontos = linha.getAttribute('points').trim().split(/\s+/).length;
+                window.__percurso.maiorRastro = Math.max(window.__percurso.maiorRastro, pontos);
+            }
+        };
+        new MutationObserver(registrar).observe(document, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            characterData: true,
+            attributeFilter: ['style', 'points'],
+        });
+    });
+}
+
+async function percurso(page) {
+    return page.evaluate(() => ({
+        posicoes: window.__percurso.posicoes.size,
+        maiorRastro: window.__percurso.maiorRastro,
+        status: window.__percurso.status,
+    }));
 }
 
 // Quantidade de pontos do rastro desenhado.
@@ -33,6 +66,7 @@ async function pontosDoRastro(page) {
 for (const labirinto of ['4x4', '8x4', '12x4']) {
     test(`CT-09 (com CT-04 e CT-07 parciais): painel acompanha a corrida completa em ${labirinto}`, async ({ page, iniciarBackend, evidencia }) => {
         await iniciarBackend({ labirinto });
+        await registrarPercurso(page);
         await page.goto('/');
 
         await expect(page.getByTestId('status-conexao')).toHaveText(/CONECTADO/);
@@ -45,22 +79,14 @@ for (const labirinto of ['4x4', '8x4', '12x4']) {
 
         // O mapa é desenhado aos poucos: o robô passa por várias posições e o
         // rastro cresce até a chegada.
-        const posicoes = new Set();
-        let maiorRastro = 0;
-        let printExplorando = false;
-        const valorStatus = page.getByTestId('valor-status');
-        await expect(async () => {
-            const posicao = await posicaoRobo(page);
-            if (posicao) posicoes.add(posicao);
-            maiorRastro = Math.max(maiorRastro, await pontosDoRastro(page));
-            if (!printExplorando && posicoes.size >= 4 && labirinto === '12x4') {
-                printExplorando = true;
-                await evidencia('ct09-12x4-explorando');
-            }
-            await expect(valorStatus).toHaveText('Concluído', { timeout: 100 });
-        }).toPass({ timeout: 45_000, intervals: [100] });
+        if (labirinto === '12x4') {
+            await expect.poll(async () => (await percurso(page)).posicoes, { intervals: [50] }).toBeGreaterThanOrEqual(4);
+            await evidencia('ct09-12x4-explorando');
+        }
+        await expect(page.getByTestId('valor-status')).toHaveText('Concluído', { timeout: 45_000 });
 
-        expect(posicoes.size).toBeGreaterThanOrEqual(4);
+        const { posicoes, maiorRastro } = await percurso(page);
+        expect(posicoes).toBeGreaterThanOrEqual(4);
         expect(maiorRastro).toBeGreaterThanOrEqual(4);
         expect(await roboNaCelula(page, chegada(labirinto))).toBe(true);
 
@@ -82,10 +108,12 @@ for (const labirinto of ['4x4', '8x4', '12x4']) {
 
 test('CT-15: travamento aparece como "Travado" em destaque', async ({ page, iniciarBackend, evidencia }) => {
     await iniciarBackend({ cenario: 'travado', labirinto: '8x4' });
+    await registrarPercurso(page);
     await page.goto('/');
 
-    await expect(page.getByTestId('valor-status')).toHaveText('Explorando');
     await expect(page.getByTestId('valor-status')).toContainText('Travado', { timeout: 30_000 });
+    // O robô explorou antes de travar.
+    expect((await percurso(page)).status.slice(-2)).toEqual(['Explorando', 'Travado']);
     await expect(page.getByTestId('indicador-status')).toHaveClass(/estilo-alerta/);
     await expect(page.getByTestId('icone-alerta-status')).toBeVisible();
     await expect(page.getByTestId('aviso-travamento')).toHaveText('Corte de tração por travamento das rodas');
