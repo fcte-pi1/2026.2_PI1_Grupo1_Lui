@@ -30,7 +30,27 @@ npm run test:coverage
 npm run lint
 ```
 
-O workflow [`frontend-ci.yml`](../../.github/workflows/frontend-ci.yml) roda lint, testes com cobertura e build em todo PR que altere `src/frontend` e publica a tabela de cobertura no resumo da execução. O formato das mensagens recebidas pelo WebSocket está no [contrato de dados](../README.md#contrato-de-dados).
+O workflow [`frontend-ci.yml`](../../.github/workflows/frontend-ci.yml) roda lint, testes com cobertura e build em todo PR que altere `src/frontend` ou `src/backend` e publica a tabela de cobertura no resumo da execução. Um segundo job roda os testes E2E e publica o relatório HTML do Playwright no artefato `relatorio-e2e`. O formato das mensagens recebidas pelo WebSocket está no [contrato de dados](../README.md#contrato-de-dados).
+
+## Testes E2E (Playwright)
+
+Os testes de `e2e/` abrem o painel no Chromium e conferem os casos do roteiro de testes (doc 4.4, seção 7) que rodam sem o robô: CT-09 nas três geometrias (com as partes de CT-04 e CT-07 que o painel mostra), CT-15, CT-08 parcial e o recomeço do mapa quando a corrida se repete. O Playwright sobe o Vite na porta 4173, e cada teste sobe o seu próprio backend com o simulador acelerado, numa porta livre. Não é preciso deixar nada rodando antes.
+
+Pré-requisito: o ambiente virtual do backend criado em `src\backend\.venv` (veja o [README do backend](../backend/README.md#como-executar)).
+
+No PowerShell, a partir de `src\frontend`:
+
+```powershell
+npm install                           # só na primeira vez
+npx playwright install chromium       # só na primeira vez: baixa o navegador
+npm run test:e2e                      # roda os testes (cerca de 40 s)
+npx playwright show-report            # abre o relatório HTML da última execução
+npm run test:e2e:evidencias           # roda e salva prints e vídeo em docs\evidencias\5.3.2.1
+```
+
+Para rodar um teste só, filtre pelo nome: `npx playwright test -g "CT-15"`. Para ver o navegador durante o teste, acrescente `--headed`. Por padrão os testes usam o Python de `src\backend\.venv`; outro Python pode ser indicado com `$env:E2E_PYTHON = "C:\caminho\python.exe"`.
+
+Os resultados ficam em `playwright-report/` e `test-results/`, que não são versionados.
 
 Evite incluir:
 
