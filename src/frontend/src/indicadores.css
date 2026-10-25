@@ -106,6 +106,18 @@
 }
 
 /* Indicador Status */
+.indicador.status .cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-tentativa {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #718096;
+}
+
 .indicador.status.estilo-normal .valor {
     color: #00bcd4;
 }
@@ -117,6 +129,13 @@
 
 .indicador.status.estilo-alerta .valor {
     color: #f44336;
+}
+
+.aviso-status-alerta {
+    margin-top: 8px;
+    color: #f44336;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
 /* --- Novos estilos do layout do Dashboard --- */

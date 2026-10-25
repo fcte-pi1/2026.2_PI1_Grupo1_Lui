@@ -172,3 +172,14 @@
     color: #718096;
     font-style: italic;
 }
+
+.historico-layout-completo {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.historico-layout-completo .historico-geral-container {
+    flex: 1;
+}
+

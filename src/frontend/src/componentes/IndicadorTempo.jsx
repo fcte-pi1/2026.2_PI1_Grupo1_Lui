@@ -6,7 +6,7 @@ export default function IndicadorTempo({ timestampMs }) {
     const porcentagem = (msLimitado / LIMITE_PROVA_MS) * 100;
     
     return (
-        <div className="indicador tempo">
+        <div className="indicador tempo" data-testid="indicador-tempo">
             <div className="cabecalho">Tempo Decorrido</div>
             <div className="valor">
                 <span className="tempo-atual">{formatarTempo(msLimitado)}</span>

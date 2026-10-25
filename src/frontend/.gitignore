@@ -25,3 +25,7 @@ dist-ssr
 
 # Cobertura de testes (npm run test:coverage)
 coverage
+
+# Testes E2E (npm run test:e2e)
+test-results
+playwright-report

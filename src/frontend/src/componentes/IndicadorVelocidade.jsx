@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function IndicadorVelocidade({ atual, media }) {
     return (
-        <div className="indicador velocidade">
+        <div className="indicador velocidade" data-testid="indicador-velocidade">
             <div className="cabecalho">Velocidade</div>
             <div className="valores">
                 <div className="vel-bloco">

@@ -5,7 +5,7 @@ export default function IndicadorBateria({ porcentagem, volts }) {
     const isBaixa = bateriaBaixa(porcentagem);
     
     return (
-        <div className={`indicador bateria ${isBaixa ? 'alerta' : ''}`}>
+        <div className={`indicador bateria ${isBaixa ? 'alerta' : ''}`} data-testid="indicador-bateria">
             <div className="cabecalho">Bateria</div>
             <div className="valores">
                 <span className="valor-porcentagem">{porcentagem != null ? porcentagem : 0}%</span>
