@@ -23,19 +23,33 @@ async function roboNaCelula(page, id) {
 // está carregada.
 async function registrarPercurso(page) {
     await page.addInitScript(() => {
-        window.__percurso = { posicoes: new Set(), maiorRastro: 0, status: [] };
+        window.__percurso = { posicoes: new Set(), maiorRastro: 0, status: [], inicios: [] };
+        const pontosDoRastro = () => {
+            const linha = document.querySelector('.trajeto-overlay polyline');
+            return linha ? linha.getAttribute('points').trim().split(/\s+/).length : 0;
+        };
+        const roboEmA1 = () => {
+            const robo = document.querySelector('[data-testid="robo-icon"]')?.getBoundingClientRect();
+            const a1 = document.querySelector('[data-testid="celula-A01"]')?.getBoundingClientRect();
+            if (!robo || !a1) return false;
+            const x = robo.x + robo.width / 2;
+            const y = robo.y + robo.height / 2;
+            return x >= a1.x && x <= a1.right && y >= a1.y && y <= a1.bottom;
+        };
         const registrar = () => {
+            // Estado do mapa no instante em que cada tentativa começa.
+            const tentativa = document.querySelector('[data-testid="status-tentativa"]')?.textContent;
+            const inicios = window.__percurso.inicios;
+            if (tentativa && inicios[inicios.length - 1]?.tentativa !== tentativa) {
+                inicios.push({ tentativa, roboEmA1: roboEmA1(), pontos: pontosDoRastro() });
+            }
             const valor = document.querySelector('[data-testid="valor-status"]');
             const status = valor?.textContent.replace('⚠', '').trim();
             const vistos = window.__percurso.status;
             if (status && vistos[vistos.length - 1] !== status) vistos.push(status);
             const robo = document.querySelector('[data-testid="robo-icon"]');
             if (robo) window.__percurso.posicoes.add(`${robo.style.left},${robo.style.top}`);
-            const linha = document.querySelector('.trajeto-overlay polyline');
-            if (linha) {
-                const pontos = linha.getAttribute('points').trim().split(/\s+/).length;
-                window.__percurso.maiorRastro = Math.max(window.__percurso.maiorRastro, pontos);
-            }
+            window.__percurso.maiorRastro = Math.max(window.__percurso.maiorRastro, pontosDoRastro());
         };
         new MutationObserver(registrar).observe(document, {
             subtree: true,
@@ -52,6 +66,7 @@ async function percurso(page) {
         posicoes: window.__percurso.posicoes.size,
         maiorRastro: window.__percurso.maiorRastro,
         status: window.__percurso.status,
+        inicios: window.__percurso.inicios,
     }));
 }
 
@@ -145,6 +160,7 @@ test('CT-08 (parcial): indicador vai para DESCONECTADO quando o backend cai e vo
 
 test('recomeço limpo do mapa quando o simulador repete a corrida', async ({ page, iniciarBackend, evidencia }) => {
     await iniciarBackend({ labirinto: '4x4', repetir: true, velocidade: 2 });
+    await registrarPercurso(page);
     await page.goto('/');
 
     const tentativa = page.getByTestId('status-tentativa');
@@ -155,9 +171,10 @@ test('recomeço limpo do mapa quando o simulador repete a corrida', async ({ pag
 
     // Na largada da segunda corrida, o mapa antigo some: robô em A1 e rastro vazio.
     await expect(tentativa).toHaveText('Tentativa 2', { timeout: 30_000 });
-    expect(await pontosDoRastro(page)).toBeLessThanOrEqual(2);
-    expect(await roboNaCelula(page, 'A01')).toBe(true);
     await evidencia('recomeco-tentativa-2');
+    const inicioSegunda = (await percurso(page)).inicios.find((i) => i.tentativa === 'Tentativa 2');
+    expect(inicioSegunda.roboEmA1).toBe(true);
+    expect(inicioSegunda.pontos).toBeLessThanOrEqual(2);
 
     // A segunda corrida termina igual à primeira.
     await expect(page.getByTestId('valor-status')).toHaveText('Concluído', { timeout: 30_000 });
