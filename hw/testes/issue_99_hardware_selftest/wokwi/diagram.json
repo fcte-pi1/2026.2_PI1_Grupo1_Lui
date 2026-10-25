@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "author": "Grupo 1 - PI1 2026.2 (Prof. Lui)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "tof_left", "top": -260, "left": -230, "attrs": { "label": "TOF ESQ (90°)", "distance": "8" } },
+    { "type": "wokwi-hc-sr04", "id": "tof_front", "top": -260, "left": -10, "attrs": { "label": "TOF FRONT (0°)", "distance": "12" } },
+    { "type": "wokwi-hc-sr04", "id": "tof_right", "top": -260, "left": 210, "attrs": { "label": "TOF DIR (90°)", "distance": "8" } },
+    { "type": "board-ssd1306", "id": "oled", "top": 170, "left": 180, "attrs": { "i2cAddress": "0x3c" } },
+    { "type": "wokwi-neopixel", "id": "rgb_status", "top": 20, "left": -180, "attrs": { "label": "LED RGB STATUS" } },
+    { "type": "wokwi-buzzer", "id": "buzzer", "top": 70, "left": 180, "attrs": { "label": "BUZZER" } },
+    { "type": "wokwi-potentiometer", "id": "pot_battery", "top": 260, "left": -180, "attrs": { "label": "BATERIA 7.4V" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:5V", "tof_left:VCC", "red", [ "h-40" ] ],
+    [ "esp:5V", "tof_front:VCC", "red", [ "h0" ] ],
+    [ "esp:5V", "tof_right:VCC", "red", [ "h40" ] ],
+    [ "esp:5V", "rgb_status:VDD", "red", [ "h-80" ] ],
+
+    [ "esp:3V3", "oled:VCC", "red", [ "h80" ] ],
+    [ "esp:3V3", "pot_battery:VCC", "red", [ "h-60" ] ],
+
+    [ "esp:GND.1", "tof_left:GND", "black", [ "h-30" ] ],
+    [ "esp:GND.1", "tof_front:GND", "black", [ "h-10" ] ],
+    [ "esp:GND.1", "tof_right:GND", "black", [ "h50" ] ],
+    [ "esp:GND.2", "oled:GND", "black", [ "h60" ] ],
+    [ "esp:GND.2", "rgb_status:VSS", "black", [ "h-70" ] ],
+    [ "esp:GND.2", "buzzer:1", "black", [ "h70" ] ],
+    [ "esp:GND.3", "pot_battery:GND", "black", [ "h-70" ] ],
+
+    [ "esp:21", "oled:SDA", "violet", [ "h60" ] ],
+    [ "esp:22", "oled:SCL", "violet", [ "h60" ] ],
+
+    [ "esp:13", "tof_left:TRIG", "blue", [ "v-140", "h-120" ] ],
+    [ "esp:27", "tof_left:ECHO", "blue", [ "v-120", "h-140" ] ],
+
+    [ "esp:32", "tof_front:TRIG", "green", [ "v-160", "h-20" ] ],
+    [ "esp:26", "tof_front:ECHO", "green", [ "v-180", "h-10" ] ],
+
+    [ "esp:14", "tof_right:TRIG", "gold", [ "v-140", "h120" ] ],
+    [ "esp:25", "tof_right:ECHO", "gold", [ "v-160", "h140" ] ],
+
+    [ "esp:2", "rgb_status:DIN", "yellow", [ "h-40" ] ],
+    [ "esp:4", "buzzer:2", "purple", [ "h40" ] ],
+    [ "esp:34", "pot_battery:SIG", "orange", [ "h-40" ] ]
+  ],
+  "dependencies": {}
+}

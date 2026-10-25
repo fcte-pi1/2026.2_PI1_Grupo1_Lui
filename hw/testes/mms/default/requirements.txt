@@ -1,0 +1,5 @@
+# Dependências do Algoritmo DEFAULT (DFS)
+# Este algoritmo utiliza apenas módulos nativos do Python (sys).
+# Não requer pacotes externos via pip.
+# Compatível com Python >= 3.8
+

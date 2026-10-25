@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "author": "Grupo 1 - PI1 2026.2 (Prof. Lui)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "tof_sensor", "top": -220, "left": 0, "attrs": { "label": "VL53L0X (GPIO 32/26)", "distance": "8" } },
+    { "type": "board-ssd1306", "id": "oled", "top": 170, "left": 180, "attrs": { "i2cAddress": "0x3c" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:5V", "tof_sensor:VCC", "red", [ "h0" ] ],
+    [ "esp:GND.1", "tof_sensor:GND", "black", [ "h-10", "v-160" ] ],
+
+    [ "esp:32", "tof_sensor:TRIG", "green", [ "v-140", "h-10" ] ],
+    [ "esp:26", "tof_sensor:ECHO", "blue", [ "v-160", "h10" ] ],
+
+    [ "esp:3V3", "oled:VCC", "red", [ "h60" ] ],
+    [ "esp:GND.2", "oled:GND", "black", [ "h60" ] ],
+    [ "esp:21", "oled:SDA", "violet", [ "h40" ] ],
+    [ "esp:22", "oled:SCL", "violet", [ "h40" ] ]
+  ],
+  "dependencies": {}
+}
