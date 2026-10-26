@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "author": "Grupo 1 - PI1 2026.2 (Prof. Lui)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic_left", "top": -260, "left": -230, "attrs": { "label": "TOF ESQ (90°)", "distance": "5" } },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic_front", "top": -260, "left": -10, "attrs": { "label": "TOF FRONT (0°)", "distance": "40" } },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic_right", "top": -260, "left": 210, "attrs": { "label": "TOF DIR (90°)", "distance": "5" } },
+    { "type": "board-ssd1306", "id": "oled", "top": 170, "left": 200, "attrs": { "i2cAddress": "0x3c" } },
+    { "type": "wokwi-mpu6050", "id": "imu1", "top": 310, "left": 10, "attrs": { "label": "IMU MPU6050" } },
+    { "type": "wokwi-pushbutton", "id": "btn_start", "top": 90, "left": -210, "attrs": { "color": "green", "label": "LARGADA/PAUSA [1]", "key": "1" } },
+    { "type": "wokwi-pushbutton", "id": "btn_mode", "top": 170, "left": -210, "attrs": { "color": "blue", "label": "MODO [2]", "key": "2" } },
+    { "type": "wokwi-pushbutton", "id": "btn_step", "top": 250, "left": -210, "attrs": { "color": "yellow", "label": "PASSO/VEL [3]", "key": "3" } },
+    { "type": "wokwi-pushbutton", "id": "btn_geo", "top": 330, "left": -210, "attrs": { "color": "orange", "label": "LAB/SOM [4]", "key": "4" } },
+    { "type": "wokwi-neopixel", "id": "neopixel", "top": 20, "left": -180, "attrs": { "label": "LED RGB STATUS" } },
+    { "type": "wokwi-buzzer", "id": "buzzer", "top": 60, "left": 200, "attrs": { "label": "BUZZER", "volume": "0.1" } },
+    { "type": "wokwi-potentiometer", "id": "pot_battery", "top": 410, "left": -210, "attrs": { "label": "BATERIA 7.4V", "value": "800" } },
+    { "type": "wokwi-led", "id": "led_mot_l", "top": -70, "left": -160, "attrs": { "color": "green", "label": "RODA ESQ (PWMA)" } },
+    { "type": "wokwi-led", "id": "led_dir_l", "top": -120, "left": -160, "attrs": { "color": "yellow", "label": "SENTIDO ESQ (AIN1)" } },
+    { "type": "wokwi-led", "id": "led_mot_r", "top": -70, "left": 160, "attrs": { "color": "blue", "label": "RODA DIR (PWMB)" } },
+    { "type": "wokwi-led", "id": "led_dir_r", "top": -120, "left": 160, "attrs": { "color": "yellow", "label": "SENTIDO DIR (BIN1)" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:5V", "ultrasonic_left:VCC", "red", [ "h-40", "v-180" ] ],
+    [ "esp:5V", "ultrasonic_front:VCC", "red", [ "h0" ] ],
+    [ "esp:5V", "ultrasonic_right:VCC", "red", [ "h40", "v-180" ] ],
+    [ "esp:5V", "neopixel:VDD", "red", [ "h-80" ] ],
+
+    [ "esp:3V3", "imu1:VCC", "orange", [ "v200" ] ],
+    [ "esp:3V3", "pot_battery:VCC", "orange", [ "h-60", "v300" ] ],
+    [ "esp:3V3", "oled:VCC", "red", [ "h80" ] ],
+
+    [ "esp:GND.1", "ultrasonic_left:GND", "black", [ "h-30", "v-160" ] ],
+    [ "esp:GND.1", "ultrasonic_front:GND", "black", [ "h-10", "v-160" ] ],
+    [ "esp:GND.1", "ultrasonic_right:GND", "black", [ "h50", "v-160" ] ],
+    [ "esp:GND.1", "imu1:GND", "black", [ "v240" ] ],
+    [ "esp:GND.1", "btn_mode:1.l", "black", [ "h-40" ] ],
+    [ "esp:GND.1", "btn_step:1.l", "black", [ "h-40" ] ],
+
+    [ "esp:GND.2", "btn_start:1.l", "black", [ "h-70" ] ],
+    [ "esp:GND.2", "btn_geo:1.l", "black", [ "h-70" ] ],
+    [ "esp:GND.2", "neopixel:VSS", "black", [ "h-70" ] ],
+    [ "esp:GND.2", "buzzer:1", "black", [ "h70" ] ],
+    [ "esp:GND.2", "oled:GND", "black", [ "h60" ] ],
+    [ "esp:GND.2", "pot_battery:GND", "black", [ "h-70", "v250" ] ],
+
+    [ "esp:GND.3", "led_mot_l:C", "black", [ "h-60" ] ],
+    [ "esp:GND.3", "led_mot_r:C", "black", [ "h60" ] ],
+    [ "esp:GND.3", "led_dir_l:C", "black", [ "h-60", "v-50" ] ],
+    [ "esp:GND.3", "led_dir_r:C", "black", [ "h60", "v-50" ] ],
+
+    [ "imu1:SDA", "esp:21", "violet", [ "v-30", "h40" ] ],
+    [ "imu1:SCL", "esp:22", "violet", [ "v-20", "h30" ] ],
+    [ "oled:SDA", "esp:21", "violet", [ "h-60" ] ],
+    [ "oled:SCL", "esp:22", "violet", [ "h-60" ] ],
+
+    [ "ultrasonic_left:TRIG", "esp:13", "blue", [ "v140", "h120" ] ],
+    [ "ultrasonic_left:ECHO", "esp:27", "blue", [ "v120", "h140" ] ],
+
+    [ "ultrasonic_front:TRIG", "esp:32", "green", [ "v160", "h-20" ] ],
+    [ "ultrasonic_front:ECHO", "esp:26", "green", [ "v180", "h-10" ] ],
+
+    [ "ultrasonic_right:TRIG", "esp:14", "gold", [ "v140", "h-120" ] ],
+    [ "ultrasonic_right:ECHO", "esp:25", "gold", [ "v160", "h-140" ] ],
+
+    [ "btn_start:2.l", "esp:15", "green", [ "h40" ] ],
+    [ "btn_mode:2.l", "esp:12", "blue", [ "h40" ] ],
+    [ "btn_step:2.l", "esp:33", "gold", [ "h40" ] ],
+    [ "btn_geo:2.l", "esp:0", "orange", [ "h40" ] ],
+
+    [ "buzzer:2", "esp:4", "purple", [ "h-40" ] ],
+    [ "neopixel:DIN", "esp:2", "yellow", [ "h40" ] ],
+    [ "pot_battery:SIG", "esp:34", "gray", [ "h40" ] ],
+
+    [ "led_mot_l:A", "esp:16", "green", [ "h40" ] ],
+    [ "led_mot_r:A", "esp:17", "blue", [ "h-40" ] ],
+    [ "led_dir_l:A", "esp:18", "gold", [ "h30", "v-80" ] ],
+    [ "led_dir_r:A", "esp:23", "gold", [ "h-30", "v-80" ] ]
+  ],
+  "dependencies": {}
+}

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "author": "Grupo 1 - PI1 2026.2 (Prof. Lui)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-led", "id": "led_pwma", "top": -80, "left": -180, "attrs": { "color": "green", "label": "PWMA (GPIO 16)" } },
+    { "type": "wokwi-led", "id": "led_ain1", "top": -140, "left": -180, "attrs": { "color": "yellow", "label": "AIN1 (GPIO 18)" } },
+    { "type": "wokwi-led", "id": "led_pwmb", "top": -80, "left": 180, "attrs": { "color": "blue", "label": "PWMB (GPIO 17)" } },
+    { "type": "wokwi-led", "id": "led_bin1", "top": -140, "left": 180, "attrs": { "color": "yellow", "label": "BIN1 (GPIO 23)" } },
+    { "type": "wokwi-pushbutton", "id": "btn_enc_l", "top": 120, "left": -220, "attrs": { "color": "red", "label": "TICK ENC L (GPIO 27)", "key": "q" } },
+    { "type": "wokwi-pushbutton", "id": "btn_enc_r", "top": 120, "left": 200, "attrs": { "color": "red", "label": "TICK ENC R (GPIO 25)", "key": "w" } },
+    { "type": "board-ssd1306", "id": "oled", "top": 180, "left": -20, "attrs": { "i2cAddress": "0x3c" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:3V3", "oled:VCC", "red", [ "h60" ] ],
+    [ "esp:GND.1", "oled:GND", "black", [ "h60" ] ],
+    [ "esp:21", "oled:SDA", "violet", [ "h40" ] ],
+    [ "esp:22", "oled:SCL", "violet", [ "h40" ] ],
+
+    [ "esp:GND.2", "led_pwma:C", "black", [ "h-40" ] ],
+    [ "esp:GND.2", "led_ain1:C", "black", [ "h-40" ] ],
+    [ "esp:GND.3", "led_pwmb:C", "black", [ "h40" ] ],
+    [ "esp:GND.3", "led_bin1:C", "black", [ "h40" ] ],
+
+    [ "esp:16", "led_pwma:A", "green", [ "h-30" ] ],
+    [ "esp:18", "led_ain1:A", "yellow", [ "h-30" ] ],
+    [ "esp:17", "led_pwmb:A", "blue", [ "h30" ] ],
+    [ "esp:23", "led_bin1:A", "yellow", [ "h30" ] ],
+
+    [ "esp:GND.2", "btn_enc_l:1.l", "black", [ "h-40" ] ],
+    [ "esp:27", "btn_enc_l:2.l", "orange", [ "h-40" ] ],
+
+    [ "esp:GND.3", "btn_enc_r:1.l", "black", [ "h40" ] ],
+    [ "esp:25", "btn_enc_r:2.l", "orange", [ "h40" ] ]
+  ],
+  "dependencies": {}
+}

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "author": "Grupo 1 - PI1 2026.2 (Prof. Lui)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "board-ssd1306", "id": "oled", "top": 150, "left": 180, "attrs": { "i2cAddress": "0x3c" } },
+    { "type": "wokwi-led", "id": "led_json", "top": -60, "left": 160, "attrs": { "color": "blue", "label": "JSON SERIAL TX" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:3V3", "oled:VCC", "red", [ "h60" ] ],
+    [ "esp:GND.1", "oled:GND", "black", [ "h60" ] ],
+    [ "esp:21", "oled:SDA", "violet", [ "h40" ] ],
+    [ "esp:22", "oled:SCL", "violet", [ "h40" ] ],
+
+    [ "esp:GND.2", "led_json:C", "black", [ "h40" ] ],
+    [ "esp:2", "led_json:A", "blue", [ "h40" ] ]
+  ],
+  "dependencies": {}
+}

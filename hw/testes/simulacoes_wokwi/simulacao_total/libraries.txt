@@ -1,0 +1,4 @@
+# Bibliotecas necessarias para o Micromouse Grupo 1
+Adafruit NeoPixel
+Adafruit SSD1306
+Adafruit GFX Library
