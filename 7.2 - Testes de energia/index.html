@@ -1,0 +1,2352 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/7.2%20-%20Testes%20de%20energia/">
+      
+      
+        <link rel="prev" href="../7.1%20-%20Testes%20de%20estrutura/">
+      
+      
+        <link rel="next" href="../7.3%20-%20Testes%20de%20hardware/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Energia - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testes-de-energia" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Energia
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#painel-geral-de-ensaios-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Painel Geral de Ensaios de Energia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-metodologia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Metodologia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Metodologia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-contexto-e-objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Contexto e Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-materiais-e-ferramentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Materiais e Ferramentas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-modelagem-e-procedimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Modelagem e Procedimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-equacoes-utilizadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Equações Utilizadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-consumo-de-corrente-do-subsistema-de-tracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Consumo de Corrente do Subsistema de Tração
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Consumo de Corrente do Subsistema de Tração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-motores-parados-id-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Motores Parados (ID 2.1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Motores Parados (ID 2.1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-no-kicad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação no KiCad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ensaio-em-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ensaio em bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-motores-em-movimento-livre-id-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Motores em Movimento Livre (ID 2.2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Motores em Movimento Livre (ID 2.2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-no-kicad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação no KiCad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ensaio-em-bancada_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ensaio em bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-motores-travados-em-stall-id-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Motores Travados em Stall (ID 2.3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Motores Travados em Stall (ID 2.3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-no-kicad_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação no KiCad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ensaio-em-bancada_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ensaio em bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-comparacao-entre-simulacao-e-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Comparação entre Simulação e Bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-descarga-continua-e-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Descarga Contínua e Autonomia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Descarga Contínua e Autonomia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-descarga-continua-e-calculo-da-autonomia-id-24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Descarga Contínua e Cálculo da Autonomia (ID 2.4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-comportamento-termico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Comportamento Térmico
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Comportamento Térmico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-inspecao-termica-dos-componentes-criticos-id-25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Inspeção Térmica dos Componentes Críticos (ID 2.5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-conclusao-e-proximas-etapas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Conclusão e Próximas Etapas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-matriz-de-rastreabilidade-dos-requisitos-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Matriz de Rastreabilidade dos Requisitos de Energia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#painel-geral-de-ensaios-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Painel Geral de Ensaios de Energia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-metodologia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Metodologia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Metodologia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-contexto-e-objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Contexto e Objetivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-materiais-e-ferramentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Materiais e Ferramentas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-modelagem-e-procedimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Modelagem e Procedimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-equacoes-utilizadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Equações Utilizadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-consumo-de-corrente-do-subsistema-de-tracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Consumo de Corrente do Subsistema de Tração
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Consumo de Corrente do Subsistema de Tração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-motores-parados-id-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Motores Parados (ID 2.1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Motores Parados (ID 2.1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-no-kicad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação no KiCad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ensaio-em-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ensaio em bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-motores-em-movimento-livre-id-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Motores em Movimento Livre (ID 2.2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Motores em Movimento Livre (ID 2.2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-no-kicad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação no KiCad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ensaio-em-bancada_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ensaio em bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-motores-travados-em-stall-id-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Motores Travados em Stall (ID 2.3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Motores Travados em Stall (ID 2.3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-no-kicad_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação no KiCad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ensaio-em-bancada_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ensaio em bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-comparacao-entre-simulacao-e-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Comparação entre Simulação e Bancada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-descarga-continua-e-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Descarga Contínua e Autonomia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Descarga Contínua e Autonomia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-descarga-continua-e-calculo-da-autonomia-id-24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Descarga Contínua e Cálculo da Autonomia (ID 2.4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-comportamento-termico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Comportamento Térmico
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Comportamento Térmico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-inspecao-termica-dos-componentes-criticos-id-25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Inspeção Térmica dos Componentes Críticos (ID 2.5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-conclusao-e-proximas-etapas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Conclusão e Próximas Etapas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-matriz-de-rastreabilidade-dos-requisitos-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Matriz de Rastreabilidade dos Requisitos de Energia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="testes-de-energia">Testes de Energia<a class="headerlink" href="#testes-de-energia" title="Permanent link">&para;</a></h1>
+<div class="admonition quote">
+<p class="admonition-title">Roteiro de Testes de Energia (PI1 2026.2)</p>
+<p>Relatório das simulações e dos ensaios de bancada do subsistema de energia do robô <strong>Micromouse (Grupo 1)</strong> para a disciplina Projeto Integrador 1 (semestre 2026.2, FCTE/UnB, Prof. Lui). O foco é o consumo de corrente do subsistema de tração (dois motores DC alimentados por uma bateria LiPo 2S de <span class="arithmatex">\(1500\text{ mAh}\)</span>) e a autonomia do robô. O documento cobre quatro blocos:</p>
+<ol>
+<li><strong>Metodologia:</strong> materiais, modelagem dos motores no KiCad e equações usadas.</li>
+<li><strong>Consumo de corrente da tração:</strong> simulação no KiCad e medição em bancada com os motores parados, em movimento livre e travados (<em>stall</em>).</li>
+<li><strong>Descarga contínua e autonomia:</strong> corrente total estimada do robô completo e autonomia frente ao requisito RNF-ENE01.</li>
+<li><strong>Comportamento térmico:</strong> aquecimento dos motores, da ponte H, da bateria e do cabeamento durante os ensaios.</li>
+</ol>
+<p>Atividades da EAP: <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/132">#132 — Teste de carga, autonomia e proteção (EAP 4.7.1)</a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/133">#133 — Escrita do relatório 7.2 (EAP 4.7.2)</a>.</p>
+</div>
+<hr />
+<h2 id="painel-geral-de-ensaios-de-energia">Painel Geral de Ensaios de Energia<a class="headerlink" href="#painel-geral-de-ensaios-de-energia" title="Permanent link">&para;</a></h2>
+<p>A tabela abaixo reúne os testes de energia do projeto. O identificador de cada teste (<strong>ID</strong>) leva direto para o detalhamento da seção correspondente, com links para os requisitos e para as evidências.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th style="text-align: center;">Requisito</th>
+<th>Descrição do Teste</th>
+<th style="text-align: center;">Período</th>
+<th style="text-align: center;">Responsáveis</th>
+<th>Resultados Esperados</th>
+<th>Resultados Obtidos</th>
+<th style="text-align: center;">Aprovação</th>
+<th style="text-align: center;">Evidência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#21-motores-parados-id-21"><strong>2.1</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE01</a></td>
+<td>Corrente da tração com os motores parados (ponte H em corte)</td>
+<td style="text-align: center;">19/10 a 21/10/2026</td>
+<td style="text-align: center;">Lucas Oliveira<br>Rafaela Trajano<br>Lucas Peixoto<br>Antônio Lucas</td>
+<td>Corrente praticamente nula no subsistema de tração.</td>
+<td>Simulação: <span class="arithmatex">\(14,8\text{ nA}\)</span> (<span class="arithmatex">\(\approx 0\text{ A}\)</span>). Bancada: <span class="arithmatex">\(0,00\text{ A}\)</span>.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="#21-motores-parados-id-21">Figuras 2.1 e 2.2</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#22-motores-em-movimento-livre-id-22"><strong>2.2</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE01</a></td>
+<td>Corrente da tração com os motores em movimento livre (sem carga)</td>
+<td style="text-align: center;">19/10 a 21/10/2026</td>
+<td style="text-align: center;">Lucas Oliveira<br>Rafaela Trajano<br>Lucas Peixoto<br>Antônio Lucas</td>
+<td>Corrente próxima do dado do fabricante (<span class="arithmatex">\(120\text{ mA}\)</span> por motor a <span class="arithmatex">\(6\text{ V}\)</span>).</td>
+<td>Simulação: <span class="arithmatex">\(296\text{ mA}\)</span> totais. Bancada: <span class="arithmatex">\(80\text{ mA}\)</span> totais (<span class="arithmatex">\(40\text{ mA}\)</span> por motor).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="#22-motores-em-movimento-livre-id-22">Figuras 2.3 e 2.4</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#23-motores-travados-em-stall-id-23"><strong>2.3</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE03</a></td>
+<td>Corrente de travamento (<em>stall</em>) com o eixo dos motores bloqueado</td>
+<td style="text-align: center;">19/10 a 21/10/2026</td>
+<td style="text-align: center;">Lucas Oliveira<br>Rafaela Trajano<br>Lucas Peixoto<br>Antônio Lucas</td>
+<td>Pico de corrente conhecido e suportado pela ponte H e pela proteção.</td>
+<td>Simulação: <span class="arithmatex">\(3,95\text{ A}\)</span> totais. Bancada: <span class="arithmatex">\(1,10\text{ A}\)</span> totais (<span class="arithmatex">\(0,55\text{ A}\)</span> por motor).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="#23-motores-travados-em-stall-id-23">Figuras 2.5 e 2.6</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#31-descarga-continua-e-calculo-da-autonomia-id-24"><strong>2.4</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE01</a></td>
+<td>Descarga contínua e cálculo da autonomia do robô completo</td>
+<td style="text-align: center;">19/10 a 21/10/2026</td>
+<td style="text-align: center;">Lucas Oliveira<br>Rafaela Trajano<br>Lucas Peixoto<br>Antônio Lucas</td>
+<td>Autonomia <span class="arithmatex">\(\ge 15\text{ min}\)</span> (RNF-ENE01) e <span class="arithmatex">\(\ge 30\text{ min}\)</span> para os três labirintos da apresentação final.</td>
+<td>Corrente total estimada de <span class="arithmatex">\(230\text{ mA}\)</span>; autonomia teórica de <span class="arithmatex">\(\approx 391\text{ min}\)</span> (6,5 h).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="#31-descarga-continua-e-calculo-da-autonomia-id-24">Figuras 3.1 e 3.2</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#41-inspecao-termica-dos-componentes-criticos-id-25"><strong>2.5</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE03</a></td>
+<td>Inspeção térmica dos motores, da ponte H, da bateria e do cabeamento</td>
+<td style="text-align: center;">19/10 a 21/10/2026</td>
+<td style="text-align: center;">Lucas Oliveira<br>Rafaela Trajano<br>Lucas Peixoto<br>Antônio Lucas</td>
+<td>Nenhum componente com aquecimento capaz de causar dano.</td>
+<td>Motor aquece em <em>stall</em> sem danificar o chassi; ponte H, bateria e fios sem aquecimento relevante.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="#41-inspecao-termica-dos-componentes-criticos-id-25">Seção 4.1</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Testes de energia registrados no relatório de hardware</p>
+<p>A medição da tensão da bateria pelo ADC (RF-ENE02) e a estabilidade das linhas de <span class="arithmatex">\(3,3\text{ V}\)</span> e <span class="arithmatex">\(5,0\text{ V}\)</span> sob carga dos motores (RNF-ENE02) foram ensaiadas junto com a eletrônica e estão documentadas no <a href="../7.3%20-%20Testes%20de%20hardware/#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38">teste 3.8 do relatório de hardware</a>. A <a href="#6-matriz-de-rastreabilidade-dos-requisitos-de-energia">matriz de rastreabilidade</a> ao final reúne todos os requisitos de energia.</p>
+</div>
+<hr />
+<h2 id="1-metodologia">1. Metodologia<a class="headerlink" href="#1-metodologia" title="Permanent link">&para;</a></h2>
+<h3 id="11-contexto-e-objetivos">1.1 Contexto e Objetivos<a class="headerlink" href="#11-contexto-e-objetivos" title="Permanent link">&para;</a></h3>
+<p>No Projeto Integrador 1, o robô precisa concluir três labirintos, com até 10 minutos cada, na apresentação final. Por isso, é preciso confirmar que o subsistema de energia sustenta esse tempo de funcionamento. Conhecer o consumo dos motores em cada condição de operação também é a base para dimensionar a bateria, a ponte H e as proteções do circuito.</p>
+<p>Objetivos dos ensaios:</p>
+<ol>
+<li>Simular no KiCad as correntes dos motores nas condições parado, em movimento e travado;</li>
+<li>Medir em bancada as correntes nas mesmas três condições;</li>
+<li>Comparar os valores simulados e medidos e explicar as diferenças;</li>
+<li>Estimar a corrente contínua total do robô completo e a sua autonomia;</li>
+<li>Observar o comportamento térmico dos componentes críticos do subsistema de energia.</li>
+</ol>
+<h3 id="12-materiais-e-ferramentas">1.2 Materiais e Ferramentas<a class="headerlink" href="#12-materiais-e-ferramentas" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bateria LiPo 2S de <span class="arithmatex">\(1500\text{ mAh}\)</span>:</strong> tensão de <span class="arithmatex">\(7,60\text{ V}\)</span> no início dos ensaios (nas simulações, adotou-se <span class="arithmatex">\(7,4\text{ V}\)</span> nominais);</li>
+<li><strong>Dois motores DC:</strong> corrente de <em>stall</em> de <span class="arithmatex">\(1,6\text{ A}\)</span> e corrente sem carga de <span class="arithmatex">\(120\text{ mA}\)</span>, ambas a <span class="arithmatex">\(6\text{ V}\)</span> e por motor (dados do fabricante);</li>
+<li><strong>Protoboard</strong> EPB0056;</li>
+<li><strong>Multímetro digital</strong> e <strong>cronômetro</strong>;</li>
+<li><strong>Software KiCad</strong>, para a simulação dos circuitos.</li>
+</ul>
+<h3 id="13-modelagem-e-procedimento">1.3 Modelagem e Procedimento<a class="headerlink" href="#13-modelagem-e-procedimento" title="Permanent link">&para;</a></h3>
+<p>Na simulação, cada motor foi representado por um resistor ligado em paralelo à fonte <span class="arithmatex">\(V_1 = 7,4\text{ V}\)</span>. Assim, a corrente total fornecida pela bateria é a soma das correntes dos dois ramos. A resistência adotada em cada condição foi:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Condição</th>
+<th style="text-align: center;">Resistência por motor</th>
+<th style="text-align: left;">Origem do valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Parados</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(1\text{ G}\Omega\)</span></td>
+<td style="text-align: left;">Circuito em corte (chaves ou ponte H abertas)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Movimento livre</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(50\ \Omega\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(6\text{ V} \div 0,12\text{ A}\)</span> (corrente sem carga)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Travados (<em>stall</em>)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(3,75\ \Omega\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(6\text{ V} \div 1,6\text{ A}\)</span> (corrente de <em>stall</em>)</td>
+</tr>
+</tbody>
+</table>
+<p>Na bancada, a corrente foi medida com o multímetro nas mesmas três condições: motores parados, girando livremente e com o eixo travado mecanicamente.</p>
+<h3 id="14-equacoes-utilizadas">1.4 Equações Utilizadas<a class="headerlink" href="#14-equacoes-utilizadas" title="Permanent link">&para;</a></h3>
+<p>Lei de Ohm e resistência equivalente do motor:</p>
+<div class="arithmatex">\[I = \frac{V}{R} \qquad\qquad R = \frac{V}{I}\]</div>
+<p>Corrente total do robô e autonomia da bateria:</p>
+<div class="arithmatex">\[I_{\text{total}} = I_{\text{tração}} + I_{\text{eletrônica}} \qquad\qquad \text{Autonomia (min)} = \frac{C}{I_{\text{total}}} \times 60\]</div>
+<p>Onde <span class="arithmatex">\(I\)</span> é a corrente (A ou mA), <span class="arithmatex">\(V\)</span> a tensão (V), <span class="arithmatex">\(R\)</span> a resistência (<span class="arithmatex">\(\Omega\)</span>) e <span class="arithmatex">\(C\)</span> a capacidade da bateria (mAh). O fator 60 converte horas em minutos. Com esses dados, a corrente de <em>stall</em> a <span class="arithmatex">\(7,4\text{ V}\)</span> fica em <span class="arithmatex">\(7,4 \div 3,75 \approx 1,97\text{ A}\)</span> por motor.</p>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="2-consumo-de-corrente-do-subsistema-de-tracao">2. Consumo de Corrente do Subsistema de Tração<a class="headerlink" href="#2-consumo-de-corrente-do-subsistema-de-tracao" title="Permanent link">&para;</a></h2>
+<p>Para cada condição de operação, são apresentados o resultado da simulação e o da medição em bancada, seguidos da comparação.</p>
+<h3 id="21-motores-parados-id-21">2.1 Motores Parados (ID 2.1)<a class="headerlink" href="#21-motores-parados-id-21" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE01 (Autonomia Operacional Contínua)</a></li>
+<li><strong>Responsáveis:</strong> Lucas Oliveira, Rafaela Trajano, Lucas Peixoto e Antônio Lucas</li>
+<li><strong>Período:</strong> 19/10/2026 a 21/10/2026</li>
+<li><strong>Atividade da EAP:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/132">#132 — Teste de carga, autonomia e proteção</a></li>
+</ul>
+</div>
+<h4 id="simulacao-no-kicad">Simulação no KiCad<a class="headerlink" href="#simulacao-no-kicad" title="Permanent link">&para;</a></h4>
+<p>Com os dois motores modelados como resistores de <span class="arithmatex">\(1\text{ G}\Omega\)</span> (ponte H em corte), a fonte fornece <span class="arithmatex">\(-14,8\text{ nA}\)</span>, ou seja, <span class="arithmatex">\(7,4\text{ nA}\)</span> em cada ramo (<span class="arithmatex">\(7,4\text{ V} \div 1\text{ G}\Omega\)</span>). O sinal negativo é apenas o sentido convencional que o simulador adota para a corrente fornecida pela fonte.</p>
+<p>Para o funcionamento do micromouse, esse valor é nulo na prática. O simulador não mostra exatamente <span class="arithmatex">\(0\text{ A}\)</span> porque calcula o valor exato da corrente que atravessa a resistência de <span class="arithmatex">\(1\text{ G}\Omega\)</span>.</p>
+<p><img alt="Simulação dos motores parados no KiCad" src="../figs/testes_energia/sim_motores_parados.jpg" />
+<em>Figura 2.1: Esquemático e resultado da simulação com os motores parados.</em></p>
+<h4 id="ensaio-em-bancada">Ensaio em bancada<a class="headerlink" href="#ensaio-em-bancada" title="Permanent link">&para;</a></h4>
+<p>A medição prática confirmou <strong><span class="arithmatex">\(0,00\text{ A}\)</span></strong> no subsistema de tração.</p>
+<p><img alt="Ensaio em bancada com os motores parados" src="../figs/testes_energia/bancada_motores_parados.jpg" width="480" />
+<em>Figura 2.2: Bancada com os motores parados; o multímetro indica 0,00 A.</em></p>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 2.1</p>
+<p>Simulação (<span class="arithmatex">\(\approx 0\text{ A}\)</span>) e bancada (<span class="arithmatex">\(0,00\text{ A}\)</span>) coincidem. No robô montado, o consumo parado não será nulo: o ESP32, os sensores e a ponte H em <em>standby</em> continuam drenando corrente da bateria. Esse consumo está incluído na estimativa da eletrônica usada no <a href="#31-descarga-continua-e-calculo-da-autonomia-id-24">cálculo da autonomia</a>.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="22-motores-em-movimento-livre-id-22">2.2 Motores em Movimento Livre (ID 2.2)<a class="headerlink" href="#22-motores-em-movimento-livre-id-22" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE01 (Autonomia Operacional Contínua)</a></li>
+<li><strong>Responsáveis:</strong> Lucas Oliveira, Rafaela Trajano, Lucas Peixoto e Antônio Lucas</li>
+<li><strong>Período:</strong> 19/10/2026 a 21/10/2026</li>
+<li><strong>Atividade da EAP:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/132">#132 — Teste de carga, autonomia e proteção</a></li>
+</ul>
+</div>
+<h4 id="simulacao-no-kicad_1">Simulação no KiCad<a class="headerlink" href="#simulacao-no-kicad_1" title="Permanent link">&para;</a></h4>
+<p>Com <span class="arithmatex">\(7,4\text{ V}\)</span> aplicados a dois resistores de <span class="arithmatex">\(50\ \Omega\)</span> em paralelo, a simulação fornece <strong><span class="arithmatex">\(148\text{ mA}\)</span> por motor</strong>, ou <strong><span class="arithmatex">\(296\text{ mA}\)</span> totais</strong> fornecidos pela bateria.</p>
+<p><img alt="Simulação dos motores em movimento no KiCad" src="../figs/testes_energia/sim_motores_movimento.jpg" />
+<em>Figura 2.3: Esquemático e resultado da simulação com os motores em movimento livre.</em></p>
+<p>Esse valor corresponde ao motor girando livremente no ar. Com a autonomia calculada só para a tração simulada, temos:</p>
+<div class="arithmatex">\[\text{Autonomia simulada} = \frac{1500}{296} \times 60 \approx 304\text{ min}\]</div>
+<p>Na pista, o peso do robô, o atrito das rodas e das engrenagens e o consumo da eletrônica farão a bateria durar menos, mas ainda com ampla margem em relação ao necessário.</p>
+<h4 id="ensaio-em-bancada_1">Ensaio em bancada<a class="headerlink" href="#ensaio-em-bancada_1" title="Permanent link">&para;</a></h4>
+<p>O multímetro indicou <strong><span class="arithmatex">\(40\text{ mA}\)</span> por motor</strong>, ou <strong><span class="arithmatex">\(80\text{ mA}\)</span> totais</strong>, bem abaixo dos <span class="arithmatex">\(148\text{ mA}\)</span> por motor previstos na simulação.</p>
+<p><img alt="Ensaio em bancada com os motores em movimento" src="../figs/testes_energia/bancada_motores_movimento.jpg" width="480" />
+<em>Figura 2.4: Bancada com um motor girando livremente; o multímetro indica 0,04 A.</em></p>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 2.2</p>
+<p>O consumo real em movimento livre (<span class="arithmatex">\(80\text{ mA}\)</span> para os dois motores) foi menor que o simulado e que o cenário baixo do <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/#5-tres-cenarios-de-consumo-adotados">projeto conceitual de energia</a> (<span class="arithmatex">\(0,30\text{ A}\)</span> por motor). Esse valor é o <strong>limiar mínimo de tração</strong>: no labirinto, o peso do chassi, o atrito dos pneus com o piso e as curvas exigirão mais torque, e a corrente real deve subir em direção ao valor simulado.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="23-motores-travados-em-stall-id-23">2.3 Motores Travados em Stall (ID 2.3)<a class="headerlink" href="#23-motores-travados-em-stall-id-23" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE03 (Proteção por Sobrecorrente)</a></li>
+<li><strong>Responsáveis:</strong> Lucas Oliveira, Rafaela Trajano, Lucas Peixoto e Antônio Lucas</li>
+<li><strong>Período:</strong> 19/10/2026 a 21/10/2026</li>
+<li><strong>Atividade da EAP:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/132">#132 — Teste de carga, autonomia e proteção</a></li>
+</ul>
+</div>
+<h4 id="simulacao-no-kicad_2">Simulação no KiCad<a class="headerlink" href="#simulacao-no-kicad_2" title="Permanent link">&para;</a></h4>
+<p>Com a resistência interna de <span class="arithmatex">\(3,75\ \Omega\)</span> por motor, a corrente de <em>stall</em> simulada a <span class="arithmatex">\(7,4\text{ V}\)</span> é de <strong><span class="arithmatex">\(1,97\text{ A}\)</span> por motor</strong>, ou cerca de <strong><span class="arithmatex">\(3,95\text{ A}\)</span> totais</strong> fornecidos pela bateria.</p>
+<p><img alt="Simulação dos motores travados no KiCad" src="../figs/testes_energia/sim_motores_travados.jpg" />
+<em>Figura 2.5: Esquemático e resultado da simulação com os motores travados.</em></p>
+<h4 id="ensaio-em-bancada_2">Ensaio em bancada<a class="headerlink" href="#ensaio-em-bancada_2" title="Permanent link">&para;</a></h4>
+<p>Com o eixo bloqueado mecanicamente, o multímetro registrou <strong><span class="arithmatex">\(0,55\text{ A}\)</span> por motor</strong>, ou <strong><span class="arithmatex">\(1,10\text{ A}\)</span> totais</strong>.</p>
+<p><img alt="Ensaio em bancada com os motores travados" src="../figs/testes_energia/bancada_motores_travados.jpg" width="480" />
+<em>Figura 2.6: Eixo do motor travado com alicate; o multímetro indica 0,55 A.</em></p>
+<p>O valor medido foi menor que o simulado por três motivos que o modelo ideal do KiCad não considera:</p>
+<ol>
+<li><strong>Resistência de contato:</strong> fios finos, conexões temporárias na protoboard e as pontas de prova do multímetro somam resistência em série ao circuito, limitando a corrente;</li>
+<li><strong>Resistência interna real:</strong> o enrolamento deste lote de motores pode ter resistência maior que os <span class="arithmatex">\(3,75\ \Omega\)</span> calculados a partir do datasheet;</li>
+<li><strong>Tensão sob carga:</strong> no pico de corrente, a tensão da bateria cai momentaneamente abaixo dos <span class="arithmatex">\(7,60\text{ V}\)</span>, o que reduz o próprio pico.</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 2.3</p>
+<p>O pico real de travamento (<span class="arithmatex">\(1,10\text{ A}\)</span> totais, <span class="arithmatex">\(0,55\text{ A}\)</span> por motor) fica abaixo do limite contínuo de <span class="arithmatex">\(1,2\text{ A}\)</span> por canal da ponte H TB6612FNG. Assim, a ponte H e o circuito de proteção suportam sem danos o caso em que o robô colide e trava contra uma parede do labirinto.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Pendente: corte do PWM por travamento</p>
+<p>O firmware monitora os encoders e, ao detectar uma roda parada com a tração acionada, zera o PWM enviado à ponte H, que deixa de conduzir corrente para os motores. Esse corte deve ocorrer em até <span class="arithmatex">\(1,2\text{ s}\)</span> após o travamento e será validado no robô montado, nos <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/">testes de integração</a>.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="24-comparacao-entre-simulacao-e-bancada">2.4 Comparação entre Simulação e Bancada<a class="headerlink" href="#24-comparacao-entre-simulacao-e-bancada" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Cenário</th>
+<th style="text-align: center;">Resistência por motor</th>
+<th style="text-align: center;">Corrente por motor</th>
+<th style="text-align: center;">Corrente total (bateria)</th>
+<th style="text-align: center;">Potência total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Parado</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(1\text{ G}\Omega\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(7,4\text{ nA}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(14,8\text{ nA}\)</span> (<span class="arithmatex">\(\approx 0\text{ A}\)</span>)</td>
+<td style="text-align: center;"><span class="arithmatex">\(109,52\text{ nW}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Em movimento</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(50\ \Omega\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(148\text{ mA}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(296\text{ mA}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2,1904\text{ W}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Travado (<em>stall</em>)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(3,75\ \Omega\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(1,97\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(3,95\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(29,2053\text{ W}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Tabela 2.1: Resultados das simulações no KiCad (fonte de 7,4 V).</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Cenário</th>
+<th style="text-align: center;">Simulação (1 motor)</th>
+<th style="text-align: center;">Simulação (2 motores)</th>
+<th style="text-align: center;">Bancada (1 motor)</th>
+<th style="text-align: center;">Bancada (2 motores)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Parado</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 0\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 0\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,00\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,00\text{ A}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Em movimento</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,148\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,296\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,04\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,08\text{ A}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Travado (<em>stall</em>)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(1,97\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(3,95\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(0,55\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(1,10\text{ A}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>Tabela 2.2: Correntes simuladas e medidas nas três condições de operação.</em></p>
+<p>Os valores medidos coincidiram com a simulação com os motores parados e ficaram abaixo dela em movimento e em travamento. Para dimensionar o circuito de proteção, a simulação é, portanto, a estimativa mais conservadora.</p>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="3-descarga-continua-e-autonomia">3. Descarga Contínua e Autonomia<a class="headerlink" href="#3-descarga-continua-e-autonomia" title="Permanent link">&para;</a></h2>
+<h3 id="31-descarga-continua-e-calculo-da-autonomia-id-24">3.1 Descarga Contínua e Cálculo da Autonomia (ID 2.4)<a class="headerlink" href="#31-descarga-continua-e-calculo-da-autonomia-id-24" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE01 (Autonomia Operacional Contínua)</a> (mínimo de <span class="arithmatex">\(15\text{ min}\)</span> em navegação ativa)</li>
+<li><strong>Responsáveis:</strong> Lucas Oliveira, Rafaela Trajano, Lucas Peixoto e Antônio Lucas</li>
+<li><strong>Período:</strong> 19/10/2026 a 21/10/2026</li>
+<li><strong>Atividade da EAP:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/132">#132 — Teste de carga, autonomia e proteção</a></li>
+<li><strong>Referência de dimensionamento:</strong> <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/">4.2 — Projeto conceitual de energia</a></li>
+</ul>
+</div>
+<p>O teste de descarga contínua foi feito na bancada com o multímetro monitorando a tensão da bateria e um cronômetro marcando o tempo de operação. Após cerca de 10 minutos de ensaio, a bateria se manteve em <span class="arithmatex">\(7,58\text{ V}\)</span> a <span class="arithmatex">\(7,59\text{ V}\)</span>.</p>
+<p><img alt="Montagem do teste de descarga contínua" src="../figs/testes_energia/descarga_continua_montagem.jpg" width="48%" />
+<img alt="Cronômetro e multímetro no teste de descarga contínua" src="../figs/testes_energia/descarga_continua_cronometro.jpg" width="48%" />
+<em>Figura 3.1 (esquerda): Montagem em bancada, com o multímetro indicando 7,58 V. Figura 3.2 (direita): Cronômetro em 10:00,37 e multímetro indicando 7,59 V.</em></p>
+<p>A corrente contínua do robô completo soma o valor medido dos motores a uma estimativa da eletrônica embarcada:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parcela</th>
+<th style="text-align: center;">Corrente</th>
+<th style="text-align: left;">Origem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Subsistema de tração</td>
+<td style="text-align: center;"><span class="arithmatex">\(80\text{ mA}\)</span></td>
+<td style="text-align: left;">Medido em bancada (dois motores a <span class="arithmatex">\(40\text{ mA}\)</span> em movimento livre, <a href="#22-motores-em-movimento-livre-id-22">teste 2.2</a>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Controle e sensores</td>
+<td style="text-align: center;"><span class="arithmatex">\(150\text{ mA}\)</span></td>
+<td style="text-align: left;">Estimado: ESP32 ativo, sensores ToF, encoders e corrente de repouso da ponte H</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(230\text{ mA}\)</span></strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>Aplicando a equação da autonomia:</p>
+<div class="arithmatex">\[\text{Autonomia} = \frac{1500\text{ mAh}}{230\text{ mA}} \times 60 \approx 391\text{ min} \approx 6,5\text{ h}\]</div>
+<p>Para verificar se a conclusão depende da estimativa de <span class="arithmatex">\(150\text{ mA}\)</span> da eletrônica, a autonomia foi recalculada com os cenários de consumo do <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/#5-tres-cenarios-de-consumo-adotados">projeto conceitual de energia</a> (ESP32, três sensores ToF, dois encoders, lógica da ponte H, LEDs e monitor da bateria):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Cenário</th>
+<th style="text-align: center;">Tração</th>
+<th style="text-align: center;">Eletrônica</th>
+<th style="text-align: center;">Corrente total</th>
+<th style="text-align: center;">Autonomia teórica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Base deste relatório</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(80\text{ mA}\)</span> (movimento livre)</td>
+<td style="text-align: center;"><span class="arithmatex">\(150\text{ mA}\)</span> (estimativa)</td>
+<td style="text-align: center;"><span class="arithmatex">\(230\text{ mA}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 391\text{ min}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Eletrônica nominal do 4.2</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(80\text{ mA}\)</span> (movimento livre)</td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 220\text{ mA}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 300\text{ mA}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 300\text{ min}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pior caso</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(1,10\text{ A}\)</span> (dois motores em <em>stall</em>)</td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 359\text{ mA}\)</span> (conservador)</td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 1,46\text{ A}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(\approx 62\text{ min}\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 2.4</p>
+<p>A autonomia teórica de <strong><span class="arithmatex">\(391\text{ min}\)</span></strong> supera com folga o mínimo de <strong><span class="arithmatex">\(15\text{ min}\)</span></strong> do RNF-ENE01 e também os <strong><span class="arithmatex">\(30\text{ min}\)</span></strong> dos três labirintos da apresentação final (até 10 minutos cada), sem precisar recarregar ou trocar a bateria entre eles. Mesmo no pior caso, com os dois motores travados o tempo todo e a eletrônica no cenário conservador, a bateria duraria cerca de <span class="arithmatex">\(62\text{ min}\)</span>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Estimativa a substituir por medição</p>
+<p>Os <span class="arithmatex">\(150\text{ mA}\)</span> da eletrônica são uma estimativa. O próximo passo é medir o consumo real da eletrônica no robô completo e repetir o cálculo da autonomia com esse valor.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="4-comportamento-termico">4. Comportamento Térmico<a class="headerlink" href="#4-comportamento-termico" title="Permanent link">&para;</a></h2>
+<h3 id="41-inspecao-termica-dos-componentes-criticos-id-25">4.1 Inspeção Térmica dos Componentes Críticos (ID 2.5)<a class="headerlink" href="#41-inspecao-termica-dos-componentes-criticos-id-25" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE03 (Proteção por Sobrecorrente)</a></li>
+<li><strong>Responsáveis:</strong> Lucas Oliveira, Rafaela Trajano, Lucas Peixoto e Antônio Lucas</li>
+<li><strong>Período:</strong> 19/10/2026 a 21/10/2026</li>
+<li><strong>Atividade da EAP:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/110">EAP 4.7 — Testes de Energia</a></li>
+</ul>
+</div>
+<p>Durante os ensaios, foi observado o aquecimento dos componentes críticos do subsistema de energia:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Componente</th>
+<th style="text-align: left;">Condição observada</th>
+<th style="text-align: center;">Situação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Motores DC</strong></td>
+<td style="text-align: left;">No ensaio com o eixo travado, a carcaça esquentou rapidamente, mas não a ponto de danificar o chassi ou as peças do robô caso ele fique travado no labirinto.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Adequado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ponte H (TB6612FNG)</strong></td>
+<td style="text-align: left;">O circuito integrado manteve a temperatura dentro do normal.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Adequado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Bateria LiPo e cabeamento</strong></td>
+<td style="text-align: left;">No teste de descarga contínua, a bateria e os fios não esquentaram, o que indica taxa de descarga (fator C) dentro do limite.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Adequado</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 2.5</p>
+<p>Nenhum componente apresentou aquecimento capaz de causar dano. O ponto de maior atenção é o motor em <em>stall</em>, situação que o corte do PWM por travamento (validado nos testes de integração) vai limitar a no máximo <span class="arithmatex">\(1,2\text{ s}\)</span>.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="5-conclusao-e-proximas-etapas">5. Conclusão e Próximas Etapas<a class="headerlink" href="#5-conclusao-e-proximas-etapas" title="Permanent link">&para;</a></h2>
+<p>As simulações e os ensaios em bancada caracterizaram o consumo de corrente da tração do micromouse nas três condições de operação:</p>
+<ul>
+<li><strong>Parados:</strong> a simulação previu <span class="arithmatex">\(\approx 0\text{ A}\)</span> e a bancada confirmou <span class="arithmatex">\(0,00\text{ A}\)</span>;</li>
+<li><strong>Movimento livre:</strong> a simulação indicou <span class="arithmatex">\(0,296\text{ A}\)</span> para os dois motores e a bancada registrou <span class="arithmatex">\(0,08\text{ A}\)</span>;</li>
+<li><strong>Travados:</strong> a simulação indicou <span class="arithmatex">\(3,95\text{ A}\)</span> e a bancada <span class="arithmatex">\(1,10\text{ A}\)</span>. A diferença vem da resistência de contato, da resistência interna real dos motores e da queda de tensão da bateria sob carga.</li>
+</ul>
+<p>Com corrente contínua estimada de <span class="arithmatex">\(230\text{ mA}\)</span> para o robô completo, a autonomia teórica é de <span class="arithmatex">\(391\text{ min}\)</span>, muito acima do requisito, mesmo considerando o aumento de consumo esperado no labirinto. O comportamento térmico dos motores, da ponte H e da bateria foi adequado.</p>
+<p>Próximas etapas:</p>
+<ol>
+<li>Validar no robô montado o corte do PWM em até <span class="arithmatex">\(1,2\text{ s}\)</span> após o travamento (<a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/">testes de integração</a>);</li>
+<li>Medir o consumo real da eletrônica embarcada para substituir a estimativa de <span class="arithmatex">\(150\text{ mA}\)</span>;</li>
+<li>Ensaiar a proteção por sobrecorrente (fusível), o corte por subtensão e a chave geral (ver a matriz abaixo).</li>
+</ol>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="6-matriz-de-rastreabilidade-dos-requisitos-de-energia">6. Matriz de Rastreabilidade dos Requisitos de Energia<a class="headerlink" href="#6-matriz-de-rastreabilidade-dos-requisitos-de-energia" title="Permanent link">&para;</a></h2>
+<p>A tabela relaciona cada requisito de energia com o teste que o cobre e a métrica obtida. Os requisitos ainda sem ensaio aparecem como pendentes.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Requisito</th>
+<th style="text-align: left;">Descrição</th>
+<th style="text-align: center;">ID de Teste</th>
+<th style="text-align: left;">Ensaio e Métrica Obtida</th>
+<th style="text-align: center;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia"><strong>RF-ENE01</strong></a></td>
+<td style="text-align: left;">Conversão e distribuição de potência em barramentos de tração e de lógica</td>
+<td style="text-align: center;"><a href="../7.3%20-%20Testes%20de%20hardware/#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong> (hardware)</a></td>
+<td style="text-align: left;">Linhas de <span class="arithmatex">\(3,3\text{ V}\)</span> e <span class="arithmatex">\(5,0\text{ V}\)</span> estáveis com os motores em operação.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia"><strong>RF-ENE02</strong></a></td>
+<td style="text-align: left;">Medição contínua da tensão da bateria em formato digital</td>
+<td style="text-align: center;"><a href="../7.3%20-%20Testes%20de%20hardware/#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong> (hardware)</a></td>
+<td style="text-align: left;">Divisor 100k/47k no ADC1_CH6 com erro menor que <span class="arithmatex">\(1,5\%\)</span>.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia"><strong>RF-ENE03</strong></a></td>
+<td style="text-align: left;">Corte automático dos motores por subtensão em menos de <span class="arithmatex">\(200\text{ ms}\)</span></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Ainda não ensaiado em bancada.</td>
+<td style="text-align: center;"><img alt="⏳" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/23f3.svg" title=":hourglass_flowing_sand:" /> Pendente</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia"><strong>RF-ENE04</strong></a></td>
+<td style="text-align: left;">Chave geral mecânica com corte para <span class="arithmatex">\(0\text{ mA}\)</span></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Ainda não ensaiado em bancada.</td>
+<td style="text-align: center;"><img alt="⏳" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/23f3.svg" title=":hourglass_flowing_sand:" /> Pendente</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia"><strong>RNF-ENE01</strong></a></td>
+<td style="text-align: left;">Autonomia mínima de <span class="arithmatex">\(15\text{ min}\)</span> em navegação ativa</td>
+<td style="text-align: center;"><a href="#21-motores-parados-id-21"><strong>2.1</strong></a><br><a href="#22-motores-em-movimento-livre-id-22"><strong>2.2</strong></a><br><a href="#31-descarga-continua-e-calculo-da-autonomia-id-24"><strong>2.4</strong></a></td>
+<td style="text-align: left;">Autonomia teórica de <span class="arithmatex">\(\approx 391\text{ min}\)</span> com <span class="arithmatex">\(230\text{ mA}\)</span> totais (<span class="arithmatex">\(\approx 62\text{ min}\)</span> no pior caso).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia"><strong>RNF-ENE02</strong></a></td>
+<td style="text-align: left;">Tensão lógica dentro de <span class="arithmatex">\(\pm 5\%\)</span> sob transitórios dos motores</td>
+<td style="text-align: center;"><a href="../7.3%20-%20Testes%20de%20hardware/#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong> (hardware)</a></td>
+<td style="text-align: left;">Linhas de <span class="arithmatex">\(3,3\text{ V}\)</span> e <span class="arithmatex">\(5,0\text{ V}\)</span> na faixa de <span class="arithmatex">\(\pm 5\%\)</span> em partidas e reversões.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia"><strong>RNF-ENE03</strong></a></td>
+<td style="text-align: left;">Proteção por sobrecorrente (fusível) atuando em menos de <span class="arithmatex">\(500\text{ ms}\)</span></td>
+<td style="text-align: center;"><a href="#23-motores-travados-em-stall-id-23"><strong>2.3</strong></a><br><a href="#41-inspecao-termica-dos-componentes-criticos-id-25"><strong>2.5</strong></a></td>
+<td style="text-align: left;">Corrente de <em>stall</em> medida (<span class="arithmatex">\(1,10\text{ A}\)</span>) e sem aquecimento danoso; atuação do fusível ainda não ensaiada.</td>
+<td style="text-align: center;"><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:" /> Parcial</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia"><strong>RNF-ENE04</strong></a></td>
+<td style="text-align: left;">Conector da bateria com polaridade à prova de inversão</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Ainda não ensaiado em bancada.</td>
+<td style="text-align: center;"><img alt="⏳" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/23f3.svg" title=":hourglass_flowing_sand:" /> Pendente</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia"><strong>RNF-ENE05</strong></a></td>
+<td style="text-align: left;">Recarga completa da bateria em menos de <span class="arithmatex">\(90\text{ min}\)</span></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Ainda não ensaiado em bancada.</td>
+<td style="text-align: center;"><img alt="⏳" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/23f3.svg" title=":hourglass_flowing_sand:" /> Pendente</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#painel-geral-de-ensaios-de-energia">↑ Voltar ao Painel Geral de Testes</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Estrutura">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Estrutura
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Hardware">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Hardware
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

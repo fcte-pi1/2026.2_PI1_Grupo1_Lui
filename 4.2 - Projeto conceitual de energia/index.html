@@ -1,0 +1,3044 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/4.2%20-%20Projeto%20conceitual%20de%20energia/">
+      
+      
+        <link rel="prev" href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/">
+      
+      
+        <link rel="next" href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Energia - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#projeto-conceitual-de-energia" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Energia
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dimensionamento-atualizado-v2-bateria-e-demanda-energetica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimensionamento Atualizado v2 — Bateria e Demanda Energética
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo-e-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo e escopo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requisitos-do-projeto-que-orientam-o-calculo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requisitos do projeto que orientam o cálculo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-premissas-do-dimensionamento-atualizado-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Premissas do Dimensionamento Atualizado v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-modelo-de-calculo-energetico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Modelo de cálculo energético
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Modelo de cálculo energético">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-energia-nominal-da-bateria-selecionada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Energia nominal da bateria selecionada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-modelo-para-estimar-a-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Modelo para estimar a autonomia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-tres-cenarios-de-consumo-adotados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Três cenários de consumo adotados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-calculo-energetico-por-cenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Cálculo energético por cenário
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Cálculo energético por cenário">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-cenario-baixo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Cenário baixo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-cenario-nominal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Cenário nominal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-cenario-conservador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Cenário conservador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-perdas-e-margem-de-engenharia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Perdas e margem de engenharia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-conversao-para-capacidade-da-bateria-lipo-2s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Conversão para capacidade da bateria LiPo 2S
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-bateria-selecionada-e-comparacao-com-o-dimensionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Bateria selecionada e comparação com o dimensionamento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Bateria selecionada e comparação com o dimensionamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-caracteristicas-e-origem-dos-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Características e origem dos dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-comparacao-com-a-demanda-de-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Comparação com a demanda de projeto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-autonomia-teorica-por-cenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Autonomia teórica por cenário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-integracao-ao-robo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Integração ao robô
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-capacidade-energetica-e-capacidade-de-fornecimento-de-corrente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Capacidade energética e capacidade de fornecimento de corrente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-arquitetura-eletrica-conceitual-associada-ao-dimensionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Arquitetura elétrica conceitual associada ao dimensionamento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Arquitetura elétrica conceitual associada ao dimensionamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-arquitetura-geral-do-sistema-de-alimentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Arquitetura geral do sistema de alimentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-separacao-entre-potencia-e-logica-e-imunidade-a-transitorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Separação entre potência e lógica e imunidade a transitórios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-representacao-simplificada-do-fluxo-de-alimentacao-e-controle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 Representação simplificada do fluxo de alimentação e controle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-monitoramento-da-bateria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 Monitoramento da bateria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-dados-necessarios-para-o-dimensionamento-definitivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Dados necessários para o dimensionamento definitivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Dados necessários para o dimensionamento definitivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ordem-recomendada-de-definicao-dos-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ordem recomendada de definição dos componentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-sintese-do-dimensionamento-atualizado-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Síntese do Dimensionamento Atualizado v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-conclusao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Conclusão
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-referencias-e-origem-dos-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Referências e origem dos dados
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dimensionamento-atualizado-v2-bateria-e-demanda-energetica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimensionamento Atualizado v2 — Bateria e Demanda Energética
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivo-e-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Objetivo e escopo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requisitos-do-projeto-que-orientam-o-calculo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requisitos do projeto que orientam o cálculo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-premissas-do-dimensionamento-atualizado-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Premissas do Dimensionamento Atualizado v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-modelo-de-calculo-energetico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Modelo de cálculo energético
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Modelo de cálculo energético">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-energia-nominal-da-bateria-selecionada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Energia nominal da bateria selecionada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-modelo-para-estimar-a-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Modelo para estimar a autonomia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-tres-cenarios-de-consumo-adotados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Três cenários de consumo adotados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-calculo-energetico-por-cenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Cálculo energético por cenário
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Cálculo energético por cenário">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-cenario-baixo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Cenário baixo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-cenario-nominal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Cenário nominal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-cenario-conservador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Cenário conservador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-perdas-e-margem-de-engenharia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Perdas e margem de engenharia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-conversao-para-capacidade-da-bateria-lipo-2s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Conversão para capacidade da bateria LiPo 2S
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-bateria-selecionada-e-comparacao-com-o-dimensionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Bateria selecionada e comparação com o dimensionamento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Bateria selecionada e comparação com o dimensionamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-caracteristicas-e-origem-dos-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Características e origem dos dados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-comparacao-com-a-demanda-de-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Comparação com a demanda de projeto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-autonomia-teorica-por-cenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Autonomia teórica por cenário
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-integracao-ao-robo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Integração ao robô
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-capacidade-energetica-e-capacidade-de-fornecimento-de-corrente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Capacidade energética e capacidade de fornecimento de corrente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-arquitetura-eletrica-conceitual-associada-ao-dimensionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Arquitetura elétrica conceitual associada ao dimensionamento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Arquitetura elétrica conceitual associada ao dimensionamento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-arquitetura-geral-do-sistema-de-alimentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Arquitetura geral do sistema de alimentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-separacao-entre-potencia-e-logica-e-imunidade-a-transitorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Separação entre potência e lógica e imunidade a transitórios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-representacao-simplificada-do-fluxo-de-alimentacao-e-controle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 Representação simplificada do fluxo de alimentação e controle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-monitoramento-da-bateria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 Monitoramento da bateria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-dados-necessarios-para-o-dimensionamento-definitivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Dados necessários para o dimensionamento definitivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Dados necessários para o dimensionamento definitivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ordem-recomendada-de-definicao-dos-componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ordem recomendada de definição dos componentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-sintese-do-dimensionamento-atualizado-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Síntese do Dimensionamento Atualizado v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-conclusao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Conclusão
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-referencias-e-origem-dos-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Referências e origem dos dados
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="projeto-conceitual-de-energia">Projeto Conceitual de Energia<a class="headerlink" href="#projeto-conceitual-de-energia" title="Permanent link">&para;</a></h1>
+<h2 id="dimensionamento-atualizado-v2-bateria-e-demanda-energetica">Dimensionamento Atualizado v2 — Bateria e Demanda Energética<a class="headerlink" href="#dimensionamento-atualizado-v2-bateria-e-demanda-energetica" title="Permanent link">&para;</a></h2>
+<p><strong>Projeto Integrador 1 — 2026.2</strong><br />
+<strong>Micromouse UnB — Grupo 1</strong><br />
+<strong>Documento de apoio à issue:</strong> <code>[AP5] Dimensionamento da Bateria e Proteções #19 e [AP5] Diagrama de Distribuição de Potência #18</code></p>
+<div class="admonition note">
+<p class="admonition-title">Status do documento</p>
+<p>Esta revisão incorpora a bateria selecionada <strong>Leão LB1500LP2, LiPo 2S, 7,4 V, 1500 mAh e 30C</strong>, além da comunicação ESP-NOW. Os consumos, as perdas e a autonomia permanecem estimativas de projeto a validar no protótipo; a seleção da bateria não representa, por si só, validação experimental do sistema completo.</p>
+</div>
+<hr />
+<h2 id="1-objetivo-e-escopo">1. Objetivo e escopo<a class="headerlink" href="#1-objetivo-e-escopo" title="Permanent link">&para;</a></h2>
+<p>Este documento consolida o <strong>Dimensionamento Atualizado v2</strong> do sistema de alimentação do <strong>Micromouse UnB — Grupo 1</strong>.</p>
+<p>O objetivo desta etapa é:</p>
+<ul>
+<li>estimar a energia necessária para <strong>30 minutos de navegação ativa</strong>;</li>
+<li>comparar diferentes condições de consumo;</li>
+<li>comparar a demanda calculada com a bateria selecionada <strong>Leão LB1500LP2, LiPo 2S de 1500 mAh</strong>;</li>
+<li>estruturar conceitualmente a distribuição de energia entre os subsistemas;</li>
+<li>identificar as informações necessárias para o dimensionamento definitivo.</li>
+</ul>
+<p>O dimensionamento apresentado nesta versão permanece conceitual quanto à demanda das cargas. A bateria já foi selecionada, mas os valores de corrente de motores, driver, microcontrolador, sensores e reguladores mantidos neste documento constituem <strong>hipóteses preliminares de engenharia</strong>, a confirmar com os componentes efetivamente utilizados.</p>
+<p>Esses valores deverão ser posteriormente substituídos por dados provenientes dos respectivos <em>datasheets</em> e por medições experimentais realizadas no protótipo.</p>
+<div class="admonition important">
+<p class="admonition-title">Limites desta versão</p>
+<p>Os dados da bateria selecionada são identificados separadamente das hipóteses de consumo. As estimativas de corrente e autonomia não substituem a verificação experimental, o dimensionamento das proteções e a avaliação da integração mecânica e elétrica.</p>
+<p>Esta revisão atualiza a seleção da bateria e a arquitetura de comunicação, preservando o estudo de demanda para 30 minutos de navegação.</p>
+</div>
+<hr />
+<h2 id="2-requisitos-do-projeto-que-orientam-o-calculo">2. Requisitos do projeto que orientam o cálculo<a class="headerlink" href="#2-requisitos-do-projeto-que-orientam-o-calculo" title="Permanent link">&para;</a></h2>
+<p>O dimensionamento energético foi estruturado considerando os requisitos previamente estabelecidos para o subsistema de Energia e suas interfaces com Eletrônica e Software.</p>
+<table>
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Implicação para o sistema de Energia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RNF-ENE01</strong></td>
+<td>Requisito de autonomia operacional contínua mínima de <strong>15 minutos</strong>, com sensores e comunicação funcionando. Neste dimensionamento, adota-se um tempo mínimo considerado de <strong>30 minutos</strong>.</td>
+</tr>
+<tr>
+<td><strong>RF-ENE02</strong></td>
+<td>Realizar medição contínua da tensão do banco de baterias e disponibilizar essa informação para processamento e telemetria.</td>
+</tr>
+<tr>
+<td><strong>RF-ENE03</strong></td>
+<td>Proteger a bateria contra descarga profunda, com desligamento da tração em menos de <strong>200 ms</strong> após a detecção do limiar crítico.</td>
+</tr>
+<tr>
+<td><strong>RF-ELE01 / RF-ELE02</strong></td>
+<td>Alimentar o sistema de sensoriamento de paredes em três direções e a odometria independente das duas rodas motrizes.</td>
+</tr>
+<tr>
+<td><strong>RF-SFT05</strong></td>
+<td>Disponibilizar o nível/consumo da bateria como um dos parâmetros obrigatórios de telemetria.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-premissas-do-dimensionamento-atualizado-v2">3. Premissas do Dimensionamento Atualizado v2<a class="headerlink" href="#3-premissas-do-dimensionamento-atualizado-v2" title="Permanent link">&para;</a></h2>
+<p>Para os cálculos, adotam-se os dados da bateria selecionada e as seguintes premissas de operação:</p>
+<ul>
+<li>bateria selecionada: <strong>Leão Modelismo LB1500LP2, LiPo 2S</strong>;</li>
+<li>capacidade nominal: <strong>1500 mAh (1,5 Ah)</strong>;</li>
+<li>tensão nominal do banco de baterias: <strong>7,4 V</strong>;</li>
+<li>energia nominal calculada: <strong>11,1 Wh</strong>;</li>
+<li>classificação de descarga informada: <strong>30C</strong>;</li>
+<li>massa informada pela equipe: <strong>75 g</strong>;</li>
+<li>dimensões informadas pela equipe: <strong>70 mm de comprimento × 30 mm de largura × 17 mm de altura</strong>;</li>
+<li>autonomia mínima considerada: <strong>30 minutos</strong>;</li>
+<li>tempo equivalente:</li>
+</ul>
+<div class="arithmatex">\[
+t = 30\ min = 1800\ s = 0,5\ h
+\]</div>
+<ul>
+<li>dois motores DC com encoder;</li>
+<li>uma ponte H capaz de controlar os dois motores;</li>
+<li>um microcontrolador da família <strong>ESP32</strong>, com comunicação <strong>ESP-NOW</strong> pelo rádio integrado;</li>
+<li>três sensores de distância do tipo <strong>ToF</strong>:<ul>
+<li>frontal;</li>
+<li>lateral esquerdo;</li>
+<li>lateral direito;</li>
+</ul>
+</li>
+<li>dois encoders, um por roda motriz;</li>
+<li>indicadores visuais;</li>
+<li>circuito de monitoramento da bateria.</li>
+</ul>
+<p>A telemetria é transmitida pelo ESP32 do robô via <strong>ESP-NOW</strong>, em 2,4 GHz, para um segundo ESP32 que atua como <strong>gateway receptor na bancada</strong>, conectado por USB ao computador. O envio ocorre a <strong>1 Hz</strong>, sem depender de roteador ou associação a uma rede Wi-Fi, conforme a <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/#61-visao-geral-da-arquitetura-de-comunicacao">seção 6.1 do projeto conceitual de software</a>.</p>
+<p>Os valores de corrente utilizados para motores, encoders, indicadores e circuito de monitoramento são estimativas preliminares e deverão ser revisados após a escolha dos componentes definitivos.</p>
+<hr />
+<h2 id="4-modelo-de-calculo-energetico">4. Modelo de cálculo energético<a class="headerlink" href="#4-modelo-de-calculo-energetico" title="Permanent link">&para;</a></h2>
+<p>Para cada componente, a energia consumida durante uma execução de 30 minutos é estimada pela relação:</p>
+<div class="arithmatex">\[
+E = V \cdot I \cdot t
+\]</div>
+<p>onde:</p>
+<ul>
+<li><span class="arithmatex">\(E\)</span> = energia consumida, em joules (J);</li>
+<li><span class="arithmatex">\(V\)</span> = tensão de operação, em volts (V);</li>
+<li><span class="arithmatex">\(I\)</span> = corrente média, em ampères (A);</li>
+<li><span class="arithmatex">\(t\)</span> = tempo de operação, em segundos (s).</li>
+</ul>
+<p>A conversão da energia de joules para watt-hora é realizada por:</p>
+<div class="arithmatex">\[
+E_{Wh} = \frac{E_J}{3600}
+\]</div>
+<p>Como os cálculos consideram uma execução de:</p>
+<div class="arithmatex">\[
+t = 0,5\ h
+\]</div>
+<p>a potência média equivalente de cada cenário pode ser obtida por:</p>
+<div class="arithmatex">\[
+P_{\text{média}} = \frac{E_{Wh}}{0,5}
+\]</div>
+<h3 id="41-energia-nominal-da-bateria-selecionada">4.1 Energia nominal da bateria selecionada<a class="headerlink" href="#41-energia-nominal-da-bateria-selecionada" title="Permanent link">&para;</a></h3>
+<p>A energia nominal da bateria é calculada a partir da tensão nominal e da capacidade:</p>
+<div class="arithmatex">\[
+E_{\text{bat,nom}} = V_{\text{bat,nom}} \cdot C_{Ah} = 7,4 \cdot 1,5 = 11,1\ Wh
+\]</div>
+<p>Os <strong>11,1 Wh</strong> são uma estimativa da energia nominal armazenada, não uma medição da energia efetivamente utilizável até o corte de descarga. A energia entregue às cargas depende das condições de operação, da capacidade real, do limiar de subtensão e das perdas do sistema.</p>
+<h3 id="42-modelo-para-estimar-a-autonomia">4.2 Modelo para estimar a autonomia<a class="headerlink" href="#42-modelo-para-estimar-a-autonomia" title="Permanent link">&para;</a></h3>
+<p>Mantendo a hipótese de acréscimo de 15% para perdas adotada na seção 7:</p>
+<div class="arithmatex">\[
+P_{\text{bat,est}} = 1,15 \cdot P_{\text{cargas}}
+\]</div>
+<div class="arithmatex">\[
+t_{\text{est}}(min) = \frac{E_{\text{bat,nom}}}{P_{\text{bat,est}}} \cdot 60
+\]</div>
+<p>A margem adicional de engenharia de <strong>30%</strong> é utilizada no dimensionamento da capacidade para o tempo mínimo considerado de 30 minutos. Ela não é uma perda física nem uma carga adicional e, por isso, não é somada ao consumo nesta estimativa de autonomia. Os tempos obtidos pressupõem o uso da energia nominal da bateria e deverão ser substituídos ou confirmados por ensaio.</p>
+<hr />
+<h2 id="5-tres-cenarios-de-consumo-adotados">5. Três cenários de consumo adotados<a class="headerlink" href="#5-tres-cenarios-de-consumo-adotados" title="Permanent link">&para;</a></h2>
+<p>Como as correntes das cargas ainda são tratadas como estimativas neste dimensionamento, mantêm-se três cenários de operação para avaliar sua influência na demanda energética. A seleção da bateria de 1500 mAh altera a energia disponível; ela não altera automaticamente as correntes assumidas para motores e eletrônica.</p>
+<table>
+<thead>
+<tr>
+<th>Carga</th>
+<th style="text-align: right;">Baixo</th>
+<th style="text-align: right;">Nominal</th>
+<th style="text-align: right;">Conservador</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cada motor DC (6 V)</td>
+<td style="text-align: right;">0,30 A</td>
+<td style="text-align: right;">0,50 A</td>
+<td style="text-align: right;">0,80 A</td>
+</tr>
+<tr>
+<td>ESP32 + rádio (ESP-NOW) (3,3 V)</td>
+<td style="text-align: right;">80 mA</td>
+<td style="text-align: right;">120 mA</td>
+<td style="text-align: right;">200 mA</td>
+</tr>
+<tr>
+<td>Cada sensor ToF (2,8 V)</td>
+<td style="text-align: right;">12 mA</td>
+<td style="text-align: right;">19 mA</td>
+<td style="text-align: right;">25 mA</td>
+</tr>
+<tr>
+<td>Cada encoder (5 V)</td>
+<td style="text-align: right;">5 mA</td>
+<td style="text-align: right;">10 mA</td>
+<td style="text-align: right;">20 mA</td>
+</tr>
+<tr>
+<td>Driver ponte H — lógica (3,3 V)</td>
+<td style="text-align: right;">1,1 mA</td>
+<td style="text-align: right;">1,5 mA</td>
+<td style="text-align: right;">2,2 mA</td>
+</tr>
+<tr>
+<td>LEDs/indicadores (3,3 V)</td>
+<td style="text-align: right;">10 mA</td>
+<td style="text-align: right;">20 mA</td>
+<td style="text-align: right;">40 mA</td>
+</tr>
+<tr>
+<td>Monitor da bateria (7,4 V)</td>
+<td style="text-align: right;">0,5 mA</td>
+<td style="text-align: right;">1,0 mA</td>
+<td style="text-align: right;">2,0 mA</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Consumo do ESP32 e do rádio integrado</p>
+<p>A carga <strong>ESP32 + rádio (ESP-NOW)</strong> representa o microcontrolador embarcado com seu rádio integrado em operação; não corresponde à soma de um ESP32 com um módulo de rádio externo.</p>
+<p>Conforme o escopo da <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/130">issue #130</a>, a atualização da nomenclatura preserva as estimativas preliminares de <strong>80 mA</strong>, <strong>120 mA</strong> e <strong>200 mA</strong>, bem como os cálculos derivados. Esses valores não constituem medições específicas do consumo com ESP-NOW e deverão ser revisados com dados do componente selecionado e ensaios no protótipo.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Interpretação dos cenários</p>
+<p><strong>Baixo:</strong> representa uma condição de operação leve.</p>
+<p><strong>Nominal:</strong> constitui a principal referência utilizada no Dimensionamento Atualizado v2.</p>
+<p><strong>Conservador:</strong> considera correntes superiores para reduzir o risco de subdimensionamento enquanto os componentes definitivos ainda não são conhecidos.</p>
+</div>
+<hr />
+<h2 id="6-calculo-energetico-por-cenario">6. Cálculo energético por cenário<a class="headerlink" href="#6-calculo-energetico-por-cenario" title="Permanent link">&para;</a></h2>
+<h3 id="61-cenario-baixo">6.1 Cenário baixo<a class="headerlink" href="#61-cenario-baixo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th style="text-align: right;">V</th>
+<th style="text-align: right;">I total (A)</th>
+<th style="text-align: right;">t (s)</th>
+<th style="text-align: right;">E (J)</th>
+<th style="text-align: right;">E (Wh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 motores DC</td>
+<td style="text-align: right;">6,0</td>
+<td style="text-align: right;">0,600</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">6480,00</td>
+<td style="text-align: right;">1,8000</td>
+</tr>
+<tr>
+<td>ESP32 + rádio (ESP-NOW)</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,080</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">475,20</td>
+<td style="text-align: right;">0,1320</td>
+</tr>
+<tr>
+<td>3 sensores ToF</td>
+<td style="text-align: right;">2,8</td>
+<td style="text-align: right;">0,036</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">181,44</td>
+<td style="text-align: right;">0,0504</td>
+</tr>
+<tr>
+<td>2 encoders</td>
+<td style="text-align: right;">5,0</td>
+<td style="text-align: right;">0,010</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">90,00</td>
+<td style="text-align: right;">0,0250</td>
+</tr>
+<tr>
+<td>Driver ponte H — lógica</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,0011</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">6,53</td>
+<td style="text-align: right;">0,0018</td>
+</tr>
+<tr>
+<td>LEDs/indicadores</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,010</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">59,40</td>
+<td style="text-align: right;">0,0165</td>
+</tr>
+<tr>
+<td>Monitor da bateria</td>
+<td style="text-align: right;">7,4</td>
+<td style="text-align: right;">0,0005</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">6,66</td>
+<td style="text-align: right;">0,0019</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Energia total:</strong></p>
+<div class="arithmatex">\[
+E_{\text{baixo}} \approx 7299,23\ J
+\]</div>
+<p>ou:</p>
+<div class="arithmatex">\[
+E_{\text{baixo}} \approx 2,028\ Wh
+\]</div>
+<p>A potência média correspondente é:</p>
+<div class="arithmatex">\[
+P_{\text{baixo}} \approx 4,06\ W
+\]</div>
+<hr />
+<h3 id="62-cenario-nominal">6.2 Cenário nominal<a class="headerlink" href="#62-cenario-nominal" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th style="text-align: right;">V</th>
+<th style="text-align: right;">I total (A)</th>
+<th style="text-align: right;">t (s)</th>
+<th style="text-align: right;">E (J)</th>
+<th style="text-align: right;">E (Wh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 motores DC</td>
+<td style="text-align: right;">6,0</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">10800,00</td>
+<td style="text-align: right;">3,0000</td>
+</tr>
+<tr>
+<td>ESP32 + rádio (ESP-NOW)</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,120</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">712,80</td>
+<td style="text-align: right;">0,1980</td>
+</tr>
+<tr>
+<td>3 sensores ToF</td>
+<td style="text-align: right;">2,8</td>
+<td style="text-align: right;">0,057</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">287,28</td>
+<td style="text-align: right;">0,0798</td>
+</tr>
+<tr>
+<td>2 encoders</td>
+<td style="text-align: right;">5,0</td>
+<td style="text-align: right;">0,020</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">180,00</td>
+<td style="text-align: right;">0,0500</td>
+</tr>
+<tr>
+<td>Driver ponte H — lógica</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,0015</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">8,91</td>
+<td style="text-align: right;">0,0025</td>
+</tr>
+<tr>
+<td>LEDs/indicadores</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,020</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">118,80</td>
+<td style="text-align: right;">0,0330</td>
+</tr>
+<tr>
+<td>Monitor da bateria</td>
+<td style="text-align: right;">7,4</td>
+<td style="text-align: right;">0,0010</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">13,32</td>
+<td style="text-align: right;">0,0037</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Energia total:</strong></p>
+<div class="arithmatex">\[
+E_{\text{nominal}} \approx 12121,11\ J
+\]</div>
+<p>ou:</p>
+<div class="arithmatex">\[
+E_{\text{nominal}} \approx 3,367\ Wh
+\]</div>
+<p>A potência média correspondente é:</p>
+<div class="arithmatex">\[
+P_{\text{nominal}} \approx 6,73\ W
+\]</div>
+<hr />
+<h3 id="63-cenario-conservador">6.3 Cenário conservador<a class="headerlink" href="#63-cenario-conservador" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th style="text-align: right;">V</th>
+<th style="text-align: right;">I total (A)</th>
+<th style="text-align: right;">t (s)</th>
+<th style="text-align: right;">E (J)</th>
+<th style="text-align: right;">E (Wh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 motores DC</td>
+<td style="text-align: right;">6,0</td>
+<td style="text-align: right;">1,600</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">17280,00</td>
+<td style="text-align: right;">4,8000</td>
+</tr>
+<tr>
+<td>ESP32 + rádio (ESP-NOW)</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,200</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">1188,00</td>
+<td style="text-align: right;">0,3300</td>
+</tr>
+<tr>
+<td>3 sensores ToF</td>
+<td style="text-align: right;">2,8</td>
+<td style="text-align: right;">0,075</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">378,00</td>
+<td style="text-align: right;">0,1050</td>
+</tr>
+<tr>
+<td>2 encoders</td>
+<td style="text-align: right;">5,0</td>
+<td style="text-align: right;">0,040</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">360,00</td>
+<td style="text-align: right;">0,1000</td>
+</tr>
+<tr>
+<td>Driver ponte H — lógica</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,0022</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">13,07</td>
+<td style="text-align: right;">0,0036</td>
+</tr>
+<tr>
+<td>LEDs/indicadores</td>
+<td style="text-align: right;">3,3</td>
+<td style="text-align: right;">0,040</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">237,60</td>
+<td style="text-align: right;">0,0660</td>
+</tr>
+<tr>
+<td>Monitor da bateria</td>
+<td style="text-align: right;">7,4</td>
+<td style="text-align: right;">0,0020</td>
+<td style="text-align: right;">1800</td>
+<td style="text-align: right;">26,64</td>
+<td style="text-align: right;">0,0074</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Energia total:</strong></p>
+<div class="arithmatex">\[
+E_{\text{conservador}} \approx 19483,31\ J
+\]</div>
+<p>ou:</p>
+<div class="arithmatex">\[
+E_{\text{conservador}} \approx 5,412\ Wh
+\]</div>
+<p>A potência média correspondente é:</p>
+<div class="arithmatex">\[
+P_{\text{conservador}} \approx 10,82\ W
+\]</div>
+<p>No cenário nominal, os dois motores respondem por aproximadamente <strong>89% da energia estimada</strong>.</p>
+<p>Esse resultado demonstra que a escolha dos motores e, principalmente, a corrente real durante a navegação constituem as variáveis de maior impacto no dimensionamento definitivo do sistema de Energia.</p>
+<hr />
+<h2 id="7-perdas-e-margem-de-engenharia">7. Perdas e margem de engenharia<a class="headerlink" href="#7-perdas-e-margem-de-engenharia" title="Permanent link">&para;</a></h2>
+<p>A energia calculada diretamente nas cargas não considera todas as perdas presentes no sistema de alimentação.</p>
+<p>Entre essas perdas estão:</p>
+<ul>
+<li>reguladores de tensão;</li>
+<li>conversores DC-DC;</li>
+<li>ponte H;</li>
+<li>trilhas da PCB;</li>
+<li>cabeamento;</li>
+<li>conectores;</li>
+<li>dispositivos de proteção.</li>
+</ul>
+<p>Enquanto as perdas reais desses componentes não forem caracterizadas, o Dimensionamento Atualizado v2 mantém provisoriamente um acréscimo de <strong>15%</strong> sobre a energia das cargas para representar as perdas do sistema.</p>
+<p>Após essa correção, é aplicada uma margem adicional de engenharia de <strong>30%</strong>, destinada a absorver as incertezas associadas aos componentes ainda não definidos.</p>
+<div class="admonition note">
+<p class="admonition-title">Margens adotadas</p>
+<p>Os valores de <strong>15% para perdas</strong> e <strong>30% para margem de engenharia</strong> são hipóteses desta etapa conceitual.</p>
+<p>Eles deverão ser reavaliados no dimensionamento definitivo utilizando as eficiências reais dos conversores, do driver e dos demais componentes selecionados.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th style="text-align: right;">Energia nas cargas (Wh)</th>
+<th style="text-align: right;">Após +15% de perdas (Wh)</th>
+<th style="text-align: right;">Após +30% de margem (Wh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baixo</td>
+<td style="text-align: right;">2,028</td>
+<td style="text-align: right;">2,332</td>
+<td style="text-align: right;">3,031</td>
+</tr>
+<tr>
+<td>Nominal</td>
+<td style="text-align: right;">3,367</td>
+<td style="text-align: right;">3,872</td>
+<td style="text-align: right;">5,034</td>
+</tr>
+<tr>
+<td>Conservador</td>
+<td style="text-align: right;">5,412</td>
+<td style="text-align: right;">6,224</td>
+<td style="text-align: right;">8,091</td>
+</tr>
+</tbody>
+</table>
+<p>Para o cenário conservador:</p>
+<div class="arithmatex">\[
+E_{\text{projeto}} \approx 8,091\ Wh
+\]</div>
+<hr />
+<h2 id="8-conversao-para-capacidade-da-bateria-lipo-2s">8. Conversão para capacidade da bateria LiPo 2S<a class="headerlink" href="#8-conversao-para-capacidade-da-bateria-lipo-2s" title="Permanent link">&para;</a></h2>
+<p>Considerando uma bateria LiPo 2S com tensão nominal de:</p>
+<div class="arithmatex">\[
+V_{\text{bat}} = 7,4\ V
+\]</div>
+<p>a capacidade equivalente pode ser determinada por:</p>
+<div class="arithmatex">\[
+C_{Ah} = \frac{E_{Wh}}{V_{\text{bat}}}
+\]</div>
+<p>Para converter o resultado para miliampère-hora:</p>
+<div class="arithmatex">\[
+C_{mAh} = 1000 \cdot C_{Ah}
+\]</div>
+<p>Aplicando essa relação aos três cenários:</p>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th style="text-align: right;">Energia de projeto (Wh)</th>
+<th style="text-align: right;">Capacidade equivalente em 7,4 V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baixo</td>
+<td style="text-align: right;">3,031</td>
+<td style="text-align: right;">≈ 410 mAh</td>
+</tr>
+<tr>
+<td>Nominal</td>
+<td style="text-align: right;">5,034</td>
+<td style="text-align: right;">≈ 680 mAh</td>
+</tr>
+<tr>
+<td>Conservador</td>
+<td style="text-align: right;">8,091</td>
+<td style="text-align: right;">≈ 1093 mAh</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="admonition-title">Resultado-chave</p>
+<p>O cenário conservador resulta em uma capacidade mínima preliminar de aproximadamente <strong>1093 mAh</strong>, já considerando as hipóteses de perdas e margem de engenharia.</p>
+<p>Esse valor é a <strong>capacidade mínima estimada para a demanda adotada</strong>, não a capacidade da bateria selecionada. A <strong>Leão LB1500LP2 de 1500 mAh</strong> supera esse mínimo sob as hipóteses deste dimensionamento; a autonomia e a compatibilidade do conjunto deverão ser verificadas no protótipo.</p>
+</div>
+<hr />
+<h2 id="9-bateria-selecionada-e-comparacao-com-o-dimensionamento">9. Bateria selecionada e comparação com o dimensionamento<a class="headerlink" href="#9-bateria-selecionada-e-comparacao-com-o-dimensionamento" title="Permanent link">&para;</a></h2>
+<p>A bateria selecionada pela equipe é a <strong>Leão Modelismo LB1500LP2, LiPo 2S, 7,4 V, 1500 mAh e 30C</strong>. Essa seleção substitui a faixa de estudo e a referência intermediária utilizadas na versão anterior.</p>
+<h3 id="91-caracteristicas-e-origem-dos-dados">9.1 Características e origem dos dados<a class="headerlink" href="#91-caracteristicas-e-origem-dos-dados" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Valor adotado</th>
+<th>Origem / situação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Marca e modelo</td>
+<td>Leão Modelismo LB1500LP2</td>
+<td>Identificação confirmada pela equipe; modelo também descrito na <a href="https://www.actionmodelismo.com.br/baterialipo7-4v2s1500mah30c60cplugtdeanautoaeronautiheliwltoyslb1500lp2">página comercial</a></td>
+</tr>
+<tr>
+<td>Química</td>
+<td>LiPo</td>
+<td>Informado pela equipe e pela página comercial</td>
+</tr>
+<tr>
+<td>Configuração</td>
+<td>2S — duas células em série</td>
+<td>Informado pela equipe e pela página comercial</td>
+</tr>
+<tr>
+<td>Tensão nominal</td>
+<td>7,4 V</td>
+<td>Informado pela equipe e pela página comercial</td>
+</tr>
+<tr>
+<td>Capacidade nominal</td>
+<td>1500 mAh (1,5 Ah)</td>
+<td>Informado pela equipe e pela página comercial</td>
+</tr>
+<tr>
+<td>Energia nominal</td>
+<td>11,1 Wh</td>
+<td>Calculado: 7,4 V × 1,5 Ah</td>
+</tr>
+<tr>
+<td>Classificação de descarga adotada</td>
+<td>30C</td>
+<td>Informado pela equipe; não se adota a classificação de pico anunciada sem confirmação adicional</td>
+</tr>
+<tr>
+<td>Corrente correspondente a 30C</td>
+<td>45 A</td>
+<td>Calculado: 1,5 Ah × 30; valor associado à classificação declarada, não medido no projeto</td>
+</tr>
+<tr>
+<td>Massa</td>
+<td>75 g</td>
+<td>Informado pela equipe</td>
+</tr>
+<tr>
+<td>Dimensões — comprimento × largura × altura</td>
+<td>70 × 30 × 17 mm</td>
+<td>Informado pela equipe</td>
+</tr>
+<tr>
+<td>Tensão máxima de carga de referência</td>
+<td>8,4 V</td>
+<td>Referência geral para LiPo convencional 2S, a 4,2 V por célula; ver <a href="https://traxxas.com/media/productattach/2970-3S/10/GKC20006-R00-LiPo-battery-fold-out-large%20-%20EN.pdf">instruções técnicas da Traxxas</a></td>
+</tr>
+<tr>
+<td>Conector principal</td>
+<td>T-Deans anunciado para o modelo</td>
+<td>Conferir o conector e a polaridade da unidade efetivamente utilizada</td>
+</tr>
+<tr>
+<td>Conector de balanceamento</td>
+<td>Não confirmado</td>
+<td>Conferir na unidade utilizada</td>
+</tr>
+<tr>
+<td>Carregador e corrente máxima de carga</td>
+<td>Não informados / não confirmados</td>
+<td>Identificar o equipamento e consultar a especificação aplicável à bateria</td>
+</tr>
+<tr>
+<td>BMS ou proteção integrada</td>
+<td>Não confirmado</td>
+<td>Verificar na unidade e na documentação; não presumir sua presença</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Rastreabilidade dos dados físicos</p>
+<p>A página comercial consultada informa <strong>70 g</strong> e <strong>70 × 30 × 16 mm</strong>. Este documento adota os <strong>75 g</strong> e <strong>70 × 30 × 17 mm</strong> fornecidos pela equipe para a unidade do projeto. A diferença deve ser verificada na conferência dimensional e de massa; os valores informados pela equipe não são apresentados como dados de um datasheet oficial.</p>
+</div>
+<h3 id="92-comparacao-com-a-demanda-de-projeto">9.2 Comparação com a demanda de projeto<a class="headerlink" href="#92-comparacao-com-a-demanda-de-projeto" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th style="text-align: right;">Energia de projeto para 30 min, com perdas e margem (Wh)</th>
+<th style="text-align: right;">Capacidade mínima estimada em 7,4 V</th>
+<th style="text-align: right;">Capacidade selecionada</th>
+<th style="text-align: right;">Energia nominal selecionada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baixo</td>
+<td style="text-align: right;">3,031</td>
+<td style="text-align: right;">≈ 410 mAh</td>
+<td style="text-align: right;">1500 mAh</td>
+<td style="text-align: right;">11,1 Wh</td>
+</tr>
+<tr>
+<td>Nominal</td>
+<td style="text-align: right;">5,034</td>
+<td style="text-align: right;">≈ 680 mAh</td>
+<td style="text-align: right;">1500 mAh</td>
+<td style="text-align: right;">11,1 Wh</td>
+</tr>
+<tr>
+<td>Conservador</td>
+<td style="text-align: right;">8,091</td>
+<td style="text-align: right;">≈ 1093 mAh</td>
+<td style="text-align: right;">1500 mAh</td>
+<td style="text-align: right;">11,1 Wh</td>
+</tr>
+</tbody>
+</table>
+<p>A energia nominal da bateria selecionada corresponde a aproximadamente <strong>1,37 vezes</strong> a energia de projeto do cenário conservador para 30 minutos:</p>
+<div class="arithmatex">\[
+\frac{E_{\text{bat,nom}}}{E_{\text{projeto,conservador}}} \approx \frac{11,1}{8,091} \approx 1,37
+\]</div>
+<p>Essa comparação indica reserva energética no modelo adotado. Não comprova, isoladamente, a capacidade real, a integração mecânica, a atuação das proteções ou o atendimento em pista.</p>
+<h3 id="93-autonomia-teorica-por-cenario">9.3 Autonomia teórica por cenário<a class="headerlink" href="#93-autonomia-teorica-por-cenario" title="Permanent link">&para;</a></h3>
+<p>Aplicando o modelo da seção 4.2, com <strong>15% de acréscimo para perdas</strong>, sem tratar a margem de engenharia como consumo:</p>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th style="text-align: right;">Potência média das cargas (W)</th>
+<th style="text-align: right;">Potência estimada na bateria, com +15% (W)</th>
+<th style="text-align: right;">Autonomia teórica com 11,1 Wh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baixo</td>
+<td style="text-align: right;">4,055</td>
+<td style="text-align: right;">4,663</td>
+<td style="text-align: right;">≈ 142,8 min</td>
+</tr>
+<tr>
+<td>Nominal</td>
+<td style="text-align: right;">6,734</td>
+<td style="text-align: right;">7,744</td>
+<td style="text-align: right;">≈ 86,0 min</td>
+</tr>
+<tr>
+<td>Conservador</td>
+<td style="text-align: right;">10,824</td>
+<td style="text-align: right;">12,448</td>
+<td style="text-align: right;">≈ 53,5 min</td>
+</tr>
+</tbody>
+</table>
+<p>Os cálculos usam os valores antes do arredondamento apresentado nas tabelas. Os três cenários superam teoricamente o tempo mínimo considerado de <strong>30 minutos</strong>, mas utilizam a energia nominal integral e correntes estimadas. A autonomia real depende do consumo durante o percurso, da energia utilizável até o corte, da capacidade efetiva e das perdas reais.</p>
+<h3 id="94-integracao-ao-robo">9.4 Integração ao robô<a class="headerlink" href="#94-integracao-ao-robo" title="Permanent link">&para;</a></h3>
+<p>A montagem deverá considerar a massa informada de <strong>75 g</strong>, as dimensões de <strong>70 × 30 × 17 mm</strong>, a fixação no chassi, o acesso aos conectores e o espaço necessário para os cabos. O encaixe e a distribuição de massa deverão ser conferidos no conjunto montado.</p>
+<hr />
+<h2 id="10-capacidade-energetica-e-capacidade-de-fornecimento-de-corrente">10. Capacidade energética e capacidade de fornecimento de corrente<a class="headerlink" href="#10-capacidade-energetica-e-capacidade-de-fornecimento-de-corrente" title="Permanent link">&para;</a></h2>
+<p>Os cálculos anteriores verificam a energia estimada para o requisito de autonomia. A capacidade de fornecer corrente também precisa ser compatível com partidas, acelerações, frenagens, reversões e eventual travamento dos motores.</p>
+<p>A corrente correspondente à classificação de descarga é calculada por:</p>
+<div class="arithmatex">\[
+I_{\text{descarga,declarada}} = C_{Ah} \cdot C_{\text{rating}}
+\]</div>
+<p>Para a bateria selecionada, com <strong>1,5 Ah</strong> e <strong>30C</strong>:</p>
+<div class="arithmatex">\[
+I_{\text{descarga,declarada}} = 1,5 \cdot 30 = 45\ A
+\]</div>
+<p>Os <strong>45 A</strong> são um valor calculado a partir da capacidade nominal e da classificação de descarga informada. Não representam o consumo do robô nem uma corrente validada por ensaio no projeto. A corrente efetivamente solicitada depende das cargas e de suas condições de operação.</p>
+<p>Não se adota neste dimensionamento uma corrente de pico de 60C: embora apareça em anúncios do modelo, sua duração e aplicabilidade à unidade utilizada não foram confirmadas.</p>
+<div class="admonition important">
+<p class="admonition-title">Dimensionamento das proteções e do caminho de potência</p>
+<p>Os <strong>45 A não definem a corrente do fusível</strong> nem a corrente admissível da ponte H, dos fios, conectores ou trilhas. Cada elemento deverá ser dimensionado para a corrente de operação e os transitórios das cargas, respeitando os limites dos componentes efetivamente utilizados.</p>
+</div>
+<p>O C-rating mínimo exigido pelo robô deverá ser verificado a partir da corrente máxima solicitada à bateria, incluindo os cenários de partida e travamento dos motores e o consumo da eletrônica.</p>
+<div class="admonition warning">
+<p class="admonition-title">Validações pendentes</p>
+<p>Confirmar as correntes de partida e stall dos motores e os limites dos reguladores, driver, conectores, condutores e trilhas. Esses dados são necessários para validar a compatibilidade da bateria selecionada e dimensionar o fusível e as demais proteções.</p>
+</div>
+<hr />
+<h2 id="11-arquitetura-eletrica-conceitual-associada-ao-dimensionamento">11. Arquitetura elétrica conceitual associada ao dimensionamento<a class="headerlink" href="#11-arquitetura-eletrica-conceitual-associada-ao-dimensionamento" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Limite do dimensionamento e alimentação do gateway</p>
+<p>O dimensionamento da bateria considera as cargas embarcadas no robô, incluindo o ESP32 emissor e seu rádio integrado para comunicação ESP-NOW.</p>
+<p>O segundo ESP32, que atua como gateway receptor na bancada, é alimentado pela porta USB do computador e não integra a demanda da bateria do robô, conforme a <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/#61-visao-geral-da-arquitetura-de-comunicacao">arquitetura de comunicação do documento 4.4</a>.</p>
+</div>
+<p>A arquitetura elétrica deverá separar a linha de potência destinada aos motores da alimentação utilizada pela eletrônica lógica e pelos sensores.</p>
+<p>Essa separação tem como objetivo reduzir a propagação de:</p>
+<ul>
+<li>picos de corrente;</li>
+<li>ruído elétrico;</li>
+<li>transitórios de comutação;</li>
+<li>quedas temporárias de tensão;</li>
+</ul>
+<p>para os circuitos mais sensíveis do robô.</p>
+<p>A estrutura conceitual pode ser resumida da seguinte maneira:</p>
+<div class="highlight"><pre><span></span><code>Leão LB1500LP2 — LiPo 2S — 7,4 V — 1500 mAh
+          │
+          ▼
+Conector polarizado
+          │
+          ▼
+Chave geral
+          │
+          ▼
+Fusível
+          │
+          ▼
+Distribuição de potência
+          │
+          ├──► Barramento de potência ──► Ponte H ──► Motores
+          │
+          └──► Barramento regulado ──► ESP32 + sensores + encoders
+</code></pre></div>
+<hr />
+<h3 id="111-arquitetura-geral-do-sistema-de-alimentacao">11.1 Arquitetura geral do sistema de alimentação<a class="headerlink" href="#111-arquitetura-geral-do-sistema-de-alimentacao" title="Permanent link">&para;</a></h3>
+<p>O diagrama a seguir apresenta o caminho conceitual completo da energia no Micromouse.</p>
+<p>A bateria selecionada <strong>Leão LB1500LP2, LiPo 2S de 7,4 V e 1500 mAh</strong>, alimenta inicialmente os dispositivos gerais de conexão, seccionamento e proteção:</p>
+<ol>
+<li>conector polarizado;</li>
+<li>chave geral;</li>
+<li>fusível.</li>
+</ol>
+<p>Somente após essa etapa ocorre a distribuição da energia para os dois grandes grupos de cargas:</p>
+<ul>
+<li><strong>barramento de potência dos motores</strong>;</li>
+<li><strong>barramento regulado de lógica e sensoriamento</strong>.</li>
+</ul>
+<p><img alt="Arquitetura conceitual detalhada do sistema de alimentação" src="../figs/diagrama-conceitual-energia.jpeg" /></p>
+<p align="center">
+  <em>Figura 1 — Arquitetura conceitual detalhada do sistema de alimentação do Micromouse.</em>
+</p>
+
+<p align="center">
+  <em>Fonte: elaboração da equipe do projeto Micromouse UnB — Grupo 1 (2026).</em>
+</p>
+
+<div class="admonition note">
+<p class="admonition-title">Tensões indicadas no diagrama</p>
+<p>Os níveis intermediários de <strong>5 V</strong> e <strong>3,3 V</strong> apresentados são conceituais nesta etapa.</p>
+<p>A tensão nominal de <strong>7,4 V</strong> da LiPo 2S é mantida. Para verificar a compatibilidade dos componentes ligados à bateria e dos reguladores, considerar também <strong>8,4 V</strong> como tensão máxima de carga de referência da LiPo convencional 2S. Os níveis de <strong>5 V</strong> e <strong>3,3 V</strong> deverão ser confirmados com os componentes efetivamente utilizados.</p>
+</div>
+<hr />
+<h3 id="112-separacao-entre-potencia-e-logica-e-imunidade-a-transitorios">11.2 Separação entre potência e lógica e imunidade a transitórios<a class="headerlink" href="#112-separacao-entre-potencia-e-logica-e-imunidade-a-transitorios" title="Permanent link">&para;</a></h3>
+<p>Os motores representam a principal carga energética do sistema e apresentam comportamento elétrico altamente variável.</p>
+<p>Durante eventos como:</p>
+<p><strong>partida → aceleração → frenagem → mudança de sentido → eventual travamento</strong></p>
+<p>podem ocorrer correntes significativamente superiores à corrente média de navegação.</p>
+<p>Por esse motivo, a eletrônica lógica deverá utilizar uma alimentação regulada dedicada, enquanto os motores permanecem associados ao barramento de potência de corrente elevada e variável.</p>
+<p><img alt="Separação conceitual entre alimentação lógica e cargas de potência" src="../figs/diagrama-alimentacao-logica.jpeg" /></p>
+<p align="center">
+  <em>Figura 2 — Separação conceitual entre alimentação lógica regulada e cargas de potência.</em>
+</p>
+
+<p align="center">
+  <em>Fonte: elaboração da equipe do projeto Micromouse UnB — Grupo 1 (2026).</em>
+</p>
+
+<p>Essa separação tem como objetivo reduzir a propagação dos transitórios produzidos pelos motores para o ESP32 e para os sensores.</p>
+<p>No projeto definitivo deverão ser dimensionados:</p>
+<ol>
+<li><strong>regulador dedicado para a eletrônica de controle</strong>;</li>
+<li><strong>capacitores de desacoplamento próximos aos circuitos integrados</strong>;</li>
+<li><strong>capacitor de maior capacidade próximo ao driver dos motores</strong>;</li>
+<li><strong>caminhos separados para correntes de potência e lógica</strong>;</li>
+<li><strong>retorno de corrente adequadamente organizado</strong>;</li>
+<li><strong>trilhas, conectores e condutores compatíveis com a corrente máxima prevista</strong>.</li>
+</ol>
+<p>O objetivo é manter a alimentação lógica dentro da tolerância estabelecida mesmo durante transitórios causados pelos motores.</p>
+<hr />
+<h3 id="113-representacao-simplificada-do-fluxo-de-alimentacao-e-controle">11.3 Representação simplificada do fluxo de alimentação e controle<a class="headerlink" href="#113-representacao-simplificada-do-fluxo-de-alimentacao-e-controle" title="Permanent link">&para;</a></h3>
+<p>A representação seguinte sintetiza a arquitetura elétrica em dois ramos principais após a etapa de proteção geral.</p>
+<p>No ramo de potência:</p>
+<p><strong>proteção → linha de potência → ponte H → motores</strong></p>
+<p>No ramo lógico:</p>
+<p><strong>proteção → linha de lógica → regulador DC-DC → ESP32, sensores e encoders</strong></p>
+<p><img alt="Fluxograma simplificado de alimentação e controle" src="../figs/fluxograma-alimentacao-controle.jpeg" /></p>
+<p align="center">
+  <em>Figura 3 — Fluxograma simplificado de alimentação, proteção e distribuição entre potência e lógica.</em>
+</p>
+
+<p align="center">
+  <em>Fonte: elaboração da equipe do projeto Micromouse UnB — Grupo 1 (2026).</em>
+</p>
+
+<p>Na representação, o bloco <strong>Proteção Geral</strong> sintetiza os dispositivos de proteção e seccionamento localizados antes da divisão entre os barramentos.</p>
+<p>Os valores definitivos de:</p>
+<ul>
+<li>tensão;</li>
+<li>corrente;</li>
+<li>reguladores;</li>
+<li>proteções;</li>
+<li>condutores;</li>
+</ul>
+<p>serão consolidados após a seleção dos dispositivos reais e a substituição das hipóteses desta versão por dados de <em>datasheet</em> e ensaios.</p>
+<hr />
+<h3 id="114-monitoramento-da-bateria">11.4 Monitoramento da bateria<a class="headerlink" href="#114-monitoramento-da-bateria" title="Permanent link">&para;</a></h3>
+<p>A tensão da bateria <strong>Leão LB1500LP2 de 7,4 V nominais</strong> deverá ser monitorada pelo sistema embarcado. O circuito de medição deverá comportar a tensão máxima de carga de referência de <strong>8,4 V</strong>, correspondente a uma LiPo convencional 2S, e respeitar o limite de entrada do ADC ou do circuito de monitoramento escolhido. Essa referência geral consta nas <a href="https://traxxas.com/media/productattach/2970-3S/10/GKC20006-R00-LiPo-battery-fold-out-large%20-%20EN.pdf">instruções técnicas da Traxxas</a>; não substitui a documentação específica da unidade utilizada.</p>
+<p>Entre as alternativas conceituais estão:</p>
+<ul>
+<li>divisor resistivo conectado ao ADC do microcontrolador;</li>
+<li>circuito integrado dedicado de monitoramento;</li>
+<li>sensor combinado de tensão e corrente.</li>
+</ul>
+<p>O sistema deverá disponibilizar ao firmware informações suficientes para:</p>
+<ul>
+<li>medir a tensão da bateria;</li>
+<li>registrar o tempo de funcionamento;</li>
+<li>estimar o estado energético;</li>
+<li>alimentar a telemetria;</li>
+<li>identificar condição de subtensão;</li>
+<li>comandar o desligamento da tração quando necessário.</li>
+</ul>
+<p>O mecanismo definitivo deverá atender ao requisito de desativação da tração em menos de <strong>200 ms</strong> após a identificação do limiar crítico de subtensão. A capacidade de <strong>1500 mAh</strong>, isoladamente, não define esse limiar: seu valor e a atuação do corte deverão ser confirmados conforme a especificação aplicável e os testes do projeto. A presença de BMS ou proteção integrada à bateria permanece não confirmada.</p>
+<hr />
+<h2 id="12-dados-necessarios-para-o-dimensionamento-definitivo">12. Dados necessários para o dimensionamento definitivo<a class="headerlink" href="#12-dados-necessarios-para-o-dimensionamento-definitivo" title="Permanent link">&para;</a></h2>
+<p>Com a bateria <strong>Leão LB1500LP2</strong> selecionada, os dados conhecidos estão registrados na seção 9.1. Para consolidar o dimensionamento, ainda é necessário confirmar as características dos componentes utilizados e substituir as estimativas de consumo por dados de <em>datasheets</em> e medições.</p>
+<p>A tabela abaixo relaciona as verificações que permanecem necessárias.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Informações necessárias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Motores DC — prioridade máxima</strong></td>
+<td>Modelo exato, tensão nominal, corrente sem carga, corrente nominal sob carga, corrente de <em>stall</em>, RPM, relação de redução e torque.</td>
+</tr>
+<tr>
+<td><strong>Encoders</strong></td>
+<td>Modelo ou identificação do encoder integrado, tensão de alimentação, tipo de saída e consumo.</td>
+</tr>
+<tr>
+<td><strong>Driver / ponte H</strong></td>
+<td>Modelo, tensão VM, tensão lógica, corrente contínua por canal, corrente de pico, RDS(on) ou queda de tensão e limites térmicos.</td>
+</tr>
+<tr>
+<td><strong>Microcontrolador / placa</strong></td>
+<td>Modelo exato da placa, incluindo a variante específica do ESP32 utilizada, e consumo do conjunto microcontrolador e rádio integrado durante a operação com ESP-NOW.</td>
+</tr>
+<tr>
+<td><strong>Sensores de distância</strong></td>
+<td>Modelo, quantidade e identificação se são sensores isolados ou módulos/<em>breakouts</em>.</td>
+</tr>
+<tr>
+<td><strong>Outros sensores</strong></td>
+<td>IMU, giroscópio, sensor de corrente/tensão ou qualquer sensor adicional.</td>
+</tr>
+<tr>
+<td><strong>Reguladores / conversores</strong></td>
+<td>Modelo, tensão de entrada, tensão de saída, corrente máxima e curva de eficiência.</td>
+</tr>
+<tr>
+<td><strong>Bateria selecionada — Leão LB1500LP2</strong></td>
+<td>Já informados: LiPo 2S, 7,4 V, 1500 mAh, 30C, 75 g e 70 × 30 × 17 mm. Confirmar os dados da unidade, o conector e a polaridade, a corrente máxima de carga, o conector de balanceamento, a capacidade efetiva e a energia utilizável até o corte.</td>
+</tr>
+<tr>
+<td><strong>BMS / proteção</strong></td>
+<td>Confirmar se há proteção integrada ou externa; se utilizada, identificar modelo, corrente máxima, limites de sobrecarga/subtensão e consumo próprio. Não presumir a existência de BMS.</td>
+</tr>
+<tr>
+<td><strong>Monitoramento da bateria</strong></td>
+<td>Divisor resistivo, CI monitor, sensor de corrente/tensão ou arquitetura escolhida.</td>
+</tr>
+<tr>
+<td><strong>LEDs e buzzer</strong></td>
+<td>Quantidade e corrente prevista de cada indicador ou atuador auxiliar.</td>
+</tr>
+<tr>
+<td><strong>Módulos adicionais</strong></td>
+<td>Memória, cartão SD, conversores de nível, display ou qualquer carga adicional efetivamente instalada no robô. A arquitetura ESP-NOW adotada utiliza o rádio integrado do ESP32 e não prevê um módulo de rádio separado no robô.</td>
+</tr>
+<tr>
+<td><strong>Conectores e fiação</strong></td>
+<td>Tipo de conector da bateria, bitola e comprimento aproximado dos condutores de potência.</td>
+</tr>
+<tr>
+<td><strong>Fusível</strong></td>
+<td>Dimensionar e validar a partir das correntes das cargas e dos limites de motores, driver, conectores e condutores; não adotar os 45 A da classificação da bateria como valor do fusível.</td>
+</tr>
+<tr>
+<td><strong>Carregador e recarga</strong></td>
+<td>Identificar o carregador, a corrente de carga permitida pela bateria e a configuração utilizada; medir o tempo real de recarga. Esses dados ainda não foram informados.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ordem-recomendada-de-definicao-dos-componentes">Ordem recomendada de definição dos componentes<a class="headerlink" href="#ordem-recomendada-de-definicao-dos-componentes" title="Permanent link">&para;</a></h3>
+<p>A sequência abaixo representa a dependência técnica entre as definições dos componentes. Como a bateria já foi selecionada, sua compatibilidade deverá ser verificada à medida que os dados das cargas forem confirmados:</p>
+<div class="highlight"><pre><span></span><code>MOTORES
+   ↓
+DRIVER
+   ↓
+PLACA ESP32
+   ↓
+SENSORES
+   ↓
+REGULADORES
+   ↓
+VALIDAÇÃO DA BATERIA SELECIONADA
+</code></pre></div>
+<p>Os <strong>motores</strong> possuem prioridade porque representam a principal parcela do consumo e determinam parte significativa das exigências de corrente do restante do sistema.</p>
+<hr />
+<h2 id="13-sintese-do-dimensionamento-atualizado-v2">13. Síntese do Dimensionamento Atualizado v2<a class="headerlink" href="#13-sintese-do-dimensionamento-atualizado-v2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Resultado / situação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autonomia mínima considerada</td>
+<td><strong>30 min / 1800 s / 0,5 h</strong></td>
+</tr>
+<tr>
+<td>Bateria selecionada</td>
+<td><strong>Leão Modelismo LB1500LP2 — LiPo 2S</strong></td>
+</tr>
+<tr>
+<td>Tensão nominal</td>
+<td><strong>7,4 V</strong></td>
+</tr>
+<tr>
+<td>Capacidade nominal</td>
+<td><strong>1500 mAh / 1,5 Ah</strong></td>
+</tr>
+<tr>
+<td>Energia nominal calculada da bateria</td>
+<td><strong>11,1 Wh</strong></td>
+</tr>
+<tr>
+<td>Classificação de descarga informada</td>
+<td><strong>30C</strong></td>
+</tr>
+<tr>
+<td>Corrente correspondente à classificação declarada</td>
+<td><strong>45 A</strong>, calculados; não são o consumo do robô nem o valor do fusível</td>
+</tr>
+<tr>
+<td>Massa informada pela equipe</td>
+<td><strong>75 g</strong></td>
+</tr>
+<tr>
+<td>Dimensões informadas — comprimento × largura × altura</td>
+<td><strong>70 × 30 × 17 mm</strong></td>
+</tr>
+<tr>
+<td>Comunicação embarcada</td>
+<td><strong>ESP-NOW pelo rádio integrado do ESP32; gateway alimentado por USB na bancada</strong></td>
+</tr>
+<tr>
+<td>Energia — cenário baixo para 30 min</td>
+<td><strong>2,028 Wh</strong> antes das margens</td>
+</tr>
+<tr>
+<td>Energia — cenário nominal para 30 min</td>
+<td><strong>3,367 Wh</strong> antes das margens</td>
+</tr>
+<tr>
+<td>Energia — cenário conservador para 30 min</td>
+<td><strong>5,412 Wh</strong> antes das margens</td>
+</tr>
+<tr>
+<td>Hipótese de perdas</td>
+<td><strong>+15%</strong></td>
+</tr>
+<tr>
+<td>Margem adicional de engenharia para dimensionamento</td>
+<td><strong>+30% após as perdas</strong></td>
+</tr>
+<tr>
+<td>Energia conservadora de projeto para 30 min</td>
+<td><strong>≈ 8,091 Wh</strong></td>
+</tr>
+<tr>
+<td>Capacidade mínima estimada no cenário conservador</td>
+<td><strong>≈ 1093 mAh</strong></td>
+</tr>
+<tr>
+<td>Relação entre energia nominal disponível e demanda conservadora de projeto</td>
+<td><strong>≈ 1,37 vezes</strong></td>
+</tr>
+<tr>
+<td>Autonomia teórica nominal</td>
+<td><strong>≈ 86,0 min</strong>, com +15% para perdas e uso da energia nominal integral</td>
+</tr>
+<tr>
+<td>Autonomia teórica no cenário conservador</td>
+<td><strong>≈ 53,5 min</strong>, nas mesmas hipóteses</td>
+</tr>
+<tr>
+<td>Principais validações pendentes</td>
+<td><strong>Consumo real, energia utilizável, autonomia, correntes transitórias, proteções, conexões e integração mecânica</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="14-conclusao">14. Conclusão<a class="headerlink" href="#14-conclusao" title="Permanent link">&para;</a></h2>
+<p>Esta revisão registra a seleção da bateria <strong>Leão Modelismo LB1500LP2, LiPo 2S, 7,4 V, 1500 mAh e 30C</strong>, com energia nominal calculada de <strong>11,1 Wh</strong>, massa informada de <strong>75 g</strong> e dimensões informadas de <strong>70 × 30 × 17 mm</strong>. Também alinha a comunicação embarcada à arquitetura <strong>ESP-NOW com gateway USB na bancada</strong>, cujo consumo não integra a bateria do robô.</p>
+<p>Mantendo as hipóteses de consumo, o acréscimo de 15% para perdas e a margem de engenharia de 30%, a necessidade energética conservadora para <strong>30 minutos</strong> passa a ser de aproximadamente <strong>8,091 Wh</strong>, equivalente a uma capacidade mínima de <strong>1093 mAh</strong> em 7,4 V.</p>
+<p>A bateria selecionada possui capacidade superior a esse mínimo e energia nominal correspondente a aproximadamente <strong>1,37 vezes</strong> a demanda conservadora de projeto. No modelo de autonomia, com 15% de acréscimo para perdas e utilização da energia nominal integral, obtêm-se cerca de <strong>86,0 minutos</strong> no cenário nominal e <strong>53,5 minutos</strong> no cenário conservador.</p>
+<p>Esses resultados indicam atendimento teórico ao requisito de autonomia nas condições modeladas. A autonomia real e a compatibilidade elétrica e mecânica ainda deverão ser confirmadas no protótipo; a seleção da bateria não transforma as estimativas de consumo em medições.</p>
+<p>A classificação informada de <strong>30C</strong> corresponde ao cálculo de <strong>45 A</strong>, mas não substitui a verificação das correntes das cargas nem define os limites do driver, fios, conectores, trilhas ou fusível.</p>
+<p>Para consolidar o dimensionamento, deverão ser verificados:</p>
+<ul>
+<li>consumo real do conjunto e autonomia até o limiar de corte adotado;</li>
+<li>capacidade efetiva e energia utilizável da bateria;</li>
+<li>correntes de partida e stall dos motores;</li>
+<li>limites e perdas dos reguladores e do driver;</li>
+<li>conectores, polaridade, condutores e trilhas;</li>
+<li>fusível e proteções contra sobrecorrente e subtensão;</li>
+<li>presença ou ausência de BMS ou proteção integrada;</li>
+<li>fixação, espaço disponível e distribuição de massa no chassi;</li>
+<li>carregador, corrente de carga permitida e tempo real de recarga.</li>
+</ul>
+<p>O documento passa, portanto, a avaliar uma bateria selecionada, mantendo explícitas as hipóteses e as validações que ainda faltam para o dimensionamento definitivo.</p>
+<hr />
+<h2 id="15-referencias-e-origem-dos-dados">15. Referências e origem dos dados<a class="headerlink" href="#15-referencias-e-origem-dos-dados" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Documento de Requisitos do Projeto — Micromouse (PI1 2026.2 — Grupo 1)</strong>.</li>
+<li><strong>Termo de Abertura do Projeto (TAP) — Micromouse UnB — Grupo 1</strong>.</li>
+<li><strong>Issue <code>[AP5] Dimensionamento da Bateria e Proteções #19</code></strong>.</li>
+<li><strong>Issue <code>[AP5] Diagrama de Distribuição de Potência #18</code></strong>.</li>
+<li><strong>Arquivo <code>4.2 - Projeto conceitual de energia.md</code></strong>.</li>
+<li><strong><a href="../4.4%20-%20Projeto%20conceitual%20de%20software/#61-visao-geral-da-arquitetura-de-comunicacao">4.4 — Projeto conceitual de software, seção 6.1 — Visão Geral da Arquitetura de Comunicação</a></strong>.</li>
+<li><strong><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/130">Issue #130 — EAP 4.1.1: Alinhar o 4.2 com a comunicação ESP-NOW</a></strong>.</li>
+<li><strong><a href="https://www.actionmodelismo.com.br/baterialipo7-4v2s1500mah30c60cplugtdeanautoaeronautiheliwltoyslb1500lp2">Página comercial da Leão LB1500LP2 — Action Modelismo</a></strong>. Fonte comercial para identificação e características anunciadas; não equivale a um datasheet oficial. Divergências de massa e dimensões estão registradas na seção 9.1.</li>
+<li><strong>Dados fornecidos pela equipe do projeto para a unidade selecionada:</strong> modelo Leão LB1500LP2; LiPo 2S; 1500 mAh; 7,4 V; 30C; 75 g; comprimento de 70 mm, largura de 30 mm e altura de 17 mm.</li>
+<li><strong><a href="https://traxxas.com/media/productattach/2970-3S/10/GKC20006-R00-LiPo-battery-fold-out-large%20-%20EN.pdf">Instruções técnicas de baterias LiPo — Traxxas</a></strong>. Referência geral para o limite de 4,2 V por célula da LiPo convencional e para o cálculo da corrente a partir do C-rating; não substitui a documentação específica da Leão.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Estruturas">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Estruturas
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Hardware">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Hardware
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

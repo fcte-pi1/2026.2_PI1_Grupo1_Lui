@@ -1,0 +1,2627 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/7.4%20-%20Testes%20de%20software/">
+      
+      
+        <link rel="prev" href="../7.3%20-%20Testes%20de%20hardware/">
+      
+      
+        <link rel="next" href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Software - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testes-de-software" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Software
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-software_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes de software
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes de software">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-historias-de-usuario-implementadas-e-prototipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Histórias de usuário implementadas e protótipos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-associacao-entre-historias-de-usuario-casos-de-teste-e-automacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Associação entre histórias de usuário, casos de teste e automação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-testes-unitarios-e-de-integracao-com-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Testes unitários e de integração com cobertura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Testes unitários e de integração com cobertura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-firmware-robo-e-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Firmware (robô e gateway)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-integracao-continua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Integração contínua
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-testes-e2e-sistema-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Testes E2E (sistema, funcionais)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-validacao-de-ponta-a-ponta-com-o-simulador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Validação de ponta a ponta com o simulador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-roteiro-de-testes-atualizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roteiro de testes atualizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-casos-de-teste-que-ficam-para-a-ap18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Casos de teste que ficam para a AP18
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-como-reproduzir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Como reproduzir
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-software_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes de software
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes de software">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-historias-de-usuario-implementadas-e-prototipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Histórias de usuário implementadas e protótipos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-associacao-entre-historias-de-usuario-casos-de-teste-e-automacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Associação entre histórias de usuário, casos de teste e automação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-testes-unitarios-e-de-integracao-com-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Testes unitários e de integração com cobertura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Testes unitários e de integração com cobertura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-firmware-robo-e-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Firmware (robô e gateway)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-integracao-continua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Integração contínua
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-testes-e2e-sistema-funcionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Testes E2E (sistema, funcionais)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-validacao-de-ponta-a-ponta-com-o-simulador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Validação de ponta a ponta com o simulador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-roteiro-de-testes-atualizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roteiro de testes atualizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-casos-de-teste-que-ficam-para-a-ap18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Casos de teste que ficam para a AP18
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-como-reproduzir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Como reproduzir
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="testes-de-software">Testes de Software<a class="headerlink" href="#testes-de-software" title="Permanent link">&para;</a></h1>
+<h2 id="testes-de-software_1">Testes de <em>software</em><a class="headerlink" href="#testes-de-software_1" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Apresentar com detalhes os testes feitos para conferir se os objetivos do <em>software</em> foram atendidos.</p>
+<ul>
+<li>Listar as histórias de usuários e seus respectivos protótipos  implementadas.</li>
+<li>Associar as histórias de usuários e os casos de testes funcionais implementados.</li>
+<li>Enviar o print da execução dos suítes de testes automatizados em nível:</li>
+<li>Unitário e integração, com cobertura de código-fonte de pelo menos 80%;</li>
+<li>Sistema, do tipo funcional (end-to-end E2E).</li>
+</ul>
+<p><strong>Observações:</strong></p>
+<ol>
+<li>Em relação ao <em>backlog</em> do produto, será considerado como referência aquele descrito no primeiro ponto de controle, contemplando as correções e <em>feedbacks</em> da-os professora(e)s. O ideal seria a real atualização entre o planejado X realizado.</li>
+<li>Os testes mencionados nesta subseção dizem respeito aos testes de <em>software</em>. O Roteiro de testes funcionais, entregue no primeiro ponto de controle deve ser corrigido a partir do apontamento da-os professora(e)s. Além disso, ele deve guiar a execução dos testes E2E automatizados. O conjunto de casos de testes funcionais documentados devem estar coerentes com a automação via interface gráfica de entrada de dados.</li>
+</ol>
+<p>Exemplos de ferramentas de teste funcionais E2E:</p>
+<ul>
+<li>Selenium</li>
+<li>Cypress</li>
+<li>Playwright</li>
+</ul>
+<p>Exemplos de ferramentas de testes em nível unitário e integração:</p>
+<ul>
+<li>Jest</li>
+<li>unittest</li>
+<li>pytest</li>
+<li>tox</li>
+<li>gTest</li>
+<li>Catch2</li>
+</ul>
+</blockquote>
+<p>Este documento consolida os testes de <em>software</em> do Grupo 1 no segundo ponto de controle. Ele cobre os três elementos de <em>software</em> do produto, conforme a arquitetura do <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/4.4%20-%20Projeto%20conceitual%20de%20software.md">Projeto conceitual de software</a> (doc 4.4):</p>
+<ul>
+<li><strong>Firmware</strong>, embarcado no ESP32 do robô e no ESP32 de bancada (gateway), testado com Unity no ambiente nativo do PlatformIO;</li>
+<li><strong>Backend</strong>, em Python com FastAPI, testado com pytest;</li>
+<li><strong>Frontend</strong>, em React, testado com Vitest nos níveis unitário e de integração e com Playwright no nível de sistema (E2E).</li>
+</ul>
+<p>Os testes, a cobertura e os prints foram medidos em <strong>25/10/2026</strong>, sobre o <em>commit</em> <code>85fa9d1</code> da branch <code>main</code>, que inclui todos os PRs mesclados até essa data, entre eles os testes E2E (<a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/176">#176</a>). A correção de instabilidade dos testes E2E (<a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/177">PR #177</a>) foi mesclada depois dessa medição, e o resultado dela no CI (Frontend CI #22) está na seção 4. A situação das histórias de usuário foi conferida no GitHub na mesma data. A verificação automática das 9 combinações do simulador (seção 5) foi feita em 17/10/2026, durante o PR #165, e está registrada na descrição dele. As evidências estão em <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/tree/main/docs/evidencias/5.3.2.2"><code>docs/evidencias/5.3.2.2</code></a> (cobertura, CI e painel) e em <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/tree/main/docs/evidencias/5.3.2.1"><code>docs/evidencias/5.3.2.1</code></a> (testes E2E).</p>
+<hr />
+<h3 id="1-historias-de-usuario-implementadas-e-prototipos">1. Histórias de usuário implementadas e protótipos<a class="headerlink" href="#1-historias-de-usuario-implementadas-e-prototipos" title="Permanent link">&para;</a></h3>
+<p>O <em>backlog</em> de referência é o da seção 3 do doc 4.4 (19 histórias de usuário, HU-01 a HU-19). A situação de cada HU considera os critérios de aceitação da própria HU, e não apenas o estado da issue:</p>
+<ul>
+<li><strong>Concluída:</strong> os critérios de aceitação foram atendidos e a issue foi fechada após a revisão do PR.</li>
+<li><strong>Aguardando validação no robô:</strong> o código e os testes foram mesclados na <code>main</code>, mas algum critério de aceitação só pode ser comprovado com o robô montado (seção 7).</li>
+<li><strong>Aguardando integração com a API do histórico:</strong> o código e os testes foram mesclados na <code>main</code>, mas a funcionalidade só opera com dados reais quando existirem a persistência das corridas (HU-12) e a API do histórico (<a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/142">#142</a>).</li>
+<li><strong>Pendente:</strong> ainda não implementada.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">HU</th>
+<th style="text-align: left;">História</th>
+<th style="text-align: left;">Épico</th>
+<th style="text-align: left;">Situação</th>
+<th style="text-align: left;">Issue</th>
+<th style="text-align: left;">PR(s)</th>
+<th style="text-align: left;">Protótipo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HU-01</td>
+<td style="text-align: left;">Manter o robô centralizado nas retas</td>
+<td style="text-align: left;">RF-SFT01</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/32">#32</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/167">#167</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-02</td>
+<td style="text-align: left;">Executar curvas de 90 graus com precisão</td>
+<td style="text-align: left;">RF-SFT01</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/33">#33</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/175">#175</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-03</td>
+<td style="text-align: left;">Registrar as paredes de cada célula visitada</td>
+<td style="text-align: left;">RF-SFT02</td>
+<td style="text-align: left;">Concluída</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/35">#35</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/161">#161</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-04</td>
+<td style="text-align: left;">Selecionar a geometria da pista antes da largada</td>
+<td style="text-align: left;">RF-SFT02</td>
+<td style="text-align: left;">Concluída</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/36">#36</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/156">#156</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-05</td>
+<td style="text-align: left;">Dar a largada por botão físico</td>
+<td style="text-align: left;">RF-SFT03</td>
+<td style="text-align: left;">Concluída</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/38">#38</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/162">#162</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/dashboard-4x4-parado.png">Painel em espera</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-06</td>
+<td style="text-align: left;">Decidir o caminho de forma autônoma</td>
+<td style="text-align: left;">RF-SFT03</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/39">#39</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/168">#168</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-07</td>
+<td style="text-align: left;">Parar automaticamente ao chegar no objetivo</td>
+<td style="text-align: left;">RF-SFT04</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/41">#41</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/164">#164</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/165">#165</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-08</td>
+<td style="text-align: left;">Transmitir os dados da prova a cada segundo</td>
+<td style="text-align: left;">RF-SFT05</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/43">#43</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/159">#159</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/170">#170</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-09</td>
+<td style="text-align: left;">Ser avisado quando a conexão com o robô cair</td>
+<td style="text-align: left;">RF-SFT05</td>
+<td style="text-align: left;">Pendente</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/44">#44</a></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-10</td>
+<td style="text-align: left;">Visualizar o mapa do labirinto em tempo real</td>
+<td style="text-align: left;">RF-SFT06</td>
+<td style="text-align: left;">Concluída</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/46">#46</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/158">#158</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/165">#165</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/dashboard-4x4.png">4x4</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/dashboard-8x4.png">8x4</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/dashboard-12x4.png">12x4</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-11</td>
+<td style="text-align: left;">Acompanhar os indicadores da prova</td>
+<td style="text-align: left;">RF-SFT06</td>
+<td style="text-align: left;">Concluída</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/47">#47</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/157">#157</a>, <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/165">#165</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/dashboard-4x4.png">4x4</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-12</td>
+<td style="text-align: left;">Salvar automaticamente cada corrida</td>
+<td style="text-align: left;">RF-SFT07</td>
+<td style="text-align: left;">Pendente</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/49">#49</a></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-13</td>
+<td style="text-align: left;">Filtrar as corridas anteriores</td>
+<td style="text-align: left;">RF-SFT08</td>
+<td style="text-align: left;">Aguardando integração com a API do histórico</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/51">#51</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/169">#169</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/prototipoHistoricoCorrida.png">Histórico</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-14</td>
+<td style="text-align: left;">Rever o trajeto de uma corrida passada</td>
+<td style="text-align: left;">RF-SFT08</td>
+<td style="text-align: left;">Aguardando integração com a API do histórico</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/52">#52</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/172">#172</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/prototipoHistoricoCorrida.png">Histórico</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-15</td>
+<td style="text-align: left;">Calcular a rota mais curta após a exploração</td>
+<td style="text-align: left;">RF-SFT09</td>
+<td style="text-align: left;">Pendente</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/54">#54</a></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-16</td>
+<td style="text-align: left;">Executar o speed run</td>
+<td style="text-align: left;">RF-SFT09</td>
+<td style="text-align: left;">Pendente</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/55">#55</a></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-17</td>
+<td style="text-align: left;">Fazer curvas em movimento contínuo no speed run</td>
+<td style="text-align: left;">RF-SFT10</td>
+<td style="text-align: left;">Pendente</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/57">#57</a></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-18</td>
+<td style="text-align: left;">Cortar os motores quando as rodas travarem</td>
+<td style="text-align: left;">RF-SFT11</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/59">#59</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/173">#173</a></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;">HU-19</td>
+<td style="text-align: left;">Ver no painel que o robô travou</td>
+<td style="text-align: left;">RF-SFT11</td>
+<td style="text-align: left;">Aguardando validação no robô</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/60">#60</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/174">#174</a></td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/figs/dashboard-4x4.png">Painel</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resumo:</strong> 5 HUs concluídas, 7 aguardando validação no robô, 2 aguardando integração com a API do histórico e 5 pendentes. Em 25/10/2026, as issues da HU-01 (#32) e da HU-13 (#51) foram reabertas, com comentário no GitHub, para refletir os critérios de aceitação que ainda dependem do robô e da API do histórico, respectivamente.</p>
+<p>Observações sobre as HUs que não estão concluídas:</p>
+<ul>
+<li><strong>HU-01:</strong> o controle proporcional e derivativo (<code>ControleReta</code>) está implementado e testado com um modelo do robô. O critério de 3 células com desvio menor que 15 mm depende do robô montado.</li>
+<li><strong>HU-02:</strong> o controle de curvas (<code>ControleCurva</code>) gira o robô no próprio eixo até um alvo absoluto, medido pelo IMU, com os encoders como conferência e alternativa. Nas simulações em malha fechada, o maior erro angular acumulado foi de cerca de 1,4°, contra o limite de 3°. O critério precisa ser comprovado no robô, e o procedimento físico ainda precisa ser definido (seção 6).</li>
+<li><strong>HU-06:</strong> o navegador (exploração com planejamento em largura) está no <code>main.cpp</code> e alimenta posição, orientação e paredes da telemetria. Faltam os <em>drivers</em> reais de sensores e motores, que implementam as interfaces <code>SensoresParedes</code> e <code>ExecutorMovimento</code>, e o teste em pista.</li>
+<li><strong>HU-07:</strong> o módulo <code>ParadaObjetivo</code> e o congelamento do cronômetro estão prontos e testados, mas ainda não são chamados no laço principal.</li>
+<li><strong>HU-08:</strong> a telemetria a 1 Hz, a bateria lida pelo divisor no GPIO 34 e a velocidade média estão no firmware. Faltam a medição do enlace com o robô em movimento e a calibração da leitura da bateria.</li>
+<li><strong>HU-13 e HU-14:</strong> os filtros por geometria e data e a reprodução de uma corrida (mapa final, barra de tempo, estatísticas e métricas comparativas) estão no frontend e operam sobre a lista de corridas recebida pelos componentes. Sem a persistência (HU-12) e a API do histórico (#142), o painel exibe apenas as corridas da sessão.</li>
+<li><strong>HU-18:</strong> o <code>DetectorTravamento</code> acompanha os pulsos de cada roda separadamente e confirma o travamento após 1000 ms sem pulsos com tração ativa. O <code>MonitorTravamento</code>, executado a cada 50 ms, corta a tração, congela o cronômetro e sinaliza o estado TRAVADO, o que leva o corte a ocorrer entre 1000 e 1050 ms após o bloqueio. Os módulos ainda não são chamados no laço principal e dependem do <em>driver</em> dos encoders.</li>
+<li><strong>HU-19:</strong> o painel mostra o status "Travado" em destaque, com ícone de alerta e a mensagem "Corte de tração por travamento das rodas", e registra a tentativa no histórico da sessão. A exibição é verificada por teste E2E (seção 4); a HU depende da HU-18 no robô para ser comprovada com um travamento real.</li>
+</ul>
+<p><strong>Protótipos.</strong> Os protótipos citados na tabela são os da seção 3.2 do doc 4.4, reproduzidos abaixo para comparação com o painel implementado, capturado com o simulador na seção 5.</p>
+<p><img alt="Protótipo do painel de monitoramento em espera na largada, pista 4x4 (HU-05)" src="../figs/dashboard-4x4-parado.png" /></p>
+<p><em>Protótipo do painel de monitoramento em espera na largada, pista 4x4 (HU-05).</em></p>
+<p><img alt="Protótipo do painel de monitoramento durante a exploração da pista 4x4, com mapa, indicadores e status (HU-10, HU-11 e HU-19)" src="../figs/dashboard-4x4.png" /></p>
+<p><em>Protótipo do painel de monitoramento durante a exploração da pista 4x4, com mapa, indicadores e status (HU-10, HU-11 e HU-19).</em></p>
+<p><img alt="Protótipo do painel de monitoramento na pista 8x4 (HU-10)" src="../figs/dashboard-8x4.png" /></p>
+<p><em>Protótipo do painel de monitoramento na pista 8x4 (HU-10).</em></p>
+<p><img alt="Protótipo do painel de monitoramento na pista 12x4 (HU-10)" src="../figs/dashboard-12x4.png" /></p>
+<p><em>Protótipo do painel de monitoramento na pista 12x4 (HU-10).</em></p>
+<p><img alt="Protótipo da tela de histórico de corridas, com filtros, inspeção, reprodução e estatísticas (HU-13 e HU-14)" src="../figs/prototipoHistoricoCorrida.png" /></p>
+<p><em>Protótipo da tela de histórico de corridas, com filtros, inspeção, reprodução e estatísticas (HU-13 e HU-14).</em></p>
+<p><img alt="Painel implementado ao fim de uma corrida completa na pista 4x4, com o simulador, para comparação com o protótipo da pista 4x4" src="../evidencias/5.3.2.2/painel_simulador_4x4.png" /></p>
+<p><em>Painel implementado ao fim de uma corrida completa na pista 4x4, com o simulador, para comparação com o protótipo da pista 4x4.</em></p>
+<hr />
+<h3 id="2-associacao-entre-historias-de-usuario-casos-de-teste-e-automacao">2. Associação entre histórias de usuário, casos de teste e automação<a class="headerlink" href="#2-associacao-entre-historias-de-usuario-casos-de-teste-e-automacao" title="Permanent link">&para;</a></h3>
+<p>A tabela relaciona cada caso de teste funcional da seção 7 do doc 4.4 às HUs e aos testes automatizados que o cobrem. O número entre parênteses é a quantidade de casos da suíte. A coluna "Situação" usa quatro categorias:</p>
+<ul>
+<li><strong>Automatizado e passando:</strong> a lógica de <em>software</em> do caso é verificada por testes unitários ou de integração, todos aprovados.</li>
+<li><strong>Automatizado em E2E:</strong> o comportamento é verificado pela interface gráfica do painel, com o backend alimentado pelo simulador (seção 4).</li>
+<li><strong>Validado em simulação:</strong> o comportamento foi exercitado de ponta a ponta com o simulador (seção 5), sem o robô.</li>
+<li><strong>Depende do robô (AP18):</strong> o critério de aceitação só pode ser medido com o robô montado, os <em>drivers</em> e a calibração (seção 7).</li>
+</ul>
+<p>Um mesmo CT pode combinar as categorias: a lógica já validada e a medição física pendente.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">CT</th>
+<th style="text-align: left;">Caso de teste</th>
+<th style="text-align: left;">HUs</th>
+<th style="text-align: left;">Testes automatizados (arquivo / suíte)</th>
+<th style="text-align: left;">Situação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CT-01</td>
+<td style="text-align: left;">Centralização do robô em reta</td>
+<td style="text-align: left;">HU-01</td>
+<td style="text-align: left;">Firmware: <code>robo/test/test_controle</code> (29), incluindo <code>test_tres_celulas_em_reta_ficam_abaixo_de_15_mm_de_desvio</code> e <code>test_trecho_sem_parede_lateral_mantem_o_rumo_pelo_imu</code></td>
+<td style="text-align: left;">Automatizado e passando (modelo do controle); medição física na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-02</td>
+<td style="text-align: left;">Precisão das rotações de 90°</td>
+<td style="text-align: left;">HU-02</td>
+<td style="text-align: left;">Firmware: <code>test_curva</code> (33), incluindo <code>test_uma_curva_de_90_graus_fica_dentro_de_3_graus</code>, <code>test_24_curvas_seguidas_nao_acumulam_erro</code> e <code>test_sem_imu_os_encoders_fecham_a_curva_dentro_de_3_graus</code></td>
+<td style="text-align: left;">Automatizado e passando (modelo do robô em malha fechada); medição física na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-03</td>
+<td style="text-align: left;">Fidelidade do mapeamento nas três geometrias</td>
+<td style="text-align: left;">HU-03, RNF-SFT02</td>
+<td style="text-align: left;">Firmware: <code>test_mapa</code> (22), incluindo <code>test_percurso_simulado_reproduz_a_pista_4x4</code>; <code>test_direcao</code> (8); <code>test_navegador</code> (35), com cenários 4x4, 8x4 e 12x4. Backend: <code>tests/test_simulador_robo.py</code> (21). Frontend: <code>servicos/painelTelemetria.test.js</code> (24) e <code>servicos/labirinto.test.js</code> (29)</td>
+<td style="text-align: left;">Validado em simulação; pista física na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-04</td>
+<td style="text-align: left;">Seleção da geometria antes da largada</td>
+<td style="text-align: left;">HU-04</td>
+<td style="text-align: left;">Firmware: <code>test_mapa</code> (troca de geometria) e <code>test_botao</code> (17), incluindo <code>test_um_dois_e_tres_toques_na_mesma_janela</code>. Frontend: <code>painelTelemetria.test.js</code> (<code>recomeça ao trocar de geometria</code>). E2E: grade com as dimensões de cada geometria, nos três testes do CT-09</td>
+<td style="text-align: left;">Automatizado em E2E (painel); botão real na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-05</td>
+<td style="text-align: left;">Largada e navegação autônoma</td>
+<td style="text-align: left;">HU-05, HU-06, RNF-SFT01</td>
+<td style="text-align: left;">Firmware: <code>test_botao</code> (17), incluindo <code>test_largada_so_acontece_ao_soltar_depois_de_2_s</code>; <code>test_cronometro</code> (14); <code>test_navegador</code> (35), incluindo <code>test_navegacao_depende_somente_de_leituras_internas</code></td>
+<td style="text-align: left;">Automatizado e passando; corrida física na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-06</td>
+<td style="text-align: left;">Parada automática no objetivo</td>
+<td style="text-align: left;">HU-07</td>
+<td style="text-align: left;">Firmware: <code>test_parada_objetivo</code> (16), incluindo <code>test_latencia_de_software_abaixo_de_200ms</code> e <code>test_parada_congela_o_cronometro_real_na_chegada</code>; <code>test_cronometro</code> (14). E2E: status "Concluído" com o robô na chegada, nos três testes do CT-09</td>
+<td style="text-align: left;">Automatizado e passando; integração no laço e medição física na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-07</td>
+<td style="text-align: left;">Transmissão da telemetria a 1 Hz</td>
+<td style="text-align: left;">HU-08</td>
+<td style="text-align: left;">Firmware: <code>test_telemetria</code> (21), <code>test_bateria</code> (8), <code>test_velocidade_media</code> (6), <code>gateway/test/test_bridge</code> (6). Backend: <code>tests/test_modelos_telemetria.py</code> (94), <code>tests/test_ingestao_serial.py</code> (18). E2E: tempo, bateria e velocidade exibidos no painel, nos três testes do CT-09</td>
+<td style="text-align: left;">Automatizado e passando; enlace de 60 s com o robô na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-08</td>
+<td style="text-align: left;">Aviso de perda de conexão</td>
+<td style="text-align: left;">HU-09</td>
+<td style="text-align: left;">Backend: cenário <code>perda_conexao</code> do simulador em <code>tests/test_simulador_gerador.py</code> (31). Frontend: reconexão em <code>servicos/telemetriaWs.test.js</code> (19). E2E: indicador DESCONECTADO com o backend derrubado e CONECTADO quando ele volta</td>
+<td style="text-align: left;">Indicador de conexão do painel automatizado em E2E; o aviso "Conexão RF perdida" (HU-09) ainda não existe</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-09</td>
+<td style="text-align: left;">Painel sincronizado com a pista</td>
+<td style="text-align: left;">HU-10, HU-11, RNF-SFT03</td>
+<td style="text-align: left;">Frontend: <code>painelTelemetria.test.js</code> (24), <code>telemetriaWs.test.js</code> (19), <code>labirinto.test.js</code> (29), <code>componentes/Labirinto.test.jsx</code> (7), <code>formatacao.test.js</code> (11). Backend: <code>tests/test_api_telemetria_ws.py</code> (6), <code>tests/test_ingestao_ponta_a_ponta.py</code> (9). E2E: corrida completa nas três geometrias e recomeço do mapa a cada corrida</td>
+<td style="text-align: left;">Automatizado em E2E; latência física na AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-10</td>
+<td style="text-align: left;">Persistência de corridas concluídas e interrompidas</td>
+<td style="text-align: left;">HU-12</td>
+<td style="text-align: left;">Nenhum</td>
+<td style="text-align: left;">Pendente (HU-12)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-11</td>
+<td style="text-align: left;">Filtragem do histórico</td>
+<td style="text-align: left;">HU-13, RNF-SFT04</td>
+<td style="text-align: left;">Frontend: <code>servicos/historicoFiltros.test.js</code> (13), incluindo o teste de 500 registros; <code>componentes/HistoricoCorridas.test.jsx</code> (7)</td>
+<td style="text-align: left;">Automatizado e passando sobre dados em memória; com banco, pendente (HU-12 e #142)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-12</td>
+<td style="text-align: left;">Reprodução de corrida passada</td>
+<td style="text-align: left;">HU-14</td>
+<td style="text-align: left;">Frontend: <code>servicos/replayCorrida.test.js</code> (12), incluindo a montagem dos quadros, a busca por instante e o cálculo das estatísticas com 600 leituras; <code>componentes/ReplayCorrida.test.jsx</code> (3)</td>
+<td style="text-align: left;">Automatizado e passando sobre dados em memória; com banco, pendente (HU-12 e #142)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-13</td>
+<td style="text-align: left;">Speed run mais rápido que a exploração</td>
+<td style="text-align: left;">HU-15, HU-16</td>
+<td style="text-align: left;">Nenhum</td>
+<td style="text-align: left;">Pendente; depende do robô (AP18)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-14</td>
+<td style="text-align: left;">Curva em movimento contínuo</td>
+<td style="text-align: left;">HU-17</td>
+<td style="text-align: left;">Nenhum</td>
+<td style="text-align: left;">Pendente; depende do robô (AP18)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-15</td>
+<td style="text-align: left;">Corte de tração por travamento</td>
+<td style="text-align: left;">HU-18, HU-19</td>
+<td style="text-align: left;">Firmware: <code>test_travamento</code> (13), incluindo <code>test_monitor_corta_em_no_maximo_1200ms_com_verificacao_a_cada_50ms</code> e <code>test_dispara_quando_apenas_roda_esquerda_trava</code>. Frontend: <code>componentes/IndicadorStatus.test.jsx</code> (7), <code>painelTelemetria.test.js</code> (registro da tentativa encerrada por TRAVADO), <code>formatacao.test.js</code>. Backend: cenário <code>travado</code> do simulador. E2E: "Travado" em destaque no cenário <code>travado</code></td>
+<td style="text-align: left;">Detecção e corte automatizados e passando; exibição no painel automatizada em E2E; medição física na AP18</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-testes-unitarios-e-de-integracao-com-cobertura">3. Testes unitários e de integração com cobertura<a class="headerlink" href="#3-testes-unitarios-e-de-integracao-com-cobertura" title="Permanent link">&para;</a></h3>
+<p>Os testes rodam localmente e no GitHub Actions a cada PR que altera a pasta correspondente (workflows <code>firmware-ci.yml</code>, <code>backend-ci.yml</code> e <code>frontend-ci.yml</code>). Em cada workflow, a tabela de cobertura é publicada no resumo da execução e o relatório HTML fica nos artefatos.</p>
+<p><strong>Resumo das medições em 25/10/2026:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parte</th>
+<th style="text-align: left;">Ferramenta</th>
+<th style="text-align: right;">Testes</th>
+<th style="text-align: right;">Linhas</th>
+<th style="text-align: right;">Funções</th>
+<th style="text-align: right;">Ramos</th>
+<th style="text-align: left;">Situação frente aos 80%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Firmware do robô</td>
+<td style="text-align: left;">Unity + gcovr</td>
+<td style="text-align: right;">222 (12 suítes)</td>
+<td style="text-align: right;">96,9%</td>
+<td style="text-align: right;">98,1%</td>
+<td style="text-align: right;">91,4%</td>
+<td style="text-align: left;">Atende</td>
+</tr>
+<tr>
+<td style="text-align: left;">Firmware do gateway</td>
+<td style="text-align: left;">Unity + gcovr</td>
+<td style="text-align: right;">6 (1 suíte)</td>
+<td style="text-align: right;">97,4%</td>
+<td style="text-align: right;">100,0%</td>
+<td style="text-align: right;">76,8%</td>
+<td style="text-align: left;">Atende em linhas e funções; ramos abaixo (ver 3.1)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: left;">pytest + pytest-cov</td>
+<td style="text-align: right;">222</td>
+<td style="text-align: right;">99,7% (<em>statements</em>)</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">98,9%</td>
+<td style="text-align: left;">Atende</td>
+</tr>
+<tr>
+<td style="text-align: left;">Frontend</td>
+<td style="text-align: left;">Vitest + v8</td>
+<td style="text-align: right;">132 (10 arquivos)</td>
+<td style="text-align: right;">89,5%</td>
+<td style="text-align: right;">76,8%</td>
+<td style="text-align: right;">86,4%</td>
+<td style="text-align: left;">Atende em linhas e ramos; arquivos abaixo (ver 3.3)</td>
+</tr>
+</tbody>
+</table>
+<p>Todos os 582 testes unitários e de integração foram aprovados. Em relação à medição de 21/10/2026, entraram 46 testes no firmware do robô (HU-02 e HU-18) e 25 no frontend (HU-14 e HU-19).</p>
+<h4 id="31-firmware-robo-e-gateway">3.1 Firmware (robô e gateway)<a class="headerlink" href="#31-firmware-robo-e-gateway" title="Permanent link">&para;</a></h4>
+<p>Os testes rodam no ambiente <code>native</code> do PlatformIO, compilado com <code>--coverage</code>, sem o ESP32. A lógica foi separada do hardware em cabeçalhos testáveis, e os arquivos que dependem do Arduino ou do rádio (<code>main.cpp</code>, <code>RadioTelemetria.cpp</code>, <code>Bateria.cpp</code> e <code>gateway/src/main.cpp</code>) não são compilados no ambiente nativo. Por isso esses arquivos não aparecem no relatório; eles são verificados pelo <em>build</em> para o ESP32 no CI.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Suíte (robô)</th>
+<th style="text-align: right;">Testes</th>
+<th style="text-align: left;">Suíte (robô)</th>
+<th style="text-align: right;">Testes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>test_bateria</code></td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;"><code>test_mapa</code></td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_botao</code></td>
+<td style="text-align: right;">17</td>
+<td style="text-align: left;"><code>test_navegador</code></td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_controle</code></td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;"><code>test_parada_objetivo</code></td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_cronometro</code></td>
+<td style="text-align: right;">14</td>
+<td style="text-align: left;"><code>test_telemetria</code></td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_curva</code></td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;"><code>test_travamento</code></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_direcao</code></td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;"><code>test_velocidade_media</code></td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Arquivo</th>
+<th style="text-align: right;">Linhas</th>
+<th style="text-align: right;">Funções</th>
+<th style="text-align: right;">Ramos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>lib/telemetria/src/TelemetriaCodec.h</code></td>
+<td style="text-align: right;">86,6% (71/82)</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">77,8%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lib/telemetria/src/TelemetriaJson.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">98,0%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lib/telemetria/src/TemporizadorPeriodico.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/botao/Botao.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">95,5%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/controle/ControleCurva.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/controle/ControleReta.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/cronometro/Cronometro.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/mapa/Direcao.h</code></td>
+<td style="text-align: right;">87,9% (29/33)</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">85,2%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/mapa/Mapa.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">95,2%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/navegacao/InterfacesNavegacao.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/navegacao/Navegador.h</code></td>
+<td style="text-align: right;">96,2% (153/159)</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">83,9%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/navegacao/VelocidadeMedia.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/parada/AdaptadorCronometro.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/parada/ParadaObjetivo.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/seguranca/DetectorTravamento.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/seguranca/MonitorTravamento.h</code></td>
+<td style="text-align: right;">93,5% (43/46)</td>
+<td style="text-align: right;">85,0% (17/20)</td>
+<td style="text-align: right;">93,8%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>robo/src/sensores/BateriaConversao.h</code></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Cobertura do firmware do robô (gcovr)" src="../evidencias/5.3.2.2/cobertura_firmware_robo.png" /></p>
+<p><em>Cobertura do firmware do robô (gcovr).</em></p>
+<p>As três funções e as três linhas não cobertas de <code>MonitorTravamento.h</code> são as implementações padrão dos métodos virtuais da interface <code>IFontePulsos</code>, que os testes substituem por uma fonte de pulsos própria. As linhas restantes de <code>Direcao.h</code> são os <code>return</code> defensivos após os <code>switch</code>, que nunca são alcançados.</p>
+<p>No gateway, a suíte <code>test_bridge</code> (6 testes) cobre a ponte entre o quadro ESP-NOW e a linha JSON: 97,4% das linhas (114/117) e 100% das funções (17/17). A cobertura de ramos (76,8%, 76/99) fica abaixo de 80% por causa do <code>TelemetriaCodec.h</code> (57,1% dos ramos), cujas validações campo a campo são testadas na suíte <code>test_telemetria</code> do robô, que compartilha a mesma biblioteca e alcança 77,8% dos ramos nesse arquivo.</p>
+<p><img alt="Cobertura do firmware do gateway (gcovr)" src="../evidencias/5.3.2.2/cobertura_firmware_gateway.png" /></p>
+<p><em>Cobertura do firmware do gateway (gcovr).</em></p>
+<p>Para reproduzir, em <code>src/firmware</code> (troque <code>robo</code> por <code>gateway</code> para o gateway):</p>
+<div class="highlight"><pre><span></span><code>pio<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-d<span class="w"> </span>robo<span class="w"> </span>-e<span class="w"> </span>native
+gcovr<span class="w"> </span>--root<span class="w"> </span>.<span class="w"> </span>--filter<span class="w"> </span>lib/<span class="w"> </span>--filter<span class="w"> </span>robo/src/<span class="w"> </span>--exclude-throw-branches<span class="w"> </span>--exclude-unreachable-branches<span class="w"> </span>--html-details<span class="w"> </span>cobertura/index.html<span class="w"> </span>robo/.pio/build/native
+</code></pre></div>
+<h4 id="32-backend">3.2 Backend<a class="headerlink" href="#32-backend" title="Permanent link">&para;</a></h4>
+<p>Os 222 testes cobrem o <em>schema</em> da telemetria (<code>TelemetriaMensagem</code>), o WebSocket <code>/ws/telemetria</code>, as fontes de telemetria (serial e simulador), a configuração e o simulador de corridas (pistas, robô virtual e gerador). Os testes de integração incluem um <em>gateway</em> emulado por <em>socket</em> local, lido pelo pyserial real, e um cliente WebSocket que recebe a corrida do simulador através da aplicação FastAPI completa. O backend não teve alterações de código desde a medição de 21/10/2026, e os números se mantiveram.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Arquivo de teste</th>
+<th style="text-align: right;">Testes</th>
+<th style="text-align: left;">Arquivo de teste</th>
+<th style="text-align: right;">Testes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>test_api_saude.py</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;"><code>test_modelos_telemetria.py</code></td>
+<td style="text-align: right;">94</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_api_telemetria_ws.py</code></td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;"><code>test_simulador_gerador.py</code></td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_config.py</code></td>
+<td style="text-align: right;">13</td>
+<td style="text-align: left;"><code>test_simulador_pistas.py</code></td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_ingestao_ponta_a_ponta.py</code></td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;"><code>test_simulador_robo.py</code></td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test_ingestao_serial.py</code></td>
+<td style="text-align: right;">18</td>
+<td style="text-align: left;"><code>test_ingestao_simulador.py</code></td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<p>A cobertura é de 99,7% das instruções (629/631) e 98,9% dos ramos (176/178), com relatório total de 99%. As duas instruções não cobertas são a chamada <code>sys.exit(main())</code> do <code>__main__</code> do simulador e uma verificação defensiva do <em>flood fill</em> do robô virtual.</p>
+<p><img alt="Cobertura do backend (pytest-cov)" src="../evidencias/5.3.2.2/cobertura_backend.png" /></p>
+<p><em>Cobertura do backend (pytest-cov).</em></p>
+<p>Para reproduzir, em <code>src/backend</code> (no PowerShell; no Linux, com o ambiente ativado, <code>pytest --cov=app</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">-m</span> <span class="n">pytest</span> <span class="p">-</span><span class="n">-cov</span><span class="p">=</span><span class="n">app</span> <span class="p">-</span><span class="n">-cov-report</span><span class="p">=</span><span class="n">term-missing</span> <span class="p">-</span><span class="n">-cov-report</span><span class="p">=</span><span class="n">html</span>
+</code></pre></div>
+<h4 id="33-frontend">3.3 Frontend<a class="headerlink" href="#33-frontend" title="Permanent link">&para;</a></h4>
+<p>Os 132 testes cobrem os serviços (formatação, mapa do labirinto, estado do painel, cliente WebSocket, filtros do histórico e reprodução de corridas) e os componentes <code>Labirinto</code>, <code>IndicadorStatus</code>, <code>HistoricoCorridas</code> e <code>ReplayCorrida</code>. No total, 89,5% das linhas (1687/1885), 86,4% dos ramos (370/428) e 76,8% das funções (43/56).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Arquivo de teste</th>
+<th style="text-align: right;">Testes</th>
+<th style="text-align: left;">Arquivo de teste</th>
+<th style="text-align: right;">Testes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>servicos/formatacao.test.js</code></td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;"><code>servicos/telemetriaWs.test.js</code></td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>servicos/historicoFiltros.test.js</code></td>
+<td style="text-align: right;">13</td>
+<td style="text-align: left;"><code>componentes/HistoricoCorridas.test.jsx</code></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>servicos/labirinto.test.js</code></td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;"><code>componentes/IndicadorStatus.test.jsx</code></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>servicos/painelTelemetria.test.js</code></td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;"><code>componentes/Labirinto.test.jsx</code></td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>servicos/replayCorrida.test.js</code></td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;"><code>componentes/ReplayCorrida.test.jsx</code></td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Cobertura do frontend por pasta (Vitest)" src="../evidencias/5.3.2.2/cobertura_frontend.png" /></p>
+<p><em>Cobertura do frontend por pasta (Vitest).</em></p>
+<p>Os serviços, onde fica a lógica do painel, têm 95,6% das linhas, 91,4% dos ramos e 100% das funções. <strong>Ficam abaixo de 80%:</strong></p>
+<ul>
+<li><strong><code>paginas/Painel.jsx</code> e os componentes <code>IndicadorBateria</code>, <code>IndicadorTempo</code> e <code>IndicadorVelocidade</code> (0% no Vitest).</strong> Eles só montam a tela a partir de dados já tratados pelos serviços testados: o estado do painel vem de <code>reduzirTelemetria</code> e os rótulos de <code>formatacao.js</code>, ambos com 100%. Esses componentes são exercitados pelos testes E2E da seção 4, que conferem na tela o tempo, a bateria, a velocidade e o estado da conexão; a cobertura dos E2E não entra nesta medição.</li>
+<li><strong><code>HistoricoCorridas.jsx</code>:</strong> 87,4% das linhas, mas 22,2% das funções e 51,0% dos ramos, porque os testes renderizam o componente no servidor e não acionam os controles de filtro. A lógica dos filtros é testada em <code>historicoFiltros.js</code> (94,1% das linhas).</li>
+<li><strong><code>ReplayCorrida.jsx</code>:</strong> 83,3% das linhas e 90% dos ramos, mas 33,3% das funções, pelo mesmo motivo: os controles de reprodução (iniciar, pausar e mover a barra de tempo) não são acionados. A lógica da reprodução é testada em <code>replayCorrida.js</code> (100% das linhas).</li>
+</ul>
+<p>Em relação a 21/10/2026, o <code>IndicadorStatus.jsx</code> passou de 0% para 100%, com os testes da HU-19.</p>
+<p><img alt="Cobertura dos componentes do frontend (Vitest)" src="../evidencias/5.3.2.2/cobertura_frontend_componentes.png" /></p>
+<p><em>Cobertura dos componentes do frontend (Vitest).</em></p>
+<p>Para reproduzir, em <code>src/frontend</code>:</p>
+<div class="highlight"><pre><span></span><code>npx<span class="w"> </span>vitest<span class="w"> </span>run<span class="w"> </span>--coverage
+</code></pre></div>
+<h4 id="34-integracao-continua">3.4 Integração contínua<a class="headerlink" href="#34-integracao-continua" title="Permanent link">&para;</a></h4>
+<p>As últimas execuções dos três workflows na <code>main</code> foram aprovadas. Os prints abaixo foram feitos sem login no GitHub, e por isso mostram o resultado, os <em>jobs</em> e os artefatos publicados, mas não a tabela de cobertura do resumo, que o GitHub exibe só para usuários autenticados.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Workflow</th>
+<th style="text-align: left;">Execução</th>
+<th style="text-align: left;"><em>Commit</em></th>
+<th style="text-align: left;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Firmware CI</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/actions/runs/39844820829">#26</a></td>
+<td style="text-align: left;"><code>5935627</code> (PR #173)</td>
+<td style="text-align: left;">Aprovado: robô e gateway, testes nativos e <em>build</em> ESP32</td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend CI</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/actions/runs/39643734644">#10</a></td>
+<td style="text-align: left;"><code>4f9570d</code> (PR #171)</td>
+<td style="text-align: left;">Aprovado</td>
+</tr>
+<tr>
+<td style="text-align: left;">Frontend CI</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/actions/runs/40227473811">#19</a></td>
+<td style="text-align: left;"><code>85fa9d1</code> (PR #176)</td>
+<td style="text-align: left;">Aprovado: lint, testes com cobertura e <em>build</em> (20 s) e testes E2E (3 min 5 s)</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Execução do Firmware CI" src="../evidencias/5.3.2.2/ci_execucao_firmware.png" /></p>
+<p><em>Execução do Firmware CI.</em></p>
+<p><img alt="Execução do Backend CI" src="../evidencias/5.3.2.2/ci_execucao_backend.png" /></p>
+<p><em>Execução do Backend CI.</em></p>
+<p><img alt="Execução do Frontend CI" src="../evidencias/5.3.2.2/ci_execucao_frontend.png" /></p>
+<p><em>Execução do Frontend CI.</em></p>
+<hr />
+<h3 id="4-testes-e2e-sistema-funcionais">4. Testes E2E (sistema, funcionais)<a class="headerlink" href="#4-testes-e2e-sistema-funcionais" title="Permanent link">&para;</a></h3>
+<p>Os testes E2E foram entregues na issue <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/143">#143</a> (PR <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/176">#176</a>, mesclado em 25/10/2026). Eles usam o <strong>Playwright</strong> com o Chromium e exercitam o painel pela interface gráfica, como o operador o vê, seguindo os casos de teste do roteiro.</p>
+<p><strong>Arquitetura.</strong> O Playwright sobe o servidor do Vite com o painel. Cada teste sobe o seu próprio backend com o simulador de corridas (seção 5), numa porta livre e com velocidade acelerada, de modo que cada teste acompanha uma corrida inteira desde a largada, os testes rodam em paralelo e o teste do CT-08 pode derrubar o backend e subi-lo de novo. O código do painel não foi alterado para os testes; foram acrescentados apenas atributos <code>data-testid</code> aos indicadores de tempo, velocidade e bateria. Os testes estão em <code>src/frontend/e2e/</code> e rodam no job "Testes E2E (Playwright com o simulador)" do Frontend CI, em todo PR que altera <code>src/frontend</code> ou <code>src/backend</code>, com o relatório HTML publicado no artefato <code>relatorio-e2e</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Teste</th>
+<th style="text-align: left;">Caso de teste</th>
+<th style="text-align: left;">O que é verificado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Corrida completa em 4x4</td>
+<td style="text-align: left;">CT-09, com CT-04, CT-06 e CT-07 parciais</td>
+<td style="text-align: left;">O painel conecta (CONECTADO); a grade tem as dimensões da geometria; o robô passa por pelo menos 4 posições e o rastro cresce durante a corrida; o status termina em "Concluído" com o robô na chegada; tempo, bateria (% e V) e velocidade aparecem no painel</td>
+</tr>
+<tr>
+<td style="text-align: left;">Corrida completa em 8x4</td>
+<td style="text-align: left;">CT-09, com CT-04, CT-06 e CT-07 parciais</td>
+<td style="text-align: left;">Idem, com chegada em D8</td>
+</tr>
+<tr>
+<td style="text-align: left;">Corrida completa em 12x4</td>
+<td style="text-align: left;">CT-09, com CT-04, CT-06 e CT-07 parciais</td>
+<td style="text-align: left;">Idem, com chegada em D12</td>
+</tr>
+<tr>
+<td style="text-align: left;">Travamento</td>
+<td style="text-align: left;">CT-15 (exibição)</td>
+<td style="text-align: left;">No cenário <code>travado</code>, o painel passa de "Explorando" para "Travado", com destaque de alerta, ícone e a mensagem "Corte de tração por travamento das rodas"</td>
+</tr>
+<tr>
+<td style="text-align: left;">Queda do backend</td>
+<td style="text-align: left;">CT-08 (parcial)</td>
+<td style="text-align: left;">Com a corrida em andamento, o backend é derrubado e o indicador vai para DESCONECTADO, mantendo o último estado na tela; o backend sobe de novo e o indicador volta para CONECTADO</td>
+</tr>
+<tr>
+<td style="text-align: left;">Recomeço do mapa</td>
+<td style="text-align: left;">CT-09</td>
+<td style="text-align: left;">Com o simulador repetindo a corrida, a Tentativa 2 começa com o mapa limpo e o robô em A1, e termina com o mesmo rastro da primeira</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resultados.</strong></p>
+<ul>
+<li><strong>CI, na <code>main</code>, com a versão inicial dos testes (Frontend CI <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/actions/runs/40227473811">#19</a>, <em>commit</em> <code>85fa9d1</code>, PR #176):</strong> 6 testes, 6 aprovados, em 36,5 s de execução; o <em>job</em> completo, com a instalação do Python, do Node e do Chromium, levou 3 min 5 s.</li>
+<li><strong>Instabilidade encontrada e corrigida:</strong> ao repetir os testes localmente, em 25/10/2026, com 6 <em>workers</em> em paralelo e a máquina carregada, foram encontradas falhas intermitentes nos testes do CT-09, do CT-15 e do recomeço do mapa (por exemplo, 3 falhas em 18 execuções com <code>--repeat-each=3</code>). A causa estava nos testes, e não no painel: o Playwright amostrava a posição do robô e o status em intervalos de cerca de 100 ms e, sob carga, perdia passos de corridas que duram menos de 3 s. A correção registra o percurso dentro da própria página, com um <code>MutationObserver</code>, e foi mesclada na <code>main</code> em 25/10/2026 pelo PR <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/177">#177</a>. Com a correção, foram executadas duas rodadas de 30 execuções (<code>--repeat-each=5</code>), todas aprovadas, e as mutações introduzidas de propósito no painel (ignorar os pacotes de exploração e desligar o recomeço do mapa) foram detectadas pelos testes.</li>
+<li><strong>CI, na <code>main</code>, com a correção (Frontend CI <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/actions/runs/40231573589">#22</a>, <em>commit</em> <code>302b10e</code>, PR #177):</strong> 6 testes, 6 aprovados, em 35,4 s de execução; o <em>job</em> completo levou 1 min 16 s.</li>
+</ul>
+<p>O relatório HTML abaixo é de uma execução local com a correção do PR #177: 6 testes, 6 aprovados, em 32,1 s.</p>
+<p><img alt="Relatório HTML do Playwright: os 6 testes E2E aprovados, com o tempo de cada um" src="../evidencias/5.3.2.2/relatorio_e2e_playwright.png" /></p>
+<p><em>Relatório HTML do Playwright: os 6 testes E2E aprovados, com o tempo de cada um.</em></p>
+<p><strong>Evidências.</strong> Os prints abaixo foram gerados pelo próprio Playwright durante os testes, com <code>npm run test:e2e:evidencias</code>, na versão do PR #176. O vídeo da corrida completa na pista 12x4 está em <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/docs/evidencias/5.3.2.1/ct09-12x4.webm"><code>ct09-12x4.webm</code></a>, e todos os arquivos estão na pasta <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/tree/main/docs/evidencias/5.3.2.1"><code>docs/evidencias/5.3.2.1</code></a>.</p>
+<p><img alt="CT-09, pista 4x4: corrida concluída, com o robô na chegada (D4), as paredes e o rastro desenhados e o indicador CONECTADO" src="../evidencias/5.3.2.1/ct09-4x4-concluido.png" /></p>
+<p><em>CT-09, pista 4x4: corrida concluída, com o robô na chegada (D4), as paredes e o rastro desenhados e o indicador CONECTADO.</em></p>
+<p><img alt="CT-09, pista 8x4: corrida concluída, com o robô na chegada (D8)" src="../evidencias/5.3.2.1/ct09-8x4-concluido.png" /></p>
+<p><em>CT-09, pista 8x4: corrida concluída, com o robô na chegada (D8).</em></p>
+<p><img alt="CT-09, pista 12x4, durante a exploração: o mapa é desenhado à medida que o robô avança, com o status &quot;Explorando&quot;" src="../evidencias/5.3.2.1/ct09-12x4-explorando.png" /></p>
+<p><em>CT-09, pista 12x4, durante a exploração: o mapa é desenhado à medida que o robô avança, com o status "Explorando".</em></p>
+<p><img alt="CT-09, pista 12x4: corrida concluída, com o robô na chegada (D12)" src="../evidencias/5.3.2.1/ct09-12x4-concluido.png" /></p>
+<p><em>CT-09, pista 12x4: corrida concluída, com o robô na chegada (D12).</em></p>
+<p><img alt="CT-15, cenário travado na pista 8x4: status &quot;Travado&quot; em destaque, com ícone de alerta, a mensagem de corte de tração e a tentativa registrada no histórico" src="../evidencias/5.3.2.1/ct15-travado.png" /></p>
+<p><em>CT-15, cenário travado na pista 8x4: status "Travado" em destaque, com ícone de alerta, a mensagem de corte de tração e a tentativa registrada no histórico.</em></p>
+<p><img alt="CT-08, backend derrubado durante a corrida: indicador DESCONECTADO, com o último estado recebido mantido na tela" src="../evidencias/5.3.2.1/ct08-desconectado.png" /></p>
+<p><em>CT-08, backend derrubado durante a corrida: indicador DESCONECTADO, com o último estado recebido mantido na tela.</em></p>
+<p><img alt="CT-08, backend de volta: indicador CONECTADO; o novo backend inicia outra corrida, por isso aparece a Tentativa 2" src="../evidencias/5.3.2.1/ct08-reconectado.png" /></p>
+<p><em>CT-08, backend de volta: indicador CONECTADO; o novo backend inicia outra corrida, por isso aparece a Tentativa 2.</em></p>
+<p><img alt="Recomeço do mapa: na largada da Tentativa 2, o mapa está limpo e o robô em A1, e a Tentativa 1 aparece no histórico como concluída" src="../evidencias/5.3.2.1/recomeco-tentativa-2.png" /></p>
+<p><em>Recomeço do mapa: na largada da Tentativa 2, o mapa está limpo e o robô em A1, e a Tentativa 1 aparece no histórico como concluída.</em></p>
+<p><strong>Casos não automatizados em E2E.</strong></p>
+<ul>
+<li><strong>CT-10, CT-11 e CT-12 com dados reais:</strong> dependem da persistência das corridas (HU-12) e da API do histórico (#142). A lógica dos filtros e da reprodução já é testada sobre dados em memória (seção 2).</li>
+<li><strong>Aviso "Conexão RF perdida" do CT-08:</strong> depende da HU-09.</li>
+<li><strong>Critérios físicos de CT-04, CT-06, CT-07, CT-09 e CT-15:</strong> botão real, tempo de parada, enlace de 60 s, atraso entre a pista e o painel e tempo de corte dos motores dependem do robô montado (seção 7).</li>
+</ul>
+<hr />
+<h3 id="5-validacao-de-ponta-a-ponta-com-o-simulador">5. Validação de ponta a ponta com o simulador<a class="headerlink" href="#5-validacao-de-ponta-a-ponta-com-o-simulador" title="Permanent link">&para;</a></h3>
+<p>Como o robô ainda não está montado, o sistema foi validado de ponta a ponta com o simulador de corridas do backend (<a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/141">#141</a>). O simulador emula o robô explorando as três pistas de exemplo dos slides do tema e gera, a cada segundo, a mesma linha JSON que o <em>gateway</em> escreve na serial. Cinco linhas geradas foram comparadas byte a byte com as produzidas pelo código do <em>gateway</em> compilado nativamente. O backend difunde cada mensagem pelo WebSocket, e o painel desenha o mapa e os indicadores. O mesmo simulador alimenta os testes E2E da seção 4.</p>
+<p><strong>Procedimento</strong> (detalhado na seção "Rodando o sistema com o simulador" de <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/src/README.md"><code>src/README.md</code></a>):</p>
+<ol>
+<li>Em <code>src/backend</code>, escolher a geometria e o cenário pelas variáveis <code>TELEMETRIA_FONTE=simulador</code>, <code>SIMULADOR_LABIRINTO</code> (<code>4x4</code>, <code>8x4</code> ou <code>12x4</code>) e <code>SIMULADOR_CENARIO</code> (<code>completa</code>, <code>travado</code> ou <code>perda_conexao</code>), e subir o backend com <code>.\.venv\Scripts\python -m uvicorn app.main:app</code>.</li>
+<li>Em <code>src/frontend</code>, subir o painel com <code>npm run dev</code> e abrir o endereço no navegador.</li>
+<li>O simulador fica em espera na largada até o painel conectar e então dá a largada, de modo que a corrida aparece inteira, desde A1.</li>
+</ol>
+<p><strong>Verificações realizadas.</strong> Em 17/10/2026, durante o <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/165">PR #165</a>, as três geometrias foram executadas nos três cenários (9 combinações), com repetição das corridas. Um verificador no navegador leu a tela do painel a cada 150 ms (1.289 leituras) e comparou as paredes desenhadas com as paredes reais de cada pista. Resultados:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Geometria</th>
+<th style="text-align: left;"><code>completa</code></th>
+<th style="text-align: left;"><code>travado</code></th>
+<th style="text-align: left;"><code>perda_conexao</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">4x4</td>
+<td style="text-align: left;">"Concluído" em D4</td>
+<td style="text-align: left;">"Travado" em D3</td>
+<td style="text-align: left;">Para em "Explorando" em D3</td>
+</tr>
+<tr>
+<td style="text-align: left;">8x4</td>
+<td style="text-align: left;">"Concluído" em D8</td>
+<td style="text-align: left;">"Travado" em B3</td>
+<td style="text-align: left;">Para em "Explorando" em B3</td>
+</tr>
+<tr>
+<td style="text-align: left;">12x4</td>
+<td style="text-align: left;">"Concluído" em D12</td>
+<td style="text-align: left;">"Travado" em C8</td>
+<td style="text-align: left;">Para em "Explorando" em C8</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Nenhuma parede desenhada divergiu da pista real nas células visitadas.</li>
+<li>A cada nova corrida o mapa recomeçou limpo, com o rastro saindo de A1.</li>
+<li>O indicador mostrou CONECTADO durante as corridas e DESCONECTADO com o backend parado, e o painel reconectou sozinho nas 9 vezes.</li>
+</ul>
+<p>Os prints a seguir foram refeitos em 25/10/2026, com o painel atual (que passou a exibir a tentativa, o histórico da sessão e o destaque de "Travado"), com o simulador a 4 vezes a velocidade normal, ao fim de cada corrida. As posições e os tempos finais coincidem com os da verificação de 17/10/2026.</p>
+<p><strong>Cenário <code>completa</code>:</strong></p>
+<p><img alt="Painel com o simulador, pista 4x4, corrida completa" src="../evidencias/5.3.2.2/painel_simulador_4x4.png" /></p>
+<p><em>Painel com o simulador, pista 4x4, corrida completa.</em></p>
+<p><img alt="Painel com o simulador, pista 8x4, corrida completa" src="../evidencias/5.3.2.2/painel_simulador_8x4.png" /></p>
+<p><em>Painel com o simulador, pista 8x4, corrida completa.</em></p>
+<p><img alt="Painel com o simulador, pista 12x4, corrida completa" src="../evidencias/5.3.2.2/painel_simulador_12x4.png" /></p>
+<p><em>Painel com o simulador, pista 12x4, corrida completa.</em></p>
+<p><strong>Cenário <code>travado</code>:</strong></p>
+<p><img alt="Painel com o simulador, pista 4x4, robô travado" src="../evidencias/5.3.2.2/painel_simulador_travado_4x4.png" /></p>
+<p><em>Painel com o simulador, pista 4x4, robô travado.</em></p>
+<p><img alt="Painel com o simulador, pista 8x4, robô travado" src="../evidencias/5.3.2.2/painel_simulador_travado_8x4.png" /></p>
+<p><em>Painel com o simulador, pista 8x4, robô travado.</em></p>
+<p><img alt="Painel com o simulador, pista 12x4, robô travado" src="../evidencias/5.3.2.2/painel_simulador_travado_12x4.png" /></p>
+<p><em>Painel com o simulador, pista 12x4, robô travado.</em></p>
+<p><strong>Limitações desta validação.</strong></p>
+<ul>
+<li>O simulador substitui o robô e o <em>gateway</em>, mas não o rádio: atrasos e perdas reais do ESP-NOW não são reproduzidos.</li>
+<li>O cenário <code>perda_conexao</code> apenas para de enviar mensagens; o aviso correspondente no painel depende da HU-09.</li>
+<li>No cenário <code>travado</code>, o simulador apenas informa o status TRAVADO; a detecção pelos encoders e o corte dos motores (HU-18) são verificados pelos testes do firmware (<code>test_travamento</code>).</li>
+</ul>
+<hr />
+<h3 id="6-roteiro-de-testes-atualizado">6. Roteiro de testes atualizado<a class="headerlink" href="#6-roteiro-de-testes-atualizado" title="Permanent link">&para;</a></h3>
+<p>A tabela compara cada caso de teste da seção 7 do doc 4.4 com o que foi implementado e indica o que muda no roteiro.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">CT</th>
+<th style="text-align: left;">Alterações em relação ao doc 4.4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CT-01</td>
+<td style="text-align: left;">Sem mudança nos critérios. O controle implementado é proporcional e derivativo sobre a diferença das paredes laterais e, sem parede de referência, mantém o rumo pelo IMU ou, na falta dele, pelos encoders. Pode ser antecipado por simulação do modelo (<code>test_controle</code>) antes do ensaio físico</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-02</td>
+<td style="text-align: left;">Sem mudança nos critérios. O controle de curvas mira um rumo ideal absoluto, para que o erro de uma curva não se some ao da seguinte, e o critério de ±3° é antecipado por simulação em malha fechada (<code>test_curva</code>, com 24 curvas seguidas, ruído no IMU, erro de ganho dos motores e patinagem dos encoders). O procedimento físico precisa ser detalhado: a sequência curva, realinhamento pelos ToF e ressincronização do IMU deve ser a mesma da navegação</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-03</td>
+<td style="text-align: left;">Passo 1: a geometria é selecionada pelo toque triplo no botão (ver CT-04). Acrescenta-se a etapa de validação com o simulador nas três pistas dos slides antes da pista física. As pistas de 8x4 e 12x4 dos slides têm regiões fechadas (7 e 8 células), que não são visitadas; a comparação vale para as células alcançáveis</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-04</td>
+<td style="text-align: left;">Passo 1: a seleção é feita por <strong>toque triplo</strong> no botão, só no estado AGUARDANDO; cada toque triplo alterna 4x4, 8x4 e 12x4, e o LED pisca em ciano 1, 2 ou 3 vezes. O painel recomeça o mapa quando a geometria muda. A grade de cada geometria é verificada pelos testes E2E</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-05</td>
+<td style="text-align: left;">Passo 2: a largada é <strong>segurar o botão por pelo menos 2 s e soltar</strong>; ao completar 2 s o LED fica branco, indicando que pode soltar, e soltar antes de 2 s não faz nada. O cronômetro começa na soltura. O status passa a MAPEANDO e o painel mostra "Explorando" em até 1 s. Depois da largada, o botão não tem efeito</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-06</td>
+<td style="text-align: left;">Sem mudança nos critérios. A latência de <em>software</em> entre detectar a chegada e cortar a tração é medida automaticamente (<code>test_latencia_de_software_abaixo_de_200ms</code>); o ensaio físico mede a parada mecânica. O cronômetro congela no mesmo ciclo da parada</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-07</td>
+<td style="text-align: left;">Passo 2: os pacotes trazem dois campos acrescentados pelo <em>gateway</em>, <code>seq</code> (contador de pacotes válidos) e <code>rssi</code> (dBm). Como o robô não numera os pacotes, a perda no enlace é estimada pela taxa fixa de 1 Hz e pelo <code>seq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-08</td>
+<td style="text-align: left;">Acrescenta-se a distinção entre os dois indicadores: CONECTADO/DESCONECTADO (painel e backend, já implementado e verificado em E2E) e "Conexão RF perdida" (3 s sem pacotes, HU-09, pendente). Pode ser antecipado com o cenário <code>perda_conexao</code> do simulador</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-09</td>
+<td style="text-align: left;">Passo 1 pode ser executado com o simulador antes da prova física; o painel recomeça o mapa a cada nova corrida. A exibição dos indicadores, das paredes e do rastro é verificada pelos testes E2E (seção 4); a medição do atraso entre a pista e o painel continua física</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-10</td>
+<td style="text-align: left;">Sem mudança; HU-12 pendente</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-11</td>
+<td style="text-align: left;">Sem mudança nos critérios; o teste automatizado verifica o filtro com mais de 500 registros em menos de 50 ms, sobre dados em memória. A medição no navegador depende da API do histórico (#142)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-12</td>
+<td style="text-align: left;">Sem mudança nos critérios. A reprodução está implementada e o cálculo das estatísticas para 600 leituras é verificado automaticamente; a carga de uma corrida salva em menos de 2 segundos depende da API do histórico (#142)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-13</td>
+<td style="text-align: left;">Sem mudança; HU-15 e HU-16 pendentes. No firmware, a largada direto em SPEED_RUN ainda não existe: toda largada inicia em MAPEANDO</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-14</td>
+<td style="text-align: left;">Sem mudança; HU-17 pendente</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-15</td>
+<td style="text-align: left;">Sem mudança nos critérios. A detecção considera cada roda separadamente, de modo que o bloqueio de uma só roda também corta a tração. Com a verificação a cada 50 ms e o limiar de 1000 ms sem pulsos, o corte ocorre entre 1000 e 1050 ms após o bloqueio, dentro do limite de 1,2 s (<code>test_travamento</code>). A exibição de "Travado" no painel é verificada pelos testes E2E</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="7-casos-de-teste-que-ficam-para-a-ap18">7. Casos de teste que ficam para a AP18<a class="headerlink" href="#7-casos-de-teste-que-ficam-para-a-ap18" title="Permanent link">&para;</a></h3>
+<p>Os casos abaixo dependem do robô montado e não podem ser concluídos só com <em>software</em>. A lógica envolvida já está, em grande parte, implementada e testada com dados simulados (seções 2 a 5). O que falta se divide em quatro frentes:</p>
+<ol>
+<li><strong>Drivers de sensores e motores:</strong> sensores ToF, IMU e encoders, e a ponte H dos motores, implementando as interfaces já usadas pela lógica (<code>SensoresParedes</code> e <code>ExecutorMovimento</code> do navegador, as leituras do <code>ControleReta</code> e do <code>ControleCurva</code> e a fonte de pulsos do <code>MonitorTravamento</code>).</li>
+<li><strong>Integração no <code>loop()</code> do <code>main.cpp</code>:</strong> hoje o laço principal só trata o botão, o cronômetro e a telemetria. <code>ControleReta</code>, <code>ControleCurva</code>, <code>ParadaObjetivo</code> e <code>MonitorTravamento</code> estão testados, mas ainda não são chamados.</li>
+<li><strong>Calibração:</strong> ganhos dos controles de reta e de curva, zona morta dos motores, milímetros por pulso dos encoders, limiar de parede dos ToF (130 mm, doc 4.3) e leitura da bateria (com erro de até 0,1 V).</li>
+<li><strong>Validação no robô montado:</strong> as medições físicas de cada caso, listadas abaixo.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">CT</th>
+<th style="text-align: left;">O que falta medir</th>
+<th style="text-align: left;">Frentes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CT-01</td>
+<td style="text-align: left;">Desvio lateral em 3 células de reta, com filmagem e régua</td>
+<td style="text-align: left;">1, 2, 3 e 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-02</td>
+<td style="text-align: left;">Erro angular após 8 rotações de 90° em cada sentido</td>
+<td style="text-align: left;">1, 2, 3 e 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-03</td>
+<td style="text-align: left;">Mapa final comparado com a pista física nas três geometrias</td>
+<td style="text-align: left;">1, 2, 3 e 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-04</td>
+<td style="text-align: left;">Seleção da geometria no botão real, conferida no painel</td>
+<td style="text-align: left;">4 (a lógica está validada)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-05</td>
+<td style="text-align: left;">Corrida completa sem intervenção em pista 4x4 em menos de 3 minutos</td>
+<td style="text-align: left;">1, 2, 3 e 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-06</td>
+<td style="text-align: left;">Tempo entre entrar na chegada e parar, medido em vídeo</td>
+<td style="text-align: left;">1, 2 e 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-07</td>
+<td style="text-align: left;">Pacotes registrados por pelo menos 60 s, com a perda calculada</td>
+<td style="text-align: left;">3 (bateria) e 4, com o teste de enlace da EAP 3.1.5.1</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-09</td>
+<td style="text-align: left;">Atraso entre a pista e o painel, medido em vídeo (menor que 1 s)</td>
+<td style="text-align: left;">1, 2 e 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-13, CT-14</td>
+<td style="text-align: left;">Tempo do speed run e das curvas contínuas</td>
+<td style="text-align: left;">HU-15, HU-16 e HU-17, além das frentes 1 a 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">CT-15</td>
+<td style="text-align: left;">Tempo entre o bloqueio das rodas e o corte dos motores</td>
+<td style="text-align: left;">1, 2 e 4</td>
+</tr>
+</tbody>
+</table>
+<p>Os casos CT-08, CT-10, CT-11 e CT-12 dependem de funcionalidades de <em>software</em> ainda pendentes (HU-09, HU-12 e a API do histórico), e não do robô. Eles podem ser concluídos com o simulador e automatizados em E2E assim que essas funcionalidades forem entregues.</p>
+<hr />
+<h3 id="8-como-reproduzir">8. Como reproduzir<a class="headerlink" href="#8-como-reproduzir" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parte</th>
+<th style="text-align: left;">Pasta</th>
+<th style="text-align: left;">Comando</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Firmware (robô)</td>
+<td style="text-align: left;"><code>src/firmware/robo</code></td>
+<td style="text-align: left;"><code>pio test -e native</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Firmware (gateway)</td>
+<td style="text-align: left;"><code>src/firmware/gateway</code></td>
+<td style="text-align: left;"><code>pio test -e native</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: left;"><code>src/backend</code></td>
+<td style="text-align: left;"><code>.\.venv\Scripts\python -m pytest --cov=app</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Frontend</td>
+<td style="text-align: left;"><code>src/frontend</code></td>
+<td style="text-align: left;"><code>npx vitest run --coverage</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Testes E2E</td>
+<td style="text-align: left;"><code>src/frontend</code></td>
+<td style="text-align: left;"><code>npm run test:e2e</code> (passo a passo na seção "Testes E2E" do <code>src/frontend/README.md</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sistema com o simulador</td>
+<td style="text-align: left;"><code>src/backend</code> e <code>src/frontend</code></td>
+<td style="text-align: left;">Passo a passo em "Rodando o sistema com o simulador", no <code>src/README.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>Os mesmos testes rodam no GitHub Actions a cada PR que altera a pasta correspondente, com a cobertura publicada no resumo de cada execução e o relatório dos testes E2E publicado como artefato.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Hardware">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Hardware
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Integração">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Integração
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

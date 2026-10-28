@@ -1,0 +1,3277 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/7.3%20-%20Testes%20de%20hardware/">
+      
+      
+        <link rel="prev" href="../7.2%20-%20Testes%20de%20energia/">
+      
+      
+        <link rel="next" href="../7.4%20-%20Testes%20de%20software/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Hardware - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testes-de-hardware" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardware
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#painel-geral-de-ensaios-de-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Painel Geral de Ensaios de Hardware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-processamento-esp32-devkit-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Processamento (ESP32 DevKit V1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Processamento (ESP32 DevKit V1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ambiente-de-desenvolvimento-e-exemplo-minimo-id-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Ambiente de Desenvolvimento e Exemplo Mínimo (ID 3.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-barramento-de-comunicacao-i2c-e-varredura-de-perifericos-id-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Barramento de Comunicação I2C e Varredura de Periféricos (ID 3.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sensores-e-instrumentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Sensores e Instrumentação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Sensores e Instrumentação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-mapeamento-e-topologia-sensorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Mapeamento e Topologia Sensorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Calibração Estática e Curva de Erro do VL53L0X (ID 3.3 e 3.4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-validacao-da-taxa-de-amostragem-sensorial-id-35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Validação da Taxa de Amostragem Sensorial (ID 3.5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-processamento-de-sinal-e-filtragem-digital-id-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Processamento de Sinal e Filtragem Digital (ID 3.6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-odometria-e-leitura-dos-encoders-de-quadratura-id-37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Odometria e Leitura dos Encoders de Quadratura (ID 3.7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Aferição de Tensão e Monitoramento da Bateria (ID 3.8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-armazenamento-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Armazenamento de Dados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Armazenamento de Dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-memoria-nao-volatil-interna-nvs-flash-id-39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Memória Não Volátil Interna NVS Flash (ID 3.9)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-alocacao-deterministica-em-memoria-ram-id-310" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Alocação Determinística em Memória RAM (ID 3.10)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-atuadores-e-potencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Atuadores e Potência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Atuadores e Potência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Modulação PWM a 20 kHz e Linearidade dos Motores (ID 3.11)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ensaio-de-frenagem-ativa-dinamica-id-312" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Ensaio de Frenagem Ativa Dinâmica (ID 3.12)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Interface Homem-Máquina (IHM): LEDs, Buzzer e Botão (ID 3.13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-acionamento-de-motores-com-base-em-dados-de-sensores-id-314" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Acionamento de Motores com Base em Dados de Sensores (ID 3.14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-comunicacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Comunicações
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Comunicações">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-enlace-sem-fio-esp-now-a-8-metros-id-315" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Enlace Sem Fio ESP-NOW a 8 Metros (ID 3.15)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-protocolo-de-telemetria-e-firmware-do-gateway-esp-now-id-316" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Protocolo de Telemetria e Firmware do Gateway ESP-NOW (ID 3.16)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-execucao-automatizada-da-suite-master-de-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Execução Automatizada da Suíte Master de Hardware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-ambientes-virtuais-e-simulacao-de-alta-fidelidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ambientes Virtuais e Simulação de Alta Fidelidade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Ambientes Virtuais e Simulação de Alta Fidelidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-simulacao-de-navegacao-e-algoritmo-no-simulador-mms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Simulação de Navegação e Algoritmo no Simulador MMS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 Simulação de Navegação e Algoritmo no Simulador MMS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#labirinto-de-referencia-oficial-maze01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Labirinto de Referência Oficial (MAZE01)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-circuitos-virtuais-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Circuitos Virtuais no Wokwi
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 Circuitos Virtuais no Wokwi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface-homem-maquina-ihm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Homem-Máquina (IHM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autodiagnostico-de-inicializacao-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autodiagnóstico de Inicialização (POST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leitura-da-bateria-e-alerta-de-subtensao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leitura da Bateria e Alerta de Subtensão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carga-dos-motores-e-corte-por-sobrecorrente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Carga dos Motores e Corte por Sobrecorrente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calibracao-do-sensor-vl53l0x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibração do Sensor VL53L0X
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ponte-h-tb6612fng-e-pulsos-de-odometria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ponte H TB6612FNG e Pulsos de Odometria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enlace-sem-fio-esp-now-a-8-metros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enlace Sem Fio ESP-NOW a 8 Metros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateway-serial-json-de-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway Serial JSON de Telemetria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototipo-real-com-camada-hal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protótipo Real com Camada HAL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-completa-do-labirinto-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação Completa do Labirinto no Wokwi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-matriz-de-homologacao-e-rastreabilidade-de-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Matriz de Homologação e Rastreabilidade de Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#painel-geral-de-ensaios-de-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Painel Geral de Ensaios de Hardware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-processamento-esp32-devkit-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Processamento (ESP32 DevKit V1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Processamento (ESP32 DevKit V1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ambiente-de-desenvolvimento-e-exemplo-minimo-id-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Ambiente de Desenvolvimento e Exemplo Mínimo (ID 3.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-barramento-de-comunicacao-i2c-e-varredura-de-perifericos-id-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Barramento de Comunicação I2C e Varredura de Periféricos (ID 3.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sensores-e-instrumentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Sensores e Instrumentação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Sensores e Instrumentação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-mapeamento-e-topologia-sensorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Mapeamento e Topologia Sensorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Calibração Estática e Curva de Erro do VL53L0X (ID 3.3 e 3.4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-validacao-da-taxa-de-amostragem-sensorial-id-35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Validação da Taxa de Amostragem Sensorial (ID 3.5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-processamento-de-sinal-e-filtragem-digital-id-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Processamento de Sinal e Filtragem Digital (ID 3.6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-odometria-e-leitura-dos-encoders-de-quadratura-id-37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Odometria e Leitura dos Encoders de Quadratura (ID 3.7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Aferição de Tensão e Monitoramento da Bateria (ID 3.8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-armazenamento-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Armazenamento de Dados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Armazenamento de Dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-memoria-nao-volatil-interna-nvs-flash-id-39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Memória Não Volátil Interna NVS Flash (ID 3.9)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-alocacao-deterministica-em-memoria-ram-id-310" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Alocação Determinística em Memória RAM (ID 3.10)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-atuadores-e-potencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Atuadores e Potência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Atuadores e Potência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Modulação PWM a 20 kHz e Linearidade dos Motores (ID 3.11)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ensaio-de-frenagem-ativa-dinamica-id-312" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Ensaio de Frenagem Ativa Dinâmica (ID 3.12)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Interface Homem-Máquina (IHM): LEDs, Buzzer e Botão (ID 3.13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-acionamento-de-motores-com-base-em-dados-de-sensores-id-314" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Acionamento de Motores com Base em Dados de Sensores (ID 3.14)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-comunicacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Comunicações
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Comunicações">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-enlace-sem-fio-esp-now-a-8-metros-id-315" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Enlace Sem Fio ESP-NOW a 8 Metros (ID 3.15)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-protocolo-de-telemetria-e-firmware-do-gateway-esp-now-id-316" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Protocolo de Telemetria e Firmware do Gateway ESP-NOW (ID 3.16)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-execucao-automatizada-da-suite-master-de-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Execução Automatizada da Suíte Master de Hardware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-ambientes-virtuais-e-simulacao-de-alta-fidelidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ambientes Virtuais e Simulação de Alta Fidelidade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Ambientes Virtuais e Simulação de Alta Fidelidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-simulacao-de-navegacao-e-algoritmo-no-simulador-mms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Simulação de Navegação e Algoritmo no Simulador MMS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 Simulação de Navegação e Algoritmo no Simulador MMS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#labirinto-de-referencia-oficial-maze01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Labirinto de Referência Oficial (MAZE01)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-circuitos-virtuais-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Circuitos Virtuais no Wokwi
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 Circuitos Virtuais no Wokwi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface-homem-maquina-ihm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Homem-Máquina (IHM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autodiagnostico-de-inicializacao-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autodiagnóstico de Inicialização (POST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leitura-da-bateria-e-alerta-de-subtensao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leitura da Bateria e Alerta de Subtensão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carga-dos-motores-e-corte-por-sobrecorrente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Carga dos Motores e Corte por Sobrecorrente
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calibracao-do-sensor-vl53l0x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibração do Sensor VL53L0X
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ponte-h-tb6612fng-e-pulsos-de-odometria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ponte H TB6612FNG e Pulsos de Odometria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enlace-sem-fio-esp-now-a-8-metros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enlace Sem Fio ESP-NOW a 8 Metros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateway-serial-json-de-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway Serial JSON de Telemetria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototipo-real-com-camada-hal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protótipo Real com Camada HAL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulacao-completa-do-labirinto-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulação Completa do Labirinto no Wokwi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-matriz-de-homologacao-e-rastreabilidade-de-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Matriz de Homologação e Rastreabilidade de Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="testes-de-hardware">Testes de Hardware<a class="headerlink" href="#testes-de-hardware" title="Permanent link">&para;</a></h1>
+<div class="admonition quote">
+<p class="admonition-title">Roteiro de Testes de Hardware (PI1 2026.2)</p>
+<p>Relatório dos ensaios de bancada e validação da eletrônica embarcada do robô <strong>Micromouse (Grupo 1)</strong> para a disciplina Projeto Integrador 1 (semestre 2026.2, FCTE/UnB, Prof. Lui). O documento cobre os cinco blocos definidos no roteiro:</p>
+<ol>
+<li><strong>Processamento (ESP32 DevKit V1):</strong> ambiente de desenvolvimento, compilação do firmware, clocks e periféricos.</li>
+<li><strong>Sensores e Instrumentação:</strong> leituras estáticas e dinâmicas, calibração em trilho óptico, taxa de amostragem, filtragem digital, odometria por quadratura e medição da bateria.</li>
+<li><strong>Armazenamento de Dados:</strong> persistência na Flash interna (NVS) e buffers de telemetria alocados estaticamente na memória RAM.</li>
+<li><strong>Atuadores e Potência:</strong> modulação PWM em 20 kHz na ponte H, linearidade dos motores, teste de freio ativo, interface IHM e corte de segurança por aproximação de obstáculo.</li>
+<li><strong>Comunicações:</strong> link sem fio via ESP-NOW em 2,4 GHz a 8 metros de distância, protocolo de telemetria a 1 Hz e Gateway serial USB para JSON.</li>
+</ol>
+</div>
+<hr />
+<h2 id="painel-geral-de-ensaios-de-hardware">Painel Geral de Ensaios de Hardware<a class="headerlink" href="#painel-geral-de-ensaios-de-hardware" title="Permanent link">&para;</a></h2>
+<p>A tabela abaixo reúne os testes de hardware do projeto. O identificador de cada teste (<strong>ID</strong>) leva direto para o detalhamento técnico da seção correspondente, com links para os requisitos do edital e para os arquivos no repositório.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th style="text-align: center;">Requisito</th>
+<th>Descrição do Teste</th>
+<th style="text-align: center;">Período</th>
+<th style="text-align: center;">Responsáveis</th>
+<th>Resultados Esperados</th>
+<th>Resultados Obtidos</th>
+<th style="text-align: center;">Aprovação</th>
+<th style="text-align: center;">Código / Evidência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#11-ambiente-de-desenvolvimento-e-exemplo-minimo-id-31"><strong>3.1</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE04</a></td>
+<td>Ambiente de desenvolvimento, compilação e teste mínimo no ESP32</td>
+<td style="text-align: center;">06/10 a 08/10/2026</td>
+<td style="text-align: center;">Leonardo Augusto<br>Eduardo Lobo</td>
+<td>ESP32 configurado a 240 MHz no PlatformIO compilando rotina de blink e saída serial sem falhas.</td>
+<td>Firmware compilado (Flash 56,6%, RAM 13,4%); console UART a 115200 bps estável em 24h de bancada.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_99_hardware_selftest/firmware/src/main.cpp"><code>main.cpp</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#12-barramento-de-comunicacao-i2c-e-varredura-de-perifericos-id-32"><strong>3.2</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01</a></td>
+<td>Inicialização e varredura de endereços no barramento I2C</td>
+<td style="text-align: center;">08/10 a 10/10/2026</td>
+<td style="text-align: center;">Daniel Almeida<br>Pedro Franco</td>
+<td>Detecção de periféricos nas portas GPIO 21 (SDA) e GPIO 22 (SCL) em 100 kHz e 400 kHz.</td>
+<td>Sensor VL53L0X achado no endereço <code>0x29</code> e display OLED em <code>0x3C</code>, sem conflitos de barramento.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/vl53l0x_individual/TESTE_1_SENSOR_VL53L0X.ino"><code>TESTE_1_SENSOR_VL53L0X.ino</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34"><strong>3.3</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01</a></td>
+<td>Leitura básica e multiplexação por hardware de 3 sensores ToF VL53L0X</td>
+<td style="text-align: center;">13/10 a 15/10/2026</td>
+<td style="text-align: center;">Pedro Franco<br>Daniel Almeida</td>
+<td>Inicialização sequencial pelos pinos XSHUT e leitura de distância sem travar o barramento I2C.</td>
+<td>Controle via XSHUT (GPIOs 32, 13 e 14) funcionando; sensores respondendo nos endereços <code>0x30</code>, <code>0x31</code> e <code>0x32</code>.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/vl53l0x_multiplo/TESTE_3_SENSORES_VL53L0X.ino"><code>TESTE_3_SENSORES_VL53L0X.ino</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34"><strong>3.4</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE02</a></td>
+<td>Calibração estática e curva de erro do sensor VL53L0X em 7 distâncias</td>
+<td style="text-align: center;">14/10 a 17/10/2026</td>
+<td style="text-align: center;">Pedro Franco<br>Daniel Almeida</td>
+<td>Erro absoluto médio <span class="arithmatex">\(\le 10\text{ mm}\)</span> na faixa de 30 a 180 mm em trilho milimetrado.</td>
+<td>Erro máximo de <span class="arithmatex">\(0,18\text{ mm}\)</span> e erro médio de <span class="arithmatex">\(0,08\text{ mm}\)</span> em 20 medições por ponto (20 a 200 mm).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/tests/test_runner.py"><code>test_runner.py</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#23-validacao-da-taxa-de-amostragem-sensorial-id-35"><strong>3.5</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE01</a></td>
+<td>Medição contínua da taxa de amostragem dos sensores de distância</td>
+<td style="text-align: center;">15/10 a 18/10/2026</td>
+<td style="text-align: center;">Pedro Franco<br>Eduardo Lobo</td>
+<td>Frequência de atualização contínua <span class="arithmatex">\(\ge 20\text{ Hz}\)</span> (intervalo <span class="arithmatex">\(\le 50\text{ ms}\)</span>).</td>
+<td>Timing budget configurado em <span class="arithmatex">\(33\text{ ms}\)</span>, com taxa medida de <span class="arithmatex">\(\approx 30,3\text{ Hz}\)</span> contínua sem perdas.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/tests/test_vl53l0x.cpp"><code>test_vl53l0x.cpp</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#24-processamento-de-sinal-e-filtragem-digital-id-36"><strong>3.6</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01</a></td>
+<td>Filtragem de ruído óptico (Média Móvel) e limiar de detecção de parede</td>
+<td style="text-align: center;">16/10 a 19/10/2026</td>
+<td style="text-align: center;">Daniel Almeida<br>Eduardo Lobo</td>
+<td>Média móvel com janela de 5 amostras e limiar com histerese para identificar parede (<span class="arithmatex">\(&lt; 12\text{ cm}\)</span>).</td>
+<td>Desvio padrão caiu de <span class="arithmatex">\(0,66\text{ mm}\)</span> para menos de <span class="arithmatex">\(0,25\text{ mm}\)</span>; histerese de <span class="arithmatex">\(5\text{ mm}\)</span> sem falsos disparos.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino"><code>sketch.ino</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#25-odometria-e-leitura-dos-encoders-de-quadratura-id-37"><strong>3.7</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE02</a></td>
+<td>Leitura dos encoders de quadratura dos motores por interrupção</td>
+<td style="text-align: center;">06/10 a 16/10/2026</td>
+<td style="text-align: center;">Breno Teixeira<br>Eduardo Lobo</td>
+<td>Contagem precisa de pulsos via interrupções externas nas GPIOs 27/26 e 25/33 até 0,5 m/s.</td>
+<td>Teste de 10 voltas completas (3600 pulsos): erro de contagem menor que <span class="arithmatex">\(0,1\%\)</span> (desvio máximo de 3 pulsos).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_runner.py"><code>test_runner.py</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia">RF-ENE02</a><br><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE02</a></td>
+<td>Leitura analógica da bateria LiPo 2S e resposta das linhas lógicas sob carga</td>
+<td style="text-align: center;">06/10 a 14/10/2026</td>
+<td style="text-align: center;">Lucas Oliveira<br>Rafaela Trajano</td>
+<td>Medição no divisor 100k/47k no ADC1 (GPIO 34), alerta em <span class="arithmatex">\(6,6\text{ V}\)</span> e linhas de 3,3V e 5V estáveis.</td>
+<td>Fator calibrado em <span class="arithmatex">\(3,1276\)</span>; erro menor que <span class="arithmatex">\(1,5\%\)</span>; linhas de 3,3V e 5V dentro da margem de <span class="arithmatex">\(\pm 5\%\)</span>.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/tests/test_runner.py"><code>test_runner.py</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#31-memoria-nao-volatil-interna-nvs-flash-id-39"><strong>3.9</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-software">RNF-SFT02</a></td>
+<td>Gravação e recuperação de parâmetros de calibração na Flash NVS</td>
+<td style="text-align: center;">16/10 a 19/10/2026</td>
+<td style="text-align: center;">Eduardo Lobo<br>Leonardo Augusto</td>
+<td>Salvar offsets dos sensores ToF e tamanho da arena na Flash do ESP32 sem perder dados no desligamento.</td>
+<td>Dados salvos com a biblioteca <code>Preferences</code> continuaram íntegros após 50 desligamentos forçados.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_99_hardware_selftest/firmware/include/hardware_selftest_suite.h"><code>hardware_selftest_suite.h</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#32-alocacao-deterministica-em-memoria-ram-id-310"><strong>3.10</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE04</a></td>
+<td>Validação do buffer estático de telemetria na memória RAM</td>
+<td style="text-align: center;">14/10 a 18/10/2026</td>
+<td style="text-align: center;">João Pedro Jaime<br>Davi Sakai</td>
+<td>Ring buffer estático na SRAM para enfileirar pacotes sem fragmentação de memória heap.</td>
+<td>Teste contínuo de 1 hora simulando envio a 1 Hz com consumo fixo de RAM (sem vazamento de memória).</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/tests/test_protocol.cpp"><code>test_protocol.cpp</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311"><strong>3.11</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE03</a></td>
+<td>Frequência de 20 kHz no PWM e resposta dos motores na ponte H TB6612FNG</td>
+<td style="text-align: center;">06/10 a 16/10/2026</td>
+<td style="text-align: center;">Breno Teixeira<br>Eduardo Lobo</td>
+<td>Rotação linear em 25%, 50%, 75% e 100% de duty cycle (GPIOs 16/17) sem zumbido no motor.</td>
+<td>PWM em 20 kHz operando sem ruído audível; inversão de frente para ré respondendo de imediato.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_motor_encoder.cpp"><code>test_motor_encoder.cpp</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#42-ensaio-de-frenagem-ativa-dinamica-id-312"><strong>3.12</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE03</a></td>
+<td>Teste de freio elétrico ativo por curto indutivo nos motores</td>
+<td style="text-align: center;">12/10 a 16/10/2026</td>
+<td style="text-align: center;">Breno Teixeira<br>Leonardo Augusto</td>
+<td>Parada rápida dos motores acionando nível alto simultâneo nos pinos lógicos (IN1=HIGH e IN2=HIGH).</td>
+<td>Parada mecânica das rodas em tempo inferior a <span class="arithmatex">\(45\text{ ms}\)</span>, sem picos de tensão perigosos.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/wokwi/sketch.ino"><code>sketch.ino</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313"><strong>3.13</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE05</a><br><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE06</a></td>
+<td>Estados visuais no LED RGB, alarmes no buzzer e debounce do botão de largada</td>
+<td style="text-align: center;">06/10 a 15/10/2026</td>
+<td style="text-align: center;">Leonardo Augusto<br>Eduardo Lobo</td>
+<td>5 modos operacionais exibidos no LED RGB, buzzer com mais de 60 dB e botão filtrado contra repiques.</td>
+<td>Modos validados com cores e bipes correspondentes; filtro de 50 ms bloqueou repiques mecânicos de 15 ms.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/tests/test_runner.py"><code>test_runner.py</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#44-acionamento-de-motores-com-base-em-dados-de-sensores-id-314"><strong>3.14</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01</a><br><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE03</a></td>
+<td>Corte dos motores por detecção de obstáculo frontal</td>
+<td style="text-align: center;">16/10 a 20/10/2026</td>
+<td style="text-align: center;">Eduardo Lobo<br>Breno Teixeira</td>
+<td>Frenagem automática disparada quando o sensor ToF frontal registrar parede a menos de <span class="arithmatex">\(10\text{ cm}\)</span>.</td>
+<td>Motores cortados em menos de <span class="arithmatex">\(40\text{ ms}\)</span>, com o robô parando a <span class="arithmatex">\(54\text{ mm}\)</span> do anteparo.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino"><code>sketch.ino</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#51-enlace-sem-fio-esp-now-a-8-metros-id-315"><strong>3.15</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE03</a></td>
+<td>Teste de alcance e perda de pacotes no ESP-NOW a 8 metros</td>
+<td style="text-align: center;">14/10 a 19/10/2026</td>
+<td style="text-align: center;">Pedro Franco<br>Eduardo Lobo</td>
+<td>Perda de pacotes menor que <span class="arithmatex">\(2,0\%\)</span> e sinal <span class="arithmatex">\(\text{RSSI} \ge -75\text{ dBm}\)</span> a 8 metros com obstáculos.</td>
+<td>Envio de 1000 pacotes: perda de <span class="arithmatex">\(0,70\%\)</span> em linha reta e <span class="arithmatex">\(0,80\%\)</span> no labirinto; RSSI médio de <span class="arithmatex">\(-69,5\text{ dBm}\)</span>.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/esp_now/receptor.cpp"><code>receptor.cpp</code></a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><a href="#52-protocolo-de-telemetria-e-firmware-do-gateway-esp-now-id-316"><strong>3.16</strong></a></td>
+<td style="text-align: center;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE04</a></td>
+<td>Estrutura de telemetria a 1 Hz e Gateway ESP-NOW para Serial JSON</td>
+<td style="text-align: center;">07/10 a 13/10/2026</td>
+<td style="text-align: center;">João Pedro Jaime<br>Davi Sakai</td>
+<td>Pacote binário fixo de 18 bytes com CRC16 enviado a 1 Hz e convertido em JSON pelo Gateway.</td>
+<td>Taxa de 1 Hz contínua validada; decodificação íntegra e aderente ao formato JSON da EAP 5.3.1.1.</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/tests/test_runner.py"><code>test_runner.py</code></a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-processamento-esp32-devkit-v1">1. Processamento (ESP32 DevKit V1)<a class="headerlink" href="#1-processamento-esp32-devkit-v1" title="Permanent link">&para;</a></h2>
+<h3 id="11-ambiente-de-desenvolvimento-e-exemplo-minimo-id-31">1.1 Ambiente de Desenvolvimento e Exemplo Mínimo (ID 3.1)<a class="headerlink" href="#11-ambiente-de-desenvolvimento-e-exemplo-minimo-id-31" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE04 (Construtibilidade e Conexão Estruturada)</a></li>
+<li><strong>Responsáveis:</strong> Leonardo Augusto e Eduardo Lobo</li>
+<li><strong>Período:</strong> 06/10/2026 a 08/10/2026</li>
+<li><strong>Código-fonte:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_99_hardware_selftest/firmware/src/main.cpp"><code>hw/testes/issue_99_hardware_selftest/firmware/src/main.cpp</code></a></li>
+<li><strong>Documentos de apoio:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/PINOUT_CONFIG.h"><code>PINOUT_CONFIG.h</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/TABELA_PINAGEM_PORTAS_HARDWARE.md"><code>TABELA_PINAGEM_PORTAS_HARDWARE.md</code></a></li>
+</ul>
+</div>
+<p>O controle do robô usa um módulo <strong>ESP32 DevKit V1 de 30 pinos</strong>, baseado no microcontrolador dual-core Xtensa 32-bit LX6 operando em <span class="arithmatex">\(240\text{ MHz}\)</span>.</p>
+<p>Para o desenvolvimento, usamos o <strong>PlatformIO</strong> integrado ao VS Code, com o framework <code>arduino-esp32</code> v3.x e compilador GCC em C++17. A saída serial de depuração foi configurada em <span class="arithmatex">\(115200\text{ bps}\)</span>.</p>
+<p>O teste inicial de bancada consistiu em:
+1. Piscar o LED interno a <span class="arithmatex">\(1\text{ Hz}\)</span> usando temporizador por interrupção de hardware;
+2. Enviar mensagens periódicas pela porta UART0 (GPIO 1 TX e GPIO 3 RX);
+3. Alocar e liberar blocos de memória RAM para monitorar o comportamento do heap e do watchdog.</p>
+<p>O firmware compilou ocupando <strong><span class="arithmatex">\(56,6\%\)</span></strong> da memória Flash (<span class="arithmatex">\(742\text{ kB}\)</span>) e <strong><span class="arithmatex">\(13,4\%\)</span></strong> da memória RAM estática (<span class="arithmatex">\(43,9\text{ kB}\)</span>). Deixamos a placa ligada em teste contínuo por 24 horas na bancada: nenhuma reinicialização por subtensão (brownout) ou falha de watchdog timer aconteceu.</p>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 3.1</p>
+<p>Ambiente de compilação validado. Na placa Shield, o pino GPIO 12 foi deixado desconectado para evitar problemas de boot (strapping pin), garantindo que a placa ligue normalmente em qualquer situação.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="12-barramento-de-comunicacao-i2c-e-varredura-de-perifericos-id-32">1.2 Barramento de Comunicação I2C e Varredura de Periféricos (ID 3.2)<a class="headerlink" href="#12-barramento-de-comunicacao-i2c-e-varredura-de-perifericos-id-32" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01 (Sensoriamento de Obstáculos e Paredes)</a></li>
+<li><strong>Responsáveis:</strong> Daniel Almeida e Pedro Franco</li>
+<li><strong>Período:</strong> 08/10/2026 a 10/10/2026</li>
+<li><strong>Código-fonte:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/vl53l0x_individual/TESTE_1_SENSOR_VL53L0X.ino"><code>hw/testes/vl53l0x_individual/TESTE_1_SENSOR_VL53L0X.ino</code></a></li>
+</ul>
+</div>
+<p>O barramento I2C foi mapeado com a linha de dados <strong>SDA no GPIO 21</strong> e a de clock <strong>SCL no GPIO 22</strong>, alimentadas em <span class="arithmatex">\(3,3\text{ V}\)</span>. Na Shield Rev 2.0, colocamos resistores de pull-up de <span class="arithmatex">\(4,7\text{ k}\Omega\)</span> soldados diretamente na placa.</p>
+<p>Rodamos o script <code>scanI2C()</code> varrendo os endereços de 7 bits (<code>0x08</code> a <code>0x77</code>) em duas velocidades: <span class="arithmatex">\(100\text{ kHz}\)</span> (padrão) e <span class="arithmatex">\(400\text{ kHz}\)</span> (rápido).</p>
+<p>Dispositivos encontrados no barramento:
+* O sensor ToF VL53L0X respondeu no seu endereço padrão de fábrica: <code>0x29</code> (<span class="arithmatex">\(41\text{ em decimal}\)</span>);
+* O display OLED de teste (SSD1306, <span class="arithmatex">\(128\times 64\)</span>) respondeu no endereço <code>0x3C</code>;
+* Não houve travamento de clock stretching nem falha de ACK nos testes a <span class="arithmatex">\(400\text{ kHz}\)</span>.</p>
+<div class="highlight"><pre><span></span><code>--- [I2C SCAN] Varrendo barramento (SDA=21, SCL=22) ---
+  [+] Dispositivo encontrado no endereco: 0x29  &lt;-- SENSOR VL53L0X DETECTADO!
+  [+] Dispositivo encontrado no endereco: 0x3C  &lt;-- DISPLAY OLED DETECTADO!
+  Total de dispositivos no barramento: 2
+-------------------------------------------------------
+</code></pre></div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="2-sensores-e-instrumentacao">2. Sensores e Instrumentação<a class="headerlink" href="#2-sensores-e-instrumentacao" title="Permanent link">&para;</a></h2>
+<h3 id="21-mapeamento-e-topologia-sensorial">2.1 Mapeamento e Topologia Sensorial<a class="headerlink" href="#21-mapeamento-e-topologia-sensorial" title="Permanent link">&para;</a></h3>
+<p>O conjunto de sensores do robô é formado por três módulos laser ToF VL53L0X (frontal e dois laterais), dois encoders magnéticos de quadratura nos eixos dos motores e um divisor de tensão para monitorar a bateria:</p>
+<ul>
+<li><strong>I2C compartilhado:</strong> SDA no GPIO 21 e SCL no GPIO 22 (nível lógico de <span class="arithmatex">\(3,3\text{ V}\)</span>);</li>
+<li><strong>Pino XSHUT Frontal:</strong> GPIO 32;</li>
+<li><strong>Pino XSHUT Esquerdo:</strong> GPIO 13;</li>
+<li><strong>Pino XSHUT Direito:</strong> GPIO 14;</li>
+<li><strong>Encoder Esquerdo:</strong> Canal A no GPIO 27 (interrupção externa) e Canal B no GPIO 26;</li>
+<li><strong>Encoder Direito:</strong> Canal A no GPIO 25 (interrupção externa) e Canal B no GPIO 33;</li>
+<li><strong>Divisor de Tensão da Bateria:</strong> GPIO 34 (canal ADC1_CH6).</li>
+</ul>
+<p>A fixação física dos módulos ToF foi projetada no suporte frontal do chassi, mantendo os três sensores alinhados com o plano horizontal da pista e com campo de visão desobstruído em relação às paredes do labirinto (Figura 2.1). O arranjo experimental na bancada com a inicialização sequencial via pinos XSHUT e a leitura simultânea dos três sensores no barramento I2C é apresentado na Figura 2.2, onde o monitor serial exibe as distâncias capturadas em tempo real.</p>
+<p><img alt="Disposição física dos sensores ToF no suporte do chassi" src="../figs/testes_hardware/montagem_sensor.jpg" />
+<em>Figura 2.1: Disposição física e montagem dos sensores ToF VL53L0X no suporte do chassi.</em></p>
+<p><img alt="Bancada de ensaio e leitura serial dos três sensores ToF" src="../figs/testes_hardware/Medi%C3%A7%C3%A3o%20Sensores.jpg" />
+<em>Figura 2.2: Bancada de validação sensorial com leitura simultânea dos três módulos ToF no monitor serial.</em></p>
+<hr />
+<h3 id="22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34">2.2 Calibração Estática e Curva de Erro do VL53L0X (ID 3.3 e 3.4)<a class="headerlink" href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisitos associados:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01</a> e <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE02 (Faixa Útil e Tolerância)</a></li>
+<li><strong>Responsáveis:</strong> Pedro Franco e Daniel Almeida</li>
+<li><strong>Período:</strong> 13/10 a 17/10/2026</li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/tests/test_vl53l0x.cpp"><code>test_vl53l0x.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/tests/test_runner.py"><code>test_runner.py</code></a></li>
+<li><strong>Driver:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/firmware/include/vl53l0x_driver.h"><code>vl53l0x_driver.h</code></a></li>
+</ul>
+</div>
+<p>Para checar o requisito <strong>RNF-ELE02</strong> (faixa útil de 30 a 180 mm com erro máximo de <span class="arithmatex">\(\pm 10\text{ mm}\)</span>), montamos um trilho graduado com anteparo de madeira MDF branca de <span class="arithmatex">\(50\text{ mm}\)</span> de altura, idêntico às paredes do labirinto.</p>
+<p>Nos ensaios preliminares com dados brutos em distâncias de 6 a 30 cm, os sensores apresentaram divergências consideráveis (Figura 2.3). Em distâncias curtas, o Sensor 2 mediu 9,8 cm para um anteparo real a 6 cm (erro inicial de -63,3% ou +38 mm), enquanto o Sensor 3 registrou um offset sistemático de cerca de +20 mm. Esse comportamento é típico do VL53L0X e decorre de diafonia óptica (<em>optical crosstalk</em> no encapsulamento e no vidro de proteção), da dispersão do cone de emissão laser de 25 graus e de tolerâncias de fabricação de cada chip.</p>
+<p><img alt="Curvas de medição dos três sensores VL53L0X antes da calibração" src="../figs/testes_hardware/Compara%C3%A7%C3%A3o%20das%20medi%C3%A7%C3%B5es%20dos%20sensores.png" />
+<em>Figura 2.3: Curvas de medição dos três sensores ToF em relação à distância de referência antes da calibração.</em></p>
+<p>Como uma regressão linear simples (<span class="arithmatex">\(y = ax + b\)</span>) deixava resíduos de até 14,3 mm no Sensor 2 por não compensar a curvatura em distâncias curtas, adotamos uma modelagem polinomial de 2º grau por mínimos quadrados:</p>
+<div class="arithmatex">\[D_{\text{corrigida}}(raw) = a \cdot raw^2 + b \cdot raw + c\]</div>
+<p>Após o ajuste e validação das curvas na bancada, os coeficientes aplicados no firmware foram:</p>
+<ul>
+<li><strong>Sensor 1:</strong> <span class="arithmatex">\(D_1 = 0,0010431 \cdot raw^2 + 0,6913 \cdot raw + 10,77\)</span></li>
+<li><strong>Sensor 2:</strong> <span class="arithmatex">\(D_2 = 0,0015513 \cdot raw^2 + 0,4844 \cdot raw - 1,30\)</span></li>
+<li><strong>Sensor 3:</strong> <span class="arithmatex">\(D_3 = 0,0004787 \cdot raw^2 + 0,7952 \cdot raw - 6,05\)</span></li>
+</ul>
+<p>Com essa compensação, a resposta dos três sensores convergiu para a reta de referência ideal (Figura 2.4). O erro residual no Sensor 2 caiu de +38 mm (-63,3%) para apenas +1,1 mm (+1,7%) a 6 cm e -0,6 mm (-0,2%) a 30 cm.</p>
+<p><img alt="Medições dos sensores após calibração e normalização" src="../figs/testes_hardware/Compara%C3%A7%C3%A3o%20das%20medi%C3%A7%C3%B5es%20dos%20sensores%20normalizados.png" />
+<em>Figura 2.4: Resposta linear dos três sensores após compensação de offset e normalização dos dados.</em></p>
+<p>Fizemos <strong>20 leituras estáticas</strong> em cada uma das 7 distâncias padronizadas para quantificar a dispersão e o desvio padrão:</p>
+<p>| Distância Real (<span class="arithmatex">\(d_{\text{ref}}\)</span>) | Média Medida (<span class="arithmatex">\(\overline{d}\)</span>) | Desvio Padrão (<span class="arithmatex">\(\sigma\)</span>) | Erro Absoluto (<span class="arithmatex">\(|\overline{d} - d_{\text{ref}}|\)</span>) | Limite do Requisito | Resultado |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| <strong>20 mm</strong> | <span class="arithmatex">\(20,07\text{ mm}\)</span> | <span class="arithmatex">\(0,55\text{ mm}\)</span> | <span class="arithmatex">\(0,07\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |
+| <strong>40 mm</strong> | <span class="arithmatex">\(39,96\text{ mm}\)</span> | <span class="arithmatex">\(0,66\text{ mm}\)</span> | <span class="arithmatex">\(0,04\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |
+| <strong>60 mm</strong> | <span class="arithmatex">\(60,05\text{ mm}\)</span> | <span class="arithmatex">\(0,47\text{ mm}\)</span> | <span class="arithmatex">\(0,05\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |
+| <strong>80 mm</strong> | <span class="arithmatex">\(79,85\text{ mm}\)</span> | <span class="arithmatex">\(0,62\text{ mm}\)</span> | <span class="arithmatex">\(0,15\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |
+| <strong>100 mm</strong> | <span class="arithmatex">\(100,09\text{ mm}\)</span> | <span class="arithmatex">\(0,60\text{ mm}\)</span> | <span class="arithmatex">\(0,09\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |
+| <strong>150 mm</strong> | <span class="arithmatex">\(149,98\text{ mm}\)</span> | <span class="arithmatex">\(0,64\text{ mm}\)</span> | <span class="arithmatex">\(0,02\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |
+| <strong>200 mm</strong> | <span class="arithmatex">\(200,18\text{ mm}\)</span> | <span class="arithmatex">\(0,55\text{ mm}\)</span> | <span class="arithmatex">\(0,18\text{ mm}\)</span> | <span class="arithmatex">\(\le 10\text{ mm}\)</span> | <img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado |</p>
+<p><img alt="Terminal: Calibração do Sensor ToF VL53L0X nos 7 Pontos" src="../figs/testes_hardware/terminal_vl53l0x_calibracao.png" />
+<em>Figura 2.5: Execução do script automatizado de calibração do sensor VL53L0X.</em></p>
+<div class="admonition success">
+<p class="admonition-title">Resultado dos Ensaios 3.3 e 3.4</p>
+<p>O erro médio em toda a faixa foi de <strong><span class="arithmatex">\(0,08\text{ mm}\)</span></strong>, com desvio máximo de <strong><span class="arithmatex">\(0,18\text{ mm}\)</span></strong> (bem abaixo da tolerância de <span class="arithmatex">\(10\text{ mm}\)</span> pedida no projeto). A inicialização sequencial com os pinos XSHUT funcionou sem conflito de endereço no I2C.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="23-validacao-da-taxa-de-amostragem-sensorial-id-35">2.3 Validação da Taxa de Amostragem Sensorial (ID 3.5)<a class="headerlink" href="#23-validacao-da-taxa-de-amostragem-sensorial-id-35" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE01 (Taxa de Amostragem)</a> (mínimo de <span class="arithmatex">\(20\text{ Hz}\)</span>, intervalo máximo de <span class="arithmatex">\(50\text{ ms}\)</span>)</li>
+<li><strong>Responsáveis:</strong> Pedro Franco e Eduardo Lobo</li>
+<li><strong>Período:</strong> 15/10/2026 a 18/10/2026</li>
+</ul>
+</div>
+<p>Configuramos o registrador de tempo de medição (<em>timing budget</em>) do VL53L0X para <span class="arithmatex">\(33000\ \mu\text{s}\)</span> (<span class="arithmatex">\(33\text{ ms}\)</span>) no modo contínuo de leitura (<code>startContinuous()</code>).</p>
+<p>A taxa média obtida na bancada foi de <strong><span class="arithmatex">\(30,3\text{ leituras por segundo}\)</span></strong> (<span class="arithmatex">\(30,3\text{ Hz}\)</span>), com intervalo de <span class="arithmatex">\(33\text{ ms}\)</span> entre medições. Na velocidade de teste de <span class="arithmatex">\(0,5\text{ m/s}\)</span>, isso representa uma leitura de distância a cada <span class="arithmatex">\(1,65\text{ cm}\)</span> de deslocamento do robô.</p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="24-processamento-de-sinal-e-filtragem-digital-id-36">2.4 Processamento de Sinal e Filtragem Digital (ID 3.6)<a class="headerlink" href="#24-processamento-de-sinal-e-filtragem-digital-id-36" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01 (Sensoriamento de Obstáculos e Paredes)</a></li>
+<li><strong>Responsáveis:</strong> Daniel Almeida e Eduardo Lobo</li>
+<li><strong>Código de referência:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino"><code>hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino</code></a></li>
+</ul>
+</div>
+<p>Para tratar pequenas variações e ruídos nas leituras ópticas do sensor, colocamos dois tratamentos no firmware:</p>
+<ol>
+<li><strong>Média Móvel com 5 amostras:</strong>
+    $<span class="arithmatex">\(\overline{d}_k = \frac{1}{5} \sum_{i=0}^{4} d_{k-i}\)</span>$
+    Com essa média, o desvio padrão das medições caiu de <span class="arithmatex">\(0,66\text{ mm}\)</span> para menos de <span class="arithmatex">\(0,25\text{ mm}\)</span>, suavizando o dado entregue ao controlador PID de alinhamento nas retas.</li>
+<li><strong>Limiar de Detecção de Parede com Histerese:</strong><ul>
+<li>Distância menor que <span class="arithmatex">\(120\text{ mm}\)</span>: detecta parede na célula adjacente (<span class="arithmatex">\(\text{Wall} = 1\)</span>);</li>
+<li>Distância maior ou igual a <span class="arithmatex">\(120\text{ mm}\)</span>: passagem livre (<span class="arithmatex">\(\text{Wall} = 0\)</span>);</li>
+<li>Adicionamos uma faixa de histerese de <span class="arithmatex">\(5\text{ mm}\)</span> para evitar que o robô fique alternando de estado quando estiver no limite do limiar.</li>
+</ul>
+</li>
+</ol>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="25-odometria-e-leitura-dos-encoders-de-quadratura-id-37">2.5 Odometria e Leitura dos Encoders de Quadratura (ID 3.7)<a class="headerlink" href="#25-odometria-e-leitura-dos-encoders-de-quadratura-id-37" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE02 (Odometria das Rodas)</a></li>
+<li><strong>Responsáveis:</strong> Breno Teixeira e Eduardo Lobo</li>
+<li><strong>Período:</strong> 06/10/2026 a 16/10/2026</li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_motor_encoder.cpp"><code>test_motor_encoder.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_runner.py"><code>test_runner.py</code></a></li>
+<li><strong>Driver de controle:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/firmware/include/motor_encoder_driver.h"><code>motor_encoder_driver.h</code></a></li>
+</ul>
+</div>
+<p>Usamos motores micro DC N20 com caixa de redução 30:1 e encoders magnéticos com disco de 7 pares de polos. A leitura por borda simples gera <span class="arithmatex">\(360\text{ pulsos por volta}\)</span> da roda.</p>
+<p>As interrupções foram configuradas para borda de subida (<code>RISING</code>) nos pinos GPIO 27 (esquerdo) e GPIO 25 (direito), com rotinas declaradas na memória rápida IRAM para garantir resposta imediata.</p>
+<p>Fizemos um ensaio de bancada girando 10 voltas completas em cada motor (<span class="arithmatex">\(3600\text{ pulsos esperados}\)</span>):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Amostra</th>
+<th style="text-align: center;">Motor Esquerdo (Pulsos)</th>
+<th style="text-align: center;">Erro Esquerdo</th>
+<th style="text-align: center;">Motor Direito (Pulsos)</th>
+<th style="text-align: center;">Erro Direito</th>
+<th style="text-align: center;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>Volta #1</strong></td>
+<td style="text-align: center;">3601</td>
+<td style="text-align: center;">+1 pulso (<span class="arithmatex">\(+0,028\%\)</span>)</td>
+<td style="text-align: center;">3600</td>
+<td style="text-align: center;">0 pulsos (<span class="arithmatex">\(0,000\%\)</span>)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Volta #2</strong></td>
+<td style="text-align: center;">3599</td>
+<td style="text-align: center;">-1 pulso (<span class="arithmatex">\(-0,028\%\)</span>)</td>
+<td style="text-align: center;">3601</td>
+<td style="text-align: center;">+1 pulso (<span class="arithmatex">\(+0,028\%\)</span>)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Volta #3</strong></td>
+<td style="text-align: center;">3600</td>
+<td style="text-align: center;">0 pulsos (<span class="arithmatex">\(0,000\%\)</span>)</td>
+<td style="text-align: center;">3598</td>
+<td style="text-align: center;">-2 pulsos (<span class="arithmatex">\(-0,056\%\)</span>)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Volta #4</strong></td>
+<td style="text-align: center;">3602</td>
+<td style="text-align: center;">+2 pulsos (<span class="arithmatex">\(+0,056\%\)</span>)</td>
+<td style="text-align: center;">3600</td>
+<td style="text-align: center;">0 pulsos (<span class="arithmatex">\(0,000\%\)</span>)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Volta #5</strong></td>
+<td style="text-align: center;">3598</td>
+<td style="text-align: center;">-2 pulsos (<span class="arithmatex">\(-0,056\%\)</span>)</td>
+<td style="text-align: center;">3603</td>
+<td style="text-align: center;">+3 pulsos (<span class="arithmatex">\(+0,083\%\)</span>)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Terminal: Ensaio de Motores, PWM e Odometria" src="../figs/testes_hardware/terminal_motores_odometria.png" />
+<em>Figura 2.6: Validação da contagem dos encoders e do driver dos motores.</em></p>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 3.7</p>
+<p>Nas 10 voltas testadas, o erro acumulado ficou abaixo de <strong><span class="arithmatex">\(0,1\%\)</span></strong> (desvio máximo de 3 pulsos em 3600). As interrupções registraram o giro sem perder passos, mesmo na rotação máxima dos motores (<span class="arithmatex">\(&gt; 400\text{ RPM}\)</span>).</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="26-afericao-de-tensao-e-monitoramento-da-bateria-id-38">2.6 Aferição de Tensão e Monitoramento da Bateria (ID 3.8)<a class="headerlink" href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisitos associados:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia">RF-ENE02</a>, <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia">RNF-ENE02</a> e <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE05 (Imunidade a Ruídos)</a></li>
+<li><strong>Responsáveis:</strong> Lucas Oliveira e Rafaela Trajano</li>
+<li><strong>Período:</strong> 06/10/2026 a 14/10/2026</li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/tests/test_voltage_stability.cpp"><code>test_voltage_stability.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/tests/test_runner.py"><code>test_runner.py</code></a></li>
+</ul>
+</div>
+<p>Montamos um divisor resistivo de precisão com <span class="arithmatex">\(R_1 = 100\text{ k}\Omega\)</span> conectado ao polo positivo da bateria LiPo 2S e <span class="arithmatex">\(R_2 = 47\text{ k}\Omega\)</span> ligado ao terra, lido pelo pino GPIO 34 (ADC1_CH6):</p>
+<div class="arithmatex">\[\text{Razão do divisor} = \frac{R_1 + R_2}{R_2} = \frac{100 + 47}{47} \approx 3,1276\]</div>
+<p>Faixas de tensão mapeadas no código:
+* Bateria totalmente carregada: <span class="arithmatex">\(8,40\text{ V}\)</span> (tensão no pino ADC: <span class="arithmatex">\(2,68\text{ V}\)</span>);
+* Tensão nominal: <span class="arithmatex">\(7,40\text{ V}\)</span> (tensão no pino ADC: <span class="arithmatex">\(2,36\text{ V}\)</span>);
+* Alerta de bateria fraca: <span class="arithmatex">\(7,00\text{ V}\)</span> (tensão no pino ADC: <span class="arithmatex">\(2,23\text{ V}\)</span>);
+* Corte de segurança: <span class="arithmatex">\(6,60\text{ V}\)</span> (tensão no pino ADC: <span class="arithmatex">\(2,11\text{ V}\)</span>).</p>
+<p>Também testamos a estabilidade das linhas de alimentação durante partidas em 100% de PWM e reversões bruscas de sentido dos motores. As tensões de <span class="arithmatex">\(3,3\text{ V}\)</span> e <span class="arithmatex">\(5,0\text{ V}\)</span> oscilaram entre <span class="arithmatex">\(3,25\text{ V}\)</span> a <span class="arithmatex">\(3,31\text{ V}\)</span> e entre <span class="arithmatex">\(4,88\text{ V}\)</span> a <span class="arithmatex">\(5,02\text{ V}\)</span>, mantendo-se dentro da margem de <span class="arithmatex">\(\pm 5\%\)</span> sem reiniciar o microcontrolador (<strong>RNF-ELE05</strong>).</p>
+<p><img alt="Terminal: Estabilidade de Tensão e Monitoramento da Bateria LiPo 2S" src="../figs/testes_hardware/terminal_estabilidade_alimentacao.png" />
+<em>Figura 2.7: Teste de estabilidade das tensões sob carga nos motores.</em></p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="3-armazenamento-de-dados">3. Armazenamento de Dados<a class="headerlink" href="#3-armazenamento-de-dados" title="Permanent link">&para;</a></h2>
+<h3 id="31-memoria-nao-volatil-interna-nvs-flash-id-39">3.1 Memória Não Volátil Interna NVS Flash (ID 3.9)<a class="headerlink" href="#31-memoria-nao-volatil-interna-nvs-flash-id-39" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-software">RNF-SFT02 (Geometrias Oficiais)</a></li>
+<li><strong>Responsáveis:</strong> Eduardo Lobo e Leonardo Augusto</li>
+<li><strong>Período:</strong> 16/10/2026 a 19/10/2026</li>
+<li><strong>Código de referência:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_99_hardware_selftest/firmware/include/hardware_selftest_suite.h"><code>hardware_selftest_suite.h</code></a></li>
+</ul>
+</div>
+<p>Para guardar os dados de calibração sem precisar regravar o código no robô a cada ajuste, usamos a partição NVS da memória Flash do ESP32 com a biblioteca <code>Preferences.h</code>.</p>
+<p>Os parâmetros salvos foram:
+* Offsets milimétricos dos sensores ToF (<code>offset_front</code>, <code>offset_left</code> e <code>offset_right</code>);
+* Resolução da odometria (<code>ticks_per_cm</code>);
+* Geometria selecionada do labirinto (<span class="arithmatex">\(4\times 4\)</span>, <span class="arithmatex">\(8\times 4\)</span> ou <span class="arithmatex">\(12\times 4\)</span> células).</p>
+<p>Fizemos 50 ciclos de corte forçado de energia na bancada. Em todas as inicializações, os valores salvos foram recuperados sem nenhuma perda de dados.</p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="32-alocacao-deterministica-em-memoria-ram-id-310">3.2 Alocação Determinística em Memória RAM (ID 3.10)<a class="headerlink" href="#32-alocacao-deterministica-em-memoria-ram-id-310" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE04 (Transmissão de Telemetria)</a></li>
+<li><strong>Responsáveis:</strong> João Pedro Jaime e Davi Sakai</li>
+<li><strong>Período:</strong> 14/10/2026 a 18/10/2026</li>
+<li><strong>Código do protocolo:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/firmware/include/telemetry_gateway_protocol.h"><code>telemetry_gateway_protocol.h</code></a></li>
+</ul>
+</div>
+<p>Para evitar fragmentação da memória RAM durante a corrida, criamos um ring buffer estático alocado em tempo de compilação, com pacotes binários compactados em exatamente 18 bytes:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#pragma pack(push, 1)</span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">header</span><span class="p">;</span><span class="w">           </span><span class="c1">// 0xA5 fixo</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">seq_number</span><span class="p">;</span><span class="w">       </span><span class="c1">// Número sequencial do pacote</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">timestamp_s</span><span class="p">;</span><span class="w">      </span><span class="c1">// Segundos de corrida</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">pos_x</span><span class="p">;</span><span class="w">            </span><span class="c1">// Coordenada X na arena (0 a 15)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">pos_y</span><span class="p">;</span><span class="w">            </span><span class="c1">// Coordenada Y na arena (0 a 15)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">heading_state</span><span class="p">;</span><span class="w">    </span><span class="c1">// Direção e estado do robô</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">walls_mask</span><span class="p">;</span><span class="w">       </span><span class="c1">// Máscara de paredes detectadas</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">dist_left_cm</span><span class="p">;</span><span class="w">     </span><span class="c1">// Sensor esquerdo (cm)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">dist_front_cm</span><span class="p">;</span><span class="w">    </span><span class="c1">// Sensor frontal (cm)</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">dist_right_cm</span><span class="p">;</span><span class="w">    </span><span class="c1">// Sensor direito (cm)</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w">  </span><span class="n">imu_yaw_deci_deg</span><span class="p">;</span><span class="w"> </span><span class="c1">// Ângulo de guinada do giroscópio (0.1 deg)</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">vbat_mv</span><span class="p">;</span><span class="w">          </span><span class="c1">// Tensão da bateria em mV</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">crc16</span><span class="p">;</span><span class="w">            </span><span class="c1">// Checksum CRC16-CCITT</span>
+<span class="p">}</span><span class="w"> </span><span class="n">TelemetryPacket</span><span class="p">;</span>
+<span class="cp">#pragma pack(pop)</span>
+</code></pre></div>
+<p>O teste simulou o envio contínuo a <span class="arithmatex">\(1\text{ Hz}\)</span> por 1 hora. O consumo de memória RAM permaneceu plano ao longo de todo o período, sem vazamentos de memória (zero heap leak).</p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="4-atuadores-e-potencia">4. Atuadores e Potência<a class="headerlink" href="#4-atuadores-e-potencia" title="Permanent link">&para;</a></h2>
+<p>O acionamento dos dois motores usa a ponte H <strong>TB6612FNG</strong>, com MOSFETs de baixa resistência interna, acoplada aos canais PWM por hardware do ESP32:</p>
+<pre class="mermaid"><code>flowchart LR
+    ESP32["ESP32 DevKit V1"]
+    TB["Ponte H TB6612FNG"]
+    MOT_L["Motor DC Esq + Encoder"]
+    MOT_R["Motor DC Dir + Encoder"]
+
+    ESP32 -- "PWM 20kHz (GPIO 16)" --&gt; TB
+    ESP32 -- "AIN1/AIN2 (GPIO 18/19)" --&gt; TB
+    ESP32 -- "PWM 20kHz (GPIO 17)" --&gt; TB
+    ESP32 -- "BIN1/BIN2 (GPIO 23/5)" --&gt; TB
+
+    TB -- "VMot (7.4V)" --&gt; MOT_L
+    TB -- "VMot (7.4V)" --&gt; MOT_R
+
+    MOT_L -- "Ticks ChA/ChB (GPIO 27/26)" --&gt; ESP32
+    MOT_R -- "Ticks ChA/ChB (GPIO 25/33)" --&gt; ESP32</code></pre>
+<hr />
+<h3 id="41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311">4.1 Modulação PWM a 20 kHz e Linearidade dos Motores (ID 3.11)<a class="headerlink" href="#41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE03 (Acionamento e Modulação dos Motores)</a></li>
+<li><strong>Responsáveis:</strong> Breno Teixeira e Eduardo Lobo</li>
+<li><strong>Período:</strong> 06/10/2026 a 16/10/2026</li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_motor_encoder.cpp"><code>test_motor_encoder.cpp</code></a></li>
+</ul>
+</div>
+<p>Pinos utilizados:
+* Motor Esquerdo: PWM no GPIO 16 | AIN1 no GPIO 18 | AIN2 no GPIO 19;
+* Motor Direito: PWM no GPIO 17 | BIN1 no GPIO 23 | BIN2 no GPIO 5;
+* Pino STBY da ponte: mantido em <span class="arithmatex">\(3,3\text{ V}\)</span> via pull-up na Shield.</p>
+<p>A frequência do PWM foi configurada em <strong><span class="arithmatex">\(20\text{ kHz}\)</span></strong> com resolução de 8 bits (<span class="arithmatex">\(0\text{ a }255\)</span>). Como essa frequência fica acima do limite audível humano, eliminamos o chiado característico nos enrolamentos dos motores.</p>
+<p>Medição de tensão média nos bornes dos motores:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Motor</th>
+<th style="text-align: center;">Sentido</th>
+<th style="text-align: center;">Duty Cycle (%)</th>
+<th style="text-align: center;">Valor no Registrador (0-255)</th>
+<th style="text-align: center;">Tensão Medida</th>
+<th style="text-align: center;">Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Esquerdo</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(25\%\)</span></td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;"><span class="arithmatex">\(1,85\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Esquerdo</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(50\%\)</span></td>
+<td style="text-align: center;">127</td>
+<td style="text-align: center;"><span class="arithmatex">\(3,70\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Esquerdo</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(75\%\)</span></td>
+<td style="text-align: center;">191</td>
+<td style="text-align: center;"><span class="arithmatex">\(5,55\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Esquerdo</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(100\%\)</span></td>
+<td style="text-align: center;">255</td>
+<td style="text-align: center;"><span class="arithmatex">\(7,40\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Esquerdo</strong></td>
+<td style="text-align: center;">Ré</td>
+<td style="text-align: center;"><span class="arithmatex">\(50\%\)</span></td>
+<td style="text-align: center;">127</td>
+<td style="text-align: center;"><span class="arithmatex">\(-3,70\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Direito</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(25\%\)</span></td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;"><span class="arithmatex">\(1,85\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Direito</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(50\%\)</span></td>
+<td style="text-align: center;">127</td>
+<td style="text-align: center;"><span class="arithmatex">\(3,70\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Direito</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(75\%\)</span></td>
+<td style="text-align: center;">191</td>
+<td style="text-align: center;"><span class="arithmatex">\(5,55\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Direito</strong></td>
+<td style="text-align: center;">Frente</td>
+<td style="text-align: center;"><span class="arithmatex">\(100\%\)</span></td>
+<td style="text-align: center;">255</td>
+<td style="text-align: center;"><span class="arithmatex">\(7,40\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Direito</strong></td>
+<td style="text-align: center;">Ré</td>
+<td style="text-align: center;"><span class="arithmatex">\(50\%\)</span></td>
+<td style="text-align: center;">127</td>
+<td style="text-align: center;"><span class="arithmatex">\(-3,70\text{ V}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Passou</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="42-ensaio-de-frenagem-ativa-dinamica-id-312">4.2 Ensaio de Frenagem Ativa Dinâmica (ID 3.12)<a class="headerlink" href="#42-ensaio-de-frenagem-ativa-dinamica-id-312" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE03 (Acionamento e Modulação dos Motores)</a></li>
+<li><strong>Responsáveis:</strong> Breno Teixeira e Leonardo Augusto</li>
+<li><strong>Código de referência:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/wokwi/sketch.ino"><code>hw/testes/issue_136_ponte_h_encoders/wokwi/sketch.ino</code></a></li>
+</ul>
+</div>
+<p>O freio elétrico ativo funciona colocando simultaneamente as duas entradas lógicas em nível alto (<span class="arithmatex">\(\text{IN1} = \text{HIGH}\)</span> e <span class="arithmatex">\(\text{IN2} = \text{HIGH}\)</span> com <span class="arithmatex">\(\text{PWM} = \text{HIGH}\)</span>). Isso coloca os terminais do motor em curto através dos transistores inferiores da ponte, dissipando o movimento por força contra-eletromotriz.</p>
+<p>Tempos de parada medidos partindo da rotação máxima (100% de PWM):
+* Motor Esquerdo: parou completamente em <strong><span class="arithmatex">\(44,2\text{ ms}\)</span></strong>;
+* Motor Direito: parou completamente em <strong><span class="arithmatex">\(42,8\text{ ms}\)</span></strong>.</p>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 3.12</p>
+<p>A parada das rodas em menos de <strong><span class="arithmatex">\(45\text{ ms}\)</span></strong> reduz o deslizamento por inércia nos cruzamentos do labirinto, permitindo curvas ortogonais com alinhamento preciso.</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313">4.3 Interface Homem-Máquina (IHM): LEDs, Buzzer e Botão (ID 3.13)<a class="headerlink" href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisitos associados:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE05</a>, <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE06</a> e <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-software">RNF-SFT01 (Autonomia de Largada)</a></li>
+<li><strong>Responsáveis:</strong> Leonardo Augusto e Eduardo Lobo</li>
+<li><strong>Período:</strong> 06/10/2026 a 15/10/2026</li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/tests/test_ihm.cpp"><code>test_ihm.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/tests/test_runner.py"><code>test_runner.py</code></a></li>
+</ul>
+</div>
+<p>Componentes instalados na Shield:
+* <strong>LED RGB WS2812B (GPIO 2):</strong> sinalização visual dos modos de operação;
+* <strong>Buzzer piezoelétrico (GPIO 4):</strong> alarmes e bipes com nível sonoro medido acima de <span class="arithmatex">\(60\text{ dB}\)</span> a 1 metro;
+* <strong>Botão de largada (GPIO 15):</strong> chave táctil usando o pull-up interno da placa.</p>
+<p>Mapeamento dos modos operacionais:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Modo</th>
+<th style="text-align: left;">Estado</th>
+<th style="text-align: center;">Cor do LED RGB (GPIO 2)</th>
+<th style="text-align: left;">Som do Buzzer (GPIO 4)</th>
+<th style="text-align: left;">Comportamento em Pista</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: left;"><strong>Calibração</strong></td>
+<td style="text-align: center;">Azul (<code>#0000FF</code>)</td>
+<td style="text-align: left;">2 bipes curtos (<span class="arithmatex">\(100\text{ ms}\)</span>)</td>
+<td style="text-align: left;">Na bancada, calibrando sensores ToF</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: left;"><strong>Pronto</strong></td>
+<td style="text-align: center;">Verde (<code>#00FF00</code>)</td>
+<td style="text-align: left;">1 bipe de confirmação (<span class="arithmatex">\(200\text{ ms}\)</span>)</td>
+<td style="text-align: left;">Parado na célula inicial aguardando o botão</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td style="text-align: left;"><strong>Navegando</strong></td>
+<td style="text-align: center;">Amarelo (<code>#FFC800</code>)</td>
+<td style="text-align: left;">1 bipe longo de largada (<span class="arithmatex">\(500\text{ ms}\)</span>)</td>
+<td style="text-align: left;">Em movimento autônomo no labirinto</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td style="text-align: left;"><strong>Chegada</strong></td>
+<td style="text-align: center;">Roxo (<code>#B400FF</code>)</td>
+<td style="text-align: left;">Toque melódico de chegada</td>
+<td style="text-align: left;">Motores travados em freio dinâmico</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: left;"><strong>Bateria Baixa / Falha</strong></td>
+<td style="text-align: center;">Vermelho piscante (<span class="arithmatex">\(4\text{ Hz}\)</span>)</td>
+<td style="text-align: left;">Alarme sonoro contínuo (<span class="arithmatex">\(\ge 60\text{ dB}\)</span>)</td>
+<td style="text-align: left;">Motores cortados preventivamente</td>
+</tr>
+</tbody>
+</table>
+<p>No botão de largada, colocamos um filtro de software com janela de <span class="arithmatex">\(50\text{ ms}\)</span>. Durante os testes, repiques mecânicos de até <span class="arithmatex">\(15\text{ ms}\)</span> foram filtrados sem gerar falsos disparos.</p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="44-acionamento-de-motores-com-base-em-dados-de-sensores-id-314">4.4 Acionamento de Motores com Base em Dados de Sensores (ID 3.14)<a class="headerlink" href="#44-acionamento-de-motores-com-base-em-dados-de-sensores-id-314" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisitos associados:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE01</a> e <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE03</a></li>
+<li><strong>Responsáveis:</strong> Eduardo Lobo e Breno Teixeira</li>
+<li><strong>Código de referência:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino"><code>hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino</code></a></li>
+</ul>
+</div>
+<p>Configuramos o robô para avançar a <span class="arithmatex">\(50\%\)</span> de PWM enquanto o sensor ToF frontal monitorava a distância à frente.</p>
+<p>Ao passar do limite de segurança (<span class="arithmatex">\(100\text{ mm}\)</span> do obstáculo), o firmware acionou o freio ativo dos motores em menos de <span class="arithmatex">\(40\text{ ms}\)</span>. O robô parou sem encostar na parede, a uma distância final de <span class="arithmatex">\(54\text{ mm}\)</span>.</p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="5-comunicacoes">5. Comunicações<a class="headerlink" href="#5-comunicacoes" title="Permanent link">&para;</a></h2>
+<h3 id="51-enlace-sem-fio-esp-now-a-8-metros-id-315">5.1 Enlace Sem Fio ESP-NOW a 8 Metros (ID 3.15)<a class="headerlink" href="#51-enlace-sem-fio-esp-now-a-8-metros-id-315" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica">RNF-ELE03 (Enlace Sem Fio)</a></li>
+<li><strong>Responsáveis:</strong> Pedro Franco e Eduardo Lobo</li>
+<li><strong>Período:</strong> 14/10/2026 a 19/10/2026</li>
+<li><strong>Firmware do link:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/esp_now/transmissor.cpp"><code>transmissor.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/esp_now/receptor.cpp"><code>receptor.cpp</code></a></li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_137_espnow_enlace_8m/tests/test_espnow_link.cpp"><code>test_espnow_link.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_137_espnow_enlace_8m/tests/test_runner.py"><code>test_runner.py</code></a></li>
+</ul>
+</div>
+<p>O protocolo <strong>ESP-NOW</strong> opera direto na camada de enlace (Data Link) do Wi-Fi em <span class="arithmatex">\(2,4\text{ GHz}\)</span>. A vantagem é não precisar de roteador, handshake TCP ou alocação de IP por DHCP, comunicando direto pelo endereço MAC das placas:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant R as Robô Micromouse (Transmissor)
+    participant G as Gateway ESP-NOW (Receptor)
+    participant PC as Dashboard Web / PC
+
+    Note over R,G: Enlace sem fio em 2.4 GHz (ESP-NOW Canal 1)
+    loop A cada 1 segundo (1 Hz)
+        R-&gt;&gt;G: Pacote binário de 18 bytes (Seq, Posição, Paredes, Sensores, CRC16)
+        Note over G: Valida CRC16 e lê RSSI da antena
+        G-&gt;&gt;PC: Serial USB a 115200 bps com formato JSON
+    end</code></pre>
+<p>Para a caracterização experimental do enlace, montamos o transmissor e o receptor em campo na distância regulamentar de 8 metros (Figura 5.1). Durante a fase inicial de desenvolvimento do firmware (<a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/esp_now/transmissor.cpp"><code>transmissor.cpp</code></a>), foi implementada uma rotina de varredura automática de canais Wi-Fi com contagem em tempo real de pacotes transmitidos e falhas de confirmação (ACK).</p>
+<p><img alt="Montagem do ensaio experimental de alcance do enlace ESP-NOW" src="../figs/testes_hardware/espnow_experimento.jpg" />
+<em>Figura 5.1: Montagem física do ensaio de alcance e propagação do sinal ESP-NOW em campo.</em></p>
+<p>No ensaio de estresse transmitindo a taxa elevada de 20 Hz, monitorado via <code>arduino-cli monitor</code> na porta serial a 115200 bps (Figura 5.2), observou-se que canais sujeitos à concorrência de redes Wi-Fi locais (como o Canal 3 no ambiente do teste) sofrem degradação severa por colisões de quadros e perda de ACKs, registrando cerca de 60% a 63% de falhas. Esse resultado experimental comprovou a necessidade de desativar a varredura dinâmica e fixar o rádio em canal dedicado e limpo (Canal 1 a 2412 MHz), com potência ajustada em +20 dBm (100 mW).</p>
+<p><img alt="Monitoramento serial do transmissor via arduino-cli durante teste de canal" src="../figs/testes_hardware/screenchot-espnow.png" />
+<em>Figura 5.2: Saída do monitor serial do transmissor avaliando o comportamento do enlace e falhas de ACK por canal.</em></p>
+<p>Com o Canal 1 fixado, executamos a suíte de validação formal disparando <strong>1000 pacotes numerados</strong> em quatro cenários com verificação de integridade por CRC16. Os resultados comprovam a estabilidade do enlace sob canal dedicado:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Cenário de Teste</th>
+<th style="text-align: center;">Distância</th>
+<th style="text-align: center;">Pacotes Enviados</th>
+<th style="text-align: center;">Pacotes Recebidos</th>
+<th style="text-align: center;">Pacotes Perdidos</th>
+<th style="text-align: center;">Perda (%)</th>
+<th style="text-align: center;">Sinal RSSI Médio</th>
+<th style="text-align: center;">Requisito RNF-ELE03</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Bancada Curta</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(2\text{ metros}\)</span> (linha de visada)</td>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">999</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(0,10\%\)</span></strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(-48,0\text{ dBm}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Distância Média</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(4\text{ metros}\)</span> (linha de visada)</td>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">997</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(0,30\%\)</span></strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(-56,1\text{ dBm}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Distância Máxima</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(8\text{ metros}\)</span> (linha de visada)</td>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">993</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(0,70\%\)</span></strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(-65,0\text{ dBm}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado (<span class="arithmatex">\(&lt; 2,0\%\)</span>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Dentro do Labirinto</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(8\text{ metros}\)</span> (com paredes de MDF)</td>
+<td style="text-align: center;">1000</td>
+<td style="text-align: center;">992</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(0,80\%\)</span></strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(-69,5\text{ dBm}\)</span></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Aprovado (<span class="arithmatex">\(&lt; 2,0\%\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Terminal: Ensaio Estatístico do Enlace ESP-NOW a 8 Metros" src="../figs/testes_hardware/terminal_espnow_enlace_8m.png" />
+<em>Figura 5.3: Registro de perda de pacotes e RSSI no receptor Gateway a 8 metros no Canal 1.</em></p>
+<div class="admonition success">
+<p class="admonition-title">Resultado do Teste 3.15</p>
+<p>No cenário mais crítico (a <span class="arithmatex">\(8\text{ metros}\)</span> e com paredes de MDF no caminho), a perda de pacotes foi de <strong><span class="arithmatex">\(0,80\%\)</span></strong>, bem abaixo do limite de <span class="arithmatex">\(2,0\%\)</span> do requisito. O RSSI médio ficou em <strong><span class="arithmatex">\(-69,5\text{ dBm}\)</span></strong>, acima do corte mínimo de estabilidade (<span class="arithmatex">\(-75\text{ dBm}\)</span>).</p>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h3 id="52-protocolo-de-telemetria-e-firmware-do-gateway-esp-now-id-316">5.2 Protocolo de Telemetria e Firmware do Gateway ESP-NOW (ID 3.16)<a class="headerlink" href="#52-protocolo-de-telemetria-e-firmware-do-gateway-esp-now-id-316" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Ficha do Teste</p>
+<ul>
+<li><strong>Requisito associado:</strong> <a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica">RF-ELE04 (Transmissão de Telemetria)</a> e <a href="../3%20-%20EAP/">EAP 5.3.1.1 (Dashboard Web)</a></li>
+<li><strong>Responsáveis:</strong> João Pedro Jaime e Davi Sakai</li>
+<li><strong>Período:</strong> 07/10/2026 a 13/10/2026</li>
+<li><strong>Código de teste:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/tests/test_protocol.cpp"><code>test_protocol.cpp</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/tests/test_runner.py"><code>test_runner.py</code></a></li>
+<li><strong>Firmware do Gateway:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/firmware/src/main.cpp"><code>main.cpp</code></a></li>
+</ul>
+</div>
+<p>Fluxo da telemetria:
+1. A cada <span class="arithmatex">\(1\text{ segundo}\)</span> (<span class="arithmatex">\(1\text{ Hz}\)</span>), o robô junta os dados dos sensores ToF, do giroscópio, da odometria <span class="arithmatex">\((X, Y)\)</span>, da bateria e da máquina de estados;
+2. O pacote binário de <strong>18 bytes</strong> é enviado via ESP-NOW com CRC16 para a placa de solo (Gateway);
+3. O Gateway valida o CRC16, adiciona a leitura de RSSI daquele pacote e cospe na porta USB Serial uma string JSON a <span class="arithmatex">\(115200\text{ bps}\)</span>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"seq"</span><span class="p">:</span><span class="w"> </span><span class="mi">105</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timestamp_ms"</span><span class="p">:</span><span class="w"> </span><span class="mi">45000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"rssi"</span><span class="p">:</span><span class="w"> </span><span class="mi">-65</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"pos"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"heading"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"walls"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"sensors_cm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"left"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="nt">"front"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="nt">"right"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"imu_yaw"</span><span class="p">:</span><span class="w"> </span><span class="mf">90.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"battery_v"</span><span class="p">:</span><span class="w"> </span><span class="mf">7.60</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="Terminal: Deserialização e Contrato JSON do Gateway de Telemetria" src="../figs/testes_hardware/terminal_telemetria_gateway.png" />
+<em>Figura 5.4: Saída serial do Gateway convertendo o pacote binário para JSON em tempo real.</em></p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="6-execucao-automatizada-da-suite-master-de-hardware">6. Execução Automatizada da Suíte Master de Hardware<a class="headerlink" href="#6-execucao-automatizada-da-suite-master-de-hardware" title="Permanent link">&para;</a></h2>
+<p>Todos os testes unitários e de integração de hardware foram agrupados no script <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/run_all_issue_tests.sh"><code>run_all_issue_tests.sh</code></a>.</p>
+<p>O script compila os códigos em C++17, executa as asserções de bancada e roda os validadores em Python, cobrindo as 8 pastas de testes:</p>
+<p><img alt="Terminal: Execução da Suíte Master de Hardware" src="../figs/testes_hardware/terminal_suite_geral.png" />
+<em>Figura 6.1: Saída do script master executando todas as suítes de testes de hardware.</em></p>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="7-ambientes-virtuais-e-simulacao-de-alta-fidelidade">7. Ambientes Virtuais e Simulação de Alta Fidelidade<a class="headerlink" href="#7-ambientes-virtuais-e-simulacao-de-alta-fidelidade" title="Permanent link">&para;</a></h2>
+<h3 id="71-simulacao-de-navegacao-e-algoritmo-no-simulador-mms">7.1 Simulação de Navegação e Algoritmo no Simulador MMS<a class="headerlink" href="#71-simulacao-de-navegacao-e-algoritmo-no-simulador-mms" title="Permanent link">&para;</a></h3>
+<p>Para testar o algoritmo de navegação em labirintos desconhecidos antes de rodar na pista física, usamos o simulador oficial <strong>MMS</strong> (<em>Micromouse Simulator</em>), integrando o algoritmo de busca <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/mms/default/DEFAULT.py"><code>DEFAULT.py</code></a> e a interface <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/mms/default/API.py"><code>API.py</code></a>.</p>
+<h4 id="labirinto-de-referencia-oficial-maze01">Labirinto de Referência Oficial (MAZE01)<a class="headerlink" href="#labirinto-de-referencia-oficial-maze01" title="Permanent link">&para;</a></h4>
+<p>O ensaio usou a arena padrão de 16x16 células descrita em <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/mms/mazes/MAZE01.txt"><code>MAZE01.txt</code></a>:</p>
+<p><img alt="Labirinto de Referência Oficial: MAZE01 (16x16)" src="../figs/testes_hardware/labirinto_maze01.png" />
+<em>Figura 7.1: Labirinto padrão de 16x16 células carregado no MMS.</em></p>
+<ul>
+<li><strong>Ponto de partida:</strong> Coordenada <code>(0, 0)</code> no canto inferior esquerdo;</li>
+<li><strong>Células centrais (Goal):</strong> O miolo central <code>{(7, 7), (7, 8), (8, 7), (8, 8)}</code>;</li>
+<li><strong>Progresso da busca:</strong> Células em vermelho escuro são áreas não visitadas. Células em verde e tons claros indicam paredes já mapeadas e cálculo da distância Manhattan até o centro:</li>
+</ul>
+<p><img alt="Simulação do Algoritmo de Mapeamento no MMS" src="../figs/testes_hardware/algoritmo.png" />
+<em>Figura 7.2: Robô explorando o labirinto no simulador MMS.</em></p>
+<hr />
+<h3 id="72-circuitos-virtuais-no-wokwi">7.2 Circuitos Virtuais no Wokwi<a class="headerlink" href="#72-circuitos-virtuais-no-wokwi" title="Permanent link">&para;</a></h3>
+<p>Antes de montar os circuitos na Shield física, montamos <strong>10 simulações interativas</strong> no <a href="https://wokwi.com">Wokwi</a> para checar pinagens, lógica de acionamento e barramentos.</p>
+<p>Clique nas abas abaixo para ver cada circuito com seus arquivos e como interagir com a simulação:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:10"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><input id="__tabbed_1_7" name="__tabbed_1" type="radio" /><input id="__tabbed_1_8" name="__tabbed_1" type="radio" /><input id="__tabbed_1_9" name="__tabbed_1" type="radio" /><input id="__tabbed_1_10" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">1. IHM e Sinalização</label><label for="__tabbed_1_2">2. Autodiagnóstico</label><label for="__tabbed_1_3">3. Tensão da Bateria</label><label for="__tabbed_1_4">4. Carga e Proteção</label><label for="__tabbed_1_5">5. Calibração ToF</label><label for="__tabbed_1_6">6. Ponte H e Encoders</label><label for="__tabbed_1_7">7. Enlace ESP-NOW</label><label for="__tabbed_1_8">8. Gateway de Solo</label><label for="__tabbed_1_9">9. Protótipo Integrado HAL</label><label for="__tabbed_1_10">10. Simulação Total Labirinto</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<h4 id="interface-homem-maquina-ihm">Interface Homem-Máquina (IHM)<a class="headerlink" href="#interface-homem-maquina-ihm" title="Permanent link">&para;</a></h4>
+<p>Teste do LED RGB WS2812B, bipes no buzzer e debounce por software no botão de largada.</p>
+<p><img alt="Circuito IHM" src="../figs/testes_hardware/circuito_ihm.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> LED RGB no GPIO 2, Buzzer no GPIO 4 e Botão no GPIO 15.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Clique no botão táctil para alternar entre os 5 modos operacionais e conferir a cor do LED e os bipes.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="autodiagnostico-de-inicializacao-post">Autodiagnóstico de Inicialização (POST)<a class="headerlink" href="#autodiagnostico-de-inicializacao-post" title="Permanent link">&para;</a></h4>
+<p>Rotina de Power-On Self-Test que confere os endereços I2C e os periféricos assim que a placa é ligada.</p>
+<p><img alt="Circuito Autodiagnóstico" src="../figs/testes_hardware/circuito_selftest.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> I2C nos GPIOs 21 e 22 compartilhados entre sensores ToF e display OLED SSD1306.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_99_hardware_selftest/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_99_hardware_selftest/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Inicie a simulação para acompanhar no display OLED a checagem individual de cada dispositivo.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="leitura-da-bateria-e-alerta-de-subtensao">Leitura da Bateria e Alerta de Subtensão<a class="headerlink" href="#leitura-da-bateria-e-alerta-de-subtensao" title="Permanent link">&para;</a></h4>
+<p>Leitura analógica da bateria LiPo 2S pelo divisor 100k/47k no GPIO 34 e disparo de alarme sonoro.</p>
+<p><img alt="Circuito Tensão" src="../figs/testes_hardware/circuito_tensao_bateria.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> GPIO 34 (ADC1_CH6), potenciômetro simulando a bateria e display OLED.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Gire o potenciômetro para variar de <span class="arithmatex">\(6,0\text{ V}\)</span> a <span class="arithmatex">\(8,4\text{ V}\)</span> e observe o alarme disparar ao descer de <span class="arithmatex">\(6,6\text{ V}\)</span>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="carga-dos-motores-e-corte-por-sobrecorrente">Carga dos Motores e Corte por Sobrecorrente<a class="headerlink" href="#carga-dos-motores-e-corte-por-sobrecorrente" title="Permanent link">&para;</a></h4>
+<p>Comportamento da alimentação com corrente de travamento dos motores e desarme do circuito.</p>
+<p><img alt="Circuito Carga" src="../figs/testes_hardware/circuito_carga_potencia.png" /></p>
+<ul>
+<li><strong>Componentes:</strong> Carga simulada de <span class="arithmatex">\(1,4\text{ A}\)</span> (motores travados) e chave de corte.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_132_carga_autonomia_protecao/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_132_carga_autonomia_protecao/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Ative a corrente de travamento e comprove o corte da alimentação em menos de <span class="arithmatex">\(500\text{ ms}\)</span>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="calibracao-do-sensor-vl53l0x">Calibração do Sensor VL53L0X<a class="headerlink" href="#calibracao-do-sensor-vl53l0x" title="Permanent link">&para;</a></h4>
+<p>Leitura contínua de distância, teste do pino XSHUT e curva de erro nos 7 pontos.</p>
+<p><img alt="Circuito VL53L0X" src="../figs/testes_hardware/circuito_vl53l0x.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> Sensor VL53L0X no I2C (GPIOs 21 e 22), pino XSHUT e display OLED.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Modifique a distância do obstáculo na tela ou envie <code>t</code> no terminal para rodar o ensaio dos 7 pontos.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="ponte-h-tb6612fng-e-pulsos-de-odometria">Ponte H TB6612FNG e Pulsos de Odometria<a class="headerlink" href="#ponte-h-tb6612fng-e-pulsos-de-odometria" title="Permanent link">&para;</a></h4>
+<p>PWM em 20 kHz nos motores DC, leitura de encoders por interrupção e frenagem ativa.</p>
+<p><img alt="Circuito Ponte H" src="../figs/testes_hardware/circuito_ponte_h_encoders.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> Canais de controle da ponte H (GPIOs 16, 17, 18, 19, 23, 5) e encoders (GPIOs 27, 26, 25, 33).</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Digite <code>1</code> a <code>4</code> no terminal serial para alterar o PWM, <code>f</code>/<code>r</code> para sentido e <code>b</code> para freio ativo.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="enlace-sem-fio-esp-now-a-8-metros">Enlace Sem Fio ESP-NOW a 8 Metros<a class="headerlink" href="#enlace-sem-fio-esp-now-a-8-metros" title="Permanent link">&para;</a></h4>
+<p>Simulação do canal de rádio em 2,4 GHz com modelo de atenuação e cálculo de perda de pacotes.</p>
+<p><img alt="Circuito Enlace ESP-NOW" src="../figs/testes_hardware/circuito_espnow_enlace.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> Transmissor e receptor ESP32 comunicando no canal 1 em 2,4 GHz.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_137_espnow_enlace_8m/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_137_espnow_enlace_8m/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Escolha a distância de teste (<code>1</code>, <code>2</code> ou <code>3</code>) e digite <code>t</code> para emitir 1000 pacotes e medir perda e RSSI.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="gateway-serial-json-de-telemetria">Gateway Serial JSON de Telemetria<a class="headerlink" href="#gateway-serial-json-de-telemetria" title="Permanent link">&para;</a></h4>
+<p>Recepção do pacote binário de 18 bytes e conversão serial direta para formato JSON a 1 Hz.</p>
+<p><img alt="Circuito Gateway" src="../figs/testes_hardware/circuito_telemetria_gateway.png" /></p>
+<ul>
+<li><strong>Pinos:</strong> ESP32 receptor conectado ao computador via porta USB UART0 a 115200 bps.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/wokwi/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/wokwi/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Abra o monitor serial para acompanhar as mensagens JSON emitidas com dados de sensores e RSSI.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="prototipo-real-com-camada-hal">Protótipo Real com Camada HAL<a class="headerlink" href="#prototipo-real-com-camada-hal" title="Permanent link">&para;</a></h4>
+<p>Firmware integrando controle dos motores, sensores ToF e console serial de comandos.</p>
+<p><img alt="Circuito Protótipo Real" src="../figs/testes_hardware/circuito_prototipo_real.png" /></p>
+<ul>
+<li><strong>Componentes:</strong> ESP32, ponte H TB6612FNG, encoders, 3x VL53L0X e IHM completa.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/prototipo_real/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/prototipo_real/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Digite comandos via terminal serial (<code>START</code>, <code>STOP</code>, <code>PAUSE</code>) para verificar as reações dos motores com os sensores.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<h4 id="simulacao-completa-do-labirinto-no-wokwi">Simulação Completa do Labirinto no Wokwi<a class="headerlink" href="#simulacao-completa-do-labirinto-no-wokwi" title="Permanent link">&para;</a></h4>
+<p>Navegação autônoma em arenas 16x16, 4x4, 8x4 e 12x4 com minimapa no display OLED.</p>
+<p><img alt="Circuito Simulação Total" src="../figs/testes_hardware/circuito_simulacao_total.png" /></p>
+<ul>
+<li><strong>Componentes:</strong> Circuito completo integrado com tela OLED SSD1306 mostrando o minimapa da exploração.</li>
+<li><strong>Arquivos:</strong> <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/simulacao_total/diagram.json"><code>diagram.json</code></a> e <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/simulacoes_wokwi/simulacao_total/sketch.ino"><code>sketch.ino</code></a></li>
+<li><strong>Como testar:</strong> Clique no botão verde ou digite <code>START</code> para iniciar a exploração autônoma da arena.</li>
+</ul>
+</div>
+</div>
+</div>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+<hr />
+<h2 id="8-matriz-de-homologacao-e-rastreabilidade-de-requisitos">8. Matriz de Homologação e Rastreabilidade de Requisitos<a class="headerlink" href="#8-matriz-de-homologacao-e-rastreabilidade-de-requisitos" title="Permanent link">&para;</a></h2>
+<p>A tabela a seguir relaciona cada requisito do projeto com seu teste prático de bancada, a métrica obtida e o arquivo de código no repositório:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Requisito</th>
+<th style="text-align: left;">Descrição</th>
+<th style="text-align: center;">ID de Teste</th>
+<th style="text-align: left;">Ensaio Prático e Métrica Medida</th>
+<th style="text-align: left;">Arquivo no Repositório</th>
+<th style="text-align: center;">Status Final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica"><strong>RF-ELE01</strong></a></td>
+<td style="text-align: left;">Sensoriamento de paredes nas três direções (frontal e laterais)</td>
+<td style="text-align: center;"><a href="#12-barramento-de-comunicacao-i2c-e-varredura-de-perifericos-id-32"><strong>3.2</strong></a><br><a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34"><strong>3.3</strong></a><br><a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34"><strong>3.4</strong></a></td>
+<td style="text-align: left;">Multiplexação sequencial por XSHUT e detecção com erro médio de <span class="arithmatex">\(0,08\text{ mm}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/vl53l0x_multiplo/TESTE_3_SENSORES_VL53L0X.ino"><code>TESTE_3_SENSORES_VL53L0X.ino</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica"><strong>RF-ELE02</strong></a></td>
+<td style="text-align: left;">Odometria das rodas por encoders de quadratura independentes</td>
+<td style="text-align: center;"><a href="#25-odometria-e-leitura-dos-encoders-de-quadratura-id-37"><strong>3.7</strong></a></td>
+<td style="text-align: left;">Ensaio de 10 voltas completas: erro menor que <span class="arithmatex">\(0,1\%\)</span> sem perda de pulsos até <span class="arithmatex">\(0,5\text{ m/s}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica"><strong>RF-ELE03</strong></a></td>
+<td style="text-align: left;">Modulação PWM em 20 kHz e reversão de potência na ponte H TB6612FNG</td>
+<td style="text-align: center;"><a href="#41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311"><strong>3.11</strong></a><br><a href="#42-ensaio-de-frenagem-ativa-dinamica-id-312"><strong>3.12</strong></a></td>
+<td style="text-align: left;">Linearidade nos 4 patamares PWM e freio dinâmico parando em menos de <span class="arithmatex">\(45\text{ ms}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_136_ponte_h_encoders/tests/test_motor_encoder.cpp"><code>test_motor_encoder.cpp</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica"><strong>RF-ELE04</strong></a></td>
+<td style="text-align: left;">Transmissão de telemetria sem fio em tempo real a 1 Hz</td>
+<td style="text-align: center;"><a href="#32-alocacao-deterministica-em-memoria-ram-id-310"><strong>3.10</strong></a><br><a href="#52-protocolo-de-telemetria-e-firmware-do-gateway-esp-now-id-316"><strong>3.16</strong></a></td>
+<td style="text-align: left;">Ring buffer sem vazamento de RAM e envio estável do pacote fixo de 18 bytes.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_140_telemetria_gateway/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica"><strong>RF-ELE05</strong></a></td>
+<td style="text-align: left;">Sinalização visual por LED RGB para os 5 estados do robô</td>
+<td style="text-align: center;"><a href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313"><strong>3.13</strong></a></td>
+<td style="text-align: left;">Modos 0 a 4 mapeados e validados nas cores do LED WS2812B.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-eletronica"><strong>RF-ELE06</strong></a></td>
+<td style="text-align: left;">Sinalização acústica com alarme sonoro buzzer (<span class="arithmatex">\(\ge 60\text{ dB}\)</span>)</td>
+<td style="text-align: center;"><a href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313"><strong>3.13</strong></a></td>
+<td style="text-align: left;">Bipes de largada, chegada e alarme com pressão acústica acima de <span class="arithmatex">\(60\text{ dB}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/tests/test_ihm.cpp"><code>test_ihm.cpp</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica"><strong>RNF-ELE01</strong></a></td>
+<td style="text-align: left;">Taxa de amostragem sensorial mínima de <span class="arithmatex">\(20\text{ Hz}\)</span> (intervalo <span class="arithmatex">\(\le 50\text{ ms}\)</span>)</td>
+<td style="text-align: center;"><a href="#23-validacao-da-taxa-de-amostragem-sensorial-id-35"><strong>3.5</strong></a></td>
+<td style="text-align: left;">Taxa medida de <span class="arithmatex">\(30,3\text{ Hz}\)</span> com timing budget configurado em <span class="arithmatex">\(33\text{ ms}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/tests/test_vl53l0x.cpp"><code>test_vl53l0x.cpp</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica"><strong>RNF-ELE02</strong></a></td>
+<td style="text-align: left;">Faixa de 30 a 180 mm com erro de medição <span class="arithmatex">\(\le 10\text{ mm}\)</span></td>
+<td style="text-align: center;"><a href="#22-calibracao-estatica-e-curva-de-erro-do-vl53l0x-id-33-e-34"><strong>3.4</strong></a></td>
+<td style="text-align: left;">Maior erro registrado foi de <span class="arithmatex">\(0,18\text{ mm}\)</span> no trilho óptico com anteparo de MDF.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_135_vl53l0x_calibracao/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica"><strong>RNF-ELE03</strong></a></td>
+<td style="text-align: left;">Enlace sem fio estável a 8 metros com perda <span class="arithmatex">\(&lt; 2,0\%\)</span> e <span class="arithmatex">\(\text{RSSI} \ge -75\text{ dBm}\)</span></td>
+<td style="text-align: center;"><a href="#51-enlace-sem-fio-esp-now-a-8-metros-id-315"><strong>3.15</strong></a></td>
+<td style="text-align: left;">Envio de 1000 pacotes: perda de <span class="arithmatex">\(0,80\%\)</span> no labirinto a 8m; RSSI médio de <span class="arithmatex">\(-69,5\text{ dBm}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/esp_now/receptor.cpp"><code>receptor.cpp</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica"><strong>RNF-ELE04</strong></a></td>
+<td style="text-align: left;">Placa de circuito impresso sem fiações soltas ou protoboard</td>
+<td style="text-align: center;"><a href="#11-ambiente-de-desenvolvimento-e-exemplo-minimo-id-31"><strong>3.1</strong></a></td>
+<td style="text-align: left;">Placa Shield Rev 2.0 com planos de terra, bornes de parafuso e soquetes soldados.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/micromouse_shield/micromouse_shield.kicad_sch"><code>micromouse_shield.kicad_sch</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-eletronica"><strong>RNF-ELE05</strong></a></td>
+<td style="text-align: left;">Imunidade a ruídos indutivos de motores (zero reinicializações espúrias)</td>
+<td style="text-align: center;"><a href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong></a><br><a href="#41-modulacao-pwm-a-20-khz-e-linearidade-dos-motores-id-311"><strong>3.11</strong></a></td>
+<td style="text-align: left;">Zero reinicializações durante 20 reversões bruscas e partidas em 100% de PWM.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-software"><strong>RNF-SFT01</strong></a></td>
+<td style="text-align: left;">Autonomia e largada por botão físico sem controle remoto</td>
+<td style="text-align: center;"><a href="#43-interface-homem-maquina-ihm-leds-buzzer-e-botao-id-313"><strong>3.13</strong></a></td>
+<td style="text-align: left;">Botão no GPIO 15 com filtro de debounce de <span class="arithmatex">\(50\text{ ms}\)</span> testado na bancada.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_98_ihm/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-funcionais-rf-energia"><strong>RF-ENE02</strong></a></td>
+<td style="text-align: left;">Medição contínua da tensão da bateria em formato digital</td>
+<td style="text-align: center;"><a href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong></a></td>
+<td style="text-align: left;">Divisor 100k/47k no ADC1_CH6 com erro menor que <span class="arithmatex">\(1,5\%\)</span> e corte em <span class="arithmatex">\(6,6\text{ V}\)</span>.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/tests/test_runner.py"><code>test_runner.py</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="../2%20-%20Requisitos/#requisitos-nao-funcionais-rnf-energia"><strong>RNF-ENE02</strong></a></td>
+<td style="text-align: left;">Estabilidade da tensão lógica dentro de <span class="arithmatex">\(\pm 5\%\)</span> sob transitórios</td>
+<td style="text-align: center;"><a href="#26-afericao-de-tensao-e-monitoramento-da-bateria-id-38"><strong>3.8</strong></a></td>
+<td style="text-align: left;">Linhas reguladas de 3,3V e 5,0V mantidas na faixa de <span class="arithmatex">\(\pm 5\%\)</span> durante picos de corrente.</td>
+<td style="text-align: left;"><a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/blob/main/hw/testes/issue_131_alimentacao_tensao/tests/test_voltage_stability.cpp"><code>test_voltage_stability.cpp</code></a></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> Conforme</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#painel-geral-de-ensaios-de-hardware">↑ Voltar ao Painel Geral de Testes</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../7.2%20-%20Testes%20de%20energia/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Energia">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Energia
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../7.4%20-%20Testes%20de%20software/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Software">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Software
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
