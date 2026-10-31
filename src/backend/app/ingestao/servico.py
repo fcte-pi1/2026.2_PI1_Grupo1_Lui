@@ -42,12 +42,42 @@ def criar_fonte(
     return None
 
 
-async def ingerir(fonte: FonteTelemetria, gerenciador: GerenciadorConexoes) -> None:
-    """Difunde cada mensagem válida da fonte a todos os clientes do WebSocket."""
+async def ingerir(
+    fonte: FonteTelemetria, gerenciador: GerenciadorConexoes,
+    corridas=None, timeout_telemetria_s: float = 5.0,
+) -> None:
+    """Persiste cada leitura antes de difundi-la aos clientes WebSocket."""
+    import asyncio
+    import contextlib
+
+    iterador = fonte.mensagens().__aiter__()
+    proxima = None
     try:
-        async for mensagem in fonte.mensagens():
+        while True:
+            try:
+                if proxima is None:
+                    proxima = asyncio.create_task(iterador.__anext__())
+                if corridas is not None and corridas.tem_corrida_ativa:
+                    pronto, _ = await asyncio.wait({proxima}, timeout=timeout_telemetria_s)
+                    if not pronto:
+                        logger.warning("telemetria sem atualização por %.1f s", timeout_telemetria_s)
+                        corridas.interromper()
+                        continue
+                mensagem = await proxima
+                proxima = None
+            except StopAsyncIteration:
+                break
+            if corridas is not None:
+                corridas.processar(mensagem)
             await gerenciador.difundir(mensagem)
     except Exception:
         logger.exception("ingestão da telemetria interrompida por erro")
         raise
+    finally:
+        if proxima is not None and not proxima.done():
+            proxima.cancel()
+            with contextlib.suppress(asyncio.CancelledError, StopAsyncIteration):
+                await proxima
+        if corridas is not None:
+            corridas.interromper()
     logger.info("fonte de telemetria encerrada")

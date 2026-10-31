@@ -30,7 +30,7 @@ def test_mensagem_do_simulador_chega_ao_cliente_websocket():
     ]
 
     with (
-        TestClient(criar_app(fonte)) as cliente,
+        TestClient(criar_app(fonte, database_url="sqlite://")) as cliente,
         cliente.websocket_connect("/ws/telemetria") as ws,
     ):
         recebidas = [ws.receive_json() for _ in range(3)]
@@ -73,7 +73,7 @@ def test_cliente_que_conecta_depois_recebe_a_corrida_desde_a_largada():
         for linha in gerar_corrida(pista)
     ]
 
-    with TestClient(criar_app(fonte, gerenciador)) as cliente:
+    with TestClient(criar_app(fonte, gerenciador, database_url="sqlite://")) as cliente:
         time.sleep(0.5)  # o simulador já está rodando, sem ninguém ouvindo
         with cliente.websocket_connect("/ws/telemetria") as ws:
             recebidas = []
@@ -106,7 +106,7 @@ def test_criar_fonte_com_gerenciador_espera_painel():
 
 
 def test_app_sem_fonte_nao_inicia_ingestao():
-    with TestClient(criar_app()) as cliente:
+    with TestClient(criar_app(database_url="sqlite://")) as cliente:
         assert cliente.get("/health").json() == {"status": "ok"}
 
 

@@ -28,7 +28,7 @@ def mensagem():
 
 @pytest.fixture
 def app():
-    return criar_app()
+    return criar_app(database_url="sqlite://")
 
 
 @pytest.fixture

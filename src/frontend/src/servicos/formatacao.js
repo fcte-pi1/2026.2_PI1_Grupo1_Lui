@@ -18,7 +18,8 @@ export function rotuloStatus(status) {
         "CONCLUIDO": "Concluído",
         "COLISAO": "Colisão",
         "TIMEOUT": "Tempo esgotado",
-        "TRAVADO": "Travado"
+        "TRAVADO": "Travado",
+        "INTERROMPIDA": "Interrompida"
     };
     return mapaStatus[status] || "Desconhecido";
 }
@@ -28,7 +29,7 @@ export function bateriaBaixa(porcentagem) {
 }
 
 export function estiloStatus(status) {
-    if (status === "TRAVADO" || status === "COLISAO" || status === "TIMEOUT") {
+    if (status === "TRAVADO" || status === "COLISAO" || status === "TIMEOUT" || status === "INTERROMPIDA") {
         return "alerta";
     }
     return "normal";

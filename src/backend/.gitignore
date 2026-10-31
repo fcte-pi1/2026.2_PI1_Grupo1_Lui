@@ -1,6 +1,7 @@
 # Ambiente e segredos
 .venv/
 .env
+corridas.db
 
 # Python
 __pycache__/

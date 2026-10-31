@@ -22,7 +22,7 @@ describe('formatacao.js', () => {
     });
 
     describe('rotuloStatus', () => {
-        it('deve mapear os 7 estados corretamente', () => {
+        it('deve mapear os estados do protocolo e a interrupção calculada pelo backend', () => {
             expect(rotuloStatus('AGUARDANDO')).toBe('Em espera');
             expect(rotuloStatus('MAPEANDO')).toBe('Explorando');
             expect(rotuloStatus('SPEED_RUN')).toBe('Speed Run');
@@ -30,6 +30,7 @@ describe('formatacao.js', () => {
             expect(rotuloStatus('COLISAO')).toBe('Colisão');
             expect(rotuloStatus('TIMEOUT')).toBe('Tempo esgotado');
             expect(rotuloStatus('TRAVADO')).toBe('Travado');
+            expect(rotuloStatus('INTERROMPIDA')).toBe('Interrompida');
         });
         it('deve retornar Desconhecido para status invalido', () => {
             expect(rotuloStatus('STATUS_INVENTADO')).toBe('Desconhecido');
@@ -54,6 +55,7 @@ describe('formatacao.js', () => {
             expect(estiloStatus('TRAVADO')).toBe('alerta');
             expect(estiloStatus('COLISAO')).toBe('alerta');
             expect(estiloStatus('TIMEOUT')).toBe('alerta');
+            expect(estiloStatus('INTERROMPIDA')).toBe('alerta');
         });
         it('deve retornar normal para o resto', () => {
             expect(estiloStatus('AGUARDANDO')).toBe('normal');
