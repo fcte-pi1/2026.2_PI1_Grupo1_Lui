@@ -1,5 +1,6 @@
 # Ambiente e segredos
 .venv/
+.venv-win/
 .env
 corridas.db
 

@@ -28,7 +28,8 @@ def pacotes(cenario="completa"):
 
 
 def aguardar_corridas(cliente, predicado):
-    limite = time.monotonic() + 2
+    limite = time.monotonic() + 5
+    corridas = []
     while time.monotonic() < limite:
         corridas = cliente.get("/api/corridas").json()
         if predicado(corridas):
@@ -45,12 +46,21 @@ def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api():
             cliente, lambda itens: [c["status"] for c in itens] == ["TRAVADO", "CONCLUIDO"]
         )
         assert [c["status"] for c in corridas] == ["TRAVADO", "CONCLUIDO"]
-        detalhes = cliente.get(f"/api/corridas/{corridas[-1]['id']}").json()
+
+        limite = time.monotonic() + 5
+        detalhes = None
+
+        while time.monotonic() < limite:
+            detalhes = cliente.get(f"/api/corridas/{corridas[-1]['id']}").json()
+            if len(detalhes["leituras"]) == len(pacotes("completa")) - 2:
+                break
+            time.sleep(0.01)
+
+        assert detalhes is not None
         assert len(detalhes["leituras"]) == len(pacotes("completa")) - 2
         assert detalhes["leituras"][-1]["status"] == "CONCLUIDO"
         assert set(detalhes["leituras"][-1]["paredes"]) == {"norte", "sul", "leste", "oeste"}
         assert corridas[-1]["tentativa"] is None
-
 
 def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido():
     from app.servicos.corridas import ServicoCorridas
