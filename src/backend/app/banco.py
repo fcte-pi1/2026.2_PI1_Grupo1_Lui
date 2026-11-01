@@ -51,7 +51,7 @@ class Leitura(Base):
     parede_sul: Mapped[bool | None] = mapped_column("Parede_sul", Integer, nullable=True)
     parede_leste: Mapped[bool | None] = mapped_column(Integer, nullable=True)
     parede_oeste: Mapped[bool | None] = mapped_column(Integer, nullable=True)
-    seq: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    seq: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     rssi: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 

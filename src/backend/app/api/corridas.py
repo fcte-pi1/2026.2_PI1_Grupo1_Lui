@@ -8,6 +8,11 @@ router = APIRouter(prefix="/api/corridas", tags=["corridas"])
 ORIENTACAO_TELEMETRIA = {"N": "NORTE", "S": "SUL", "L": "LESTE", "O": "OESTE"}
 
 
+def _utc_iso(valor):
+    """Serializa o UTC ingênuo armazenado no banco sem perder o fuso."""
+    return f"{valor.isoformat()}Z" if valor else None
+
+
 def _status_atual(corrida):
     if corrida.status_final:
         return corrida.status_final
@@ -22,8 +27,8 @@ def _resumo(corrida):
         "status": _status_atual(corrida),
         "modo": corrida.modo,
         "tentativa": corrida.tentativa,
-        "iniciada_em": corrida.inicio.isoformat() if corrida.inicio else None,
-        "encerrada_em": corrida.fim.isoformat() if corrida.fim else None,
+        "iniciada_em": _utc_iso(corrida.inicio),
+        "encerrada_em": _utc_iso(corrida.fim),
         "tempo_total_ms": corrida.tempo_total_ms,
         "velocidade_media": corrida.velocidade_media,
         "bateria_inicial_pct": corrida.bateria_inicial_pct,

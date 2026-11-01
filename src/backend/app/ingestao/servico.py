@@ -46,38 +46,76 @@ async def ingerir(
     fonte: FonteTelemetria, gerenciador: GerenciadorConexoes,
     corridas=None, timeout_telemetria_s: float = 5.0,
 ) -> None:
-    """Persiste cada leitura antes de difundi-la aos clientes WebSocket."""
+    """Difunde a telemetria e persiste as leituras sem interromper o painel."""
     import asyncio
     import contextlib
 
     iterador = fonte.mensagens().__aiter__()
     proxima = None
+    fila_persistencia = asyncio.Queue() if corridas is not None else None
+    tarefa_persistencia = None
+    persistencia_em_andamento = False
+
+    async def persistir_em_segundo_plano():
+        nonlocal persistencia_em_andamento
+        while True:
+            mensagem = await fila_persistencia.get()
+            persistencia_em_andamento = True
+            try:
+                await asyncio.to_thread(corridas.processar, mensagem)
+            except Exception:
+                logger.exception("falha ao persistir telemetria; ingestão mantida")
+            finally:
+                persistencia_em_andamento = False
+                fila_persistencia.task_done()
+
+    if corridas is not None:
+        tarefa_persistencia = asyncio.create_task(persistir_em_segundo_plano())
     try:
         while True:
             try:
                 if proxima is None:
                     proxima = asyncio.create_task(iterador.__anext__())
-                if corridas is not None and corridas.tem_corrida_ativa:
+                aguardando_persistencia = (
+                    corridas is not None
+                    and (
+                        corridas.tem_corrida_ativa
+                        or persistencia_em_andamento
+                        or not fila_persistencia.empty()
+                    )
+                )
+                if aguardando_persistencia:
                     pronto, _ = await asyncio.wait({proxima}, timeout=timeout_telemetria_s)
                     if not pronto:
                         logger.warning("telemetria sem atualização por %.1f s", timeout_telemetria_s)
-                        corridas.interromper()
+                        try:
+                            await asyncio.to_thread(corridas.interromper)
+                        except Exception:
+                            logger.exception("falha ao interromper a corrida por timeout")
                         continue
                 mensagem = await proxima
                 proxima = None
             except StopAsyncIteration:
                 break
-            if corridas is not None:
-                corridas.processar(mensagem)
             await gerenciador.difundir(mensagem)
+            if fila_persistencia is not None:
+                await fila_persistencia.put(mensagem)
     except Exception:
         logger.exception("ingestão da telemetria interrompida por erro")
         raise
     finally:
+        if fila_persistencia is not None:
+            await fila_persistencia.join()
+            tarefa_persistencia.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await tarefa_persistencia
         if proxima is not None and not proxima.done():
             proxima.cancel()
             with contextlib.suppress(asyncio.CancelledError, StopAsyncIteration):
                 await proxima
         if corridas is not None:
-            corridas.interromper()
+            try:
+                await asyncio.to_thread(corridas.interromper)
+            except Exception:
+                logger.exception("falha ao interromper a corrida no encerramento")
     logger.info("fonte de telemetria encerrada")

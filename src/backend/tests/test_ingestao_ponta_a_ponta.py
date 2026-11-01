@@ -150,6 +150,16 @@ class GerenciadorFalso:
         self.difundidas.append(mensagem)
 
 
+class CorridasIndisponiveis:
+    tem_corrida_ativa = False
+
+    def processar(self, mensagem):
+        raise RuntimeError("banco indisponível")
+
+    def interromper(self):
+        raise RuntimeError("banco indisponível")
+
+
 def test_ingerir_difunde_cada_mensagem(mensagem):
     telemetria = TelemetriaMensagem.model_validate(mensagem)
     gerenciador = GerenciadorFalso()
@@ -157,6 +167,23 @@ def test_ingerir_difunde_cada_mensagem(mensagem):
     asyncio.run(ingerir(FonteDeLista([telemetria, telemetria]), gerenciador))
 
     assert gerenciador.difundidas == [telemetria, telemetria]
+
+
+def test_banco_indisponivel_nao_interrompe_a_difusao(mensagem, caplog):
+    telemetria = TelemetriaMensagem.model_validate(mensagem)
+    gerenciador = GerenciadorFalso()
+
+    with caplog.at_level(logging.ERROR):
+        asyncio.run(
+            ingerir(
+                FonteDeLista([telemetria, telemetria]),
+                gerenciador,
+                CorridasIndisponiveis(),
+            )
+        )
+
+    assert gerenciador.difundidas == [telemetria, telemetria]
+    assert "falha ao persistir telemetria" in caplog.text
 
 
 def test_erro_na_fonte_e_registrado(mensagem, caplog):

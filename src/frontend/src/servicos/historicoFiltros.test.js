@@ -32,7 +32,7 @@ describe('servicos/historicoFiltros.js', () => {
         });
 
         it('deve formatar data ISO adequadamente', () => {
-            const dataIso = new Date(2023, 9, 25, 15, 30); // 25 de Outubro de 2023
+            const dataIso = '2023-10-25T18:30:00Z'; // 15:30 em Brasília
             expect(formatarDataHora(dataIso)).toBe('25/10/2023 15:30');
         });
 

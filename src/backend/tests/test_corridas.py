@@ -75,6 +75,7 @@ def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido():
         servico.processar(pacotes()[2])
         corrida = cliente.get("/api/corridas").json()[0]
         assert corrida["status"] == "MAPEANDO"
+        assert corrida["iniciada_em"].endswith("Z")
         assert corrida["encerrada_em"] is None
         assert corrida["modo"] == "EXPLORACAO"
         assert corrida["tentativa"] is None
