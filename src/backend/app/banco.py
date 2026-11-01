@@ -2,7 +2,7 @@
 import os
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, create_engine, select
+from sqlalchemy import DateTime, ForeignKey, Integer, String, create_engine, select, BigInteger
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 from sqlalchemy.pool import StaticPool
 
