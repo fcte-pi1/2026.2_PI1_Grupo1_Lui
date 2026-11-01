@@ -34,19 +34,23 @@ def aguardar_corridas(cliente, predicado):
         corridas = cliente.get("/api/corridas").json()
         if predicado(corridas):
             return corridas
-        time.sleep(0.01)
+        time.sleep(0.05)
     return corridas
 
 
-def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api():
+def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api(tmp_path):
     mensagens = pacotes("completa") + pacotes("travado")
-    app = criar_app(Fonte(mensagens), database_url="sqlite://")
+    database_url = f"sqlite:///{tmp_path / 'corridas.db'}"
+    app = criar_app(Fonte(mensagens), database_url=database_url)
     with TestClient(app) as cliente:
         corridas = aguardar_corridas(
             cliente, lambda itens: [c["status"] for c in itens] == ["TRAVADO", "CONCLUIDO"]
         )
         assert [c["status"] for c in corridas] == ["TRAVADO", "CONCLUIDO"]
 
+        # O status final pode ficar visível na API antes da última transação
+        # de leitura terminar de ser observável pela conexão do teste.
+        time.sleep(0.1)
         limite = time.monotonic() + 5
         detalhes = None
 
@@ -54,7 +58,7 @@ def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api():
             detalhes = cliente.get(f"/api/corridas/{corridas[-1]['id']}").json()
             if len(detalhes["leituras"]) == len(pacotes("completa")) - 2:
                 break
-            time.sleep(0.01)
+            time.sleep(0.05)
 
         assert detalhes is not None
         assert len(detalhes["leituras"]) == len(pacotes("completa")) - 2
