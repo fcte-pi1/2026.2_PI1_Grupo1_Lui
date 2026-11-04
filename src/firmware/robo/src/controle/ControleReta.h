@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include "../hardware/Pinos.h"
 
 // Controle de movimento em reta (doc 4.4, seção 5.2; RF-SFT01, HU-01), sem dependência
 // do Arduino nem de hardware: o laço de controle entrega as leituras já prontas e a
@@ -85,8 +86,8 @@ public:
         p.limiteGiroMmS = 60.0f;
         p.distMinParedeMm = 1.0f;
         p.distMaxParedeMm = 100.0f;
-        p.mmPorPulso = 0.1f;   // o doc 4.3 dá mais de 10 pulsos/mm: calibrar
-        p.bitolaMm = 78.0f;    // doc 4.1: centros das rodas em X ±39 mm
+        p.mmPorPulso = RODA_MM_POR_PULSO;  // hardware/Pinos.h: roda de 32 mm e 360 pulsos por volta
+        p.bitolaMm = BITOLA_MM;            // hardware/Pinos.h: 80 mm
         return p;
     }
 

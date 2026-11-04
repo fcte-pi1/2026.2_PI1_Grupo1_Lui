@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <unity.h>
 #include "../../src/controle/ControleReta.h"
+#include "../../src/hardware/Pinos.h"
 
 void setUp(void) {}
 void tearDown(void) {}
@@ -323,7 +324,7 @@ static Cenario cenarioBase() {
     c.imuValido = true;
     c.viesGiroscopioGrausPorS = 0.0f;
     c.velocidadeMmS = 150.0f;
-    c.bitolaMm = 78.0f;                  // doc 4.1
+    c.bitolaMm = BITOLA_MM;              // hardware/Pinos.h
     c.larguraRoboMm = 86.0f;             // doc 4.1: folga de 41 mm por lado no corredor de 168 mm
     c.constanteMotorS = 0.08f;
     c.periodoControleS = 0.05f;          // 20 Hz, o mínimo do doc 4.4
