@@ -63,4 +63,12 @@ constexpr float BITOLA_MM = 80.0f;              // distância entre os centros d
 // Deslocamento de uma roda por pulso: pi x 32 / 360, cerca de 0,279 mm.
 constexpr float RODA_MM_POR_PULSO = 3.14159265f * RODA_DIAMETRO_MM / ENCODER_PULSOS_POR_VOLTA;
 
+// Divisor de tensão da bateria (resistor em série com a bateria e resistor para o GND,
+// com o ponto médio em PINO_BATERIA_ADC). Valores do firmware que roda no robô: módulo
+// sensor de tensão comercial de 30 kΩ / 7,5 kΩ, proporção 5:1 (bateria cheia de 8,4 V
+// dá 1,68 V no pino). Depende de confirmação da Eletrônica: o doc 4.3 indica
+// 100 kΩ / 47 kΩ (proporção de cerca de 3,13:1).
+const uint32_t BATERIA_R_SERIE_OHM = 30000;
+const uint32_t BATERIA_R_GND_OHM = 7500;
+
 #endif

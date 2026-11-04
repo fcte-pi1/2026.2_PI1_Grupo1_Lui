@@ -2,18 +2,20 @@
 #define BATERIA_CONVERSAO_H
 
 #include <stdint.h>
+#include "../hardware/Pinos.h"
 
 // Conversões da leitura da bateria, sem dependência do Arduino (testáveis nativamente).
 //
-// Divisor de tensão do doc 4.3 (RF_ENE02): 100 kΩ em série e 33 kΩ para o GND, com o
-// ponto médio no GPIO 34. A tensão da bateria é a do pino vezes (100k + 33k) / 33k;
-// com a LiPo 2S cheia (8,4 V) o pino fica em cerca de 2,08 V.
+// Divisor de tensão da bateria (RF_ENE02): BATERIA_R_SERIE_OHM em série e
+// BATERIA_R_GND_OHM para o GND, com o ponto médio no GPIO 34 (valores em
+// hardware/Pinos.h). A tensão da bateria é a do pino vezes (R série + R GND) / R GND.
+// Com o módulo de 30 kΩ / 7,5 kΩ do firmware da Eletrônica a proporção é 5:1 e a LiPo 2S
+// cheia (8,4 V) deixa o pino em 1,68 V. O doc 4.3 indica 100 kΩ / 47 kΩ; a Eletrônica
+// precisa confirmar qual está montado.
 //
 // A porcentagem usa a mesma faixa linear do simulador do backend
 // (src/backend/app/simulador/gerador.py): 0% em 7,0 V e 100% em 8,4 V.
 
-const uint32_t BATERIA_R_SERIE_OHM = 100000;
-const uint32_t BATERIA_R_GND_OHM = 33000;
 const uint16_t BATERIA_VAZIA_MV = 7000;
 const uint16_t BATERIA_CHEIA_MV = 8400;
 
