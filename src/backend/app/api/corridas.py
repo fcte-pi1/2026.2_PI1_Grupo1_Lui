@@ -1,4 +1,6 @@
 """Consulta de corridas e leituras persistidas no schema MySQL do projeto."""
+import re
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import select
 
@@ -6,6 +8,20 @@ from app.banco import Corrida, Leitura
 
 router = APIRouter(prefix="/api/corridas", tags=["corridas"])
 ORIENTACAO_TELEMETRIA = {"N": "NORTE", "S": "SUL", "L": "LESTE", "O": "OESTE"}
+
+
+def _extrair_data(valor: str | None) -> str | None:
+    """Extrai e normaliza data para YYYY-MM-DD suportando ISO e DD/MM/YYYY."""
+    if not valor:
+        return None
+    val = valor.strip()
+    match_iso = re.match(r"^(\d{4})-(\d{2})-(\d{2})", val)
+    if match_iso:
+        return f"{match_iso.group(1)}-{match_iso.group(2)}-{match_iso.group(3)}"
+    match_br = re.match(r"^(\d{2})/(\d{2})/(\d{4})", val)
+    if match_br:
+        return f"{match_br.group(3)}-{match_br.group(2)}-{match_br.group(1)}"
+    return None
 
 
 def _utc_iso(valor):
@@ -62,9 +78,36 @@ def _leitura(leitura):
 
 
 @router.get("")
-def listar_corridas(request: Request):
+def listar_corridas(
+    request: Request,
+    geometria: str | None = None,
+    data: str | None = None,
+    data_inicio: str | None = None,
+    data_fim: str | None = None,
+):
+    query = select(Corrida).order_by(Corrida.id.desc())
+
+    if geometria and geometria.lower() not in ("todas", "todos", ""):
+        query = query.where(Corrida.labirinto == geometria)
+
+    data_val = _extrair_data(data)
+    if data_val:
+        inicio_dt = datetime.fromisoformat(f"{data_val}T00:00:00")
+        fim_dt = datetime.fromisoformat(f"{data_val}T23:59:59.999999")
+        query = query.where(Corrida.inicio >= inicio_dt, Corrida.inicio <= fim_dt)
+
+    inicio_val = _extrair_data(data_inicio)
+    if inicio_val:
+        inicio_dt = datetime.fromisoformat(f"{inicio_val}T00:00:00")
+        query = query.where(Corrida.inicio >= inicio_dt)
+
+    fim_val = _extrair_data(data_fim)
+    if fim_val:
+        fim_dt = datetime.fromisoformat(f"{fim_val}T23:59:59.999999")
+        query = query.where(Corrida.inicio <= fim_dt)
+
     with request.app.state.sessoes() as sessao:
-        corridas = sessao.scalars(select(Corrida).order_by(Corrida.id.desc())).all()
+        corridas = sessao.scalars(query).all()
         return [_resumo(corrida) for corrida in corridas]
 
 

@@ -133,3 +133,132 @@ def test_reinicio_marca_corrida_aberta_interrompida_e_consulta_registros(tmp_pat
 def test_corrida_inexistente_retorna_404():
     with TestClient(criar_app(database_url="sqlite://")) as cliente:
         assert cliente.get("/api/corridas/999").status_code == 404
+
+
+def test_filtrar_corridas_por_geometria_e_data(tmp_path):
+    from datetime import datetime
+    from app.banco import Corrida, iniciar_esquema
+
+    database_url = f"sqlite:///{tmp_path / 'filtro.db'}"
+    app = criar_app(database_url=database_url)
+    iniciar_esquema(app.state.engine, app.state.sessoes)
+
+    # Popula com corridas em diferentes datas e geometrias
+    with app.state.sessoes.begin() as sessao:
+        c1 = Corrida(
+            labirinto="4x4",
+            inicio=datetime(2026, 10, 24, 10, 0, 0),
+            fim=datetime(2026, 10, 24, 10, 2, 0),
+            tempo_total_ms=120000,
+            status_final="CONCLUIDO",
+            modo="EXPLORACAO",
+            desafio_cumprido=True,
+        )
+        c2 = Corrida(
+            labirinto="8x4",
+            inicio=datetime(2026, 10, 25, 14, 0, 0),
+            fim=datetime(2026, 10, 25, 14, 5, 0),
+            tempo_total_ms=300000,
+            status_final="CONCLUIDO",
+            modo="EXPLORACAO",
+            desafio_cumprido=True,
+        )
+        c3 = Corrida(
+            labirinto="8x4",
+            inicio=datetime(2026, 10, 25, 16, 0, 0),
+            fim=datetime(2026, 10, 25, 16, 1, 30),
+            tempo_total_ms=90000,
+            status_final="CONCLUIDO",
+            modo="SPEED_RUN",
+            desafio_cumprido=True,
+        )
+        c4 = Corrida(
+            labirinto="12x4",
+            inicio=datetime(2026, 10, 26, 9, 0, 0),
+            fim=datetime(2026, 10, 26, 9, 8, 0),
+            tempo_total_ms=480000,
+            status_final="TRAVADO",
+            modo="EXPLORACAO",
+            desafio_cumprido=False,
+        )
+        sessao.add_all([c1, c2, c3, c4])
+
+    with TestClient(app) as cliente:
+        # Sem filtro retorna todas (4)
+        todas = cliente.get("/api/corridas").json()
+        assert len(todas) == 4
+
+        # Filtro por geometria 8x4
+        res_8x4 = cliente.get("/api/corridas?geometria=8x4").json()
+        assert len(res_8x4) == 2
+        assert all(c["geometria"] == "8x4" for c in res_8x4)
+
+        # Filtro por geometria 4x4
+        res_4x4 = cliente.get("/api/corridas?geometria=4x4").json()
+        assert len(res_4x4) == 1
+        assert res_4x4[0]["geometria"] == "4x4"
+
+        # Filtro com "todas" não restringe
+        res_todas = cliente.get("/api/corridas?geometria=todas").json()
+        assert len(res_todas) == 4
+
+        # Filtro por data específica
+        res_data = cliente.get("/api/corridas?data=2026-10-25").json()
+        assert len(res_data) == 2
+        assert all(c["iniciada_em"].startswith("2026-10-25") for c in res_data)
+
+        # Filtro por formato brasileiro
+        res_data_br = cliente.get("/api/corridas?data=25/10/2026").json()
+        assert len(res_data_br) == 2
+
+        # Filtro por intervalo de datas
+        res_intervalo = cliente.get("/api/corridas?data_inicio=2026-10-24&data_fim=2026-10-25").json()
+        assert len(res_intervalo) == 3
+
+        # Filtro combinado: geometria 8x4 e data 2026-10-25
+        res_combinado = cliente.get("/api/corridas?geometria=8x4&data=2026-10-25").json()
+        assert len(res_combinado) == 2
+
+        # Filtro combinado sem correspondência: 4x4 na data 2026-10-25
+        res_vazio = cliente.get("/api/corridas?geometria=4x4&data=2026-10-25").json()
+        assert len(res_vazio) == 0
+
+
+def test_performance_consulta_500_corridas(tmp_path):
+    """RNF-SFT04: Resposta inferior a 2,0 s para base com até 500 registros."""
+    from datetime import datetime, timedelta
+    from app.banco import Corrida, iniciar_esquema
+
+    database_url = f"sqlite:///{tmp_path / 'perf.db'}"
+    app = criar_app(database_url=database_url)
+    iniciar_esquema(app.state.engine, app.state.sessoes)
+
+    geometrias = ["4x4", "8x4", "12x4"]
+    corridas = []
+    base_data = datetime(2026, 10, 1, 8, 0, 0)
+    for i in range(500):
+        corridas.append(
+            Corrida(
+                labirinto=geometrias[i % 3],
+                inicio=base_data + timedelta(hours=i),
+                fim=base_data + timedelta(hours=i, minutes=3),
+                tempo_total_ms=180000,
+                status_final="CONCLUIDO" if i % 2 == 0 else "TRAVADO",
+                modo="EXPLORACAO",
+                desafio_cumprido=i % 2 == 0,
+            )
+        )
+
+    with app.state.sessoes.begin() as sessao:
+        sessao.add_all(corridas)
+
+    with TestClient(app) as cliente:
+        inicio = time.monotonic()
+        resposta = cliente.get("/api/corridas?geometria=8x4&data_inicio=2026-10-05&data_fim=2026-10-15")
+        duracao = time.monotonic() - inicio
+
+        assert resposta.status_code == 200
+        dados = resposta.json()
+        assert len(dados) > 0
+        assert duracao < 2.0  # RNF-SFT04 estrito (< 2s)
+

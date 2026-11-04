@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { filtrarCorridas, formatarDataHora } from '../servicos/historicoFiltros';
-import { rotuloStatus } from '../servicos/formatacao';
+import { rotuloStatus, formatarTempo } from '../servicos/formatacao';
 import ReplayCorrida from './ReplayCorrida';
 import './HistoricoCorridas.css';
 
@@ -179,9 +179,15 @@ export default function HistoricoCorridas({
                             </tr>
                         ) : (
                             corridasFiltradas.map((c, idx) => {
-                                const idExibicao = c.id || String(idx + 1).padStart(3, '0');
+                                const idExibicao = c.id != null ? String(c.id).padStart(3, '0') : String(idx + 1).padStart(3, '0');
                                 const statusFormatado = obterEstiloStatus(c.status);
                                 const isSelecionada = idAtivo !== null && idAtivo !== undefined && idAtivo === c.id;
+
+                                const tempoFormatado = c.tempoFinal || c.tempo_total || (typeof c.tempo_total_ms === 'number' ? formatarTempo(c.tempo_total_ms) : '-');
+                                const modoFormatado = c.modo === 'EXPLORACAO' ? 'Exploração' : (c.modo === 'SPEED_RUN' ? 'Speed Run' : (c.modo || 'Exploração'));
+                                const tentativasFormatadas = c.tentativas || (c.tentativa != null ? `Tentativa ${c.tentativa}` : '—');
+                                const velMediaFormatada = c.velMedia || (typeof c.velocidade_media === 'number' ? `${c.velocidade_media} cm/s` : '-');
+                                const celulasFormatadas = c.celulasVisitadas || (c.celulas_visitadas != null ? `${c.celulas_visitadas}` : '-');
 
                                 return (
                                     <tr
@@ -193,11 +199,11 @@ export default function HistoricoCorridas({
                                         <td className="col-id">{idExibicao}</td>
                                         <td>{formatarDataHora(c.data || c.inicio || c.iniciada_em)}</td>
                                         <td className="col-geometria">{c.geometria || c.grid || c.labirinto || '-'}</td>
-                                        <td>{c.modo || 'Exploração'}</td>
-                                        <td>{c.tentativas || (c.tentativa ?? '—')}</td>
-                                        <td>{c.tempoFinal || c.tempo_total || '-'}</td>
-                                        <td>{c.velMedia || (c.velocidade_media ? `${c.velocidade_media} cm/s` : '-')}</td>
-                                        <td>{c.celulasVisitadas || (c.celulas_visitadas ? `${c.celulas_visitadas}` : '-')}</td>
+                                        <td>{modoFormatado}</td>
+                                        <td>{tentativasFormatadas}</td>
+                                        <td>{tempoFormatado}</td>
+                                        <td>{velMediaFormatada}</td>
+                                        <td>{celulasFormatadas}</td>
                                         <td>
                                             <span className={`status-badge ${statusFormatado.classe}`}>
                                                 <span>{statusFormatado.icone}</span>
