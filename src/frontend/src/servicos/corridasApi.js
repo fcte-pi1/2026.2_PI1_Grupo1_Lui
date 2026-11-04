@@ -15,13 +15,57 @@ async function requisitar(url) {
     return resposta.json();
 }
 
-export async function listarCorridas(url = baseApi()) {
-    const corridas = await requisitar(url);
-    return Promise.all(corridas.map(async (corrida) => ({
+export function construirUrlCorridas(urlBase = baseApi(), filtros = {}) {
+    const [baseUrl, queryExistente] = urlBase.split('?');
+    const params = new URLSearchParams(queryExistente || '');
+
+    if (filtros.geometria && filtros.geometria !== 'todas' && filtros.geometria !== 'todos') {
+        params.set('geometria', filtros.geometria);
+    }
+    if (filtros.data) {
+        params.set('data', filtros.data);
+    }
+    if (filtros.dataInicio || filtros.data_inicio) {
+        params.set('data_inicio', filtros.dataInicio || filtros.data_inicio);
+    }
+    if (filtros.dataFim || filtros.data_fim) {
+        params.set('data_fim', filtros.dataFim || filtros.data_fim);
+    }
+
+    const query = params.toString();
+    return query ? `${baseUrl}?${query}` : baseUrl;
+}
+
+export async function listarCorridas(urlOuFiltros = baseApi(), talvezFiltros) {
+    let urlBase;
+    let filtros = {};
+
+    if (typeof urlOuFiltros === 'string') {
+        urlBase = urlOuFiltros;
+        filtros = talvezFiltros || {};
+    } else if (urlOuFiltros && typeof urlOuFiltros === 'object') {
+        urlBase = baseApi();
+        filtros = urlOuFiltros;
+    } else {
+        urlBase = baseApi();
+    }
+
+    const urlComFiltros = construirUrlCorridas(urlBase, filtros);
+    const corridas = await requisitar(urlComFiltros);
+
+    return corridas.map((corrida) => ({
         ...corrida,
         data: corrida.iniciada_em,
-        leituras: (await requisitar(`${url}/${corrida.id}`)).leituras,
-    })));
+    }));
+}
+
+export async function obterCorrida(corridaId, urlBase = baseApi()) {
+    const urlDetalhe = urlBase.split('?')[0];
+    const dados = await requisitar(`${urlDetalhe}/${corridaId}`);
+    return {
+        ...dados,
+        data: dados.iniciada_em,
+    };
 }
 
 export { baseApi as urlApiCorridas };

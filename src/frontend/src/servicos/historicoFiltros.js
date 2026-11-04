@@ -111,7 +111,7 @@ export function filtrarCorridas(corridas = [], filtros = {}) {
         }
 
         // 2. Filtro por data
-        const dataCorrida = c.data || c.inicio || c.timestamp || c.dataHora;
+        const dataCorrida = c.data || c.inicio || c.iniciada_em || c.timestamp || c.dataHora;
         const dataCorridaIso = extrairDataIso(dataCorrida);
 
         if (dataFiltroIso) {

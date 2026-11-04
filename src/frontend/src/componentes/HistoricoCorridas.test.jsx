@@ -100,5 +100,88 @@ describe('componentes/HistoricoCorridas.jsx', () => {
             expect(html).toContain('INSPECIONAR CORRIDA (INSPECT RUN) - #042');
             expect(html).toContain('05:12.30');
         });
+
+        it('deve formatar e renderizar corridas reais persistidas no backend (HU-12 / HU-13)', () => {
+            const corridasReais = [
+                {
+                    id: 1,
+                    labirinto: '8x4',
+                    geometria: '8x4',
+                    status: 'CONCLUIDO',
+                    modo: 'EXPLORACAO',
+                    tentativa: 1,
+                    iniciada_em: '2026-10-25T14:30:00Z',
+                    encerrada_em: '2026-10-25T14:32:15Z',
+                    tempo_total_ms: 135000,
+                    velocidade_media: 28.5,
+                    bateria_inicial_pct: 100,
+                    bateria_final_pct: 82,
+                    desafio_cumprido: true,
+                    celulas_visitadas: 32,
+                },
+                {
+                    id: 2,
+                    labirinto: '4x4',
+                    geometria: '4x4',
+                    status: 'TRAVADO',
+                    modo: 'EXPLORACAO',
+                    tentativa: null,
+                    iniciada_em: '2026-10-24T09:15:00Z',
+                    encerrada_em: '2026-10-24T09:15:45Z',
+                    tempo_total_ms: 45000,
+                    velocidade_media: 12.0,
+                    bateria_inicial_pct: 80,
+                    bateria_final_pct: 75,
+                    desafio_cumprido: false,
+                    celulas_visitadas: 8,
+                },
+            ];
+
+            const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={corridasReais} />);
+            expect(html).toContain('001');
+            expect(html).toContain('8x4');
+            expect(html).toContain('Exploração');
+            expect(html).toContain('Tentativa 1');
+            expect(html).toContain('02:15'); // 135000 ms formatado
+            expect(html).toContain('28.5 cm/s');
+            expect(html).toContain('32');
+            expect(html).toContain('SUCESSO');
+
+            expect(html).toContain('002');
+            expect(html).toContain('4x4');
+            expect(html).toContain('—'); // tentativa nula
+            expect(html).toContain('00:45'); // 45000 ms formatado
+            expect(html).toContain('12 cm/s');
+            expect(html).toContain('TRAVADO');
+        });
+
+        it('atende ao RNF-SFT04 renderizando 500 registros de dados reais em menos de 2 segundos', () => {
+            const baseData = new Date('2026-10-01T12:00:00Z').getTime();
+            const geometrias = ['4x4', '8x4', '12x4'];
+            const muitasCorridasReais = [];
+
+            for (let i = 0; i < 500; i++) {
+                muitasCorridasReais.push({
+                    id: i + 1,
+                    labirinto: geometrias[i % 3],
+                    geometria: geometrias[i % 3],
+                    status: i % 2 === 0 ? 'CONCLUIDO' : 'TRAVADO',
+                    modo: i % 3 === 0 ? 'SPEED_RUN' : 'EXPLORACAO',
+                    tentativa: (i % 3) + 1,
+                    iniciada_em: new Date(baseData + i * 3600000).toISOString(),
+                    tempo_total_ms: 60000 + i * 100,
+                    velocidade_media: 25.0,
+                    celulas_visitadas: 16,
+                });
+            }
+
+            const t0 = performance.now();
+            const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={muitasCorridasReais} />);
+            const duracao = performance.now() - t0;
+
+            expect(duracao).toBeLessThan(1000); // Muito abaixo dos 2000 ms exigidos
+            expect(html).toContain('001');
+            expect(html).toContain('500');
+        });
     });
 });

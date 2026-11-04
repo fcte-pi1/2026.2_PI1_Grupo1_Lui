@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState, useCallback } from 'react';
 import IndicadorTempo from '../componentes/IndicadorTempo';
 import IndicadorVelocidade from '../componentes/IndicadorVelocidade';
 import IndicadorBateria from '../componentes/IndicadorBateria';
@@ -28,9 +28,17 @@ export default function Painel() {
     const { conectado } = useTelemetria({ aoReceber: aplicar });
     const [historico, setHistorico] = useState(null);
     const [erroHistorico, setErroHistorico] = useState('');
+    const [filtros, setFiltros] = useState({});
+
+    const carregarHistorico = useCallback((filtrosAtuais = filtros) => {
+        listarCorridas(filtrosAtuais)
+            .then(setHistorico)
+            .catch((erro) => setErroHistorico(erro.message));
+    }, [filtros]);
+
     useEffect(() => {
-        listarCorridas().then(setHistorico).catch((erro) => setErroHistorico(erro.message));
-    }, [estado.historico.length]);
+        carregarHistorico(filtros);
+    }, [estado.historico.length, filtros, carregarHistorico]);
 
     const pacote = estado.pacote ?? SEM_DADOS;
     const { mapa } = estado;
@@ -39,7 +47,7 @@ export default function Painel() {
         <div className="painel-container">
             <header className="painel-header">
                 <h1>PAINEL - MICROMOUSE</h1>
-                <button type="button" onClick={() => listarCorridas().then(setHistorico).catch((erro) => setErroHistorico(erro.message))}>
+                <button type="button" onClick={() => carregarHistorico(filtros)}>
                     Atualizar histórico
                 </button>
                 {/* Conexão do painel com o backend; o aviso de perda do rádio é a HU-09 */}
@@ -71,7 +79,13 @@ export default function Painel() {
                     {/* Histórico da sessão, registrando corridas encerradas inclusive por TRAVADO (HU-19) */}
                     <HistoricoCorridas corridas={estado.historico} modo="compacto" />
                     {erroHistorico && <small role="status">Histórico indisponível: {erroHistorico}</small>}
-                    {historico && <HistoricoCorridas corridas={historico} exibirInspecao />}
+                    {historico && (
+                        <HistoricoCorridas
+                            corridas={historico}
+                            exibirInspecao
+                            aoFiltrar={(novos) => setFiltros(novos)}
+                        />
+                    )}
                 </div>
             </div>
         </div>
