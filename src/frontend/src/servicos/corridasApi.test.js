@@ -4,13 +4,12 @@ import { listarCorridas, urlApiCorridas, construirUrlCorridas, obterCorrida } fr
 afterEach(() => vi.restoreAllMocks());
 
 describe('corridasApi', () => {
-    it('consulta histórico e leituras para montar os dados do replay', async () => {
+    it('consulta histórico da API', async () => {
         vi.stubGlobal('fetch', vi.fn()
-            .mockResolvedValueOnce({ ok: true, json: async () => [{ id: 7, iniciada_em: '2026-10-31T12:00:00Z' }] })
-            .mockResolvedValueOnce({ ok: true, json: async () => ({ leituras: [{ status: 'INTERROMPIDA' }] }) }));
+            .mockResolvedValueOnce({ ok: true, json: async () => [{ id: 7, iniciada_em: '2026-10-31T12:00:00Z' }] }));
 
         await expect(listarCorridas('http://localhost/api/corridas')).resolves.toEqual([
-            { id: 7, iniciada_em: '2026-10-31T12:00:00Z', data: '2026-10-31T12:00:00Z', leituras: [{ status: 'INTERROMPIDA' }] },
+            { id: 7, iniciada_em: '2026-10-31T12:00:00Z', data: '2026-10-31T12:00:00Z' },
         ]);
     });
 
@@ -40,13 +39,11 @@ describe('corridasApi', () => {
 
     it('permite consultar corridas com objeto de filtros', async () => {
         const mockFetch = vi.fn()
-            .mockResolvedValueOnce({ ok: true, json: async () => [{ id: 10, iniciada_em: '2026-10-25T15:00:00Z' }] })
-            .mockResolvedValueOnce({ ok: true, json: async () => ({ leituras: [] }) });
+            .mockResolvedValueOnce({ ok: true, json: async () => [{ id: 10, iniciada_em: '2026-10-25T15:00:00Z' }] });
         vi.stubGlobal('fetch', mockFetch);
 
         await listarCorridas('http://localhost/api/corridas', { geometria: '8x4' });
-        expect(mockFetch).toHaveBeenNthCalledWith(1, 'http://localhost/api/corridas?geometria=8x4');
-        expect(mockFetch).toHaveBeenNthCalledWith(2, 'http://localhost/api/corridas/10');
+        expect(mockFetch).toHaveBeenCalledWith('http://localhost/api/corridas?geometria=8x4');
     });
 
     it('consulta dados de uma corrida específica via obterCorrida', async () => {

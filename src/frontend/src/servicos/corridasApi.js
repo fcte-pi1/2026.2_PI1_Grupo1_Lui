@@ -52,13 +52,11 @@ export async function listarCorridas(urlOuFiltros = baseApi(), talvezFiltros) {
 
     const urlComFiltros = construirUrlCorridas(urlBase, filtros);
     const corridas = await requisitar(urlComFiltros);
-    const urlDetalhe = urlBase.split('?')[0];
 
-    return Promise.all(corridas.map(async (corrida) => ({
+    return corridas.map((corrida) => ({
         ...corrida,
         data: corrida.iniciada_em,
-        leituras: (await requisitar(`${urlDetalhe}/${corrida.id}`)).leituras,
-    })));
+    }));
 }
 
 export async function obterCorrida(corridaId, urlBase = baseApi()) {

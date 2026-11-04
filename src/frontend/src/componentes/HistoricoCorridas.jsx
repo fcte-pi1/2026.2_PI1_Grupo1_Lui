@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { filtrarCorridas, formatarDataHora } from '../servicos/historicoFiltros';
 import { rotuloStatus, formatarTempo } from '../servicos/formatacao';
+import { obterCorrida } from '../servicos/corridasApi';
 import ReplayCorrida from './ReplayCorrida';
 import './HistoricoCorridas.css';
 
@@ -39,12 +40,29 @@ export default function HistoricoCorridas({
     modo = 'tabela',
     corridaSelecionadaId = null,
     aoSelecionarCorrida = () => {},
-    exibirInspecao = false
+    exibirInspecao = false,
+    aoFiltrar = null
 }) {
     const [filtroGeometria, setFiltroGeometria] = useState('todas');
     const [filtroDataInicio, setFiltroDataInicio] = useState('');
     const [filtroDataFim, setFiltroDataFim] = useState('');
     const [selecionadaInternaId, setSelecionadaInternaId] = useState(null);
+    const [corridaDetalhada, setCorridaDetalhada] = useState(null);
+
+    const mudarFiltros = (novos) => {
+        const proximo = {
+            geometria: novos.geometria !== undefined ? novos.geometria : filtroGeometria,
+            dataInicio: novos.dataInicio !== undefined ? novos.dataInicio : filtroDataInicio,
+            dataFim: novos.dataFim !== undefined ? novos.dataFim : filtroDataFim,
+        };
+        if (novos.geometria !== undefined) setFiltroGeometria(novos.geometria);
+        if (novos.dataInicio !== undefined) setFiltroDataInicio(novos.dataInicio);
+        if (novos.dataFim !== undefined) setFiltroDataFim(novos.dataFim);
+
+        if (typeof aoFiltrar === 'function') {
+            aoFiltrar(proximo);
+        }
+    };
 
     const corridasFiltradas = useMemo(() => {
         return filtrarCorridas(corridas, {
@@ -60,15 +78,41 @@ export default function HistoricoCorridas({
         return corridasFiltradas.find((c) => c.id === idAtivo) || corridasFiltradas[0] || null;
     }, [corridasFiltradas, idAtivo]);
 
+    useEffect(() => {
+        if (!exibirInspecao || !corridaAtiva) {
+            setCorridaDetalhada(null);
+            return;
+        }
+
+        if (corridaAtiva.leituras && corridaAtiva.leituras.length > 0) {
+            setCorridaDetalhada(corridaAtiva);
+            return;
+        }
+
+        if (corridaAtiva.id != null) {
+            let ativo = true;
+            obterCorrida(corridaAtiva.id)
+                .then((dados) => {
+                    if (ativo) setCorridaDetalhada(dados);
+                })
+                .catch(() => {
+                    if (ativo) setCorridaDetalhada(corridaAtiva);
+                });
+            return () => {
+                ativo = false;
+            };
+        }
+
+        setCorridaDetalhada(corridaAtiva);
+    }, [exibirInspecao, corridaAtiva]);
+
     const selecionarCorrida = (corrida) => {
         setSelecionadaInternaId(corrida?.id ?? null);
         aoSelecionarCorrida(corrida);
     };
 
     const limparFiltros = () => {
-        setFiltroGeometria('todas');
-        setFiltroDataInicio('');
-        setFiltroDataFim('');
+        mudarFiltros({ geometria: 'todas', dataInicio: '', dataFim: '' });
     };
 
     // Modo compacto (compatível com o card lateral no Painel de monitoramento)
@@ -109,7 +153,7 @@ export default function HistoricoCorridas({
                             data-testid="filtro-geometria"
                             className="filtro-select"
                             value={filtroGeometria}
-                            onChange={(e) => setFiltroGeometria(e.target.value)}
+                            onChange={(e) => mudarFiltros({ geometria: e.target.value })}
                         >
                             <option value="todas">Todas</option>
                             <option value="4x4">4x4</option>
@@ -126,7 +170,7 @@ export default function HistoricoCorridas({
                             data-testid="filtro-data-inicio"
                             className="filtro-input"
                             value={filtroDataInicio}
-                            onChange={(e) => setFiltroDataInicio(e.target.value)}
+                            onChange={(e) => mudarFiltros({ dataInicio: e.target.value })}
                         />
                     </div>
 
@@ -138,7 +182,7 @@ export default function HistoricoCorridas({
                             data-testid="filtro-data-fim"
                             className="filtro-input"
                             value={filtroDataFim}
-                            onChange={(e) => setFiltroDataFim(e.target.value)}
+                            onChange={(e) => mudarFiltros({ dataFim: e.target.value })}
                         />
                     </div>
 
@@ -220,7 +264,7 @@ export default function HistoricoCorridas({
 
             {exibirInspecao && (
                 <div style={{ marginTop: '24px' }} data-testid="secao-inspecao-historico">
-                    <ReplayCorrida corrida={corridaAtiva} />
+                    <ReplayCorrida corrida={corridaDetalhada || corridaAtiva} />
                 </div>
             )}
         </div>

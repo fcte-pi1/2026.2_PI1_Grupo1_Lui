@@ -102,17 +102,14 @@ def test_perda_de_telemetria_finaliza_corrida_ativa():
     class FontePausada:
         mensagens = staticmethod(sem_fim)
 
-    app = criar_app(FontePausada(), database_url="sqlite://", timeout_telemetria_s=0.02)
+    app = criar_app(FontePausada(), database_url="sqlite://", timeout_telemetria_s=0.05)
     with TestClient(app) as cliente:
-        limite = time.monotonic() + 1
-        corrida = []
-        while time.monotonic() < limite:
-            corrida = cliente.get("/api/corridas").json()
-            if corrida and corrida[0]["status"] == "INTERROMPIDA":
-                break
-            time.sleep(0.01)
-        assert corrida[0]["status"] == "INTERROMPIDA"
-        assert cliente.get(f"/api/corridas/{corrida[0]['id']}").json()["leituras"]
+        corridas = aguardar_corridas(
+            cliente, lambda itens: bool(itens and itens[0]["status"] == "INTERROMPIDA")
+        )
+        assert corridas, "Nenhuma corrida encontrada antes do tempo limite"
+        assert corridas[0]["status"] == "INTERROMPIDA"
+        assert cliente.get(f"/api/corridas/{corridas[0]['id']}").json()["leituras"]
 
 
 def test_reinicio_marca_corrida_aberta_interrompida_e_consulta_registros(tmp_path):
