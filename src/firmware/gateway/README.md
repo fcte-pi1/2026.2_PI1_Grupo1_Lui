@@ -1,7 +1,9 @@
 # Gateway ESP-NOW → Serial (EAP 3.2.1.1)
 
-Firmware do **ESP32 de bancada**. Recebe a telemetria do robô por ESP-NOW, valida o pacote de 18 bytes e imprime **uma linha JSON por pacote** na porta serial USB, conforme o contrato de dados (`docs/4.4`, seção 6).
+Firmware do **Gateway de Solo (ESP8266 para o PC Server / ESP32 para bancada)**. Recebe a telemetria do robô (ESP32) por ESP-NOW no Canal 1, valida o pacote binário de 18 bytes e imprime **uma linha JSON por pacote** na porta serial USB (115200 bps), conforme o contrato de dados (`docs/4.4`, seção 6) e o projeto de hardware (`docs/4.3`).
 
+- **Hardware Recomendado para PC Server:** Módulo **ESP8266** (NodeMCU v2 / Wemos D1 mini), conectado via cabo USB ao computador.
+- **Hardware Alternativo para Bancada:** Módulo **ESP32 DevKit V1**.
 - Serial: **115200 bps**, 8N1, delimitador `\n`.
 - Cada JSON inclui os campos do contrato **mais** `seq` e `rssi`.
 - Pacotes com tamanho diferente de 18 bytes ou com campos fora do domínio são **descartados** (nada é impresso).
@@ -12,11 +14,17 @@ Requer [PlatformIO](https://platformio.org/) (`pip install platformio`).
 
 ```bash
 cd src/firmware/gateway
-pio run -e esp32dev -t upload      # grava o ESP32 gateway (USB)
-pio device monitor -b 115200       # visualiza o JSON
+
+# Para o Gateway oficial em ESP8266 (NodeMCU / D1 mini):
+pio run -e esp8266 -t upload
+pio device monitor -b 115200
+
+# Ou para o Gateway de bancada em ESP32:
+pio run -e esp32dev -t upload
+pio device monitor -b 115200
 ```
 
-O robô deve estar gravado com o firmware de `src/firmware/robo` (envia a 1 Hz).
+O robô deve estar gravado com o firmware de `src/firmware/robo` (ESP32 que envia a 1 Hz).
 Ambos usam **canal Wi-Fi 1** (`TELEMETRIA_CANAL_WIFI` em `lib/telemetria/src/TelemetriaConfig.h`) e **broadcast**, então **não é preciso parear MACs**.
 
 ## Formato da saída

@@ -1,21 +1,28 @@
-// Firmware do ESP32 gateway (bancada) - EAP 3.2.1.1
+// Firmware do Gateway de Telemetria (ESP8266 para o PC Server / ESP32 para bancada) - EAP 3.2.1.1
 //
-// Recebe pacotes de telemetria de 18 bytes via ESP-NOW, valida, e emite uma linha de
-// JSON por pacote na serial USB (115200 bps, delimitador '\n'), conforme o contrato de
-// dados (doc 4.4, seção 6). Cada JSON inclui "seq" (contador de pacotes válidos) e
-// "rssi" (dBm do quadro recebido).
+// Recebe pacotes de telemetria de 18 bytes via ESP-NOW no Canal 1, valida a integridade,
+// e emite uma linha de JSON por pacote na serial USB (115200 bps, delimitador '\n'),
+// conforme o contrato de dados (doc 4.4, seção 6). Cada JSON inclui "seq" (contador de pacotes
+// válidos) e "rssi" (dBm do quadro recebido).
 //
-// A saída serial contém SOMENTE linhas JSON (exceto o ruído do bootloader do ESP32 na
-// inicialização). Diagnósticos só são impressos com -DGATEWAY_DEBUG.
+// A saída serial contém SOMENTE linhas JSON (exceto o ruído do bootloader na inicialização).
+// Diagnósticos só são impressos com -DGATEWAY_DEBUG.
 
 #include <Arduino.h>
+
+#if defined(ESP8266)
+#include <ESP8266WiFi.h>
+#include <espnow.h>
+#else
 #include <WiFi.h>
 #include <esp_now.h>
 #include <esp_wifi.h>
+#endif
+
 #include "GatewayBridge.h"
 #include "TelemetriaConfig.h"
 
-// Fila SPSC (callback do Wi-Fi -> loop). O callback roda na task do Wi-Fi, então
+// Fila SPSC (callback do Wi-Fi -> loop). O callback roda na task/interrupção do Wi-Fi, então
 // a serial é escrita apenas no loop().
 struct QuadroRx {
     uint8_t dados[64];
@@ -42,7 +49,13 @@ static void enfileirar(const uint8_t* dados, int tamanho, int rssi) {
     filaEscrita = prox;
 }
 
-#if ESP_ARDUINO_VERSION_MAJOR >= 3
+#if defined(ESP8266)
+// ESP8266: callback clássico de 3 argumentos
+static void aoReceberEsp8266(uint8_t* mac, uint8_t* dados, uint8_t tamanho) {
+    (void)mac;
+    enfileirar(dados, tamanho, (int8_t)WiFi.RSSI());
+}
+#elif ESP_ARDUINO_VERSION_MAJOR >= 3
 // Arduino-ESP32 3.x: o RSSI vem junto com o callback do ESP-NOW.
 static void aoReceber(const esp_now_recv_info_t* info, const uint8_t* dados, int tamanho) {
     enfileirar(dados, tamanho, info->rx_ctrl->rssi);
@@ -71,6 +84,20 @@ void setup() {
 
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
+
+#if defined(ESP8266)
+    wifi_set_channel(TELEMETRIA_CANAL_WIFI);
+
+    if (esp_now_init() != 0) {
+#ifdef GATEWAY_DEBUG
+        Serial.println("# erro: esp_now_init falhou no ESP8266; reiniciando");
+#endif
+        delay(1000);
+        ESP.restart();
+    }
+    esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
+    esp_now_register_recv_cb(aoReceberEsp8266);
+#else
     esp_wifi_set_channel(TELEMETRIA_CANAL_WIFI, WIFI_SECOND_CHAN_NONE);
 
 #if ESP_ARDUINO_VERSION_MAJOR < 3
@@ -86,6 +113,7 @@ void setup() {
         ESP.restart();
     }
     esp_now_register_recv_cb(aoReceber);
+#endif
 
 #ifdef GATEWAY_DEBUG
     Serial.print("# gateway pronto. MAC: ");
