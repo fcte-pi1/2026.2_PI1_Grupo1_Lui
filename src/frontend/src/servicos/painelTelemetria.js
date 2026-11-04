@@ -5,7 +5,7 @@ import { rotuloStatus } from './formatacao';
 // (indicadores da HU-11 e HU-19), o mapa acumulado da corrida atual (HU-10) e o
 // histórico das corridas encerradas na sessão.
 
-export const STATUS_TERMINAIS = new Set(['CONCLUIDO', 'TRAVADO', 'COLISAO', 'TIMEOUT']);
+export const STATUS_TERMINAIS = new Set(['CONCLUIDO', 'TRAVADO', 'COLISAO', 'TIMEOUT', 'INTERROMPIDA']);
 
 export function ehStatusTerminal(status) {
     return STATUS_TERMINAIS.has(status);

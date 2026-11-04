@@ -30,7 +30,7 @@ def test_mensagem_do_simulador_chega_ao_cliente_websocket():
     ]
 
     with (
-        TestClient(criar_app(fonte)) as cliente,
+        TestClient(criar_app(fonte, database_url="sqlite://")) as cliente,
         cliente.websocket_connect("/ws/telemetria") as ws,
     ):
         recebidas = [ws.receive_json() for _ in range(3)]
@@ -73,7 +73,7 @@ def test_cliente_que_conecta_depois_recebe_a_corrida_desde_a_largada():
         for linha in gerar_corrida(pista)
     ]
 
-    with TestClient(criar_app(fonte, gerenciador)) as cliente:
+    with TestClient(criar_app(fonte, gerenciador, database_url="sqlite://")) as cliente:
         time.sleep(0.5)  # o simulador já está rodando, sem ninguém ouvindo
         with cliente.websocket_connect("/ws/telemetria") as ws:
             recebidas = []
@@ -106,7 +106,7 @@ def test_criar_fonte_com_gerenciador_espera_painel():
 
 
 def test_app_sem_fonte_nao_inicia_ingestao():
-    with TestClient(criar_app()) as cliente:
+    with TestClient(criar_app(database_url="sqlite://")) as cliente:
         assert cliente.get("/health").json() == {"status": "ok"}
 
 
@@ -150,6 +150,16 @@ class GerenciadorFalso:
         self.difundidas.append(mensagem)
 
 
+class CorridasIndisponiveis:
+    tem_corrida_ativa = False
+
+    def processar(self, mensagem):
+        raise RuntimeError("banco indisponível")
+
+    def interromper(self):
+        raise RuntimeError("banco indisponível")
+
+
 def test_ingerir_difunde_cada_mensagem(mensagem):
     telemetria = TelemetriaMensagem.model_validate(mensagem)
     gerenciador = GerenciadorFalso()
@@ -157,6 +167,23 @@ def test_ingerir_difunde_cada_mensagem(mensagem):
     asyncio.run(ingerir(FonteDeLista([telemetria, telemetria]), gerenciador))
 
     assert gerenciador.difundidas == [telemetria, telemetria]
+
+
+def test_banco_indisponivel_nao_interrompe_a_difusao(mensagem, caplog):
+    telemetria = TelemetriaMensagem.model_validate(mensagem)
+    gerenciador = GerenciadorFalso()
+
+    with caplog.at_level(logging.ERROR):
+        asyncio.run(
+            ingerir(
+                FonteDeLista([telemetria, telemetria]),
+                gerenciador,
+                CorridasIndisponiveis(),
+            )
+        )
+
+    assert gerenciador.difundidas == [telemetria, telemetria]
+    assert "falha ao persistir telemetria" in caplog.text
 
 
 def test_erro_na_fonte_e_registrado(mensagem, caplog):

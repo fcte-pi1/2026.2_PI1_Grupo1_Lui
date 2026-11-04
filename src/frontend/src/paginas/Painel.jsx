@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import IndicadorTempo from '../componentes/IndicadorTempo';
 import IndicadorVelocidade from '../componentes/IndicadorVelocidade';
 import IndicadorBateria from '../componentes/IndicadorBateria';
@@ -7,6 +7,7 @@ import HistoricoCorridas from '../componentes/HistoricoCorridas';
 import Labirinto from '../componentes/Labirinto';
 import { useTelemetria } from '../servicos/telemetriaWs';
 import { criarEstadoPainel, reduzirTelemetria } from '../servicos/painelTelemetria';
+import { listarCorridas } from '../servicos/corridasApi';
 import '../indicadores.css';
 
 // Valores mostrados antes do primeiro pacote chegar. A bateria fica indefinida
@@ -25,6 +26,11 @@ export default function Painel() {
     // o mapa da corrida atual e recomeça quando começa uma corrida nova.
     const [estado, aplicar] = useReducer(reduzirTelemetria, undefined, criarEstadoPainel);
     const { conectado } = useTelemetria({ aoReceber: aplicar });
+    const [historico, setHistorico] = useState(null);
+    const [erroHistorico, setErroHistorico] = useState('');
+    useEffect(() => {
+        listarCorridas().then(setHistorico).catch((erro) => setErroHistorico(erro.message));
+    }, [estado.historico.length]);
 
     const pacote = estado.pacote ?? SEM_DADOS;
     const { mapa } = estado;
@@ -33,6 +39,9 @@ export default function Painel() {
         <div className="painel-container">
             <header className="painel-header">
                 <h1>PAINEL - MICROMOUSE</h1>
+                <button type="button" onClick={() => listarCorridas().then(setHistorico).catch((erro) => setErroHistorico(erro.message))}>
+                    Atualizar histórico
+                </button>
                 {/* Conexão do painel com o backend; o aviso de perda do rádio é a HU-09 */}
                 <div
                     className={`status-conexao ${conectado ? 'conectado' : 'desconectado'}`}
@@ -61,6 +70,8 @@ export default function Painel() {
 
                     {/* Histórico da sessão, registrando corridas encerradas inclusive por TRAVADO (HU-19) */}
                     <HistoricoCorridas corridas={estado.historico} modo="compacto" />
+                    {erroHistorico && <small role="status">Histórico indisponível: {erroHistorico}</small>}
+                    {historico && <HistoricoCorridas corridas={historico} exibirInspecao />}
                 </div>
             </div>
         </div>

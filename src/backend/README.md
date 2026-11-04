@@ -13,9 +13,8 @@ O formato das mensagens é o [contrato de dados](../README.md#contrato-de-dados)
 | Validação da mensagem (`TelemetriaMensagem`) | Pronta |
 | Fontes de telemetria intercambiáveis: gateway pela serial ou simulador (`app/ingestao`) | Pronto |
 | Simulador de corridas (`app/simulador`) | Pronto |
-| Watchdog de enlace | A implementar (HU-09, #44) |
-| Ciclo de vida da corrida e persistência (`app/servicos`, `app/repositorios`) | A implementar (HU-12, #49) |
-| API REST do histórico (`/api/corridas`) | A implementar (#142) |
+| Persistência e ciclo de vida (`app/servicos`, `app/banco.py`) | Implementados (RF-SFT07) |
+| API REST do histórico (`/api/corridas`) | Implementada |
 
 ## Estrutura
 
@@ -61,6 +60,30 @@ uvicorn app.main:app --reload
 - Saúde: <http://127.0.0.1:8000/health>
 - Documentação interativa da API: <http://127.0.0.1:8000/docs>
 - Telemetria em tempo real: `ws://127.0.0.1:8000/ws/telemetria`
+- Histórico: `http://127.0.0.1:8000/api/corridas`; detalhe e leituras: `/api/corridas/{id}`
+
+## Persistência das corridas (RF-SFT07)
+
+O backend mapeia as tabelas existentes `Corrida` e `Leitura` do MySQL. SQLite continua disponível para desenvolvimento e testes; em produção, a URL deve apontar para o schema `mydb`. Para um banco vazio, use `migrations/001_corridas.sql`. Para atualizar o modelo MySQL original enviado pelo grupo, faça backup e aplique uma única vez `migrations/002_adaptar_schema_existente_rf_sft07.sql` antes de iniciar o backend. O `create_all` do SQLAlchemy cria tabelas ausentes, mas não substitui migrações em tabelas existentes.
+
+Exemplo no PowerShell (use as credenciais locais do seu MySQL):
+
+```powershell
+$env:DATABASE_URL = "mysql+pymysql://usuario:senha@localhost:3306/mydb"
+```
+
+O primeiro pacote `MAPEANDO`/`SPEED_RUN` após a espera cria a corrida, alinhado à largada do firmware (`src/firmware/robo/src/main.cpp`). Nesse momento, os campos ainda desconhecidos começam com valores neutros; `fim` e `status_final` permanecem nulos. Cada pacote da corrida, inclusive o terminal, é gravado e confirmado no banco antes de ser difundido pelo WebSocket. `CONCLUIDO`, `TRAVADO`, `COLISAO` e `TIMEOUT` encerram normalmente. Silêncio por mais de `TELEMETRIA_TIMEOUT_S` (padrão 5 s), fim/erro inesperado da fonte, nova espera durante uma corrida ou reinício do backend preenche `fim` e `status_final=INTERROMPIDA`. O timeout deve ser maior que o intervalo de envio configurado pelo firmware.
+
+`modo` recebe `EXPLORACAO` ou `SPEED_RUN`; `AGUARDANDO` continua sendo apenas status da telemetria e não é gravado como modo. A tentativa não é enviada pela ESP, então `tentativa` fica nula até que o contrato forneça esse dado. As quatro paredes são guardadas em cada linha de `Leitura` para que o replay reconstrua o mapa ao longo do tempo. Leituras anteriores à migração não têm essas paredes e permanecem com valores nulos (desconhecidos).
+
+O protocolo do gateway não foi alterado: `INTERROMPIDA` é um status calculado pelo backend, não uma mensagem nova do hardware. A tabela `Celula` permanece no schema para compatibilidade; o replay temporal usa as paredes registradas em `Leitura`.
+
+Endpoints:
+
+```text
+GET /api/corridas       lista metadados, mais recentes primeiro
+GET /api/corridas/{id}  metadados e leituras JSON ordenadas pela chegada
+```
 
 ## Fonte da telemetria
 

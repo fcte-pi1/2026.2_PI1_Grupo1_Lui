@@ -21,6 +21,9 @@ function obterEstiloStatus(status) {
     if (s === 'TIMEOUT') {
         return { classe: 'alerta', icone: '✕', texto: 'TEMPO ESGOTADO' };
     }
+    if (s === 'INTERROMPIDA') {
+        return { classe: 'alerta', icone: '!', texto: 'INTERROMPIDA' };
+    }
     return { classe: 'info', icone: '•', texto: rotuloStatus(status) };
 }
 
@@ -188,10 +191,10 @@ export default function HistoricoCorridas({
                                         onClick={() => selecionarCorrida(c)}
                                     >
                                         <td className="col-id">{idExibicao}</td>
-                                        <td>{formatarDataHora(c.data || c.inicio)}</td>
+                                        <td>{formatarDataHora(c.data || c.inicio || c.iniciada_em)}</td>
                                         <td className="col-geometria">{c.geometria || c.grid || c.labirinto || '-'}</td>
                                         <td>{c.modo || 'Exploração'}</td>
-                                        <td>{c.tentativas || c.tentativa || '1 de 1'}</td>
+                                        <td>{c.tentativas || (c.tentativa ?? '—')}</td>
                                         <td>{c.tempoFinal || c.tempo_total || '-'}</td>
                                         <td>{c.velMedia || (c.velocidade_media ? `${c.velocidade_media} cm/s` : '-')}</td>
                                         <td>{c.celulasVisitadas || (c.celulas_visitadas ? `${c.celulas_visitadas}` : '-')}</td>
