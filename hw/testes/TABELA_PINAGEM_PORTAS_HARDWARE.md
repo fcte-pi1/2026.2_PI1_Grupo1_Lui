@@ -77,3 +77,8 @@ Esta tabela consolida todas as portas e pinos de conexões físicas entre o micr
 ### E. Monitoramento Energético
 * **Tensão da Bateria (ADC):** GPIO 34 (Divisor resistivo R1=100k, R2=47k)
 * **Faixa Segura:** 6,6 V a 8,4 V
+
+### F. Comunicação Sem Fio e Gateway de Solo
+* **Robô (Carrinho):** ESP32 DevKit V1 (transmissão via rádio ESP-NOW a 1 Hz em 2,4 GHz, Canal 1 fixo).
+* **Gateway de Bancada / Server do PC:** Módulo microcontrolador **ESP8266** (NodeMCU / D1 mini), alimentado via porta USB do computador, recebendo os pacotes binários de 18 bytes e convertendo para JSON na serial UART (115200 bps) para ingestão pelo backend.
+* **Compatibilidade Adicional:** Firmware do gateway também suporta compilação em ESP32 para uso alternativo em bancada.
