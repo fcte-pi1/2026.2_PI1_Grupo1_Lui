@@ -3,7 +3,6 @@ from app.banco import Corrida, Leitura, agora_utc
 from app.modelos.telemetria import TelemetriaMensagem
 
 TERMINAIS = {"CONCLUIDO", "TRAVADO", "COLISAO", "TIMEOUT", "INTERROMPIDA"}
-ORIENTACAO_BANCO = {"NORTE": "N", "SUL": "S", "LESTE": "L", "OESTE": "O"}
 
 
 class ServicoCorridas:
@@ -91,7 +90,7 @@ class ServicoCorridas:
             velocidade_media=mensagem.velocidade_media,
             coluna=mensagem.posicao.coluna,
             linha=mensagem.posicao.linha,
-            orientacao=ORIENTACAO_BANCO[mensagem.orientacao],
+            orientacao=mensagem.orientacao,
             status=mensagem.status,
             velocidade_atual=mensagem.velocidade_atual,
             parede_norte=mensagem.paredes.norte,

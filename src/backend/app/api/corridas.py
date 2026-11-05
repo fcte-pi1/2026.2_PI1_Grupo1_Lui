@@ -5,7 +5,6 @@ from sqlalchemy import select
 from app.banco import Corrida, Leitura
 
 router = APIRouter(prefix="/api/corridas", tags=["corridas"])
-ORIENTACAO_TELEMETRIA = {"N": "NORTE", "S": "SUL", "L": "LESTE", "O": "OESTE"}
 
 
 def _utc_iso(valor):
@@ -49,7 +48,7 @@ def _leitura(leitura):
         "velocidade_atual": leitura.velocidade_atual,
         "velocidade_media": leitura.velocidade_media,
         "posicao": {"coluna": leitura.coluna, "linha": leitura.linha},
-        "orientacao": ORIENTACAO_TELEMETRIA[leitura.orientacao],
+        "orientacao": leitura.orientacao,
         "paredes": {
             "norte": None if leitura.parede_norte is None else bool(leitura.parede_norte),
             "sul": None if leitura.parede_sul is None else bool(leitura.parede_sul),

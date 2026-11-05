@@ -4,7 +4,9 @@ import time
 from fastapi.testclient import TestClient
 
 from app.main import criar_app
+from app.banco import Corrida, Leitura
 from app.modelos.telemetria import TelemetriaMensagem
+from app.servicos.corridas import ServicoCorridas
 from app.simulador.gerador import gerar_corrida
 from app.simulador.pistas import pista_de_referencia
 
@@ -67,8 +69,6 @@ def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api(tm
         assert corridas[-1]["tentativa"] is None
 
 def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido():
-    from app.servicos.corridas import ServicoCorridas
-
     app = criar_app(database_url="sqlite://")
     with TestClient(app) as cliente:
         servico = ServicoCorridas(app.state.sessoes)
@@ -81,6 +81,29 @@ def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido():
         assert corrida["tentativa"] is None
         leitura = cliente.get(f"/api/corridas/{corrida['id']}").json()["leituras"][0]
         assert leitura["orientacao"] in {"NORTE", "SUL", "LESTE", "OESTE"}
+
+
+def test_mysql_persiste_orientacao_com_nome_completo(mysql_app):
+    app, cliente = mysql_app
+    ids_anteriores = {corrida["id"] for corrida in cliente.get("/api/corridas").json()}
+    corrida_id = None
+
+    try:
+        ServicoCorridas(app.state.sessoes).processar(pacotes()[2])
+        corrida = next(
+            corrida
+            for corrida in cliente.get("/api/corridas").json()
+            if corrida["id"] not in ids_anteriores
+        )
+        corrida_id = corrida["id"]
+        leitura = cliente.get(f"/api/corridas/{corrida_id}").json()["leituras"][0]
+
+        assert leitura["orientacao"] == "LESTE"
+    finally:
+        if corrida_id is not None:
+            with app.state.sessoes.begin() as sessao:
+                sessao.query(Leitura).filter(Leitura.corrida_id == corrida_id).delete()
+                sessao.query(Corrida).filter(Corrida.id == corrida_id).delete()
 
 
 def test_fim_inesperado_marca_corrida_interrompida_e_preserva_leituras():
