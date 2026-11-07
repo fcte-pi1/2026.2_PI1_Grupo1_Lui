@@ -6,11 +6,13 @@ on:
       - main
     paths:
       - 'src/firmware/**'
+      - 'hw/firm/**'
       - '.github/workflows/firmware-ci.yml'
       - '.github/scripts/resumo_cobertura.py'
   pull_request:
     paths:
       - 'src/firmware/**'
+      - 'hw/firm/**'
       - '.github/workflows/firmware-ci.yml'
       - '.github/scripts/resumo_cobertura.py'
 
@@ -79,3 +81,33 @@ jobs:
         with:
           name: test-report-${{ matrix.projeto }}
           path: test-report-${{ matrix.projeto }}.xml
+
+  # Firmware de bancada da Eletrônica (hw/firm). Ele usa a biblioteca de telemetria
+  # (src/firmware/lib/telemetria) pelo lib_extra_dirs, então uma mudança no contrato
+  # precisa quebrar este build. Só compila: não há testes nativos nem cobertura.
+  firmware-bancada:
+    name: hw/firm (build ESP32)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache do PlatformIO
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-bancada-${{ runner.os }}-${{ hashFiles('hw/firm/platformio.ini', 'src/firmware/lib/**/library.json') }}
+          restore-keys: |
+            pio-bancada-${{ runner.os }}-
+            pio-${{ runner.os }}-
+
+      - name: Instalar PlatformIO
+        run: pip install platformio
+
+      - name: Compilar firmware de bancada para o ESP32
+        run: pio run -d hw/firm -e esp32dev
