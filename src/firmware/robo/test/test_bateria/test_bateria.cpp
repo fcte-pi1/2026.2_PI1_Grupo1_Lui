@@ -5,21 +5,30 @@
 void setUp(void) {}
 void tearDown(void) {}
 
+void test_divisor_usa_os_resistores_do_modulo_5_para_1(void) {
+    // Módulo sensor de tensão do firmware da Eletrônica: 30 kΩ / 7,5 kΩ.
+    TEST_ASSERT_EQUAL_UINT32(30000, BATERIA_R_SERIE_OHM);
+    TEST_ASSERT_EQUAL_UINT32(7500, BATERIA_R_GND_OHM);
+}
+
 void test_divisor_converte_a_tensao_do_pino_para_a_da_bateria(void) {
-    // 8,4 V x 33k / 133k = 2084 mV no pino; de volta: 2084 x 133/33 = 8399,15.
-    TEST_ASSERT_EQUAL_UINT16(8399, bateriaMvDoAdc(2084));
-    TEST_ASSERT_EQUAL_UINT16(7420, bateriaMvDoAdc(1841));  // 7419,79: cerca de 7,42 V
-    TEST_ASSERT_EQUAL_UINT16(133, bateriaMvDoAdc(33));      // fator exato 133/33
+    // 8,4 V x 7,5k / 37,5k = 1680 mV no pino; de volta: 1680 x 5 = 8400.
+    TEST_ASSERT_EQUAL_UINT16(8400, bateriaMvDoAdc(1680));
+    TEST_ASSERT_EQUAL_UINT16(7420, bateriaMvDoAdc(1484));  // cerca de 7,42 V
+    TEST_ASSERT_EQUAL_UINT16(7000, bateriaMvDoAdc(1400));  // 0% da faixa
     TEST_ASSERT_EQUAL_UINT16(0, bateriaMvDoAdc(0));
 }
 
-void test_divisor_arredonda_ao_milivolt_mais_proximo(void) {
-    // 1 mV no pino = 4,03 mV na bateria; 2 mV = 8,06 mV.
-    TEST_ASSERT_EQUAL_UINT16(4, bateriaMvDoAdc(1));
-    TEST_ASSERT_EQUAL_UINT16(8, bateriaMvDoAdc(2));
+void test_divisor_multiplica_por_5_sem_erro_de_arredondamento(void) {
+    // Com a proporção inteira, 1 mV no pino = 5 mV na bateria.
+    TEST_ASSERT_EQUAL_UINT16(5, bateriaMvDoAdc(1));
+    TEST_ASSERT_EQUAL_UINT16(10, bateriaMvDoAdc(2));
+    TEST_ASSERT_EQUAL_UINT16(8405, bateriaMvDoAdc(1681));
 }
 
 void test_divisor_fica_no_limite_do_campo_do_pacote(void) {
+    TEST_ASSERT_EQUAL_UINT16(65535, bateriaMvDoAdc(13107));  // 13107 x 5 = 65535, exato
+    TEST_ASSERT_EQUAL_UINT16(65535, bateriaMvDoAdc(13108));  // 65540, satura
     TEST_ASSERT_EQUAL_UINT16(65535, bateriaMvDoAdc(20000));
     TEST_ASSERT_EQUAL_UINT16(65535, bateriaMvDoAdc(0xFFFFFFFFu));
 }
@@ -53,15 +62,16 @@ void test_mesma_porcentagem_do_simulador_do_backend(void) {
 }
 
 void test_valores_da_bateria_passam_na_validacao_do_contrato(void) {
-    const uint16_t mv = bateriaMvDoAdc(1960);
+    const uint16_t mv = bateriaMvDoAdc(1540);  // 7700 mV, 50%
     TelemetriaPacket p = {0, LAB_4X4, AGUARDANDO, 0, porcentagemBateria(mv), mv, 0, 0, 0, 0, 2, 0x0B};
     TEST_ASSERT_EQUAL(TELEMETRIA_OK, telemetriaValidar(p));
 }
 
 int main(void) {
     UNITY_BEGIN();
+    RUN_TEST(test_divisor_usa_os_resistores_do_modulo_5_para_1);
     RUN_TEST(test_divisor_converte_a_tensao_do_pino_para_a_da_bateria);
-    RUN_TEST(test_divisor_arredonda_ao_milivolt_mais_proximo);
+    RUN_TEST(test_divisor_multiplica_por_5_sem_erro_de_arredondamento);
     RUN_TEST(test_divisor_fica_no_limite_do_campo_do_pacote);
     RUN_TEST(test_porcentagem_nos_extremos_da_faixa);
     RUN_TEST(test_porcentagem_satura_fora_da_faixa);

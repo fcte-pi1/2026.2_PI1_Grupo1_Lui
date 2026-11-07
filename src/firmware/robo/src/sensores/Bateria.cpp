@@ -3,7 +3,7 @@
 
 void Bateria::iniciar() {
     // Atenuação de 11 dB: o ADC mede até cerca de 3,1 V no pino; com a bateria cheia
-    // o divisor entrega cerca de 2,08 V.
+    // o divisor de 5:1 entrega 1,68 V.
     analogSetPinAttenuation(PINO_ADC, ADC_11db);
 }
 
