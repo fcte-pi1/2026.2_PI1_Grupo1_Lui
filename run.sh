@@ -26,9 +26,24 @@ if [ ! -d "$VENV_DIR" ] || [ ! -f "$VENV_DIR/bin/activate" ]; then
 fi
 
 # ------------------------------------------------------------------------------
-# 2. IDENTIFICAÇÃO DA PORTA SERIAL DO GATEWAY (ESP8266)
+# 2. IDENTIFICAÇÃO DE ARGUMENTOS, LABIRINTO E PORTA SERIAL DO GATEWAY (ESP8266)
 # ------------------------------------------------------------------------------
-PORTA_ARG="$1"
+PORTA_ARG=""
+MODO_SIMULADOR=false
+
+for arg in "$@"; do
+    case "$arg" in
+        --simulador|-s)
+            MODO_SIMULADOR=true
+            ;;
+        4x4|8x4|12x4)
+            export SIMULADOR_LABIRINTO="$arg"
+            ;;
+        /dev/tty*)
+            PORTA_ARG="$arg"
+            ;;
+    esac
+done
 
 if [ -n "$PORTA_ARG" ] && [ -e "$PORTA_ARG" ]; then
     PORTA_DETECTADA="$PORTA_ARG"
@@ -44,10 +59,11 @@ else
     PORTA_DETECTADA=""
 fi
 
-if [ "$1" = "--simulador" ]; then
+if [ "$MODO_SIMULADOR" = true ]; then
     echo "[*] Modo forçado: SIMULADOR DE LABIRINTO VIRTUAL"
     export TELEMETRIA_FONTE="simulador"
-    export SIMULADOR_CENARIO="completa"
+    export SIMULADOR_CENARIO="${SIMULADOR_CENARIO:-completa}"
+    export SIMULADOR_LABIRINTO="${SIMULADOR_LABIRINTO:-8x4}"
 elif [ -n "$PORTA_DETECTADA" ]; then
     echo "[+] Gateway ESP8266 detectado na porta: $PORTA_DETECTADA"
     export TELEMETRIA_FONTE="serial"
@@ -57,6 +73,8 @@ else
     echo "[!] AVISO: Nenhuma placa serial USB encontrada em /dev/ttyUSB*."
     echo "[*] Ativando modo SIMULADOR automático para exibição no site."
     export TELEMETRIA_FONTE="simulador"
+    export SIMULADOR_CENARIO="${SIMULADOR_CENARIO:-completa}"
+    export SIMULADOR_LABIRINTO="${SIMULADOR_LABIRINTO:-8x4}"
 fi
 
 # ------------------------------------------------------------------------------
@@ -117,8 +135,9 @@ echo "  - Painel Web (Frontend) : http://localhost:5173"
 echo "  - Servidor API (Backend): http://localhost:8000"
 if [ "$TELEMETRIA_FONTE" = "serial" ]; then
 echo "  - Telemetria Gateway   : $SERIAL_PORTA (115200 bps)"
+echo "  - Geometria do Robô    : Determinada dinamicamente pelo Robô ESP32"
 else
-echo "  - Telemetria Gateway   : Simulador Virtual"
+echo "  - Telemetria Gateway   : Simulador Virtual ($SIMULADOR_LABIRINTO)"
 fi
 echo "======================================================================"
 echo "  Pressione [Ctrl + C] para encerrar a aplicação a qualquer momento."

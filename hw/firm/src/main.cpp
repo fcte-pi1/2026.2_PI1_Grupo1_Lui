@@ -51,6 +51,7 @@ enum ModoOperacao {
 
 static ModoOperacao modoAtual = MODO_MENU;
 static EstadoRobo estadoRobo = AGUARDANDO;
+static GeometriaLabirinto geometriaAtual = LAB_8X4; // Geometria selecionada (LAB_4X4, LAB_8X4 ou LAB_12X4)
 
 // Temporizadores não-bloqueantes
 static uint32_t last_telemetry_serial_ms = 0;
@@ -88,7 +89,7 @@ void enviarTelemetriaEspNow(void) {
         pkt.timestamp_ms = decorrido;
     }
 
-    pkt.labirinto_id = LAB_4X4;
+    pkt.labirinto_id = (uint8_t)geometriaAtual;
     pkt.status_id = (uint8_t)estadoRobo;
     pkt.desafio_cumprido = (estadoRobo == CONCLUIDO) ? 1 : 0;
     pkt.bateria_pct = bat.percentage;
@@ -137,6 +138,8 @@ void enviarTelemetriaEspNow(void) {
 }
 
 void exibirMenuPrincipal(void) {
+    const char* strGeo = (geometriaAtual == LAB_4X4) ? "4x4" : (geometriaAtual == LAB_8X4) ? "8x4" : "12x4";
+
     Serial.println("\n=======================================================");
     Serial.println("     MICROMOUSE PI1 2026.2 - MENU DE TESTES GRADUAIS   ");
     Serial.println("=======================================================");
@@ -150,13 +153,14 @@ void exibirMenuPrincipal(void) {
     Serial.println("  [7] - Teste de Manobra: Meia-Volta de 180° no próprio eixo");
     Serial.println("  [8] - Teste Integrado: Avanço com Freio Anti-Colisão (< 100 mm)");
     Serial.println("  [9] - Calibração de Bateria (Leitura ADC bruta e tensão)");
+    Serial.printf( "  [g] - Alternar Geometria do Labirinto (Atual: %s -> 4x4, 8x4, 12x4)\n", strGeo);
     Serial.println("  [w] - Disparar Pacote ESP-NOW de Teste (Para o Gateway ESP8266)");
     Serial.println("  [0] - Modo Telemetria Contínua (Visão geral em tempo real)");
     Serial.println("  [s] - Parada Imediata de Emergência (Freio ativo)");
     Serial.println("  [m] - Exibir este menu novamente");
     Serial.println("=======================================================");
-    Serial.printf("Status: ToF=%s | Rádio ESP-NOW=%s (Canal 1)\n",
-                  vl53_ok ? "OK" : "FALHA", radio_ok ? "PRONTO" : "ERRO");
+    Serial.printf("Status: ToF=%s | Rádio ESP-NOW=%s (Canal 1) | Geometria=%s\n",
+                  vl53_ok ? "OK" : "FALHA", radio_ok ? "PRONTO" : "ERRO", strGeo);
     Serial.print("Digite a opção desejada: ");
 }
 
@@ -369,6 +373,7 @@ void executarCurva90Graus(bool paraDireita) {
             timeout = true;
             break;
         }
+
         delay(5);
     }
 
@@ -584,6 +589,16 @@ void loop() {
                 break;
             case '9':
                 executarRelatorioBateria();
+                break;
+            case 'g':
+            case 'G':
+                if (geometriaAtual == LAB_4X4) geometriaAtual = LAB_8X4;
+                else if (geometriaAtual == LAB_8X4) geometriaAtual = LAB_12X4;
+                else geometriaAtual = LAB_4X4;
+                Serial.printf("\n[GEOMETRIA] Labirinto alterado para: %s\n",
+                              (geometriaAtual == LAB_4X4) ? "4x4" : (geometriaAtual == LAB_8X4) ? "8x4" : "12x4");
+                enviarTelemetriaEspNow();
+                exibirMenuPrincipal();
                 break;
             case 'w':
             case 'W':
