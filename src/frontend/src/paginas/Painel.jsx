@@ -84,15 +84,21 @@ export default function Painel() {
                     {/* Histórico da sessão, registrando corridas encerradas inclusive por TRAVADO (HU-19) */}
                     <HistoricoCorridas corridas={estado.historico} modo="compacto" />
                     {erroHistorico && <small role="status">Histórico indisponível: {erroHistorico}</small>}
-                    {historico && (
-                        <HistoricoCorridas
-                            corridas={historico}
-                            exibirInspecao
-                            aoFiltrar={(novos) => setFiltros(novos)}
-                        />
-                    )}
                 </div>
             </div>
+
+            {/* Histórico geral com filtros e replay (HU-13/HU-14) em largura total, abaixo
+                do mapa e dos indicadores: na coluna da direita a tabela e o mapa do
+                replay não cabiam em 1366x768 (RNF-SFT05). */}
+            {historico && (
+                <section className="secao-historico-geral" data-testid="secao-historico-geral">
+                    <HistoricoCorridas
+                        corridas={historico}
+                        exibirInspecao
+                        aoFiltrar={(novos) => setFiltros(novos)}
+                    />
+                </section>
+            )}
         </div>
     );
 }
