@@ -52,3 +52,43 @@ jobs:
         with:
           name: cobertura-backend
           path: src/backend/htmlcov
+
+  mysql:
+    name: Persistência no MySQL (armazena.sql)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/backend
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: teste_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -uroot -pteste_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      MYSQL_TEST_URL: mysql+pymysql://root:teste_ci@127.0.0.1:3306/armazena
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: src/backend/requirements.txt
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Aplicar migrations/armazena.sql
+        run: mysql -h 127.0.0.1 -P 3306 -uroot -pteste_ci < migrations/armazena.sql
+
+      - name: Testes de persistência contra o MySQL
+        run: pytest -m mysql -v

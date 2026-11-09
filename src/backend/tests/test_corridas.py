@@ -38,10 +38,9 @@ def aguardar_corridas(cliente, predicado):
     return corridas
 
 
-def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api(tmp_path):
+def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api(url_banco):
     mensagens = pacotes("completa") + pacotes("travado")
-    database_url = f"sqlite:///{tmp_path / 'corridas.db'}"
-    app = criar_app(Fonte(mensagens), database_url=database_url)
+    app = criar_app(Fonte(mensagens), database_url=url_banco)
     with TestClient(app) as cliente:
         corridas = aguardar_corridas(
             cliente, lambda itens: [c["status"] for c in itens] == ["TRAVADO", "CONCLUIDO"]
@@ -66,10 +65,10 @@ def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api(tm
         assert set(detalhes["leituras"][-1]["paredes"]) == {"norte", "sul", "leste", "oeste"}
         assert corridas[-1]["tentativa"] is None
 
-def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido():
+def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido(url_banco):
     from app.servicos.corridas import ServicoCorridas
 
-    app = criar_app(database_url="sqlite://")
+    app = criar_app(database_url=url_banco)
     with TestClient(app) as cliente:
         servico = ServicoCorridas(app.state.sessoes)
         servico.processar(pacotes()[2])
@@ -83,9 +82,9 @@ def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido():
         assert leitura["orientacao"] in {"NORTE", "SUL", "LESTE", "OESTE"}
 
 
-def test_fim_inesperado_marca_corrida_interrompida_e_preserva_leituras():
+def test_fim_inesperado_marca_corrida_interrompida_e_preserva_leituras(url_banco):
     mensagens = pacotes("perda_conexao")
-    app = criar_app(Fonte(mensagens), database_url="sqlite://")
+    app = criar_app(Fonte(mensagens), database_url=url_banco)
     with TestClient(app) as cliente:
         corrida = aguardar_corridas(
             cliente, lambda itens: bool(itens and itens[0]["status"] == "INTERROMPIDA")
@@ -94,7 +93,7 @@ def test_fim_inesperado_marca_corrida_interrompida_e_preserva_leituras():
         assert cliente.get(f"/api/corridas/{corrida['id']}").json()["leituras"]
 
 
-def test_perda_de_telemetria_finaliza_corrida_ativa():
+def test_perda_de_telemetria_finaliza_corrida_ativa(url_banco):
     async def sem_fim():
         yield pacotes()[2]
         await asyncio.Event().wait()
@@ -102,7 +101,7 @@ def test_perda_de_telemetria_finaliza_corrida_ativa():
     class FontePausada:
         mensagens = staticmethod(sem_fim)
 
-    app = criar_app(FontePausada(), database_url="sqlite://", timeout_telemetria_s=0.05)
+    app = criar_app(FontePausada(), database_url=url_banco, timeout_telemetria_s=0.05)
     with TestClient(app) as cliente:
         corridas = aguardar_corridas(
             cliente, lambda itens: bool(itens and itens[0]["status"] == "INTERROMPIDA")
@@ -112,8 +111,8 @@ def test_perda_de_telemetria_finaliza_corrida_ativa():
         assert cliente.get(f"/api/corridas/{corridas[0]['id']}").json()["leituras"]
 
 
-def test_reinicio_marca_corrida_aberta_interrompida_e_consulta_registros(tmp_path):
-    url = f"sqlite:///{tmp_path / 'corridas.db'}"
+def test_reinicio_marca_corrida_aberta_interrompida_e_consulta_registros(url_banco):
+    url = url_banco
     primeira = criar_app(database_url=url)
     with TestClient(primeira):
         corrida = TelemetriaMensagem.model_validate_json(gerar_corrida(pista_de_referencia("4x4"))[2])
@@ -127,17 +126,16 @@ def test_reinicio_marca_corrida_aberta_interrompida_e_consulta_registros(tmp_pat
         assert cliente.get(f"/api/corridas/{dados[0]['id']}").json()["leituras"]
 
 
-def test_corrida_inexistente_retorna_404():
-    with TestClient(criar_app(database_url="sqlite://")) as cliente:
+def test_corrida_inexistente_retorna_404(url_banco):
+    with TestClient(criar_app(database_url=url_banco)) as cliente:
         assert cliente.get("/api/corridas/999").status_code == 404
 
 
-def test_filtrar_corridas_por_geometria_e_data(tmp_path):
+def test_filtrar_corridas_por_geometria_e_data(url_banco):
     from datetime import datetime
     from app.banco import Corrida, iniciar_esquema
 
-    database_url = f"sqlite:///{tmp_path / 'filtro.db'}"
-    app = criar_app(database_url=database_url)
+    app = criar_app(database_url=url_banco)
     iniciar_esquema(app.state.engine, app.state.sessoes)
 
     # Popula com corridas em diferentes datas e geometrias
@@ -221,13 +219,12 @@ def test_filtrar_corridas_por_geometria_e_data(tmp_path):
         assert len(res_vazio) == 0
 
 
-def test_performance_consulta_500_corridas(tmp_path):
+def test_performance_consulta_500_corridas(url_banco):
     """RNF-SFT04: Resposta inferior a 2,0 s para base com até 500 registros."""
     from datetime import datetime, timedelta
     from app.banco import Corrida, iniciar_esquema
 
-    database_url = f"sqlite:///{tmp_path / 'perf.db'}"
-    app = criar_app(database_url=database_url)
+    app = criar_app(database_url=url_banco)
     iniciar_esquema(app.state.engine, app.state.sessoes)
 
     geometrias = ["4x4", "8x4", "12x4"]
@@ -259,3 +256,64 @@ def test_performance_consulta_500_corridas(tmp_path):
         assert len(dados) > 0
         assert duracao < 2.0  # RNF-SFT04 estrito (< 2s)
 
+
+
+def test_orientacoes_e_geometrias_do_contrato_voltam_iguais_da_api(url_banco, mensagem):
+    """#142: a orientação é gravada com o nome do contrato, igual ao ENUM do armazena.sql."""
+    from app.servicos.corridas import ServicoCorridas
+
+    orientacoes = ["NORTE", "SUL", "LESTE", "OESTE"]
+    app = criar_app(database_url=url_banco)
+    with TestClient(app) as cliente:
+        servico = ServicoCorridas(app.state.sessoes)
+        for labirinto in ("4x4", "8x4", "12x4"):
+            for i, orientacao in enumerate(orientacoes, start=1):
+                dados = {
+                    **mensagem, "labirinto": labirinto, "orientacao": orientacao,
+                    "timestamp_ms": 1000 * i, "seq": i, "rssi": -60,
+                }
+                servico.processar(TelemetriaMensagem.model_validate(dados))
+
+        corridas = cliente.get("/api/corridas").json()
+        assert [c["labirinto"] for c in corridas] == ["12x4", "8x4", "4x4"]
+        for corrida in corridas:
+            leituras = cliente.get(f"/api/corridas/{corrida['id']}").json()["leituras"]
+            assert [leitura["orientacao"] for leitura in leituras] == orientacoes
+            assert {leitura["labirinto"] for leitura in leituras} == {corrida["labirinto"]}
+            assert [leitura["seq"] for leitura in leituras] == [1, 2, 3, 4]
+
+
+def test_banco_recusa_orientacao_fora_do_contrato(url_banco):
+    """A abreviação que causou a #142 é recusada também no SQLite (CHECK do ENUM)."""
+    import pytest
+    from sqlalchemy.exc import DBAPIError
+
+    from app.banco import Corrida, Leitura, iniciar_esquema
+
+    app = criar_app(database_url=url_banco)
+    iniciar_esquema(app.state.engine, app.state.sessoes)
+    with app.state.sessoes.begin() as sessao:
+        corrida = Corrida(labirinto="4x4")
+        sessao.add(corrida)
+    with pytest.raises(DBAPIError):
+        with app.state.sessoes.begin() as sessao:
+            sessao.add(Leitura(
+                timestamp_ms=1000, labirinto="4x4", desafio_cumprido=False,
+                bateria_pct=80, bateria_volts=7.4, corrida_id=corrida.id,
+                velocidade_media=0, coluna="A", linha=1, orientacao="N",
+                status="MAPEANDO", velocidade_atual=0,
+            ))
+
+
+def test_api_libera_cors_para_o_painel(monkeypatch):
+    """O painel (Vite, outra porta) só lê /api/corridas se a resposta tiver CORS."""
+    with TestClient(criar_app(database_url="sqlite://")) as cliente:
+        resposta = cliente.get("/api/corridas", headers={"Origin": "http://localhost:5173"})
+        assert resposta.headers["access-control-allow-origin"] == "*"
+
+    monkeypatch.setenv("CORS_ORIGENS", "http://painel.local:5173, http://outro:4173")
+    with TestClient(criar_app(database_url="sqlite://")) as cliente:
+        liberada = cliente.get("/api/corridas", headers={"Origin": "http://painel.local:5173"})
+        assert liberada.headers["access-control-allow-origin"] == "http://painel.local:5173"
+        bloqueada = cliente.get("/api/corridas", headers={"Origin": "http://intruso:1234"})
+        assert "access-control-allow-origin" not in bloqueada.headers

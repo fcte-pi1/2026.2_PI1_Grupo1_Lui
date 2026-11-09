@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS armazena.`Corrida` (
   modo ENUM('EXPLORACAO', 'SPEED_RUN') NOT NULL DEFAULT 'EXPLORACAO',
   celulas_visitadas INT NOT NULL DEFAULT 0,
   PRIMARY KEY (idCorrida),
-  UNIQUE INDEX idMapasP_UNIQUE (idCorrida ASC) VISIBLE)
+  UNIQUE INDEX idMapasP_UNIQUE (idCorrida ASC) VISIBLE,
+  INDEX ix_Corrida_labirinto (labirinto ASC) VISIBLE, -- filtro por geometria do histórico (HU-13)
+  INDEX ix_Corrida_status_final (status_final ASC) VISIBLE)
 ENGINE = InnoDB;
 -- Table armazena.`Leitura`
 CREATE TABLE IF NOT EXISTS armazena.`Leitura` (

@@ -5,6 +5,10 @@ Execução local, a partir de src/backend:
 
 A fonte de telemetria (gateway real ou simulador) é escolhida pelas variáveis de
 ambiente descritas em app/config.py.
+
+CORS_ORIGENS lista, separadas por vírgula, as origens do painel que podem ler a
+API REST (padrão "*"). O painel roda em outra porta (Vite), então sem o CORS o
+navegador bloqueia as respostas de /api/corridas.
 """
 
 import asyncio
@@ -13,6 +17,7 @@ import logging
 import os
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import saude, telemetria_ws
 from app.api import corridas as api_corridas
@@ -57,6 +62,9 @@ def criar_app(
     app = FastAPI(
         title="Micromouse - Telemetria", version="0.1.0", lifespan=ciclo_de_vida
     )
+    origens = [o.strip() for o in os.getenv("CORS_ORIGENS", "*").split(",") if o.strip()]
+    # A API é só de leitura e não usa cookies: basta liberar o GET.
+    app.add_middleware(CORSMiddleware, allow_origins=origens, allow_methods=["GET"])
     app.state.gerenciador = gerenciador
     app.state.sessoes = sessoes
     app.state.engine = engine

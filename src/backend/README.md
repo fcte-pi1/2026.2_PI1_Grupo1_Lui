@@ -62,21 +62,36 @@ uvicorn app.main:app --reload
 - Telemetria em tempo real: `ws://127.0.0.1:8000/ws/telemetria`
 - Histórico: `http://127.0.0.1:8000/api/corridas`; detalhe e leituras: `/api/corridas/{id}`
 
+O painel roda em outra porta (Vite), então a API REST responde com CORS. A variável `CORS_ORIGENS` lista, separadas por vírgula, as origens liberadas (padrão `*`; a API só aceita `GET`).
+
 ## Persistência das corridas (RF-SFT07)
 
-O backend mapeia as tabelas existentes `Corrida` e `Leitura` do MySQL. SQLite continua disponível para desenvolvimento e testes; em produção, a URL deve apontar para o schema `mydb`. Para um banco vazio, use `migrations/001_corridas.sql`. Para atualizar o modelo MySQL original enviado pelo grupo, faça backup e aplique uma única vez `migrations/002_adaptar_schema_existente_rf_sft07.sql` antes de iniciar o backend. O `create_all` do SQLAlchemy cria tabelas ausentes, mas não substitui migrações em tabelas existentes.
+O backend mapeia as tabelas `Corrida` e `Leitura` do schema `armazena`, criado por [`migrations/armazena.sql`](migrations/armazena.sql). O `app/banco.py` descreve exatamente a mesma estrutura do script (tipos, ENUMs, nulidade, padrões e índices), e o teste `tests/test_banco_mysql.py` confere isso contra um MySQL de verdade. Os campos de texto gravam os mesmos valores do contrato de dados: a orientação vai como `NORTE`, `SUL`, `LESTE` ou `OESTE`, nunca abreviada.
 
-Exemplo no PowerShell (use as credenciais locais do seu MySQL):
+Em produção, aplique o script uma vez e aponte a URL para o schema `armazena`. Exemplo no PowerShell (use as credenciais locais do seu MySQL):
 
 ```powershell
-$env:DATABASE_URL = "mysql+pymysql://usuario:senha@localhost:3306/mydb"
+mysql -u usuario -p < migrationsrmazena.sql
+$env:DATABASE_URL = "mysql+pymysql://usuario:senha@localhost:3306/armazena"
 ```
 
-O primeiro pacote `MAPEANDO`/`SPEED_RUN` após a espera cria a corrida, alinhado à largada do firmware (`src/firmware/robo/src/main.cpp`). Nesse momento, os campos ainda desconhecidos começam com valores neutros; `fim` e `status_final` permanecem nulos. Cada pacote da corrida, inclusive o terminal, é gravado e confirmado no banco antes de ser difundido pelo WebSocket. `CONCLUIDO`, `TRAVADO`, `COLISAO` e `TIMEOUT` encerram normalmente. Silêncio por mais de `TELEMETRIA_TIMEOUT_S` (padrão 5 s), fim/erro inesperado da fonte, nova espera durante uma corrida ou reinício do backend preenche `fim` e `status_final=INTERROMPIDA`. O timeout deve ser maior que o intervalo de envio configurado pelo firmware.
+Sem `DATABASE_URL`, o backend usa o SQLite `corridas.db` nesta pasta, criado pelo `create_all` do SQLAlchemy. O `create_all` só cria tabelas ausentes; ele não altera tabelas que já existem.
 
-`modo` recebe `EXPLORACAO` ou `SPEED_RUN`; `AGUARDANDO` continua sendo apenas status da telemetria e não é gravado como modo. A tentativa não é enviada pela ESP, então `tentativa` fica nula até que o contrato forneça esse dado. As quatro paredes são guardadas em cada linha de `Leitura` para que o replay reconstrua o mapa ao longo do tempo. Leituras anteriores à migração não têm essas paredes e permanecem com valores nulos (desconhecidos).
+### Recriar o banco SQLite local
 
-O protocolo do gateway não foi alterado: `INTERROMPIDA` é um status calculado pelo backend, não uma mensagem nova do hardware. A tabela `Celula` permanece no schema para compatibilidade; o replay temporal usa as paredes registradas em `Leitura`.
+Desde a correção da #142, os ENUMs também valem no SQLite (viram `CHECK`). Um `corridas.db` criado antes disso continua com a estrutura antiga e pode guardar orientações abreviadas (`N`, `S`, `L`, `O`): a listagem abre, mas o detalhe dessas corridas responde 500. O arquivo é só de desenvolvimento, então o caminho é apagá-lo e deixar o backend criar outro na próxima execução:
+
+```powershell
+Remove-Item corridas.db    # com o backend parado, dentro de srcackend
+```
+
+No Linux e no macOS: `rm corridas.db`. Se quiser guardar as corridas antigas, renomeie o arquivo em vez de apagar.
+
+O primeiro pacote `MAPEANDO`/`SPEED_RUN` após a espera cria a corrida, alinhado à largada do firmware (`src/firmware/robo/src/main.cpp`). Nesse momento, os campos ainda desconhecidos começam com valores neutros; `fim` e `status_final` permanecem nulos. Cada pacote da corrida, inclusive o terminal, é difundido pelo WebSocket e gravado no banco em segundo plano; uma falha ao gravar fica registrada no log e não interrompe o painel. `CONCLUIDO`, `TRAVADO`, `COLISAO` e `TIMEOUT` encerram normalmente. Silêncio por mais de `TELEMETRIA_TIMEOUT_S` (padrão 5 s), fim/erro inesperado da fonte, nova espera durante uma corrida ou reinício do backend preenche `fim` e `status_final=INTERROMPIDA`. O timeout deve ser maior que o intervalo de envio configurado pelo firmware.
+
+`modo` recebe `EXPLORACAO` ou `SPEED_RUN`; `AGUARDANDO` continua sendo apenas status da telemetria e não é gravado como modo. A tentativa não é enviada pela ESP, então `tentativa` fica nula até que o contrato forneça esse dado. As quatro paredes são guardadas em cada linha de `Leitura` para que o replay reconstrua o mapa ao longo do tempo.
+
+O protocolo do gateway não foi alterado: `INTERROMPIDA` é um status calculado pelo backend, não uma mensagem nova do hardware. O replay temporal usa as paredes registradas em `Leitura`.
 
 Endpoints:
 
@@ -173,6 +188,19 @@ No Linux e no macOS, com o ambiente ativado, use `python -m app.simulador` com o
 
 No Linux e no macOS, com o ambiente ativado: `pytest --cov=app --cov-report=term-missing`.
 
-O workflow [`backend-ci.yml`](../../.github/workflows/backend-ci.yml) roda esse comando em todo PR que altere `src/backend` e publica a tabela de cobertura no resumo da execução. Os testes não abrem portas reais: a serial é testada com uma porta falsa e com um gateway emulado por socket local.
+### Persistência contra o MySQL
+
+Os testes de persistência rodam sempre no SQLite e, quando a variável `MYSQL_TEST_URL` aponta para um MySQL com o `armazena.sql` aplicado, também nele (marcador `mysql`). Os testes apagam as linhas de `Corrida` e `Leitura` desse banco, então use um banco só de teste. Com o Docker:
+
+```powershell
+docker run -d --name pi1-mysql-teste -e MYSQL_ROOT_PASSWORD=teste_pi1 -p 3307:3306 mysql:8.0
+# espere uns 20 s até o MySQL aceitar conexões
+Get-Content migrationsrmazena.sql | docker exec -i pi1-mysql-teste mysql -uroot -pteste_pi1
+$env:MYSQL_TEST_URL = "mysql+pymysql://root:teste_pi1@127.0.0.1:3307/armazena"
+.\.venv\Scripts\python -m pytest -m mysql
+docker rm -f pi1-mysql-teste    # ao terminar
+```
+
+O workflow [`backend-ci.yml`](../../.github/workflows/backend-ci.yml) roda esse comando em todo PR que altere `src/backend` e publica a tabela de cobertura no resumo da execução. O job "Persistência no MySQL" sobe um `mysql:8.0`, aplica o `armazena.sql` e roda os testes marcados com `mysql`. Os testes não abrem portas reais: a serial é testada com uma porta falsa e com um gateway emulado por socket local.
 
 Não versione `.env`, `.venv/`, `__pycache__/` nem os relatórios de cobertura; o `.gitignore` desta pasta já os ignora.
