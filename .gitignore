@@ -6,10 +6,13 @@ site/
 .pio/
 skills/
 
-# Python / MkDocs
+# Python / MkDocs / Local DB
+.venv
 .venv/
 site/
 __pycache__/
+*.db
+*.sqlite3
 
 # Adicione outros arquivos a serem ignorados aqui
 # ...
@@ -59,3 +62,6 @@ relatorio.pdf
 *.synctex
 *.synctex(busy)
 *.synctex.gz
+
+# Logs de telemetria
+*.jsonl
