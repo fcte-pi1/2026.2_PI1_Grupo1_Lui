@@ -62,3 +62,6 @@ relatorio.pdf
 *.synctex
 *.synctex(busy)
 *.synctex.gz
+
+# Logs de telemetria
+*.jsonl
