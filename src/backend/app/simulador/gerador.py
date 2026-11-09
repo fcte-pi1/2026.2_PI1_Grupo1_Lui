@@ -9,7 +9,9 @@ com timestamp_ms avançando 1000 ms por mensagem (1 Hz).
 Cenários:
   completa       termina em CONCLUIDO na chegada
   travado        vai para TRAVADO no meio do percurso
-  perda_conexao  para de enviar no meio do percurso, ainda em MAPEANDO
+  perda_conexao  perde PACOTES_PERDIDOS pacotes seguidos no meio do percurso
+                 (rádio fora do ar) e termina em CONCLUIDO: o robô não depende
+                 do rádio e segue navegando durante a perda
 Em CONCLUIDO e TRAVADO a última mensagem se repete com o cronômetro congelado,
 como o robô real continua transmitindo depois de parar.
 """
@@ -25,6 +27,9 @@ from app.simulador.robo_virtual import CURVA, MEIA_VOLTA, RETA, RoboVirtual
 
 CENARIOS = ("completa", "travado", "perda_conexao")
 INTERVALO_MS = 1000
+# Pacotes que não chegam ao gateway no cenário perda_conexao. O silêncio que o
+# painel vê é definido em tempo real pela fonte (FonteSimulador.silencio_perda_s).
+PACOTES_PERDIDOS = 4
 
 _LETRAS_COLUNA = "ABCD"
 _STATUS_ID = {
@@ -115,16 +120,22 @@ def gerar_corrida(
         robo.paredes_da_celula_atual(),
     )
     passos = list(robo.explorar())
-    if cenario != "completa":
-        # Interrompe no meio do percurso, nunca na largada nem na chegada.
-        corte = min(max(1, int(len(passos) * fracao_interrupcao)), len(passos) - 1)
+    # Ponto do percurso onde a corrida trava ou o rádio cai: nunca na largada nem
+    # na chegada (na perda, os pacotes perdidos também terminam antes da chegada).
+    ultimo_corte = len(passos) - 1 - (PACOTES_PERDIDOS if cenario == "perda_conexao" else 0)
+    corte = min(max(1, int(len(passos) * fracao_interrupcao)), max(1, ultimo_corte))
+    if cenario == "travado":
         passos = passos[:corte]
+    perdidos = (
+        range(corte + 1, corte + 1 + PACOTES_PERDIDOS)
+        if cenario == "perda_conexao" else range(0)
+    )
 
     linhas: list[str] = []
     seq = seq_inicial
     velocidades: list[int] = []
 
-    def emitir(tempo_ms, status, posicao, velocidade_mm_s, desafio=False):
+    def emitir(tempo_ms, status, posicao, velocidade_mm_s, desafio=False, enviado=True):
         nonlocal seq
         linha, coluna, orientacao, paredes = posicao
         tempo_ms = min(tempo_ms, TIMESTAMP_MAX_MS)
@@ -150,8 +161,12 @@ def gerar_corrida(
             orientacao=orientacao,
             paredes=paredes,
         )
-        linhas.append(linha_gateway(pacote, seq, sorteio.randint(-72, -48)))
-        seq += 1
+        rssi = sorteio.randint(-72, -48)
+        # Um pacote perdido não chega ao gateway, que numera só o que recebe; os
+        # sorteios acontecem do mesmo jeito para o resto da corrida não mudar.
+        if enviado:
+            linhas.append(linha_gateway(pacote, seq, rssi))
+            seq += 1
 
     for _ in range(mensagens_iniciais):
         emitir(0, "AGUARDANDO", estado_inicial, 0)
@@ -161,21 +176,20 @@ def gerar_corrida(
     for indice, passo in enumerate(passos, start=1):
         tempo_ms = indice * INTERVALO_MS
         posicao = (passo.linha, passo.coluna, passo.orientacao, passo.paredes)
-        chegou = cenario == "completa" and indice == len(passos)
+        chegou = cenario != "travado" and indice == len(passos)
         if chegou:
             emitir(tempo_ms, "CONCLUIDO", posicao, 0, desafio=True)
         else:
             velocidade = _VELOCIDADE_MM_S[passo.manobra] + sorteio.randint(-8, 8)
             velocidades.append(velocidade)
-            emitir(tempo_ms, "MAPEANDO", posicao, velocidade)
+            emitir(tempo_ms, "MAPEANDO", posicao, velocidade, enviado=indice not in perdidos)
 
     if cenario == "travado":
         tempo_ms += INTERVALO_MS
         emitir(tempo_ms, "TRAVADO", posicao, 0)
 
-    if cenario in ("completa", "travado"):
-        status_final = "CONCLUIDO" if cenario == "completa" else "TRAVADO"
-        for _ in range(mensagens_finais):
-            emitir(tempo_ms, status_final, posicao, 0, desafio=cenario == "completa")
+    status_final = "TRAVADO" if cenario == "travado" else "CONCLUIDO"
+    for _ in range(mensagens_finais):
+        emitir(tempo_ms, status_final, posicao, 0, desafio=status_final == "CONCLUIDO")
 
     return linhas

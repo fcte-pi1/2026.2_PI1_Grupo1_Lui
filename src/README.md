@@ -53,7 +53,9 @@ Abra <http://localhost:5173> no navegador.
 - No canto superior direito, **CONECTADO** em verde.
 - O status passa de "Em espera" para "Explorando", e o labirinto é desenhado célula a célula, com o rastro e o robô.
 - Tempo, velocidade e bateria são atualizados a cada segundo.
-- No fim da corrida, o status depende do cenário: "Concluído" na chegada (`completa`), "Travado" no meio do percurso (`travado`), ou os dados param de chegar ainda em "Explorando" (`perda_conexao`).
+- No fim da corrida, o status depende do cenário: "Concluído" na chegada (`completa` e `perda_conexao`) ou "Travado" no meio do percurso (`travado`).
+- No cenário `perda_conexao`, os pacotes param de chegar por 4 segundos no meio do percurso. Depois de 3 segundos sem pacotes aparece o aviso **Conexão RF perdida** abaixo do cabeçalho, com o indicador ainda em CONECTADO e o status em "Explorando". O aviso some quando os pacotes voltam, já com o robô mais adiante, porque ele seguiu navegando (HU-09).
+- Depois de parar, o robô continua transmitindo o último pacote, então o aviso não aparece com a corrida já encerrada.
 - Com `SIMULADOR_REPETIR=1`, depois de 5 segundos o status volta para "Em espera" e o mapa recomeça vazio, sem desenhar uma corrida por cima da outra.
 
 Enquanto nenhum painel estiver conectado, o simulador fica em "Em espera" na largada, como o robô real esperando o botão; a corrida só começa quando o painel conecta, então ela aparece inteira, desde A1, não importa quando a página é aberta. Sem `SIMULADOR_REPETIR=1`, a corrida acontece uma vez só; para ver de novo, suba o backend outra vez.

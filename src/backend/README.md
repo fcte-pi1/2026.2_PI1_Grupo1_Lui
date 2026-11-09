@@ -87,7 +87,7 @@ Remove-Item corridas.db    # com o backend parado, dentro de srcackend
 
 No Linux e no macOS: `rm corridas.db`. Se quiser guardar as corridas antigas, renomeie o arquivo em vez de apagar.
 
-O primeiro pacote `MAPEANDO`/`SPEED_RUN` após a espera cria a corrida, alinhado à largada do firmware (`src/firmware/robo/src/main.cpp`). Nesse momento, os campos ainda desconhecidos começam com valores neutros; `fim` e `status_final` permanecem nulos. Cada pacote da corrida, inclusive o terminal, é difundido pelo WebSocket e gravado no banco em segundo plano; uma falha ao gravar fica registrada no log e não interrompe o painel. `CONCLUIDO`, `TRAVADO`, `COLISAO` e `TIMEOUT` encerram normalmente. Silêncio por mais de `TELEMETRIA_TIMEOUT_S` (padrão 5 s), fim/erro inesperado da fonte, nova espera durante uma corrida ou reinício do backend preenche `fim` e `status_final=INTERROMPIDA`. O timeout deve ser maior que o intervalo de envio configurado pelo firmware.
+O primeiro pacote `MAPEANDO`/`SPEED_RUN` após a espera cria a corrida, alinhado à largada do firmware (`src/firmware/robo/src/main.cpp`). Nesse momento, os campos ainda desconhecidos começam com valores neutros; `fim` e `status_final` permanecem nulos. Cada pacote da corrida, inclusive o terminal, é difundido pelo WebSocket e gravado no banco em segundo plano; uma falha ao gravar fica registrada no log e não interrompe o painel. `CONCLUIDO`, `TRAVADO`, `COLISAO` e `TIMEOUT` encerram normalmente. Silêncio por mais de `TELEMETRIA_TIMEOUT_S` (padrão 5 s), fim/erro inesperado da fonte, nova espera durante uma corrida ou reinício do backend preenche `fim` e `status_final=INTERROMPIDA`. O timeout deve ser maior que o intervalo de envio configurado pelo firmware. Ele é independente do aviso "Conexão RF perdida" do painel, que aparece aos 3 s sem pacotes (HU-09) e não encerra nada. Parado, o robô repete o pacote terminal com o cronômetro congelado: só o primeiro é gravado, e as repetições não viram leituras nem uma corrida nova.
 
 `modo` recebe `EXPLORACAO` ou `SPEED_RUN`; `AGUARDANDO` continua sendo apenas status da telemetria e não é gravado como modo. A tentativa não é enviada pela ESP, então `tentativa` fica nula até que o contrato forneça esse dado. As quatro paredes são guardadas em cada linha de `Leitura` para que o replay reconstrua o mapa ao longo do tempo.
 
@@ -165,9 +165,16 @@ O simulador emula o robô explorando uma pista e gera, a cada célula percorrida
 |:---|:---|
 | `completa` | `CONCLUIDO` na chegada, com `desafio_cumprido` verdadeiro |
 | `travado` | `TRAVADO` no meio do percurso, com velocidade atual 0 |
-| `perda_conexao` | Para de enviar no meio do percurso, ainda em `MAPEANDO` |
+| `perda_conexao` | Perde 4 pacotes seguidos no meio do percurso e depois termina em `CONCLUIDO`: o robô não depende do rádio e segue navegando durante a perda |
 
 Em `CONCLUIDO` e `TRAVADO` a última mensagem se repete duas vezes com o cronômetro congelado, como o robô real continua transmitindo depois de parar.
+
+Com a fonte `simulador` do backend:
+
+- **Depois da chegada**, a última mensagem continua sendo enviada no mesmo ritmo, como faz o robô real parado: para sempre, ou durante a pausa até a próxima corrida com `SIMULADOR_REPETIR=1`. Assim o painel só avisa "Conexão RF perdida" (HU-09) quando os pacotes param de fato.
+- **Na `perda_conexao`**, os pacotes perdidos viram 4 s de silêncio de relógio, mesmo com `SIMULADOR_VELOCIDADE` acima de 1. Isso fica acima dos 3 s do aviso no painel e abaixo dos 5 s de `TELEMETRIA_TIMEOUT_S`, então a corrida não é interrompida no histórico.
+
+Rodando sozinho (`python -m app.simulador`), o simulador escreve só a corrida, sem essas repetições e sem o silêncio.
 
 O simulador também roda sozinho, escrevendo as linhas na saída padrão:
 

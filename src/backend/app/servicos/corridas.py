@@ -28,10 +28,12 @@ class ServicoCorridas:
                 return
 
             terminal_normal = mensagem.status in TERMINAIS - {"INTERROMPIDA"}
+            # Parado, o robô continua transmitindo o pacote terminal com o
+            # cronômetro congelado (1 por segundo, HU-09). As repetições não trazem
+            # nada novo e não viram leituras nem uma corrida nova.
             if self.corrida_ativa_id is None and terminal_normal:
                 finalizada = self.ultima_corrida_finalizada
                 if finalizada and finalizada[1:] == (mensagem.status, mensagem.timestamp_ms):
-                    self._adicionar_leitura(sessao, finalizada[0], mensagem, agora)
                     return
 
             if self.corrida_ativa_id is None or self.labirinto_ativo != mensagem.labirinto:

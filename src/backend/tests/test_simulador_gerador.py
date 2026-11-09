@@ -7,7 +7,14 @@ from pistas_de_teste import pista_toda_alcancavel
 from app.modelos.telemetria import TIMESTAMP_MAX_MS, TelemetriaMensagem
 from app.simulador.__main__ import main
 from app.simulador.direcao import Direcao
-from app.simulador.gerador import CENARIOS, Pacote, gerar_corrida, linha_gateway
+from app.simulador.gerador import (
+    CENARIOS,
+    INTERVALO_MS,
+    PACOTES_PERDIDOS,
+    Pacote,
+    gerar_corrida,
+    linha_gateway,
+)
 from app.simulador.pistas import pista_de_referencia
 
 # Linhas produzidas pelo telemetriaParaJson do firmware (src/firmware/lib/telemetria),
@@ -123,6 +130,8 @@ def test_todas_as_mensagens_sao_validas_e_coerentes(labirinto, cenario):
     assert all(0 < m.bateria_volts <= 8.4 and 0 <= m.bateria_pct <= 100 for m in msgs)
 
     for anterior, atual in itertools.pairwise(msgs):
+        if atual.timestamp_ms - anterior.timestamp_ms > INTERVALO_MS:
+            continue  # lacuna dos pacotes perdidos (perda_conexao)
         (ca, la), (cb, lb) = posicao(anterior), posicao(atual)
         assert abs(ca - cb) + abs(la - lb) <= 1  # no máximo uma célula por mensagem
         if (ca, la) != (cb, lb):
@@ -181,19 +190,24 @@ def test_corrida_interrompida_termina_travada_no_meio(labirinto):
 
 
 @pytest.mark.parametrize("labirinto", GEOMETRIAS)
-def test_perda_de_conexao_para_de_enviar_no_meio(labirinto):
+def test_perda_de_conexao_perde_pacotes_no_meio_e_o_robo_segue_ate_a_chegada(labirinto):
     pista = pista_de_referencia(labirinto)
     completa = mensagens(gerar_corrida(pista, "completa"))
     msgs = mensagens(gerar_corrida(pista, "perda_conexao"))
 
-    assert msgs[-1].status == "MAPEANDO"
-    assert (posicao(msgs[-1])[1], posicao(msgs[-1])[0]) != pista.chegada
-    assert {m.status for m in msgs} == {"AGUARDANDO", "MAPEANDO"}
-    # Até o corte, a corrida é igual à completa.
-    assert [m.model_dump() for m in msgs] == [
-        m.model_dump() for m in completa[: len(msgs)]
-    ]
-    assert len(msgs) < len(completa) - 1
+    # O robô não depende do rádio: termina a corrida como na completa.
+    assert msgs[-1].status == "CONCLUIDO" and msgs[-1].desafio_cumprido
+    assert (posicao(msgs[-1])[1], posicao(msgs[-1])[0]) == pista.chegada
+    assert len(msgs) == len(completa) - PACOTES_PERDIDOS
+    # Os pacotes que chegam são os da completa, sem os perdidos; o gateway
+    # numera só o que recebe, então o seq não tem buraco.
+    sem_seq = [m.model_dump(exclude={"seq"}) for m in completa]
+    assert all(m.model_dump(exclude={"seq"}) in sem_seq for m in msgs)
+    assert [m.seq for m in msgs] == list(range(1, len(msgs) + 1))
+    # Uma única lacuna, no meio do percurso, do tamanho dos pacotes perdidos.
+    tempos = [m.timestamp_ms for m in msgs if m.status == "MAPEANDO"]
+    saltos = [b - a for a, b in zip(tempos, tempos[1:]) if b - a != INTERVALO_MS]
+    assert saltos == [INTERVALO_MS * (PACOTES_PERDIDOS + 1)]
 
 
 def test_pista_toda_alcancavel_tambem_gera_corrida_completa():

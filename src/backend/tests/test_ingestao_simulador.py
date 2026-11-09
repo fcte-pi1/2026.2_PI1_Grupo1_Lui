@@ -3,7 +3,7 @@ import contextlib
 
 import pytest
 
-from app.ingestao.fonte_simulador import FonteSimulador
+from app.ingestao.fonte_simulador import SILENCIO_PERDA_S, FonteSimulador
 from app.modelos.telemetria import TelemetriaMensagem
 from app.simulador.gerador import gerar_corrida
 from app.simulador.pistas import pista_de_referencia
@@ -30,7 +30,7 @@ async def coletar(fonte, limite=None):
 def test_entrega_a_corrida_do_gerador_validada():
     pista = pista_de_referencia("8x4")
     relogio = Relogio()
-    fonte = FonteSimulador(pista, "travado", dormir=relogio.dormir)
+    fonte = FonteSimulador(pista, "travado", manter_sinal=False, dormir=relogio.dormir)
 
     recebidas = asyncio.run(coletar(fonte))
 
@@ -45,7 +45,9 @@ def test_ritmo_de_uma_mensagem_por_segundo_dividido_pelo_fator():
     pista = pista_de_referencia("4x4")
     for fator, intervalo in ((1.0, 1.0), (4.0, 0.25)):
         relogio = Relogio()
-        fonte = FonteSimulador(pista, fator_velocidade=fator, dormir=relogio.dormir)
+        fonte = FonteSimulador(
+            pista, fator_velocidade=fator, manter_sinal=False, dormir=relogio.dormir
+        )
         recebidas = asyncio.run(coletar(fonte))
         # Nenhuma espera antes da primeira mensagem nem depois da última.
         assert relogio.esperas == [intervalo] * (len(recebidas) - 1)
@@ -53,12 +55,38 @@ def test_ritmo_de_uma_mensagem_por_segundo_dividido_pelo_fator():
 
 def test_repetir_recomeca_a_corrida_sem_reiniciar_o_seq():
     pista = pista_de_referencia("4x4")
-    tamanho = len(gerar_corrida(pista, "perda_conexao"))
+    corrida = gerar_corrida(pista)
+    tamanho = len(corrida)
     relogio = Relogio()
     fonte = FonteSimulador(
         pista,
-        "perda_conexao",
         repetir=True,
+        fator_velocidade=2,
+        pausa_entre_corridas_s=6,
+        dormir=relogio.dormir,
+    )
+
+    # Pausa de 3 s (6 s / fator 2) a 0,5 s por mensagem: 6 repetições do fim.
+    recebidas = asyncio.run(coletar(fonte, limite=tamanho + 6 + 2))
+
+    assert [m.seq for m in recebidas] == list(range(1, tamanho + 9))
+    final = TelemetriaMensagem.model_validate_json(corrida[-1])
+    repeticoes = recebidas[tamanho:tamanho + 6]
+    assert all(m.model_dump(exclude={"seq"}) == final.model_dump(exclude={"seq"}) for m in repeticoes)
+    assert recebidas[tamanho + 6].status == "AGUARDANDO"
+    assert recebidas[tamanho + 6].timestamp_ms == 0
+    # Sem silêncio entre as corridas: o ritmo segue o fator o tempo todo.
+    assert relogio.esperas == [0.5] * (len(recebidas) - 1)
+
+
+def test_sem_manter_sinal_a_pausa_entre_corridas_e_silencio():
+    pista = pista_de_referencia("4x4")
+    tamanho = len(gerar_corrida(pista))
+    relogio = Relogio()
+    fonte = FonteSimulador(
+        pista,
+        repetir=True,
+        manter_sinal=False,
         fator_velocidade=2,
         pausa_entre_corridas_s=6,
         dormir=relogio.dormir,
@@ -66,10 +94,43 @@ def test_repetir_recomeca_a_corrida_sem_reiniciar_o_seq():
 
     recebidas = asyncio.run(coletar(fonte, limite=tamanho + 2))
 
-    assert [m.seq for m in recebidas] == list(range(1, tamanho + 3))
     assert recebidas[tamanho].status == "AGUARDANDO"
-    assert recebidas[tamanho].timestamp_ms == 0
-    assert 3.0 in relogio.esperas  # pausa entre corridas também segue o fator
+    assert relogio.esperas.count(3.0) == 1  # pausa entre corridas também segue o fator
+    assert relogio.esperas.count(0.5) == len(recebidas) - 2
+
+
+def test_depois_de_parar_continua_transmitindo_a_ultima_mensagem():
+    """Como o robô real: parado em CONCLUIDO ou TRAVADO, segue enviando a 1 Hz (HU-09)."""
+    pista = pista_de_referencia("8x4")
+    for cenario in ("completa", "travado"):
+        corrida = gerar_corrida(pista, cenario)
+        relogio = Relogio()
+        fonte = FonteSimulador(pista, cenario, dormir=relogio.dormir)
+
+        recebidas = asyncio.run(coletar(fonte, limite=len(corrida) + 20))
+
+        final = TelemetriaMensagem.model_validate_json(corrida[-1])
+        depois = recebidas[len(corrida):]
+        assert len(depois) == 20
+        assert all(m.model_dump(exclude={"seq"}) == final.model_dump(exclude={"seq"}) for m in depois)
+        assert [m.seq for m in recebidas] == list(range(1, len(recebidas) + 1))
+        assert relogio.esperas == [1.0] * (len(recebidas) - 1)
+
+
+def test_perda_de_conexao_vira_silencio_em_tempo_real():
+    """O silêncio dos pacotes perdidos não encolhe com o fator de velocidade."""
+    pista = pista_de_referencia("4x4")
+    relogio = Relogio()
+    fonte = FonteSimulador(
+        pista, "perda_conexao", fator_velocidade=5, manter_sinal=False, dormir=relogio.dormir
+    )
+
+    recebidas = asyncio.run(coletar(fonte))
+
+    assert recebidas[-1].status == "CONCLUIDO"
+    assert relogio.esperas.count(SILENCIO_PERDA_S) == 1
+    assert relogio.esperas.count(0.2) == len(recebidas) - 2
+    assert 3.0 < SILENCIO_PERDA_S < 5.0  # aviso do painel < silêncio < timeout do backend
 
 
 def test_fator_de_velocidade_deve_ser_positivo():
@@ -93,7 +154,9 @@ class PainelFalso:
 def test_espera_na_largada_ate_haver_painel():
     pista = pista_de_referencia("4x4")
     relogio = Relogio()
-    fonte = FonteSimulador(pista, ha_painel=PainelFalso(4), dormir=relogio.dormir)
+    fonte = FonteSimulador(
+        pista, ha_painel=PainelFalso(4), manter_sinal=False, dormir=relogio.dormir
+    )
 
     recebidas = asyncio.run(coletar(fonte))
 
@@ -113,7 +176,9 @@ def test_espera_na_largada_ate_haver_painel():
 
 def test_com_painel_ja_conectado_comeca_na_hora():
     pista = pista_de_referencia("8x4")
-    fonte = FonteSimulador(pista, ha_painel=lambda: True, dormir=Relogio().dormir)
+    fonte = FonteSimulador(
+        pista, ha_painel=lambda: True, manter_sinal=False, dormir=Relogio().dormir
+    )
 
     recebidas = asyncio.run(coletar(fonte))
 
@@ -129,6 +194,7 @@ def test_espera_de_novo_a_cada_corrida_sem_painel():
     fonte = FonteSimulador(
         pista,
         repetir=True,
+        manter_sinal=False,
         ha_painel=lambda: painel["conectado"],
         dormir=Relogio().dormir,
     )
