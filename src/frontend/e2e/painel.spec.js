@@ -7,10 +7,15 @@ import { test, expect, PASTA_EVIDENCIAS } from './fixtures';
 const LINHAS = { '4x4': 4, '8x4': 8, '12x4': 12 };
 const chegada = (labirinto) => `D${String(LINHAS[labirinto]).padStart(2, '0')}`;
 
+// Mapa da corrida ao vivo. O replay do histórico desenha outro labirinto mais
+// abaixo, com o próprio robô e rastro; os seletores ficam restritos a este.
+const MAPA = '.dashboard-layout > [data-testid="labirinto-container"]';
+const mapaAoVivo = (page) => page.locator(MAPA);
+
 // O ícone do robô está dentro da célula indicada (ex.: 'A01', 'D12')?
 async function roboNaCelula(page, id) {
-    const robo = await page.getByTestId('robo-icon').boundingBox();
-    const celula = await page.getByTestId(`celula-${id}`).boundingBox();
+    const robo = await mapaAoVivo(page).getByTestId('robo-icon').boundingBox();
+    const celula = await mapaAoVivo(page).getByTestId(`celula-${id}`).boundingBox();
     if (!robo || !celula) return false;
     const x = robo.x + robo.width / 2;
     const y = robo.y + robo.height / 2;
@@ -22,15 +27,15 @@ async function roboNaCelula(page, id) {
 // atualizações da tela; amostrar pelo Playwright perde passos quando a máquina
 // está carregada.
 async function registrarPercurso(page) {
-    await page.addInitScript(() => {
+    await page.addInitScript((MAPA) => {
         window.__percurso = { posicoes: new Set(), maiorRastro: 0, status: [], inicios: [] };
         const pontosDoRastro = () => {
-            const linha = document.querySelector('.trajeto-overlay polyline');
+            const linha = document.querySelector(`${MAPA} .trajeto-overlay polyline`);
             return linha ? linha.getAttribute('points').trim().split(/\s+/).length : 0;
         };
         const roboEmA1 = () => {
-            const robo = document.querySelector('[data-testid="robo-icon"]')?.getBoundingClientRect();
-            const a1 = document.querySelector('[data-testid="celula-A01"]')?.getBoundingClientRect();
+            const robo = document.querySelector(`${MAPA} [data-testid="robo-icon"]`)?.getBoundingClientRect();
+            const a1 = document.querySelector(`${MAPA} [data-testid="celula-A01"]`)?.getBoundingClientRect();
             if (!robo || !a1) return false;
             const x = robo.x + robo.width / 2;
             const y = robo.y + robo.height / 2;
@@ -47,7 +52,7 @@ async function registrarPercurso(page) {
             const status = valor?.textContent.replace('⚠', '').trim();
             const vistos = window.__percurso.status;
             if (status && vistos[vistos.length - 1] !== status) vistos.push(status);
-            const robo = document.querySelector('[data-testid="robo-icon"]');
+            const robo = document.querySelector(`${MAPA} [data-testid="robo-icon"]`);
             if (robo) window.__percurso.posicoes.add(`${robo.style.left},${robo.style.top}`);
             window.__percurso.maiorRastro = Math.max(window.__percurso.maiorRastro, pontosDoRastro());
         };
@@ -58,7 +63,7 @@ async function registrarPercurso(page) {
             characterData: true,
             attributeFilter: ['style', 'points'],
         });
-    });
+    }, MAPA);
 }
 
 async function percurso(page) {
@@ -72,7 +77,7 @@ async function percurso(page) {
 
 // Quantidade de pontos do rastro desenhado.
 async function pontosDoRastro(page) {
-    const linha = page.locator('.trajeto-overlay polyline');
+    const linha = mapaAoVivo(page).locator('.trajeto-overlay polyline');
     if ((await linha.count()) === 0) return 0;
     const pontos = await linha.getAttribute('points');
     return pontos.trim().split(/\s+/).length;
@@ -90,7 +95,7 @@ for (const labirinto of ['4x4', '8x4', '12x4']) {
         // CT-04 (parcial): grade com as dimensões da geometria.
         const linhas = LINHAS[labirinto];
         await expect(page.getByText(`GRID ${linhas}x4`, { exact: false }).first()).toBeVisible();
-        await expect(page.locator('[data-testid^="celula-"]')).toHaveCount(4 * linhas);
+        await expect(mapaAoVivo(page).locator('[data-testid^="celula-"]')).toHaveCount(4 * linhas);
 
         // O mapa é desenhado aos poucos: o robô passa por várias posições e o
         // rastro cresce até a chegada.
@@ -149,7 +154,7 @@ test('CT-08 (parcial): indicador vai para DESCONECTADO quando o backend cai e vo
     await expect(conexao).toHaveText(/DESCONECTADO/);
     await expect(conexao).toHaveClass(/desconectado/);
     // O último estado recebido continua na tela durante a queda.
-    await expect(page.getByTestId('robo-icon')).toBeVisible();
+    await expect(mapaAoVivo(page).getByTestId('robo-icon')).toBeVisible();
     await evidencia('ct08-desconectado');
 
     await backend.ligar();

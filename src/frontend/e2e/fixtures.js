@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync } from 'node:fs';
 import { createServer } from 'node:net';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test as base, expect } from '@playwright/test';
@@ -9,14 +10,14 @@ import { test as base, expect } from '@playwright/test';
 // e o painel apontado para ele.
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
-const PASTA_BACKEND = path.join(RAIZ, 'src', 'backend');
+export const PASTA_BACKEND = path.join(RAIZ, 'src', 'backend');
 export const PASTA_EVIDENCIAS = path.join(RAIZ, 'docs', 'evidencias', '5.3.2.1');
 
 // Uma mensagem a cada 200 ms: rápido, mas ainda dá para ver o mapa crescer.
 const VELOCIDADE_PADRAO = 5;
 
 // Python do backend: E2E_PYTHON (usado no CI) ou o do .venv de src/backend.
-function pythonDoBackend() {
+export function pythonDoBackend() {
     if (process.env.E2E_PYTHON) return process.env.E2E_PYTHON;
     const venv = process.platform === 'win32'
         ? path.join(PASTA_BACKEND, '.venv', 'Scripts', 'python.exe')
@@ -52,9 +53,18 @@ async function esperarSaude(porta, processo, prazoMs = 20_000) {
 }
 
 // Sobe o uvicorn com o simulador. ligar()/desligar() permitem derrubar e subir de
-// novo na mesma porta (CT-08).
-async function criarBackend({ labirinto = '4x4', cenario = 'completa', repetir = false, velocidade = VELOCIDADE_PADRAO }) {
+// novo na mesma porta (CT-08). `fonte` e `ambiente` trocam a fonte da telemetria e
+// acrescentam variáveis (ex.: DATABASE_URL de um banco já populado).
+async function criarBackend({
+    labirinto = '4x4', cenario = 'completa', repetir = false, velocidade = VELOCIDADE_PADRAO,
+    fonte = 'simulador', ambiente = {},
+}) {
     const porta = await portaLivre();
+    // Cada backend grava num SQLite próprio: os testes rodam em paralelo e o
+    // histórico de um não aparece no painel do outro. ligar() de novo (CT-08)
+    // reaproveita o mesmo arquivo, como um backend reiniciado.
+    const pastaBanco = mkdtempSync(path.join(tmpdir(), 'e2e-backend-'));
+    const bancoPadrao = `sqlite:///${path.join(pastaBanco, 'corridas.db').replaceAll('\\', '/')}`;
     let processo = null;
     let log = '';
 
@@ -66,18 +76,26 @@ async function criarBackend({ labirinto = '4x4', cenario = 'completa', repetir =
                 cwd: PASTA_BACKEND,
                 env: {
                     ...process.env,
-                    TELEMETRIA_FONTE: 'simulador',
+                    TELEMETRIA_FONTE: fonte,
                     SIMULADOR_LABIRINTO: labirinto,
                     SIMULADOR_CENARIO: cenario,
                     SIMULADOR_REPETIR: repetir ? '1' : '0',
                     SIMULADOR_VELOCIDADE: String(velocidade),
+                    DATABASE_URL: bancoPadrao,
+                    ...ambiente,
                 },
                 stdio: ['ignore', 'pipe', 'pipe'],
             }
         );
         processo.stdout.on('data', (d) => { log += d; });
         processo.stderr.on('data', (d) => { log += d; });
-        await esperarSaude(porta, processo);
+        try {
+            await esperarSaude(porta, processo);
+        } catch (erro) {
+            // O backend ainda não entrou na lista do teste: o log vai junto do erro.
+            processo.kill();
+            throw new Error(`${erro.message}\nlog do backend:\n${log.slice(-3000)}`);
+        }
     }
 
     async function desligar() {
@@ -99,15 +117,21 @@ export const test = base.extend({
         await use(async (opcoes = {}) => {
             const backend = await criarBackend(opcoes);
             backends.push(backend);
-            // O painel conecta em ws://<host>:8000; aqui só o navegador do teste
-            // troca a porta pela do backend deste teste.
+            // O painel usa <host>:8000 no WebSocket e na API REST; aqui só o
+            // navegador do teste troca a porta pela do backend deste teste.
             await page.addInitScript((porta) => {
+                const trocarPorta = (url) => String(url).replace(':8000/', `:${porta}/`);
                 const Original = window.WebSocket;
                 window.WebSocket = class extends Original {
                     constructor(url, protocolos) {
-                        super(String(url).replace(':8000/', `:${porta}/`), protocolos);
+                        super(trocarPorta(url), protocolos);
                     }
                 };
+                const fetchOriginal = window.fetch.bind(window);
+                window.fetch = (recurso, opcoes) => fetchOriginal(
+                    typeof recurso === 'string' || recurso instanceof URL ? trocarPorta(recurso) : recurso,
+                    opcoes
+                );
             }, backend.porta);
             return backend;
         });
