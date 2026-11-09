@@ -1,0 +1,8 @@
+{
+  "cenario": "perda_conexao (4x4, SIMULADOR_VELOCIDADE=5)",
+  "limite_ms": 3000,
+  "silencio_sem_pacotes_ms": 4013,
+  "aviso_apos_ultimo_pacote_ms": 3249,
+  "aviso_sumiu_apos_pacote_ms": 5,
+  "pacotes_recebidos": 14
+}

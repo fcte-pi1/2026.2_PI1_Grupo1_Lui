@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -11,7 +11,8 @@ import { test as base, expect } from '@playwright/test';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 export const PASTA_BACKEND = path.join(RAIZ, 'src', 'backend');
-export const PASTA_EVIDENCIAS = path.join(RAIZ, 'docs', 'evidencias', '5.3.2.1');
+export const pastaEvidencias = (item) => path.join(RAIZ, 'docs', 'evidencias', item);
+export const PASTA_EVIDENCIAS = pastaEvidencias('5.3.2.1');
 
 // Uma mensagem a cada 200 ms: rápido, mas ainda dá para ver o mapa crescer.
 const VELOCIDADE_PADRAO = 5;
@@ -143,14 +144,16 @@ export const test = base.extend({
         }
     },
 
-    // Print anexado ao relatório e, com E2E_EVIDENCIAS=1, salvo nas evidências.
+    // Print anexado ao relatório e, com E2E_EVIDENCIAS=1, salvo nas evidências
+    // (por padrão em 5.3.2.1; `pasta` escolhe outra, ex.: pastaEvidencias('5.1.1.2')).
+    // O arquivo é o mesmo print do relatório, tirado uma única vez.
     evidencia: async ({ page }, use, testInfo) => {
-        await use(async (nome) => {
+        await use(async (nome, pasta = PASTA_EVIDENCIAS) => {
             const corpo = await page.screenshot({ fullPage: true });
             await testInfo.attach(nome, { body: corpo, contentType: 'image/png' });
             if (process.env.E2E_EVIDENCIAS) {
-                mkdirSync(PASTA_EVIDENCIAS, { recursive: true });
-                await page.screenshot({ path: path.join(PASTA_EVIDENCIAS, `${nome}.png`), fullPage: true });
+                mkdirSync(pasta, { recursive: true });
+                writeFileSync(path.join(pasta, `${nome}.png`), corpo);
             }
         });
     },
