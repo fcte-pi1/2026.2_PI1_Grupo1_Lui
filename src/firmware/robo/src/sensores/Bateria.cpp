@@ -2,6 +2,7 @@
 #include <Arduino.h>
 
 void Bateria::iniciar() {
+    pinMode(PINO_ADC, INPUT);
     // Atenuação de 11 dB: o ADC mede até cerca de 3,1 V no pino; com a bateria cheia
     // o divisor de 5:1 entrega 1,68 V.
     analogSetPinAttenuation(PINO_ADC, ADC_11db);
