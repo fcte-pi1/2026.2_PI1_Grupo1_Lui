@@ -92,8 +92,9 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      - name: Instalar o Chromium do Playwright
-        run: npx playwright install --with-deps chromium
+      # Firefox para o layout desktop do RNF-SFT05 (projetos firefox-* do playwright.config.js).
+      - name: Instalar o Chromium e o Firefox do Playwright
+        run: npx playwright install --with-deps chromium firefox
 
       - name: Testes E2E
         run: npm run test:e2e
