@@ -224,6 +224,11 @@ body {
     align-items: flex-start;
 }
 
+/* Histórico geral e replay em largura total, abaixo do dashboard (RNF-SFT05) */
+.secao-historico-geral {
+    margin-top: 32px;
+}
+
 .indicadores-coluna {
     flex: 1;
     display: flex;
