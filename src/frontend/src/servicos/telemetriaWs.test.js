@@ -28,6 +28,7 @@ import {
     urlTelemetria,
     useTelemetria as executarHookTelemetria,
 } from './telemetriaWs';
+import { LIMITE_SEM_PACOTE_MS, RF_NORMAL } from './monitorRf';
 
 class WebSocketFalso {
     static instancias = [];
@@ -247,20 +248,20 @@ describe('useTelemetria', () => {
     }
 
     it('começa sem pacote e desconectado, e conecta ao montar', () => {
-        expect(renderizar({ url: URL })).toEqual({ pacote: null, conectado: false });
+        expect(renderizar({ url: URL })).toEqual({ pacote: null, conectado: false, rf: RF_NORMAL });
 
         const { dependencias } = montar({ url: URL });
 
         expect(WebSocketFalso.instancias).toHaveLength(1);
         expect(ultimoSocket().url).toBe(URL);
-        expect(dependencias).toEqual([URL, INTERVALO_RECONEXAO_MS]);
+        expect(dependencias).toEqual([URL, INTERVALO_RECONEXAO_MS, LIMITE_SEM_PACOTE_MS]);
     });
 
     it('devolve o pacote mais recente e o estado da conexão', () => {
         montar({ url: URL });
 
         ultimoSocket().abrir();
-        expect(renderizar({ url: URL })).toEqual({ pacote: null, conectado: true });
+        expect(renderizar({ url: URL })).toEqual({ pacote: null, conectado: true, rf: RF_NORMAL });
 
         ultimoSocket().receber(PACOTE);
         ultimoSocket().receber({ ...PACOTE, seq: 8, timestamp_ms: 143000 });
@@ -273,6 +274,34 @@ describe('useTelemetria', () => {
         expect(renderizar({ url: URL }).conectado).toBe(false);
         // O último pacote continua disponível enquanto reconecta.
         expect(renderizar({ url: URL }).pacote.seq).toBe(8);
+    });
+
+    it('avisa a perda do rádio após 3 s conectado sem pacotes e volta ao normal com um pacote (HU-09)', () => {
+        montar({ url: URL });
+        ultimoSocket().abrir();
+        ultimoSocket().receber(PACOTE);
+
+        vi.advanceTimersByTime(LIMITE_SEM_PACOTE_MS - 100);
+        expect(renderizar({ url: URL }).rf.perdida).toBe(false);
+        vi.advanceTimersByTime(100);
+        expect(renderizar({ url: URL }).rf).toEqual({ perdida: true, segundosSemPacote: 3 });
+        expect(renderizar({ url: URL }).conectado).toBe(true);
+
+        ultimoSocket().receber({ ...PACOTE, seq: 8 });
+        expect(renderizar({ url: URL }).rf).toEqual(RF_NORMAL);
+    });
+
+    it('com o backend fora do ar vale só o DESCONECTADO, sem aviso de rádio', () => {
+        const { desmontar } = montar({ url: URL, intervaloReconexaoMs: 60_000 });
+        ultimoSocket().abrir();
+        vi.advanceTimersByTime(LIMITE_SEM_PACOTE_MS);
+        expect(renderizar({ url: URL }).rf.perdida).toBe(true);
+
+        ultimoSocket().cair();
+        vi.advanceTimersByTime(10_000);
+        expect(renderizar({ url: URL })).toMatchObject({ conectado: false, rf: RF_NORMAL });
+        desmontar();
+        expect(vi.getTimerCount()).toBe(0);
     });
 
     it('reconecta sozinho quando a conexão cai', () => {
