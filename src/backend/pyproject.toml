@@ -4,6 +4,9 @@
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-ra"
+markers = [
+    "mysql: roda contra o MySQL de MYSQL_TEST_URL (armazena.sql aplicado)",
+]
 
 [tool.coverage.run]
 source = ["app"]
