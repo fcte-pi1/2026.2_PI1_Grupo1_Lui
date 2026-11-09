@@ -11,13 +11,12 @@
 #include "navegacao/VelocidadeMedia.h"
 #include "radio/RadioTelemetria.h"
 #include "sensores/Bateria.h"
+#include "hardware/Pinos.h"
 
-// Definições de pinos (conforme projeto de hardware 4.3)
-const int BOTAO_LARGADA_PIN = 15;   // Botão de controle (GPIO 15 conforme shield 4.3)
-const int LED_STATUS_PIN = 2;       // LED WS2812B de indicação de estado (GPIO 2)
+// Pinos em hardware/Pinos.h. O LED de estado no GPIO 14 é provisório (ver Pinos.h).
 #define NUMPIXELS 1
 
-Adafruit_NeoPixel pixels(NUMPIXELS, LED_STATUS_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUMPIXELS, PINO_LED_ESTADO, NEO_GRB + NEO_KHZ800);
 
 EstadoRobo estadoAtual = AGUARDANDO;
 Mapa mapa;
@@ -108,7 +107,7 @@ void setup() {
     Serial.begin(115200);
     
     // Configuração de pinos
-    pinMode(BOTAO_LARGADA_PIN, INPUT_PULLUP);
+    pinMode(PINO_BOTAO, INPUT_PULLUP);
     pixels.begin();
     pixels.clear();
     pixels.show();
@@ -170,7 +169,7 @@ void loop() {
 
     // O botão é lido em todo ciclo para o debounce acompanhar o estado real, mas os
     // gestos só têm efeito em AGUARDANDO: depois da largada não há intervenção (RNF-SFT01).
-    const EventoBotao evento = botao.atualizar(digitalRead(BOTAO_LARGADA_PIN) == LOW, tempoAtual);
+    const EventoBotao evento = botao.atualizar(digitalRead(PINO_BOTAO) == LOW, tempoAtual);
 
     switch (estadoAtual) {
         case AGUARDANDO:

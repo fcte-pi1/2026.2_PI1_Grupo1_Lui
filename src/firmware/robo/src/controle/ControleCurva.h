@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include "../hardware/Pinos.h"
 
 // Controle de curvas de 90 graus (doc 4.4, "Rotacoes ortogonais"; RF-SFT01, HU-02), sem
 // dependencia do Arduino nem de hardware, no mesmo molde do ControleReta: o laco de
@@ -101,8 +102,8 @@ public:
         p.toleranciaGraus = 1.0f;
         p.assentamentoMs = 100;
         p.tempoLimiteMs = 3000;
-        p.mmPorPulso = 0.1f;        // mesmo valor provisorio do ControleReta: calibrar
-        p.bitolaMm = 78.0f;         // doc 4.1: centros das rodas em X +-39 mm
+        p.mmPorPulso = RODA_MM_POR_PULSO;  // hardware/Pinos.h: roda de 32 mm e 360 pulsos por volta
+        p.bitolaMm = BITOLA_MM;            // hardware/Pinos.h: 80 mm
         return p;
     }
 
