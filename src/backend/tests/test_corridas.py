@@ -55,12 +55,13 @@ def test_corrida_normal_e_travada_persistem_todas_as_leituras_e_consultam_api(ur
 
         while time.monotonic() < limite:
             detalhes = cliente.get(f"/api/corridas/{corridas[-1]['id']}").json()
-            if len(detalhes["leituras"]) == len(pacotes("completa")) - 2:
+            if len(detalhes["leituras"]) == len(pacotes("completa")) - 4:
                 break
             time.sleep(0.05)
 
         assert detalhes is not None
-        assert len(detalhes["leituras"]) == len(pacotes("completa")) - 2
+        # Sem as duas mensagens AGUARDANDO e as duas repetições do CONCLUIDO.
+        assert len(detalhes["leituras"]) == len(pacotes("completa")) - 4
         assert detalhes["leituras"][-1]["status"] == "CONCLUIDO"
         assert set(detalhes["leituras"][-1]["paredes"]) == {"norte", "sul", "leste", "oeste"}
         assert corridas[-1]["tentativa"] is None
@@ -83,7 +84,9 @@ def test_corrida_ativa_tem_fim_e_status_final_nulos_e_modo_valido(url_banco):
 
 
 def test_fim_inesperado_marca_corrida_interrompida_e_preserva_leituras(url_banco):
-    mensagens = pacotes("perda_conexao")
+    # A fonte acaba no meio do percurso, ainda em MAPEANDO.
+    mensagens = pacotes()[:8]
+    assert mensagens[-1].status == "MAPEANDO"
     app = criar_app(Fonte(mensagens), database_url=url_banco)
     with TestClient(app) as cliente:
         corrida = aguardar_corridas(
@@ -317,3 +320,41 @@ def test_api_libera_cors_para_o_painel(monkeypatch):
         assert liberada.headers["access-control-allow-origin"] == "http://painel.local:5173"
         bloqueada = cliente.get("/api/corridas", headers={"Origin": "http://intruso:1234"})
         assert "access-control-allow-origin" not in bloqueada.headers
+
+
+def test_repeticoes_do_pacote_terminal_nao_viram_leituras_nem_corrida_nova(url_banco):
+    """HU-09: parado, o robô repete o pacote terminal a 1 Hz; só o primeiro é gravado."""
+    from app.servicos.corridas import ServicoCorridas
+
+    corrida = pacotes()
+    app = criar_app(database_url=url_banco)
+    with TestClient(app) as cliente:
+        servico = ServicoCorridas(app.state.sessoes)
+        for mensagem in corrida + [corrida[-1]] * 10:
+            servico.processar(mensagem)
+
+        corridas = cliente.get("/api/corridas").json()
+        assert [c["status"] for c in corridas] == ["CONCLUIDO"]
+        leituras = cliente.get(f"/api/corridas/{corridas[0]['id']}").json()["leituras"]
+        assert len(leituras) == len(corrida) - 4
+        assert [leitura["status"] for leitura in leituras].count("CONCLUIDO") == 1
+
+
+def test_perda_temporaria_de_pacotes_mantem_uma_corrida_concluida(url_banco):
+    """HU-09: os pacotes perdidos do perda_conexao não interrompem a corrida."""
+    mensagens = pacotes("perda_conexao")
+    app = criar_app(Fonte(mensagens), database_url=url_banco)
+    with TestClient(app) as cliente:
+        corridas = aguardar_corridas(
+            cliente, lambda itens: bool(itens and itens[0]["status"] == "CONCLUIDO")
+        )
+        assert [c["status"] for c in corridas] == ["CONCLUIDO"]
+        limite = time.monotonic() + 5
+        while time.monotonic() < limite:
+            leituras = cliente.get(f"/api/corridas/{corridas[0]['id']}").json()["leituras"]
+            if len(leituras) == len(mensagens) - 4:
+                break
+            time.sleep(0.05)
+        tempos = [leitura["timestamp_ms"] for leitura in leituras]
+        assert len(leituras) == len(mensagens) - 4
+        assert max(b - a for a, b in zip(tempos, tempos[1:])) > 1000  # a lacuna

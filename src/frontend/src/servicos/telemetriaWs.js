@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { criarMonitorRf, LIMITE_SEM_PACOTE_MS, RF_NORMAL } from './monitorRf';
 
 // Cliente do WebSocket de telemetria do backend (ws://<host>:<porta>/ws/telemetria).
 // O formato de cada pacote é o do contrato de dados, documentado em src/README.md.
@@ -80,8 +81,9 @@ export function criarConexaoTelemetria({
 }
 
 // Hook para os componentes do painel: devolve o pacote mais recente (null até o
-// primeiro chegar) e se a conexão com o backend está aberta. A conexão é fechada
-// quando o componente é desmontado.
+// primeiro chegar), se a conexão com o backend está aberta e o estado do rádio
+// (rf: { perdida, segundosSemPacote }, HU-09). A conexão é fechada quando o
+// componente é desmontado.
 // aoReceber(pacote), opcional, é chamado para cada pacote, na ordem de chegada.
 // Use-o para acumular dados (por exemplo com o dispatch de um useReducer): o
 // pacote devolvido é só o mais recente, e pacotes que chegam juntos podem ser
@@ -89,11 +91,13 @@ export function criarConexaoTelemetria({
 export function useTelemetria({
     url,
     intervaloReconexaoMs = INTERVALO_RECONEXAO_MS,
+    limiteSemPacoteMs = LIMITE_SEM_PACOTE_MS,
     aoReceber,
 } = {}) {
     const endereco = url ?? urlTelemetria();
     const [pacote, setPacote] = useState(null);
     const [conectado, setConectado] = useState(false);
+    const [rf, setRf] = useState(RF_NORMAL);
     const aoReceberAtual = useRef(aoReceber);
 
     useEffect(() => {
@@ -101,17 +105,25 @@ export function useTelemetria({
     });
 
     useEffect(() => {
+        const monitor = criarMonitorRf({ aoMudar: setRf, limiteMs: limiteSemPacoteMs });
         const conexao = criarConexaoTelemetria({
             url: endereco,
             aoReceber: (novo) => {
+                monitor.pacote();
                 setPacote(novo);
                 aoReceberAtual.current?.(novo);
             },
-            aoMudarConexao: setConectado,
+            aoMudarConexao: (aberta) => {
+                monitor.conexao(aberta);
+                setConectado(aberta);
+            },
             intervaloReconexaoMs,
         });
-        return () => conexao.fechar();
-    }, [endereco, intervaloReconexaoMs]);
+        return () => {
+            conexao.fechar();
+            monitor.fechar();
+        };
+    }, [endereco, intervaloReconexaoMs, limiteSemPacoteMs]);
 
-    return { pacote, conectado };
+    return { pacote, conectado, rf };
 }

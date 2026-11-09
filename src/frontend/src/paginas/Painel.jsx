@@ -4,6 +4,7 @@ import IndicadorVelocidade from '../componentes/IndicadorVelocidade';
 import IndicadorBateria from '../componentes/IndicadorBateria';
 import IndicadorStatus from '../componentes/IndicadorStatus';
 import HistoricoCorridas from '../componentes/HistoricoCorridas';
+import AvisoConexaoRf from '../componentes/AvisoConexaoRf';
 import Labirinto from '../componentes/Labirinto';
 import { useTelemetria } from '../servicos/telemetriaWs';
 import { criarEstadoPainel, reduzirTelemetria } from '../servicos/painelTelemetria';
@@ -25,7 +26,7 @@ export default function Painel() {
     // Cada pacote do WebSocket passa pelo reducer, na ordem de chegada: ele acumula
     // o mapa da corrida atual e recomeça quando começa uma corrida nova.
     const [estado, aplicar] = useReducer(reduzirTelemetria, undefined, criarEstadoPainel);
-    const { conectado } = useTelemetria({ aoReceber: aplicar });
+    const { conectado, rf } = useTelemetria({ aoReceber: aplicar });
     const [historico, setHistorico] = useState(null);
     const [erroHistorico, setErroHistorico] = useState('');
     const [filtros, setFiltros] = useState({});
@@ -50,7 +51,7 @@ export default function Painel() {
                 <button type="button" onClick={() => carregarHistorico(filtros)}>
                     Atualizar histórico
                 </button>
-                {/* Conexão do painel com o backend; o aviso de perda do rádio é a HU-09 */}
+                {/* Conexão do painel com o backend; a perda do rádio é o aviso abaixo (HU-09) */}
                 <div
                     className={`status-conexao ${conectado ? 'conectado' : 'desconectado'}`}
                     data-testid="status-conexao"
@@ -58,6 +59,10 @@ export default function Painel() {
                     <span className="dot"></span> {conectado ? 'CONECTADO' : 'DESCONECTADO'}
                 </div>
             </header>
+
+            {/* HU-09: backend no ar, mas sem pacotes do robô há 3 s ou mais. O status
+                da corrida não muda: o robô não depende do rádio e segue navegando. */}
+            <AvisoConexaoRf perdida={rf.perdida} segundosSemPacote={rf.segundosSemPacote} />
 
             <div className="dashboard-layout">
                 {/* Lado Esquerdo: Mapeamento Dinâmico do Labirinto */}
