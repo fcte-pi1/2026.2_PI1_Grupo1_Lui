@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Labirinto.css';
 import {
     calcularCellSize,
@@ -21,7 +21,21 @@ export default function Labirinto({
     trajeto,
     rastro
 }) {
-    const cellSize = calcularCellSize(linhas);
+    // Largura útil do mapa: em telas estreitas a célula diminui para a grade caber
+    // (RNF-SFT06). Sem ResizeObserver (jsdom), fica o tamanho padrão da geometria.
+    const wrapperRef = useRef(null);
+    const [larguraDisponivel, setLarguraDisponivel] = useState(0);
+    useEffect(() => {
+        const wrapper = wrapperRef.current;
+        if (!wrapper || typeof ResizeObserver === 'undefined') return undefined;
+        const medir = () => setLarguraDisponivel(wrapper.clientWidth);
+        medir();
+        const observador = new ResizeObserver(medir);
+        observador.observe(wrapper);
+        return () => observador.disconnect();
+    }, []);
+
+    const cellSize = calcularCellSize(linhas, larguraDisponivel);
     const { cells: celulasBase, cols, rowsList } = gerarGrid(linhas);
 
     // Se celulas pré-computadas forem passadas (ex: por aplicarPacote), usa-as diretamente.
@@ -55,7 +69,7 @@ export default function Labirinto({
                 </div>
             </div>
 
-            <div className="labirinto-wrapper">
+            <div className="labirinto-wrapper" ref={wrapperRef}>
                 {/* Headers das Colunas (A, B, C, D) */}
                 <div className="grid-header-cols" style={{ width: `${cellSize * 4}px`, marginLeft: '40px' }}>
                     {cols.map(col => <div key={col}>{col}</div>)}
