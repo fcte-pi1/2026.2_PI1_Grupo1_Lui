@@ -25,6 +25,24 @@ describe('servicos/labirinto.js', () => {
         it('deve retornar 50 para grid 12x4', () => {
             expect(calcularCellSize(12)).toBe(50);
         });
+        it('deve manter o tamanho padrão quando a grade cabe na largura', () => {
+            expect(calcularCellSize(4, 800)).toBe(100);
+            expect(calcularCellSize(4, 440)).toBe(100);
+            expect(calcularCellSize(12, 260)).toBe(50);
+        });
+        it('deve diminuir a célula para a grade e os números das linhas caberem', () => {
+            // 4x4 no celular de 360 px: (288 - 40) / 4 = 62
+            expect(calcularCellSize(4, 288)).toBe(62);
+            expect(calcularCellSize(8, 288)).toBe(62);
+            expect(calcularCellSize(12, 200)).toBe(40);
+        });
+        it('não deve passar da célula mínima em larguras muito pequenas', () => {
+            expect(calcularCellSize(4, 100)).toBe(32);
+        });
+        it('deve ignorar uma largura ausente ou zero', () => {
+            expect(calcularCellSize(4, 0)).toBe(100);
+            expect(calcularCellSize(8, undefined)).toBe(70);
+        });
     });
 
     describe('parseLinhas', () => {

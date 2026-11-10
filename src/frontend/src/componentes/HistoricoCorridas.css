@@ -183,3 +183,11 @@
     flex: 1;
 }
 
+
+/* Celular (RNF-SFT06): menos recuo no cartão. A tabela de 9 colunas não cabe em
+   360 px e rola dentro do próprio cartão (.tabela-wrapper); a página não rola. */
+@media (max-width: 767px) {
+    .historico-geral-container {
+        padding: 12px;
+    }
+}

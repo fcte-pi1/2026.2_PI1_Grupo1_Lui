@@ -170,3 +170,18 @@
     color: #1a1a1a;
 }
 
+
+/* Celular (RNF-SFT06): o mapa ocupa a largura da tela e a célula diminui no
+   Labirinto.jsx até a grade caber. */
+@media (max-width: 767px) {
+    .labirinto-container {
+        min-width: 0;
+        padding: 16px;
+    }
+
+    .labirinto-header {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+}

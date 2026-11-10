@@ -12,6 +12,12 @@ const LAYOUT_DESKTOP = /layout-desktop\.spec\.js/;
 const NAVEGADORES_DESKTOP = [['chromium', 'Desktop Chrome'], ['firefox', 'Desktop Firefox']];
 const RESOLUCOES_DESKTOP = [{ width: 1366, height: 768 }, { width: 1920, height: 1080 }];
 
+// Responsividade em celular (RNF-SFT06): viewports das pontas do critério de aceite.
+// A emulação de celular (isMobile) só existe no Chromium, e o critério pede só a
+// emulação da viewport.
+const LAYOUT_MOVEL = /layout-movel\.spec\.js/;
+const VIEWPORTS_MOVEIS = [{ width: 360, height: 640 }, { width: 412, height: 915 }];
+
 export default defineConfig({
   testDir: 'e2e',
   timeout: 60_000,
@@ -30,7 +36,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      testIgnore: LAYOUT_DESKTOP,
+      testIgnore: [LAYOUT_DESKTOP, LAYOUT_MOVEL],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 900 } },
     },
     // RNF-SFT05 (#65): o teste de layout roda em cada navegador e resolução do
@@ -42,6 +48,12 @@ export default defineConfig({
         use: { ...devices[dispositivo], viewport: { width, height } },
       }))
     ),
+    // RNF-SFT06 (#66): o teste de layout móvel roda em cada viewport do critério.
+    ...VIEWPORTS_MOVEIS.map(({ width, height }) => ({
+      name: `chromium-${width}x${height}`,
+      testMatch: LAYOUT_MOVEL,
+      use: { ...devices['Desktop Chrome'], viewport: { width, height }, isMobile: true, hasTouch: true },
+    })),
   ],
   webServer: {
     command: `npm run dev -- --port ${PORTA_PAINEL} --strictPort`,

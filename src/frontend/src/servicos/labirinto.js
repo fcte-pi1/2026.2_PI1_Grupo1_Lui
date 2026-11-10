@@ -1,9 +1,18 @@
 export const COLUNAS_PADRAO = ['A', 'B', 'C', 'D'];
 
-export function calcularCellSize(linhas = 4) {
-    if (linhas <= 4) return 100;
-    if (linhas <= 8) return 70;
-    return 50;
+// Espaço à esquerda da grade para os números das linhas (marginLeft das colunas).
+export const LARGURA_CABECALHO_LINHAS = 40;
+// Menor célula aceita quando a tela é estreita: o ícone do robô tem 28 px.
+export const CELULA_MINIMA = 32;
+
+// Tamanho da célula em px. Sem `larguraDisponivel`, é o tamanho padrão de cada
+// geometria. Com ela (largura útil do mapa, medida no componente), a célula diminui
+// até a grade e os números das linhas caberem, como no celular (RNF-SFT06).
+export function calcularCellSize(linhas = 4, larguraDisponivel) {
+    const padrao = linhas <= 4 ? 100 : linhas <= 8 ? 70 : 50;
+    if (!(larguraDisponivel > 0)) return padrao;
+    const cabe = Math.floor((larguraDisponivel - LARGURA_CABECALHO_LINHAS) / 4);
+    return Math.max(CELULA_MINIMA, Math.min(padrao, cabe));
 }
 
 export function parseLinhas(labirinto = '4x4') {
