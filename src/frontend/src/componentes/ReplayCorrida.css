@@ -135,3 +135,32 @@
     font-style: italic;
     padding: 24px;
 }
+
+/* Celular (RNF-SFT06): sem largura mínima e com menos recuo, para o mapa do replay
+   caber no cartão. */
+@media (max-width: 767px) {
+    .replay-corrida-painel {
+        min-width: 0;
+    }
+
+    .replay-card {
+        padding: 12px;
+    }
+
+    .replay-mapa-wrapper {
+        min-width: 0;
+    }
+
+    .estatisticas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* A barra de tempo (input range) tem largura mínima própria e não encolhia. */
+    .replay-controles {
+        gap: 8px;
+    }
+
+    .barra-tempo-replay {
+        min-width: 0;
+    }
+}
