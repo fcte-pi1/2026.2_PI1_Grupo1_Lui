@@ -1,198 +1,108 @@
 #include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
-#include "TelemetriaPacket.h"
-#include "TelemetriaCodec.h"
-#include "TelemetriaConfig.h"
 #include "TemporizadorPeriodico.h"
-#include "botao/Botao.h"
-#include "cronometro/Cronometro.h"
-#include "mapa/Mapa.h"
-#include "navegacao/Navegador.h"
-#include "navegacao/VelocidadeMedia.h"
+#include "app/CicloProva.h"
+#include "app/InterfacesHardware.h"
+#include "drivers/Encoders.h"
+#include "drivers/Motores.h"
+#include "drivers/PonteHTb6612.h"
+#include "drivers/SensoresToF.h"
+#include "drivers/SinalizacaoLed.h"
+#include "hardware/Pinos.h"
+#include "movimento/ExecutorMovimentoRobo.h"
+#include "odometria/Odometria.h"
 #include "radio/RadioTelemetria.h"
 #include "sensores/Bateria.h"
-#include "hardware/Pinos.h"
 
-// Pinos em hardware/Pinos.h. O LED de estado no GPIO 14 é provisório (ver Pinos.h).
-#define NUMPIXELS 1
+// Invólucro Arduino do firmware do robô (docs/firmware/integracao-loop.md, seção 3.2).
+// Toda a lógica está em app/CicloProva.h, testada no ambiente nativo; aqui só se criam os
+// drivers, se ligam as interfaces e se chama ciclo.tick() em todo loop(), sem delay().
 
-Adafruit_NeoPixel pixels(NUMPIXELS, PINO_LED_ESTADO, NEO_GRB + NEO_KHZ800);
+// --- Invólucros mínimos das interfaces de hardware ---
 
-EstadoRobo estadoAtual = AGUARDANDO;
-Mapa mapa;
-// Navegação autônoma (HU-06). A lógica está pronta e testada em ambiente nativo, mas só
-// será acionada quando existirem a largada (HU-05) e os drivers de sensores/motores,
-// que implementam SensoresParedes e ExecutorMovimento (navegacao/InterfacesNavegacao.h).
-Navegador navegador(mapa);
-TelemetriaPacket telemetria;
+class BotaoLargada : public IEntradaBotao {
+public:
+    bool pressionado() override { return digitalRead(PINO_BOTAO) == LOW; }  // pull-up interno
+};
 
-// Gestos do botão (debounce, toques e largada) e cronômetro da prova
-Botao botao;
-Cronometro cronometro(TELEMETRIA_TIMESTAMP_MAX_MS); // limitado aos 10 min do contrato
+class BateriaRobo : public IBateria {
+public:
+    void iniciar() { bateria_.iniciar(); }
+    uint16_t lerMilivolts() override { return bateria_.lerMilivolts(); }
 
-// Telemetria ESP-NOW a 1 Hz (RNF-SFT03), sem bloquear o laço principal
-TemporizadorPeriodico temporizadorTelemetria(TELEMETRIA_PERIODO_MS);
-bool radioPronto = false;
+private:
+    Bateria bateria_;
+};
 
-// Leitura da bateria pelo divisor no GPIO 34 (doc 4.3)
-Bateria bateria;
+class RadioEspNow : public IRadioTelemetria {
+public:
+    bool enviar(const TelemetriaPacket& pacote) override { return radioTelemetriaEnviar(pacote); }
+};
 
-void enviarTelemetria() {
-    if (!radioPronto) return;
-    telemetria.timestamp_ms = cronometro.decorridoMs((uint32_t)millis()); // 0 antes da largada
-    telemetria.status_id = (uint8_t)estadoAtual;
-    telemetria.labirinto_id = (uint8_t)mapa.getGeometria();
-    // Posição, orientação e paredes vêm do navegador quando a prova está em andamento.
-    if (navegador.estado() != NAV_NAO_INICIADO) navegador.preencherPosicao(telemetria);
+class RegistroSerial : public IRegistro {
+public:
+    void registrar(const char* mensagem) override { Serial.println(mensagem); }
+};
 
-    const uint16_t bateriaMv = bateria.lerMilivolts();
-    telemetria.bateria_mv = bateriaMv;
-    telemetria.bateria_pct = porcentagemBateria(bateriaMv);
+// --- Drivers e peças do laço (nenhum construtor mexe no hardware) ---
 
-    // Média da prova: células andadas pelo navegador no tempo do cronômetro (congela
-    // junto com ele na chegada). A velocidade atual fica em 0 até existirem os
-    // encoders, de onde ela virá.
-    telemetria.velocidade_media = velocidadeMediaMmS(navegador.deslocamentos(), telemetria.timestamp_ms);
-    telemetria.velocidade_atual = 0;
+PonteHTb6612 ponte;
+Motores motores(ponte);
+Encoders encoders;
+SensoresToF tof;
+SinalizacaoLed led;
+Odometria odometria;
+ExecutorMovimentoRobo executor(motores, odometria, tof);
+BotaoLargada botao;
+BateriaRobo bateria;
+RadioEspNow radio;
+RegistroSerial registro;
+CicloProva* ciclo = nullptr;  // criado no setup(), depois de saber se o rádio subiu
 
-    radioTelemetriaEnviar(telemetria);
-}
-
-void piscarFeedbackLED(int vezes, uint32_t cor) {
-    for (int i = 0; i < vezes; i++) {
-        pixels.setPixelColor(0, cor);
-        pixels.show();
-        delay(150);
-        pixels.setPixelColor(0, pixels.Color(0, 0, 0));
-        pixels.show();
-        delay(150);
-    }
-}
-
-void atualizarLEDStatus() {
-    switch (estadoAtual) {
-        case AGUARDANDO:
-            if (botao.largadaArmada()) {
-                // Branco constante: botão pressionado há 2 s, pode soltar para dar a largada
-                pixels.setPixelColor(0, pixels.Color(255, 255, 255));
-            } else {
-                // Verde constante conforme 4.3
-                pixels.setPixelColor(0, pixels.Color(0, 255, 0));
-            }
-            break;
-        case MAPEANDO:
-            // Amarelo piscante em exploração conforme 4.3
-            if ((millis() / 500) % 2) {
-                pixels.setPixelColor(0, pixels.Color(255, 255, 0)); // Amarelo
-            } else {
-                pixels.setPixelColor(0, pixels.Color(0, 0, 0));
-            }
-            break;
-        case SPEED_RUN:
-            pixels.setPixelColor(0, pixels.Color(0, 255, 255)); // Ciano
-            break;
-        case CONCLUIDO:
-            pixels.setPixelColor(0, pixels.Color(128, 0, 128)); // Roxo conforme 4.3
-            break;
-        case COLISAO:
-        case TIMEOUT:
-        case TRAVADO:
-            pixels.setPixelColor(0, pixels.Color(255, 0, 0)); // Vermelho em falha conforme 4.3
-            break;
-    }
-    pixels.show();
-}
+// Tempo de tick medido no robô (o desenho troca a preempção do FreeRTOS por esta medida;
+// os valores vão para o relatório 7.5).
+TemporizadorPeriodico temporizadorMedicao(5000);
+uint32_t tickMaximoUs = 0;
+uint32_t ticks = 0;
 
 void setup() {
     Serial.begin(115200);
-    
-    // Configuração de pinos
     pinMode(PINO_BOTAO, INPUT_PULLUP);
-    pixels.begin();
-    pixels.clear();
-    pixels.show();
-    
-    // Inicialização da telemetria e mapa
-    memset(&telemetria, 0, sizeof(TelemetriaPacket));
-    telemetria.status_id = AGUARDANDO;
-    telemetria.labirinto_id = LAB_4X4;
-    mapa.setGeometria(LAB_4X4);
 
+    ponte.iniciar();
+    encoders.iniciar();
+    led.iniciar();
     bateria.iniciar();
-    radioPronto = radioTelemetriaInit();
-    Serial.println(radioPronto ? "ESP-NOW pronto (telemetria a 1 Hz)." : "ERRO: falha ao iniciar ESP-NOW.");
-    
-    Serial.println("Robô ligado. Estado: AGUARDANDO");
-    Serial.println("Pressione o botão 3 VEZES para selecionar a pista (toque triplo).");
-    Serial.println("Para a largada, segure o botão por 2 s (LED branco) e solte.");
-}
+    if (!tof.iniciar()) {
+        Serial.printf("ERRO: sensor ToF sem resposta (esq=%d frontal=%d dir=%d).\n",
+                      tof.esquerdoIniciado(), tof.frontalIniciado(), tof.direitoIniciado());
+    }
 
-void selecionarProximaGeometria() {
-    GeometriaLabirinto geo = mapa.getGeometria();
+    const bool radioPronto = radioTelemetriaInit();
+    Serial.println(radioPronto ? "ESP-NOW pronto (telemetria a 1 Hz)."
+                               : "ERRO: falha ao iniciar ESP-NOW; a prova roda sem telemetria.");
 
-    // Alterna geometrias (4x4 -> 8x4 -> 12x4 -> 4x4)
-    if (geo == LAB_4X4) geo = LAB_8X4;
-    else if (geo == LAB_8X4) geo = LAB_12X4;
-    else geo = LAB_4X4;
+    DependenciasProva d = {botao,    encoders,  tof,      bateria,
+                           led,      motores,   odometria, executor,
+                           radioPronto ? &radio : nullptr, &registro};
+    static CicloProva instancia(d);
+    ciclo = &instancia;
+    ciclo->iniciar((uint32_t)millis());
 
-    mapa.setGeometria(geo);
-    telemetria.labirinto_id = geo;
-
-    Serial.print("Geometria selecionada: ");
-    int piscaCount = 1;
-    if (geo == LAB_4X4) { Serial.println("4x4"); piscaCount = 1; }
-    else if (geo == LAB_8X4) { Serial.println("8x4"); piscaCount = 2; }
-    else if (geo == LAB_12X4) { Serial.println("12x4"); piscaCount = 3; }
-
-    Serial.print("Limites da matriz (linhas x colunas): ");
-    Serial.print(mapa.getMaxLinhas());
-    Serial.print(" x ");
-    Serial.println(mapa.getMaxColunas());
-
-    // Feedback visual com cor única (Ciano) e quantidade de piscadas
-    uint32_t corCiano = pixels.Color(0, 255, 255);
-    piscarFeedbackLED(piscaCount, corCiano);
-}
-
-void darLargada(uint32_t tempoAtual) {
-    cronometro.iniciar(tempoAtual);
-    estadoAtual = MAPEANDO;
-    Serial.println("Largada! Estado: MAPEANDO (cronômetro iniciado)");
+    Serial.println("Robo ligado. Estado: AGUARDANDO");
+    Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s (LED branco) e solte para largar.");
 }
 
 void loop() {
-    const uint32_t tempoAtual = (uint32_t)millis();
+    const uint32_t inicioUs = micros();
+    ciclo->tick((uint32_t)millis());  // R10: millis() convertido para uint32_t
+    const uint32_t duracaoUs = micros() - inicioUs;
+    if (duracaoUs > tickMaximoUs) tickMaximoUs = duracaoUs;
+    ticks++;
 
-    if (temporizadorTelemetria.vencido(tempoAtual)) {
-        enviarTelemetria();
+    if (temporizadorMedicao.vencido((uint32_t)millis())) {
+        Serial.printf("[tick] %lu ticks em 5 s, maior tick %lu us\n",
+                      (unsigned long)ticks, (unsigned long)tickMaximoUs);
+        ticks = 0;
+        tickMaximoUs = 0;
     }
-
-    // O botão é lido em todo ciclo para o debounce acompanhar o estado real, mas os
-    // gestos só têm efeito em AGUARDANDO: depois da largada não há intervenção (RNF-SFT01).
-    const EventoBotao evento = botao.atualizar(digitalRead(PINO_BOTAO) == LOW, tempoAtual);
-
-    switch (estadoAtual) {
-        case AGUARDANDO:
-            if (evento.tipo == BOTAO_LARGADA) {
-                darLargada(tempoAtual);
-            } else if (evento.tipo == BOTAO_TOQUES && evento.toques == 3) {
-                selecionarProximaGeometria();
-            }
-            // 1 e 2 toques ficam reservados ao autoteste dos motores e dos sensores ToF
-            // (doc 4.3), que dependem de hardware e são de outras issues.
-            break;
-
-        case MAPEANDO:
-        case SPEED_RUN:
-        case CONCLUIDO:
-        case COLISAO:
-        case TIMEOUT:
-        case TRAVADO:
-            break;
-    }
-
-    atualizarLEDStatus();
-    delay(10);
 }
-
-

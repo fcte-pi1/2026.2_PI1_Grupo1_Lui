@@ -29,28 +29,26 @@
 //  - Ao entrar na tolerancia o robo para e a curva so e dada como feita depois do tempo
 //    de assentamento: se a inercia dos motores o levar para fora da tolerancia, o
 //    controle corrige antes de concluir (o doc pede verificar ao final da rotacao).
-//  - A orientacao interna (N/L/S/O) so e atualizada quando a curva e concluida.
+//  - A classe controla so o angulo. A orientacao de grade (norte, sul, leste, oeste) e
+//    do Navegador (navegacao/Navegador.h), que a atualiza em confirmarGiro() quando o
+//    executor confirma a curva: ter uma segunda copia aqui fazia as duas divergirem numa
+//    curva abortada (docs/firmware/integracao-loop.md, achado B1).
 //
 // Uso: chamar iniciar() quando a curva comeca e atualizar() a cada leitura do IMU, ate o
 // estado sair de CURVA_GIRANDO. Depois da curva, o robo se realinha com os ToF (HU-01);
 // nesse momento ele esta alinhado ao corredor, entao chamar ressincronizar() com o yaw
 // atual para o rumo ideal absorver a deriva do giroscopio.
 //
+// Sem IMU (imuValido sempre false): o angulo atual e yawInicio + giro pelos encoders, e o
+// rumo ideal continua acumulando +-90 a cada iniciar(). Para a curva ser relativa, quem
+// chama deve ressincronizar() com o rumo nominal da orientacao atual e passar esse mesmo
+// valor como yaw em iniciar(); senao a segunda curva mira 180 graus.
+//
 // Limitacoes conhecidas:
-//  - Depois de CURVA_FALHOU a orientacao NAO foi atualizada e o rumo ideal ja foi
-//    deslocado: quem chamou decide (por exemplo, realinhar e chamar ressincronizar()).
+//  - Depois de CURVA_FALHOU o rumo ideal ja foi deslocado: quem chamou decide (por
+//    exemplo, realinhar e chamar ressincronizar()).
 //  - Os valores padrao sao ponto de partida e devem ser ajustados no robo, em especial
 //    a velocidade minima (zona morta dos motores) e o ganho.
-
-// Os valores seguem os ids da telemetria (telemetriaNomeOrientacao: NORTE, SUL, LESTE,
-// OESTE), para o firmware poder passar (uint8_t)orientacao() direto para o pacote. Por
-// isso a ordem NAO e a de giro: a rotacao usa tabelas (ver girar()), nao aritmetica.
-enum Orientacao : uint8_t {
-    ORIENTACAO_NORTE = 0,
-    ORIENTACAO_SUL = 1,
-    ORIENTACAO_LESTE = 2,
-    ORIENTACAO_OESTE = 3
-};
 
 enum SentidoCurva : uint8_t {
     SENTIDO_ESQUERDA,  // anti-horario, aumenta o yaw
@@ -60,7 +58,7 @@ enum SentidoCurva : uint8_t {
 enum EstadoControleCurva : uint8_t {
     CURVA_PARADA,      // nenhuma curva em andamento
     CURVA_GIRANDO,     // curva em andamento (inclui o assentamento)
-    CURVA_CONCLUIDA,   // chegou aos 90 graus dentro da tolerancia; orientacao atualizada
+    CURVA_CONCLUIDA,   // chegou aos 90 graus dentro da tolerancia
     CURVA_FALHOU       // estourou o tempo limite sem chegar ao alvo
 };
 
@@ -107,10 +105,7 @@ public:
         return p;
     }
 
-    // A partida do labirinto e a celula A1 com o robo virado para o leste.
-    explicit ControleCurva(const ParametrosControleCurva& p = parametrosPadrao(),
-                           Orientacao inicial = ORIENTACAO_LESTE)
-        : p_(p), orientacao_(inicial) {}
+    explicit ControleCurva(const ParametrosControleCurva& p = parametrosPadrao()) : p_(p) {}
 
     // Comeca uma curva de 90 graus. Ignorado se ja houver uma em andamento. Na primeira
     // curva o yaw recebido vira a referencia (robo alinhado ao corredor).
@@ -139,9 +134,12 @@ public:
         temReferencia_ = true;
     }
 
-    void definirOrientacao(Orientacao o) { orientacao_ = o; }
-    Orientacao orientacao() const { return orientacao_; }
     EstadoControleCurva estado() const { return estado_; }
+    // Sentido da ultima curva iniciada: e o que o executor repassa ao Navegador em
+    // confirmarGiro(). SO VALE com estado() == CURVA_CONCLUIDA. Depois de CURVA_FALHOU
+    // devolve o sentido da curva que falhou (o giro nao pode ser confirmado), e antes de
+    // qualquer curva devolve SENTIDO_ESQUERDA, o valor inicial.
+    SentidoCurva sentido() const { return sentido_; }
 
     SaidaControleCurva atualizar(const EntradaControleCurva& e) {
         SaidaControleCurva s;
@@ -168,14 +166,13 @@ public:
         s.erroGraus = erro_;
 
         if ((uint32_t)(e.agoraMs - inicioMs_) > p_.tempoLimiteMs) {
-            estado_ = CURVA_FALHOU;  // a orientacao nao e atualizada
+            estado_ = CURVA_FALHOU;  // nao conclui: quem chamou nao pode confirmar o giro
         } else if (fabsf(erro_) <= p_.toleranciaGraus) {
             if (!assentando_) {
                 assentando_ = true;
                 assentandoDesdeMs_ = e.agoraMs;
             }
             if ((uint32_t)(e.agoraMs - assentandoDesdeMs_) >= p_.assentamentoMs) {
-                orientacao_ = girar(orientacao_, sentido_);  // atualiza a orientacao no fim
                 estado_ = CURVA_CONCLUIDA;
             }
         } else {
@@ -208,17 +205,9 @@ private:
         return ((dDir - dEsq) / p_.bitolaMm) * RAD_PARA_GRAUS;
     }
 
-    // Indexadas pelo id da orientacao (NORTE, SUL, LESTE, OESTE).
-    static Orientacao girar(Orientacao o, SentidoCurva s) {
-        static const Orientacao aDireita[4] = {ORIENTACAO_LESTE, ORIENTACAO_OESTE, ORIENTACAO_SUL, ORIENTACAO_NORTE};
-        static const Orientacao aEsquerda[4] = {ORIENTACAO_OESTE, ORIENTACAO_LESTE, ORIENTACAO_NORTE, ORIENTACAO_SUL};
-        return (s == SENTIDO_DIREITA) ? aDireita[o] : aEsquerda[o];
-    }
-
     static constexpr float RAD_PARA_GRAUS = 57.29577951f;
 
     ParametrosControleCurva p_;
-    Orientacao orientacao_;
     SentidoCurva sentido_ = SENTIDO_ESQUERDA;
     EstadoControleCurva estado_ = CURVA_PARADA;
     float rumoIdealGraus_ = 0.0f;   // rumo ideal acumulado, no referencial do IMU

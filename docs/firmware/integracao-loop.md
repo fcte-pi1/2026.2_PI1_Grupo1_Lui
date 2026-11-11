@@ -164,17 +164,20 @@ Arquivos novos em `src/firmware/robo/src`, mantendo a convenção do projeto (l�
 | Pasta | Arquivo | Tipo | Responsabilidade |
 |:---|:---|:---|:---|
 | `hardware/` | `Pinos.h` | puro | Já existe; ganha constantes novas (seção 3.10) |
-| `drivers/` | `Motores.h/.cpp` | hardware | Ponte H (porte do `tb6612_driver`), trinco de parada, tração por roda; implementa `IFonteTracao` |
+| `drivers/` | `Motores.h` | puro | Trinco de parada, tração por roda e inversão de montagem sobre a interface `IPonteH`; implementa `IFonteTracao` (testado no nativo) |
+| `drivers/` | `PonteHTb6612.h/.cpp` | hardware | Ponte H (porte do `tb6612_driver`); implementa `IPonteH` |
 | `drivers/` | `Encoders.h/.cpp` | hardware | ISRs e contagens (porte do `encoder_driver`) |
 | `drivers/` | `SensoresToF.h/.cpp` | hardware | Três VL53L0X com XSHUT (porte do `vl53l0x_manager`), leitura não bloqueante |
 | `drivers/` | `SinalizacaoLed.h/.cpp` | hardware | `ISinalizacaoEstado` (WS2812B ou LED comum) |
 | `odometria/` | `Odometria.h` | puro | Contagens → mm, velocidade, último pulso por roda, rumo odométrico; implementa `IFontePulsos` |
+| `sensores/` | `LeituraToF.h` | puro | Validade de cada leitura ToF pela idade da amostra (100 ms) e marca de amostra nova |
 | `sensores/` | `ClassificadorParedes.h` | puro | Distâncias → paredes com histerese; implementa `SensoresParedes` a partir de uma amostra |
 | `controle/` | `ConversorVelocidadePwm.h` | puro | mm/s → PWM com zona morta e saturação |
+| `sinalizacao/` | `PadraoLed.h` | puro | Cor (WS2812B) ou padrão de piscada (LED comum) de cada estado |
 | `movimento/` | `ExecutorMovimentoRobo.h` | puro | Máquina de estados de giro e avanço sobre `ControleReta`, `ControleCurva`, `Odometria`, conversor e interfaces de motores e ToF |
 | `movimento/` | `InterfacesMovimento.h` | puro | Interface não bloqueante do executor e adaptador para `ExecutorMovimento` |
 | `app/` | `CicloProva.h` | puro | Máquina de estados da prova; recebe todas as dependências por interface |
-| `app/` | `InterfacesHardware.h` | puro | Interfaces mínimas do hardware que o `CicloProva` e o executor usam (`IMotores`, `ISensoresToF`, `IRelogio`) |
+| `app/` | `InterfacesHardware.h` | puro | Interfaces mínimas do hardware que o `CicloProva` e o executor usam (`IEntradaBotao`, `IEncoders`, `ISensoresToF`, `IBateria`, `IRadioTelemetria`, `ILedEstado`, `IRegistro`); os motores entram pela classe pura `Motores`, e o relógio é o argumento de `tick()` |
 | | `main.cpp` | Arduino | Instancia drivers reais, relógio e rádio, e chama `ciclo.tick(agoraMs)` |
 
 A lógica inteira do laço (tudo que é "puro") compila no ambiente nativo e é o que o robô virtual executa.
@@ -205,7 +208,7 @@ stateDiagram-v2
     [*] --> LENDO_PAREDES
     LENDO_PAREDES --> DECIDINDO: leitura valida (observar)
     LENDO_PAREDES --> LENDO_PAREDES: sem leitura valida, ate 150 ms
-    LENDO_PAREDES --> DECIDINDO: 150 ms sem leitura (registrarFalha)
+    LENDO_PAREDES --> LENDO_PAREDES: 150 ms sem leitura (registrarFalha e nova tentativa)
     DECIDINDO --> GIRANDO: decisao com giro
     DECIDINDO --> AVANCANDO: decisao sem giro
     DECIDINDO --> [*]: sem movimento (NAV_CHEGOU, NAV_INALCANCAVEL, NAV_FALHA)
@@ -231,7 +234,7 @@ Regras:
 | Controle | 10 ms (100 Hz) | `executor.atualizar(agora)`: `ControleCurva` por tick; `ControleReta` só com amostra nova dos laterais (cerca de 30 Hz); conversão e comando dos motores | Atende o mínimo de 20 Hz do doc 4.4 |
 | Segurança | 50 ms (`PERIODO_SEGURANCA_MS`) | `monitor.verificar(agora)`; timeout de 10 min; emergência frontal durante o avanço | Corte em 1 000 a 1 050 ms, dentro dos 1 200 ms do RF-SFT11 |
 | Telemetria | 1 000 ms (`TELEMETRIA_PERIODO_MS`) | Monta o pacote a partir do estado e envia | Única leitura de hardware: bateria (16 amostras, cerca de 2 ms) |
-| LED | 100 ms | Padrões por estado (piscadas por temporizador) | Sem `delay()` |
+| LED | 50 ms | Padrões por estado e piscadas de aviso, por relógio | Sem `delay()`; 50 ms deixa regulares as piscadas de aviso de 150 ms |
 | Botão | todo tick | Gestos só têm efeito em `AGUARDANDO` e, para reiniciar, nos estados terminais | |
 
 Ordem dentro do tick: entradas, segurança, máquina da prova (que chama o controle), telemetria, LED. Assim um corte de segurança é visto pela máquina da prova no mesmo tick.
@@ -243,6 +246,10 @@ Interface não bloqueante (nova, em `movimento/InterfacesMovimento.h`):
 ```cpp
 enum ResultadoMovimento : uint8_t { MOV_OCIOSO, MOV_EM_ANDAMENTO, MOV_CONCLUIDO, MOV_FALHOU };
 
+enum MotivoFalhaMovimento : uint8_t {
+    FALHA_NENHUMA, FALHA_TEMPO, FALHA_EMERGENCIA_FRONTAL, FALHA_TRACAO_CORTADA
+};
+
 class ExecutorMovimentoNaoBloqueante {
 public:
     virtual ~ExecutorMovimentoNaoBloqueante() {}
@@ -250,10 +257,14 @@ public:
     virtual bool iniciarAvanco(uint32_t agoraMs) = 0;
     virtual ResultadoMovimento atualizar(uint32_t agoraMs) = 0;  // chamado no ritmo de controle
     virtual void abortar() = 0;                                   // para e volta a ocioso
+    virtual bool ocioso() const = 0;
+    virtual MotivoFalhaMovimento motivoUltimaFalha() const = 0;   // lido depois de MOV_FALHOU
 };
 ```
 
-`ExecutorMovimento` (bloqueante) não muda. Um adaptador `ExecutorImediato` embrulha um `ExecutorMovimento` na interface nova, concluindo no primeiro `atualizar()`; é o que o robô virtual usa sobre o `SimuladorLabirinto`, e um `ExecutorVirtualTemporizado` acrescenta duração configurável para exercitar as subfases com tempo.
+Um pedido recusado por `iniciarGiro()` ou `iniciarAvanco()` (movimento em andamento ou giro nulo) só devolve `false`: não muda o motivo da última falha, que o laço pode ainda não ter lido.
+
+`ExecutorMovimento` (bloqueante) não muda. Um adaptador `ExecutorImediato` embrulha um `ExecutorMovimento` na interface nova, concluindo no primeiro `atualizar()`; é o que o robô virtual usa sobre o `SimuladorLabirinto`. Se o executor embrulhado também implementar `InformanteMotivoFalha`, o adaptador repassa o motivo de cada falha; sem isso, toda falha é `FALHA_TEMPO`. O dublê `ExecutorTemporizado` (em `test/comum/`) faz o mesmo com duração configurável, devolvendo `MOV_EM_ANDAMENTO` por alguns ciclos, para exercitar as subfases com tempo.
 
 `ExecutorMovimentoRobo` (puro, testável) implementa a interface sobre `ControleReta`, `ControleCurva`, `Odometria`, `ConversorVelocidadePwm` e as interfaces `IMotores` e `ISensoresToF`:
 
@@ -268,8 +279,8 @@ public:
 1. `controleReta.iniciar(0, encEsq, encDir, agora)`; alvo em pulsos = `CELULA_MM / RODA_MM_POR_PULSO` (645 pulsos a 360 por volta).
 2. A cada tick com amostra nova dos laterais: `atualizar()` → velocidades → PWM. Entre amostras, mantém o último comando.
 3. Término por odometria (média das duas rodas ≥ alvo) ou por **encosto frontal**: se há parede à frente e a distância frontal ≤ `DIST_ENCOSTO_FRONTAL_MM` (valor inicial 45 mm, a calibrar: é a distância sensor-parede com o robô centrado na célula), termina ali, o que corrige o erro longitudinal acumulado.
-4. Emergência: distância frontal ≤ `DIST_MINIMA_SEGURA_MM` (30 mm) antes de atingir 60 % do alvo, ou tempo acima de `TEMPO_LIMITE_AVANCO_MS` (3 s) → freio, `MOV_FALHOU` com motivo `EMERGENCIA_FRONTAL` ou `TEMPO`.
-5. Freio ativo e 150 ms de assentamento antes de `MOV_CONCLUIDO`, para as leituras de parede da célula nova serem feitas com o robô parado.
+4. Emergência: distância frontal ≤ `DIST_MINIMA_SEGURA_MM` (30 mm) antes de atingir 60 % do alvo, ou tempo acima de `TEMPO_LIMITE_AVANCO_MS` (3 s) → freio, `MOV_FALHOU` com motivo `FALHA_EMERGENCIA_FRONTAL` ou `FALHA_TEMPO`.
+5. Freio ativo, 200 ms de assentamento (o do `hw/firm`) e roda livre antes de `MOV_CONCLUIDO`, para as leituras de parede da célula nova serem feitas com o robô parado.
 
 Parâmetros iniciais vêm do `hw/firm` (PWM 90 como partida, 3 s de limite de avanço, 2 s de curva, 200 ms de freio) e dos padrões dos controles; todos ficam em um `ParametrosExecutor` com `parametrosPadrao()`, no estilo das classes de Davi e João Pedro.
 
@@ -286,9 +297,9 @@ Parâmetros iniciais vêm do `hw/firm` (PWM 90 como partida, 3 s de limite de av
 |:---|:---|:---|:---|
 | Sensor ToF sem leitura válida na célula | `lerParedes()` devolve `false` por 150 ms | `navegador.registrarFalha()` e nova tentativa de leitura; na terceira falha seguida o `Navegador` vai a `NAV_FALHA` | `TRAVADO` (não há estado melhor no contrato; a distinção fica no log serial) |
 | Sensor ToF morre no meio da prova | Driver não bloqueante marca inválido (B10) | Idem acima; o `ControleReta` sem laterais válidas cai em `MODO_RUMO` por encoders | |
-| Travamento (roda sem pulsos por 1 s com tração) | `MonitorTravamento` a 50 ms | O monitor freia e congela o cronômetro; o executor vê `motores.bloqueado()` e aborta | `TRAVADO` |
-| Emergência frontal durante o avanço | Executor (frontal ≤ 30 mm antes de 60 % do avanço) | Freio, `MOV_FALHOU`; `registrarFalha()`; o laço relê as paredes e decide de novo; na terceira seguida o `Navegador` vai a `NAV_FALHA` | `COLISAO` quando a causa das falhas é emergência frontal; o laço guarda o motivo da última falha do executor |
-| Curva não converge em 3 s | `CURVA_FALHOU` | Freio, `MOV_FALHOU`, `registrarFalha()`; o `ControleCurva` é ressincronizado antes da próxima curva, então o rumo ideal não fica deslocado | `TRAVADO` na terceira seguida |
+| Travamento (roda sem pulsos por 1 s com tração) | `MonitorTravamento` a 50 ms | O monitor freia e congela o cronômetro; o executor vê `motores.bloqueado()` e encerra o movimento com `FALHA_TRACAO_CORTADA` | `TRAVADO` |
+| Emergência frontal durante o avanço | Executor (frontal ≤ 30 mm antes de 60 % do avanço) | Freio, `MOV_FALHOU`; `registrarFalha()`; o laço relê as paredes e decide de novo; na terceira seguida o `Navegador` vai a `NAV_FALHA` | `COLISAO` quando a causa das falhas é `FALHA_EMERGENCIA_FRONTAL`; o laço guarda o motivo da última falha do executor |
+| Curva não converge em 2 s (o limite do `hw/firm`, por curva de 90°) | `CURVA_FALHOU` | Freio, `MOV_FALHOU` com `FALHA_TEMPO`, `registrarFalha()`; o `ControleCurva` é ressincronizado antes da próxima curva, então o rumo ideal não fica deslocado | `TRAVADO` na terceira seguida |
 | Destino inalcançável | `decidir()` devolve sem movimento e `NAV_INALCANCAVEL` | Freio, cronômetro congelado | `TRAVADO` |
 | Tempo esgotado (10 min) | `cronometro.decorridoMs(agora) >= TELEMETRIA_TIMESTAMP_MAX_MS` no tick de segurança | Freio, cronômetro já saturado | `TIMEOUT` |
 | Bateria baixa antes da largada | `bateria < BATERIA_MINIMA_LARGADA_MV` (6 800 mV) em `AGUARDANDO` | Largada recusada; LED vermelho piscando 3 vezes; log serial | `AGUARDANDO` |
@@ -315,7 +326,7 @@ O pacote é montado em uma única função `montarTelemetria()` e validado com `
 
 ### 3.9 Constantes e calibrações
 
-Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` conferindo coerência:
+Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` conferindo coerência. Critério para os parâmetros de hardware: o `hw/firm` é o único código que já rodou no robô montado, então os valores que funcionaram nele são o ponto de partida, e não valores calculados aqui. As exceções são a célula de 180 mm (o 168 do `hw/firm` é o vão do corredor, R2) e os 360 pulsos por volta, que continuam a confirmar na bancada (B4).
 
 | Constante | Valor inicial | Origem | Como calibrar na bancada |
 |:---|:---|:---|:---|
@@ -325,7 +336,8 @@ Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` confe
 | `LIMIAR_PAREDE_MM` / `HISTERESE_PAREDE_MM` | 110 / 5 | `hw/firm` e doc 4.3 | Leituras com e sem parede (teste 1) |
 | `DIST_ENCOSTO_FRONTAL_MM` | 45 | geometria | Robô centrado na célula com parede à frente |
 | `DIST_MINIMA_SEGURA_MM` | 30 | `hw/firm` | Mantido |
-| `PWM_MINIMO` / `PWM_POR_MM_S` | 40 / 0,6 (provisórios) | zona morta de 10 a 15 % do doc 4.3 e PWM 90 do `hw/firm` | Rampa de PWM com leitura dos encoders (velocidade em função do PWM) |
+| `PWM_MAXIMO_MOVIMENTO` | 90 (provisório) | PWM dos avanços e curvas do `hw/firm` | Só sobe depois da rampa de PWM (passo 5 da seção 6) |
+| `PWM_MINIMO` / `PWM_POR_MM_S` | 40 / cerca de 0,33 (provisórios) | zona morta de 10 a 15 % do doc 4.3; inclinação que põe os 150 mm/s da reta no PWM 90 | Rampa de PWM com leitura dos encoders (velocidade em função do PWM) |
 | `MOTOR_*_INVERTIDO`, `ENCODER_*_INVERTIDO` | false | | Testes 2 e 3 do menu |
 | `BATERIA_R_SERIE_OHM` / `BATERIA_R_GND_OHM` | 30 000 / 7 500 | `hw/firm` | Multímetro na bateria vs. leitura |
 | `BATERIA_MINIMA_LARGADA_MV` | 6 800 | `hw/firm` | Mantido |
@@ -353,10 +365,35 @@ Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` confe
 | 2 | `docs/149-desenho-integracao` | Este documento (PR) | `main` |
 | 3 | `refactor/149-preparacao-integracao` | B1 (orientação única no `ControleCurva`), R1 (tração por roda no detector e no monitor), R2 (`CELULA_MM` e `VAO_CORREDOR_MM` em `Pinos.h` e `VelocidadeMedia`), interface não bloqueante do executor e adaptador (B3), R12 (simulador em `test/comum`), testes atualizados; atualização das seções 4.1 e 4.3 do doc 4.4 para o laço cooperativo (M5) | etapa 2 |
 | 4 | `feat/149-drivers` | Porte dos drivers do `hw/firm` para `src/drivers/` com `Pinos.h` (motores com trinco, encoders, ToF não bloqueante, LED), partes puras (`Odometria`, `ClassificadorParedes`, `ConversorVelocidadePwm`) com testes; constantes novas em `Pinos.h`; nada em `hw/` | etapa 3 |
-| 5 | `feat/149-executor-loop` | `ExecutorMovimentoRobo`, `CicloProva`, `main.cpp` novo, telemetria completa, falhas, reinício; testes do executor e do ciclo | etapa 4 |
+| 5 | `feat/149-executor-loop` | `ExecutorMovimentoRobo`, `CicloProva`, `main.cpp` novo, telemetria completa, falhas, reinício; pausa da interrupção do encoder esquerdo durante a leitura da bateria (pendência 9 da seção 5); testes do executor e do ciclo | etapa 4 |
 | 6 | `test/149-robo-virtual` | `MundoVirtual`, leitor de pistas, testes de ponta a ponta nas três pistas, envio opcional ao backend | etapa 5 |
 
 Mudanças de interface previstas, todas justificadas acima: remoção de `Orientacao`, `definirOrientacao()`, `orientacao()` e do parâmetro `inicial` do `ControleCurva` (B1); sobrecargas novas em `DetectorTravamento::verificar` e `MonitorTravamento::verificar` e métodos novos com implementação padrão em `IFonteTracao` (R1, compatível); interface nova `ExecutorMovimentoNaoBloqueante` sem alterar `ExecutorMovimento` (B3); `TAMANHO_CELULA_MM` passa a vir de `Pinos.h` (R2). Nada muda em `lib/telemetria`.
+
+### 4.1 Registro da etapa 4 (drivers)
+
+Decisões tomadas na implementação, dentro do desenho acima:
+
+- **Motores divididos em lógica e hardware (B7).** O trinco precisa ser testado no nativo, então a lógica (`drivers/Motores.h`: trinco, tração por roda e inversão) fala com a ponte H por uma interface `IPonteH`, e o porte do `tb6612_driver` fica em `drivers/PonteHTb6612.cpp`. `Motores` tem três formas de parar: `parar()` é o corte de segurança e fecha o trinco, `frear()` é o freio do fim de um movimento e `soltar()` deixa as rodas livres. As duas últimas não abrem o trinco.
+- **Sem alvo ao alcance não é leitura inválida (B10, R3).** O VL53L0X devolve 8190 mm quando não enxerga nada, como num corredor longo. Para a classificação isso é "não há parede"; para o controle de reta é distância inválida (-1). Inválido para os dois é só o sensor sem amostra nova há mais de 100 ms ou a leitura 0.
+- **Erro de I2C não pode travar o laço (B10).** Além da consulta de "amostra pronta", o timeout do barramento cai para 5 ms e um sensor com erro fica 50 ms sem ser consultado. No pior caso (barramento travado), o laço perde cerca de 15 ms a cada 50 ms, em vez de 1,5 s.
+- **Modelo do conversor (B6).** `|PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S`, saturado em `PWM_MAXIMO_MOVIMENTO` e sem nunca emitir PWM entre 1 e `PWM_MINIMO - 1`. Até a rampa de PWM, o teto é 90, o PWM dos avanços e curvas do `hw/firm`. A resolução de 255 da ponte H continua valendo só para o freio ativo, que no `hw/firm` também usa o duty máximo. A inclinação passou de 0,6 para cerca de 0,33, para os 150 mm/s da reta caírem em PWM 90. Com 0,6 e o teto em 90, toda a faixa da reta, de 90 a 210 mm/s, saturaria nas duas rodas e o controle de reta perderia a correção lateral. Com 0,33, a roda que acelera satura, mas a que desacelera desce até PWM 70, e a correção continua.
+- **Limiar de parede no controle de reta (R3).** O padrão do `ControleReta` (`distMaxParedeMm = 100`) não foi alterado. O executor da etapa 5 é quem configura `distMaxParedeMm = LIMIAR_PAREDE_MM`, para o controle e o classificador concordarem.
+- **Bateria (R4).** `bateriaPermiteLargada()` em `BateriaConversao.h` compara com `BATERIA_MINIMA_LARGADA_MV`; o `CicloProva` da etapa 5 é quem recusa a largada.
+
+Interfaces novas da etapa 4, todas em arquivos novos: `IPonteH` e `Motores`, `LeituraToF`, `ClassificadorParedes` e `AmostraParedes`, `ConversorVelocidadePwm`, `Odometria`, `PadraoLed`, os quatro drivers de hardware e `bateriaPermiteLargada()`. Nenhuma assinatura existente muda.
+
+### 4.2 Registro da etapa 5 (executor e laço)
+
+Decisões tomadas na implementação, dentro do desenho acima:
+
+- **Parâmetros do executor.** Partem do `hw/firm`: 3 s de limite no avanço, 2 s por curva de 90°, freio ativo, 200 ms de assentamento e roda livre no fim de cada movimento. O alvo do avanço é a célula de 180 mm em pulsos (645 a 360 pulsos por volta); o `hw/firm` usa 168 mm, o vão do corredor. O alvo da curva é o mesmo do `hw/firm` (arco de π × bitola / 4 por roda), medido pelo `ControleCurva` com os encoders. A meia-volta são duas curvas para a direita; o `hw/firm` faz o arco de 180° de uma vez, com o mesmo total de pulsos.
+- **Curva abortada.** O `ControleCurva` não tem como cancelar uma curva em andamento. Em vez de mudar a classe, o executor cria um controle novo a cada giro, já ressincronizado com o rumo nominal (B5).
+- **Leitura das paredes.** Só vale com amostras dos três ToF feitas depois de o robô parar na célula (`LeituraToF::instanteMs()`). Sem leitura válida em 150 ms, o laço registra a falha e tenta de novo, como o `passo()` e a tabela 3.7; o diagrama de subfases foi corrigido.
+- **Cronômetro sem função global (R10).** O `CicloProva` congela o cronômetro por um adaptador interno que usa o instante do tick em andamento, em vez do `AdaptadorCronometro` com ponteiro para função. O efeito é o mesmo e vários ciclos podem coexistir nos testes. O `main.cpp` continua convertendo `millis()` para `uint32_t`.
+- **GPIO 36 e 39 (pendência 9).** Toda leitura da bateria, da telemetria e da largada, é feita com a interrupção do canal A esquerdo pausada (`IEncoders::pausarEsquerdo()`, por `gpio_intr_disable`).
+- **Telemetria.** Em `AGUARDANDO` o pacote publica A1 virado para o leste, também depois de uma nova tentativa. Um pacote que não passa em `telemetriaValidar()` não é enviado e vai para o log.
+- **Tempo de tick.** O `main.cpp` imprime a cada 5 s quantos ticks rodaram e o maior tick em µs, para o relatório 7.5.
 
 Se qualquer etapa revelar algo que mude este desenho (por exemplo, a contagem dos encoders ser 4x diferente, ou o robô ter IMU), o trabalho para e o documento é revisto antes de seguir.
 
@@ -374,6 +411,7 @@ Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pe
 6. **Divisor da bateria (R4).** Módulo 5:1 (30 k/7,5 k) ou resistores 100 k/47 k do doc 4.3.
 7. **Doc 4.3.** A tabela de pinagem continua com a pinagem antiga (já apontado no PR [#188](https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/188)); o relatório 7.3 cita os GPIOs antigos dos encoders (27/26 e 25/33).
 8. **GPIO 2 e pull-ups dos encoders.** Já registrados no PR #188: GPIO 2 (canal B do encoder direito) é pino de boot e os GPIO 35, 36 e 39 não têm pull-up interno.
+9. **GPIO 36 e 39 com o ADC ligado.** A errata do ESP32 (item 3.11) informa que, quando o ADC1 é ligado, as entradas dos GPIO 36 e 39 são puxadas para baixo por cerca de 80 ns. Os dois canais do encoder esquerdo estão nesses pinos, e a interrupção na borda de subida do canal A pode contar pulsos falsos a cada leitura da bateria, que tem 16 amostras por segundo. Na bancada, conferir se a contagem esquerda muda com o robô parado e a telemetria ligada (passo 4 da seção 6). A mitigação do lado do Software foi implementada na etapa 5: o próprio laço pausa a interrupção do encoder esquerdo durante os cerca de 2 ms da leitura da bateria, a cada segundo, ao custo de no máximo um ou dois pulsos reais perdidos. A conferência na bancada continua no autoteste. Se a contagem ainda andar com o robô parado, a Eletrônica pode trocar o encoder esquerdo para pinos sem essa limitação.
 
 ---
 
@@ -384,8 +422,8 @@ Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apo
 1. **Pulsos por volta da roda, antes de qualquer movimento.** Com o `hw/firm` gravado (o que já está no robô), teste 3 do menu: girar cada roda exatamente uma volta na mão, três vezes, e anotar os pulsos. Esse número define `ENCODER_PULSOS_POR_VOLTA` (B4); se não for 360, nenhum teste de movimento faz sentido antes de corrigir a constante. Aproveitar para conferir o sinal: a contagem deve crescer girando a roda no sentido de avanço.
 2. **Demais medições com o `hw/firm`:** teste 9 (bateria: anotar a tensão lida e a do multímetro), teste 1 (ToF: leituras com a mão a 5, 10 e 20 cm de cada sensor; anotar leitura sem obstáculo), teste 2 (sentido de cada motor).
 3. **Atualizar `Pinos.h`** com pulsos por volta, inversões e divisor da bateria; rodar `pio test -e native` e `pio run -e esp32dev`; gravar o firmware integrado.
-4. **Autoteste sem andar:** `AGUARDANDO` com LED verde; toque triplo troca a geometria com as piscadas; telemetria chegando no painel a 1 Hz com bateria e `AGUARDANDO`; segurar 2 s acende o branco.
-5. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`.
+4. **Autoteste sem andar:** `AGUARDANDO` com LED verde; toque triplo troca a geometria com as piscadas; telemetria chegando no painel a 1 Hz com bateria e `AGUARDANDO`; segurar 2 s acende o branco. Com o robô parado e a telemetria ligada por 1 min, as contagens dos encoders não podem mudar (item 9 da seção 5). Anotar a linha `[tick]` do monitor serial: quantos ticks em 5 s e o maior tick em µs.
+5. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`. Até este passo, nenhum movimento passa do PWM 90 do `hw/firm` (`PWM_MAXIMO_MOVIMENTO`); só depois da rampa o teto pode subir, com a inclinação refeita a partir das medidas.
 6. **Travamento no ar:** largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".
 7. **No chão, corredor reto:** uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).
 8. **Curvas:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02).

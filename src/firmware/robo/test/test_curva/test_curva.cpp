@@ -79,7 +79,7 @@ void test_ultrapassagem_e_corrigida_no_sentido_oposto(void) {
 }
 
 // ---------------------------------------------------------------------------
-// Conclusao, assentamento e orientacao
+// Conclusao e assentamento
 // ---------------------------------------------------------------------------
 
 void test_dentro_da_tolerancia_para_e_so_conclui_apos_o_assentamento(void) {
@@ -114,17 +114,48 @@ void test_inercia_que_leva_para_fora_da_tolerancia_e_corrigida_antes_de_concluir
     TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, s.estado);
 }
 
-void test_orientacao_so_muda_ao_concluir(void) {
-    ControleCurva c;  // parte virado para o leste
-    TEST_ASSERT_EQUAL(ORIENTACAO_LESTE, c.orientacao());
-    c.iniciar(SENTIDO_ESQUERDA, 0.0f, 0, 0, 0);
-    c.atualizar(leitura(30.0f, 100));
-    TEST_ASSERT_EQUAL(ORIENTACAO_LESTE, c.orientacao());
-    c.atualizar(leitura(90.0f, 200));
-    TEST_ASSERT_EQUAL(ORIENTACAO_LESTE, c.orientacao());  // ainda assentando
-    c.atualizar(leitura(90.0f, 300));
+void test_conclusao_informa_o_sentido_da_curva_para_o_navegador(void) {
+    // A orientacao de grade e do Navegador (confirmarGiro); a classe so informa o sentido
+    // para quem for confirmar o giro.
+    // Usa a direita: SENTIDO_ESQUERDA e o valor inicial e passaria sem a atribuicao.
+    ControleCurva c;
+    c.iniciar(SENTIDO_DIREITA, 0.0f, 0, 0, 0);
+    c.atualizar(leitura(-30.0f, 100));
+    TEST_ASSERT_EQUAL(CURVA_GIRANDO, c.estado());
+    c.atualizar(leitura(-90.0f, 200));
+    TEST_ASSERT_EQUAL(CURVA_GIRANDO, c.estado());  // ainda assentando
+    c.atualizar(leitura(-90.0f, 300));
     TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
-    TEST_ASSERT_EQUAL(ORIENTACAO_NORTE, c.orientacao());
+    TEST_ASSERT_EQUAL(SENTIDO_DIREITA, c.sentido());
+}
+
+void test_curva_abortada_nao_e_dada_como_concluida(void) {
+    // Cenario do achado B1: a curva falha no meio e o giro nao pode ser confirmado.
+    const ParametrosControleCurva p = ControleCurva::parametrosPadrao();
+    ControleCurva c(p);
+    c.iniciar(SENTIDO_DIREITA, 0.0f, 0, 0, 0);
+    c.atualizar(leitura(-40.0f, 500));  // girou so ate a metade e emperrou
+    SaidaControleCurva s = c.atualizar(leitura(-40.0f, p.tempoLimiteMs + 1));
+    TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
+    TEST_ASSERT_TRUE(c.estado() != CURVA_CONCLUIDA);
+
+    // Mesmo que o robo chegue ao alvo depois (por inercia ou empurrado), a curva continua
+    // abortada: so um novo iniciar() pode levar a CURVA_CONCLUIDA.
+    s = c.atualizar(leitura(-90.0f, p.tempoLimiteMs + 200));
+    TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
+    s = c.atualizar(leitura(-90.0f, p.tempoLimiteMs + 500));
+    TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velEsqMmS);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velDirMmS);
+
+    // Depois de ressincronizar com o rumo real, uma nova curva conclui normalmente.
+    c.ressincronizar(-40.0f);
+    const uint32_t t = p.tempoLimiteMs + 1000;
+    c.iniciar(SENTIDO_ESQUERDA, -40.0f, 0, 0, t);
+    c.atualizar(leitura(50.0f, t + 100));
+    c.atualizar(leitura(50.0f, t + 300));
+    TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
+    TEST_ASSERT_EQUAL(SENTIDO_ESQUERDA, c.sentido());
 }
 
 static void girarIdeal(ControleCurva& c, SentidoCurva sentido, float& yaw, uint32_t& t) {
@@ -135,28 +166,25 @@ static void girarIdeal(ControleCurva& c, SentidoCurva sentido, float& yaw, uint3
     t += 1000;
 }
 
-void test_sequencia_de_curvas_percorre_as_quatro_orientacoes(void) {
-    ControleCurva c;  // leste
+void test_sequencia_de_curvas_conclui_todas_sem_acumular_erro(void) {
+    ControleCurva c;
     float yaw = 0.0f;
     uint32_t t = 0;
-    const Orientacao esperadoEsq[4] = {ORIENTACAO_NORTE, ORIENTACAO_OESTE, ORIENTACAO_SUL, ORIENTACAO_LESTE};
     for (int i = 0; i < 4; i++) {
         girarIdeal(c, SENTIDO_ESQUERDA, yaw, t);
-        TEST_ASSERT_EQUAL(esperadoEsq[i], c.orientacao());
+        TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
+        TEST_ASSERT_EQUAL(SENTIDO_ESQUERDA, c.sentido());
     }
-    const Orientacao esperadoDir[4] = {ORIENTACAO_SUL, ORIENTACAO_OESTE, ORIENTACAO_NORTE, ORIENTACAO_LESTE};
     for (int i = 0; i < 4; i++) {
         girarIdeal(c, SENTIDO_DIREITA, yaw, t);
-        TEST_ASSERT_EQUAL(esperadoDir[i], c.orientacao());
+        TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
+        TEST_ASSERT_EQUAL(SENTIDO_DIREITA, c.sentido());
     }
-}
-
-void test_ids_da_orientacao_batem_com_o_codec_de_telemetria(void) {
-    // telemetriaNomeOrientacao(): {"NORTE", "SUL", "LESTE", "OESTE"}
-    TEST_ASSERT_EQUAL_UINT8(0, ORIENTACAO_NORTE);
-    TEST_ASSERT_EQUAL_UINT8(1, ORIENTACAO_SUL);
-    TEST_ASSERT_EQUAL_UINT8(2, ORIENTACAO_LESTE);
-    TEST_ASSERT_EQUAL_UINT8(3, ORIENTACAO_OESTE);
+    // Quatro para cada lado: o rumo ideal interno voltou ao inicial. Uma nova curva a
+    // partir do rumo 0 medido tem erro de exatamente 90 graus, sem resto acumulado.
+    c.iniciar(SENTIDO_ESQUERDA, 0.0f, 0, 0, t);
+    const SaidaControleCurva s = c.atualizar(leitura(0.0f, t + 10));
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 90.0f, s.erroGraus);
 }
 
 void test_estado_parado_e_concluido_mantem_as_rodas_paradas(void) {
@@ -235,7 +263,7 @@ void test_iniciar_durante_uma_curva_e_ignorado(void) {
 // Falha por tempo
 // ---------------------------------------------------------------------------
 
-void test_sensor_travado_falha_e_nao_atualiza_a_orientacao(void) {
+void test_sensor_travado_falha_e_para_as_rodas(void) {
     const ParametrosControleCurva p = ControleCurva::parametrosPadrao();
     ControleCurva c(p);
     c.iniciar(SENTIDO_ESQUERDA, 0.0f, 0, 0, 0);
@@ -245,7 +273,6 @@ void test_sensor_travado_falha_e_nao_atualiza_a_orientacao(void) {
     TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
     TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velEsqMmS);
     TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velDirMmS);
-    TEST_ASSERT_EQUAL(ORIENTACAO_LESTE, c.orientacao());
 }
 
 void test_tempo_limite_correto_na_volta_do_millis(void) {
@@ -498,12 +525,12 @@ int main(void) {
     RUN_TEST(test_velocidade_proporcional_ao_erro_entre_o_piso_e_o_teto);
     RUN_TEST(test_perto_do_alvo_a_velocidade_nao_cai_abaixo_do_piso);
     RUN_TEST(test_ultrapassagem_e_corrigida_no_sentido_oposto);
-    // Conclusao e orientacao
+    // Conclusao e assentamento
     RUN_TEST(test_dentro_da_tolerancia_para_e_so_conclui_apos_o_assentamento);
     RUN_TEST(test_inercia_que_leva_para_fora_da_tolerancia_e_corrigida_antes_de_concluir);
-    RUN_TEST(test_orientacao_so_muda_ao_concluir);
-    RUN_TEST(test_sequencia_de_curvas_percorre_as_quatro_orientacoes);
-    RUN_TEST(test_ids_da_orientacao_batem_com_o_codec_de_telemetria);
+    RUN_TEST(test_conclusao_informa_o_sentido_da_curva_para_o_navegador);
+    RUN_TEST(test_curva_abortada_nao_e_dada_como_concluida);
+    RUN_TEST(test_sequencia_de_curvas_conclui_todas_sem_acumular_erro);
     RUN_TEST(test_estado_parado_e_concluido_mantem_as_rodas_paradas);
     // Alvo absoluto
     RUN_TEST(test_segunda_curva_mira_no_rumo_ideal_e_nao_no_medido);
@@ -513,7 +540,7 @@ int main(void) {
     RUN_TEST(test_curva_a_direita_atravessa_a_fronteira_de_menos_180);
     RUN_TEST(test_iniciar_durante_uma_curva_e_ignorado);
     // Falha por tempo
-    RUN_TEST(test_sensor_travado_falha_e_nao_atualiza_a_orientacao);
+    RUN_TEST(test_sensor_travado_falha_e_para_as_rodas);
     RUN_TEST(test_tempo_limite_correto_na_volta_do_millis);
     // Encoders
     RUN_TEST(test_giro_pelos_encoders_e_reportado);

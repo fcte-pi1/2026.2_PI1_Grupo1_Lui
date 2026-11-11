@@ -2,13 +2,14 @@
 #define VELOCIDADE_MEDIA_H
 
 #include <stdint.h>
+#include "../hardware/Pinos.h"
 
 // Velocidade média da prova para a telemetria, sem dependência do Arduino.
-// Células de 180 mm (regulamento): distância = células andadas x 180 mm.
-// O tempo é o do cronômetro da prova (0 antes da largada, congelado na chegada), e o
-// resultado vai para o campo velocidade_media do pacote, em mm/s (int16_t).
+// Células de 180 mm entre centros (CELULA_MM, em hardware/Pinos.h): distância = células
+// andadas x 180 mm. O tempo é o do cronômetro da prova (0 antes da largada, congelado na
+// chegada), e o resultado vai para o campo velocidade_media do pacote, em mm/s (int16_t).
 
-const uint16_t TAMANHO_CELULA_MM = 180;
+const uint16_t TAMANHO_CELULA_MM = CELULA_MM;  // nome mantido para quem já usa
 const int16_t VELOCIDADE_MAX_MM_S = 32767;  // limite do campo int16_t
 
 // Média em mm/s, arredondada; 0 antes da largada (tempo 0).

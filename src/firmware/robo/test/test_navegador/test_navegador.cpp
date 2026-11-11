@@ -3,7 +3,7 @@
 #include <string.h>
 #include <chrono>
 #include "../../src/navegacao/Navegador.h"
-#include "SimuladorLabirinto.h"
+#include "../comum/SimuladorLabirinto.h"
 
 void setUp(void) {}
 void tearDown(void) {}

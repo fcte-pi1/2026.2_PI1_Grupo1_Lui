@@ -26,10 +26,14 @@
 #include "TelemetriaPacket.h"          // EstadoRobo (TRAVADO)
 
 // Fonte de estado da tração e parada dos motores (compatível com Motores da HU-01).
+// A tração por roda é opcional: quem só conhece a tração geral herda o padrão, que
+// repete tracaoAtiva() para as duas rodas.
 class IFonteTracao : public ITracao {
 public:
     virtual ~IFonteTracao() {}
     virtual bool tracaoAtiva() const = 0;
+    virtual bool tracaoEsqAtiva() const { return tracaoAtiva(); }
+    virtual bool tracaoDirAtiva() const { return tracaoAtiva(); }
 };
 
 // Fonte dos instantes dos últimos pulsos de encoder (compatível com Odometria da HU-02).
@@ -83,7 +87,8 @@ public:
     bool verificar(uint32_t agoraMs) {
         if (travado_) return true;
         if (fonteTracao_ == nullptr || odometria_ == nullptr) return false;
-        return verificar(fonteTracao_->tracaoAtiva(),
+        return verificar(fonteTracao_->tracaoEsqAtiva(),
+                         fonteTracao_->tracaoDirAtiva(),
                          odometria_->getUltimoPulsoEsqMs(),
                          odometria_->getUltimoPulsoDirMs(),
                          agoraMs);
@@ -93,9 +98,15 @@ public:
     // Na primeira confirmação de travamento: corta os motores, congela o cronômetro e
     // sinaliza TRAVADO. Permanece em estado terminal até iniciarProva().
     bool verificar(bool tracaoAtiva, uint32_t ultimoPulsoEsqMs, uint32_t ultimoPulsoDirMs, uint32_t agoraMs) {
+        return verificar(tracaoAtiva, tracaoAtiva, ultimoPulsoEsqMs, ultimoPulsoDirMs, agoraMs);
+    }
+
+    // Idem, com a tração informada por roda (ver DetectorTravamento).
+    bool verificar(bool tracaoEsqAtiva, bool tracaoDirAtiva,
+                   uint32_t ultimoPulsoEsqMs, uint32_t ultimoPulsoDirMs, uint32_t agoraMs) {
         if (travado_) return true;
 
-        if (!detector_.verificar(tracaoAtiva, ultimoPulsoEsqMs, ultimoPulsoDirMs, agoraMs)) {
+        if (!detector_.verificar(tracaoEsqAtiva, tracaoDirAtiva, ultimoPulsoEsqMs, ultimoPulsoDirMs, agoraMs)) {
             return false;
         }
 
