@@ -68,8 +68,8 @@ constexpr float RODA_MM_POR_PULSO = 3.14159265f * RODA_DIAMETRO_MM / ENCODER_PUL
 // média usa. O vão livre do corredor é o passo menos a espessura da parede (12 mm) e serve
 // de referência para os limiares dos sensores de distância. O hw/firm usa 168 mm como
 // "célula"; aqui o avanço é de centro a centro (docs/firmware/integracao-loop.md, R2).
-const uint16_t CELULA_MM = 180;
-const uint16_t VAO_CORREDOR_MM = 168;
+constexpr uint16_t CELULA_MM = 180;
+constexpr uint16_t VAO_CORREDOR_MM = 168;
 
 // Divisor de tensão da bateria (resistor em série com a bateria e resistor para o GND,
 // com o ponto médio em PINO_BATERIA_ADC). Valores do firmware que roda no robô: módulo
