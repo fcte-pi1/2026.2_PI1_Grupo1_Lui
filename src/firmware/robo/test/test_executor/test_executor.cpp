@@ -116,7 +116,7 @@ struct Bancada {
 
 void test_parametros_padrao_partem_do_hw_firm(void) {
     const ParametrosExecutor p = ExecutorMovimentoRobo::parametrosPadrao();
-    TEST_ASSERT_EQUAL_INT32(645, p.alvoAvancoPulsos);  // 180 mm em pulsos (o hw/firm usa 168)
+    TEST_ASSERT_EQUAL_INT32(938, p.alvoAvancoPulsos);  // 180 mm em pulsos (o hw/firm usa 168)
     TEST_ASSERT_EQUAL_UINT32(3000, p.tempoLimiteAvancoMs);
     TEST_ASSERT_EQUAL_UINT32(2000, p.tempoLimiteCurvaMs);
     TEST_ASSERT_EQUAL_UINT32(200, p.tempoFreioMs);

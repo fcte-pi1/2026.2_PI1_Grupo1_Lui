@@ -21,18 +21,18 @@ void test_uma_volta_da_roda_percorre_a_circunferencia(void) {
 }
 
 void test_alvo_de_uma_celula_em_pulsos(void) {
-    // 180 / (pi x 32 / 360) = 644,6 pulsos.
-    TEST_ASSERT_EQUAL_INT32(645, Odometria::pulsosParaMm((float)CELULA_MM));
-    TEST_ASSERT_EQUAL_INT32(-645, Odometria::pulsosParaMm(-(float)CELULA_MM));
+    // 180 / (pi x 22 / 360) = 937,6 pulsos.
+    TEST_ASSERT_EQUAL_INT32(938, Odometria::pulsosParaMm((float)CELULA_MM));
+    TEST_ASSERT_EQUAL_INT32(-938, Odometria::pulsosParaMm(-(float)CELULA_MM));
     TEST_ASSERT_EQUAL_INT32(0, Odometria::pulsosParaMm(0.0f));
 }
 
 void test_alvo_acompanha_a_constante_de_pulsos_por_volta(void) {
     // Se a bancada mostrar 4x menos pulsos por volta (B4), o alvo cai 4x junto.
     const float mmPorPulsoMedido = 3.14159265f * RODA_DIAMETRO_MM / 90.0f;
-    TEST_ASSERT_EQUAL_INT32(161, Odometria::pulsosParaMm((float)CELULA_MM, mmPorPulsoMedido));
+    TEST_ASSERT_EQUAL_INT32(234, Odometria::pulsosParaMm((float)CELULA_MM, mmPorPulsoMedido));
     Odometria o(mmPorPulsoMedido);
-    o.atualizar(161, 161, 10);
+    o.atualizar(234, 234, 10);
     TEST_ASSERT_FLOAT_WITHIN(1.0f, 180.0f, o.deslocamentoMm());
 }
 
