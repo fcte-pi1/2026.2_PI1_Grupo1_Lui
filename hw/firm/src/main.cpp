@@ -53,6 +53,11 @@ static ModoOperacao modoAtual = MODO_MENU;
 static EstadoRobo estadoRobo = AGUARDANDO;
 static GeometriaLabirinto geometriaAtual = LAB_8X4; // Geometria selecionada (LAB_4X4, LAB_8X4 ou LAB_12X4)
 
+// Posição e orientação de grade ativas para a telemetria do site
+static int8_t posLinha = 0;      // 0 a 11 (Linhas 1 a 12)
+static int8_t posColuna = 0;     // 0 a 3  (Colunas A a D)
+static uint8_t orientacaoAtual = 0; // 0: NORTE, 1: SUL, 2: LESTE, 3: OESTE
+
 // Temporizadores não-bloqueantes
 static uint32_t last_telemetry_serial_ms = 0;
 static const uint32_t TELEMETRY_SERIAL_INTERVAL_MS = 100; // 10 Hz no monitor serial
@@ -120,9 +125,9 @@ void enviarTelemetriaEspNow(void) {
         pkt.velocidade_media = 0;
     }
 
-    pkt.coluna = 0; // Coluna 'A' (índice 0)
-    pkt.linha = 0;  // Linha '1'  (índice 0, no gateway vira linha + 1 = 1)
-    pkt.orientacao = 0; // 0 = NORTE
+    pkt.coluna = constrain(posColuna, 0, 3);
+    pkt.linha = constrain(posLinha, 0, 11);
+    pkt.orientacao = orientacaoAtual;
 
     // 3. Bitmask de paredes detectadas: bit0=Norte(Frente), bit2=Leste(Direita), bit3=Oeste(Esquerda)
     uint8_t mask_paredes = 0;
@@ -294,36 +299,118 @@ void executarAvancoUmaCelula(void) {
     int32_t target_ticks = (int32_t)((CELL_SIZE_MM / WHEEL_CIRCUMFERENCE_MM) * ENCODER_TICKS_PER_REV);
     Serial.printf("Distância alvo: %.1f mm (~%d ticks por roda)\n", CELL_SIZE_MM, target_ticks);
 
-    tb6612_set_motors(PWM_TESTE, PWM_TESTE);
-
     uint32_t start_time = millis();
+    uint32_t last_tof_ctrl = 0;
     bool timeout = false;
+    bool parada_frontal = false;
+
+    // Parâmetros de controle refinado (PD Lateral + Modo Monoparede)
+    const float KP_PAREDE = 0.35f;
+    const float KD_PAREDE = 0.20f;  // Amortece o arrasto da roda boba e mata oscilação
+    const float KP_ENCODER = 0.50f;
+    const float DIST_IDEAL_CENTRO_MM = 55.0f; // Distância ideal até a parede lateral no centro da célula
+
+    float ultimo_erro_lateral = 0.0f;
+    uint32_t ultimo_tempo_pd = millis();
 
     while (true) {
+        uint32_t now = millis();
         int32_t tl = abs(encoder_get_ticks_left());
         int32_t tr = abs(encoder_get_ticks_right());
         int32_t media = (tl + tr) / 2;
 
+        // 1. Chegada na distância por odometria
         if (media >= target_ticks) {
             break;
         }
 
-        if (millis() - start_time > 3000) {
+        // 2. Timeout de segurança (3 segundos)
+        if (now - start_time > 3000) {
             timeout = true;
             break;
         }
 
-        delay(5);
+        // 3. Controle e Sincronização ToF + Encoders a cada 20 ms (~50 Hz)
+        if (now - last_tof_ctrl >= 20) {
+            last_tof_ctrl = now;
+            VL53L0X_Readings_t tof = vl53l0x_manager_read();
+
+            // Encosto frontal óptico: se detectou parede à frente a <= 45 mm, freia imediatamente
+            if (tof.front_valid && tof.dist_front_mm <= 45 && media > (target_ticks / 3)) {
+                parada_frontal = true;
+                break;
+            }
+
+            // Rampa suave de partida nos primeiros 120 ms (evita tranco na roda boba e patinação)
+            int16_t pwm_base = PWM_TESTE;
+            uint32_t tempo_corrido = now - start_time;
+            if (tempo_corrido < 120) {
+                pwm_base = map(tempo_corrido, 0, 120, 50, PWM_TESTE);
+            }
+
+            int16_t pwm_l = pwm_base;
+            int16_t pwm_r = pwm_base;
+
+            bool temEsq = (tof.left_valid && tof.dist_left_mm < 130);
+            bool temDir = (tof.right_valid && tof.dist_right_mm < 130);
+
+            if (temEsq && temDir) {
+                // Caso A: Duas paredes (Corredor fechado) -> Controle PD
+                float erro_lateral = (float)tof.dist_left_mm - (float)tof.dist_right_mm;
+                float dt = (now - ultimo_tempo_pd) / 1000.0f;
+                float derivada = (dt > 0.005f) ? (erro_lateral - ultimo_erro_lateral) / dt : 0.0f;
+
+                ultimo_erro_lateral = erro_lateral;
+                ultimo_tempo_pd = now;
+
+                int16_t correcao = (int16_t)(KP_PAREDE * erro_lateral + KD_PAREDE * derivada * 0.05f);
+                correcao = constrain(correcao, -25, 25);
+                pwm_l -= correcao;
+                pwm_r += correcao;
+            } else if (temEsq) {
+                // Caso B: Modo Monoparede Esquerda (Abertura ou curva à direita)
+                float erro_lateral = (float)tof.dist_left_mm - DIST_IDEAL_CENTRO_MM;
+                int16_t correcao = (int16_t)(KP_PAREDE * erro_lateral * 1.5f);
+                correcao = constrain(correcao, -20, 20);
+                pwm_l -= correcao;
+                pwm_r += correcao;
+            } else if (temDir) {
+                // Caso C: Modo Monoparede Direita (Abertura ou curva à esquerda)
+                float erro_lateral = DIST_IDEAL_CENTRO_MM - (float)tof.dist_right_mm;
+                int16_t correcao = (int16_t)(KP_PAREDE * erro_lateral * 1.5f);
+                correcao = constrain(correcao, -20, 20);
+                pwm_l -= correcao;
+                pwm_r += correcao;
+            } else {
+                // Caso D: Cruzamento aberto (sem paredes) -> Trava o rumo pelos encoders
+                int32_t diff_ticks = encoder_get_ticks_left() - encoder_get_ticks_right();
+                int16_t correcao = (int16_t)(KP_ENCODER * diff_ticks);
+                correcao = constrain(correcao, -20, 20);
+                pwm_l -= correcao;
+                pwm_r += correcao;
+            }
+
+            tb6612_set_motors(pwm_l, pwm_r);
+        }
+
+        delay(2);
     }
 
     tb6612_brake();
     delay(200);
     tb6612_stop();
 
-    estadoRobo = AGUARDANDO;
-    enviarTelemetriaEspNow(); // Notifica o site da parada
+    // Atualiza a posição de grade do robô conforme a orientação do avanço
+    int maxL = (geometriaAtual == LAB_4X4) ? 3 : (geometriaAtual == LAB_8X4) ? 7 : 11;
+    if (orientacaoAtual == 0 && posLinha < maxL) posLinha++;      // Norte -> sobe linha
+    else if (orientacaoAtual == 1 && posLinha > 0) posLinha--; // Sul -> desce linha
+    else if (orientacaoAtual == 2 && posColuna < 3) posColuna++; // Leste -> avança coluna
+    else if (orientacaoAtual == 3 && posColuna > 0) posColuna--; // Oeste -> recua coluna
 
-    Serial.printf("Resultado: %s\n", timeout ? "[TIMEOUT DE SEGURANÇA!]" : "[CHEGOU NA DISTÂNCIA ALVO]");
+    estadoRobo = AGUARDANDO;
+    enviarTelemetriaEspNow(); // Notifica o site da nova célula e da parada
+
+    Serial.printf("Resultado: %s\n", timeout ? "[TIMEOUT DE SEGURANÇA!]" : (parada_frontal ? "[ENCOSTO FRONTAL ÓPTICO A 45 mm]" : "[CHEGOU NA DISTÂNCIA ALVO POR ENCODERS]"));
     Serial.printf("  Ticks finais: Esq=%d (%.1f mm) | Dir=%d (%.1f mm)\n",
                   encoder_get_ticks_left(), encoder_get_dist_left_mm(),
                   encoder_get_ticks_right(), encoder_get_dist_right_mm());
@@ -351,16 +438,13 @@ void executarCurva90Graus(bool paraDireita) {
 
     Serial.printf("Arco da roda: %.1f mm (~%d ticks)\n", arco_mm, target_ticks);
 
-    if (paraDireita) {
-        tb6612_set_motors(PWM_TESTE, -PWM_TESTE);
-    } else {
-        tb6612_set_motors(-PWM_TESTE, PWM_TESTE);
-    }
-
     uint32_t start_time = millis();
     bool timeout = false;
+    const int16_t PWM_RAMPA = 55; // PWM reduzido para frenagem suave sem derrapagem
+    const float KP_GIRO_SYNC = 0.5f;
 
     while (true) {
+        uint32_t now = millis();
         int32_t tl = abs(encoder_get_ticks_left());
         int32_t tr = abs(encoder_get_ticks_right());
         int32_t media = (tl + tr) / 2;
@@ -369,12 +453,29 @@ void executarCurva90Graus(bool paraDireita) {
             break;
         }
 
-        if (millis() - start_time > 2000) {
+        if (now - start_time > 2500) {
             timeout = true;
             break;
         }
 
-        delay(5);
+        // 1. Rampa de desaceleração nos últimos 20% da curva (elimina inércia de giro)
+        int16_t pwm_base = (media > (target_ticks * 0.80f)) ? PWM_RAMPA : PWM_TESTE;
+
+        // 2. Equalização entre rodas para giro perfeito sobre o próprio eixo (sem translação)
+        int32_t diff = tl - tr;
+        int16_t ajuste = (int16_t)(diff * KP_GIRO_SYNC);
+        ajuste = constrain(ajuste, -15, 15);
+
+        int16_t pwm_l = pwm_base - ajuste;
+        int16_t pwm_r = pwm_base + ajuste;
+
+        if (paraDireita) {
+            tb6612_set_motors(pwm_l, -pwm_r);
+        } else {
+            tb6612_set_motors(-pwm_l, pwm_r);
+        }
+
+        delay(3);
     }
 
     tb6612_brake();
@@ -409,14 +510,25 @@ void executarMeiaVolta180(void) {
 
     Serial.printf("Arco: %.1f mm (~%d ticks)\n", arco_mm, target_ticks);
 
-    tb6612_set_motors(PWM_TESTE, -PWM_TESTE);
-
     uint32_t start_time = millis();
+    const int16_t PWM_RAMPA = 55;
+    const float KP_GIRO_SYNC = 0.5f;
+
     while (true) {
+        uint32_t now = millis();
         int32_t tl = abs(encoder_get_ticks_left());
         int32_t tr = abs(encoder_get_ticks_right());
-        if ((tl + tr) / 2 >= target_ticks || (millis() - start_time > 3500)) break;
-        delay(5);
+        int32_t media = (tl + tr) / 2;
+
+        if (media >= target_ticks || (now - start_time > 4000)) break;
+
+        int16_t pwm_base = (media > (target_ticks * 0.85f)) ? PWM_RAMPA : PWM_TESTE;
+        int32_t diff = tl - tr;
+        int16_t ajuste = (int16_t)(diff * KP_GIRO_SYNC);
+        ajuste = constrain(ajuste, -15, 15);
+
+        tb6612_set_motors(pwm_base - ajuste, -(pwm_base + ajuste));
+        delay(3);
     }
 
     tb6612_brake();
@@ -540,9 +652,21 @@ void loop() {
         enviarTelemetriaEspNow();
     }
 
-    // --- 2. PROCESSAMENTO DE COMANDOS VIA MONITOR SERIAL ---
+    // --- 2. PROCESSAMENTO DE COMANDOS (MONITOR SERIAL OU ESP-NOW REMOTO) ---
+    char cmd = 0;
+    bool temCmd = false;
+
     if (Serial.available()) {
-        char cmd = (char)Serial.read();
+        cmd = (char)Serial.read();
+        temCmd = true;
+    } else if (radio_telemetria_ler_comando(&cmd)) {
+        Serial.printf("
+[ESP-NOW REMOTO] Comando recebido pelo rádio: '%c'
+", cmd);
+        temCmd = true;
+    }
+
+    if (temCmd) {
 
         if (modoAtual == MODO_TESTE_MOTORES_MANUAL) {
             processarComandoMotorManual(cmd);

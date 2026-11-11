@@ -48,12 +48,12 @@ void test_pinos_da_pinagem_da_eletronica(void) {
 }
 
 void test_constantes_fisicas(void) {
-    TEST_ASSERT_EQUAL_FLOAT(32.0f, RODA_DIAMETRO_MM);
+    TEST_ASSERT_EQUAL_FLOAT(22.0f, RODA_DIAMETRO_MM);
     TEST_ASSERT_EQUAL_UINT16(360, ENCODER_PULSOS_POR_VOLTA);
     TEST_ASSERT_EQUAL_FLOAT(80.0f, BITOLA_MM);
     // Uma volta da roda (360 pulsos) percorre a circunferência, pi x 32 = 100,53 mm.
-    TEST_ASSERT_FLOAT_WITHIN(0.01f, 100.53f, RODA_MM_POR_PULSO * ENCODER_PULSOS_POR_VOLTA);
-    TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.2793f, RODA_MM_POR_PULSO);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 69.12f, RODA_MM_POR_PULSO * ENCODER_PULSOS_POR_VOLTA);
+    TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.1920f, RODA_MM_POR_PULSO);
 }
 
 void test_celula_do_regulamento(void) {

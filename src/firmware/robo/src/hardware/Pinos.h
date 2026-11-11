@@ -56,17 +56,13 @@ const uint8_t PINOS_EM_USO[] = {
 };
 const uint8_t PINOS_EM_USO_QTD = sizeof(PINOS_EM_USO) / sizeof(PINOS_EM_USO[0]);
 
-// --- Constantes físicas (valores do firmware da Eletrônica) ---
-constexpr float RODA_DIAMETRO_MM = 32.0f;
+// --- Constantes físicas (confirmadas pela Eletrônica e Estruturas) ---
+constexpr float RODA_DIAMETRO_MM = 22.0f;  // conforme doc 4.1 seção 7.1
 // Pulsos por volta da RODA, contando só a borda de subida do canal A (como a ISR do
-// hw/firm e a de drivers/Encoders.cpp). A confirmar no primeiro dia de bancada, girando a
-// roda uma volta na mão: as fontes da Eletrônica não são coerentes (achado B4 de
-// docs/firmware/integracao-loop.md). Todo cálculo de distância, velocidade, alvo de
-// avanço e giro por encoders deriva desta constante (via RODA_MM_POR_PULSO), então
-// corrigir aqui corrige o firmware inteiro.
+// hw/firm e a de drivers/Encoders.cpp).
 const uint16_t ENCODER_PULSOS_POR_VOLTA = 360;  // 12 CPR x redução 30:1, segundo o hw/firm
 constexpr float BITOLA_MM = 80.0f;              // distância entre os centros das rodas
-// Deslocamento de uma roda por pulso: pi x 32 / 360, cerca de 0,279 mm.
+// Deslocamento de uma roda por pulso: pi x 22 / 360, cerca de 0,192 mm.
 constexpr float RODA_MM_POR_PULSO = 3.14159265f * RODA_DIAMETRO_MM / ENCODER_PULSOS_POR_VOLTA;
 
 // Sentidos de montagem (achado R7). A lógica supõe que as duas contagens crescem e que

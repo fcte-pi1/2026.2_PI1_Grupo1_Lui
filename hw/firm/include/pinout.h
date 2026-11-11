@@ -53,8 +53,8 @@
 
 // Parâmetros Físicos dos Motores e Rodas
 #define ENCODER_TICKS_PER_REV  360    // 12 CPR * 30:1 de redução = 360 pulsos/volta
-#define WHEEL_DIAMETER_MM      32.0f  // Diâmetro externo da roda em mm
-#define WHEEL_CIRCUMFERENCE_MM 100.5309649f // pi * 32 mm = ~100.53 mm
+#define WHEEL_DIAMETER_MM      22.0f  // Diâmetro externo da roda em mm (conforme doc 4.1)
+#define WHEEL_CIRCUMFERENCE_MM 69.1150384f  // pi * 22 mm = ~69.12 mm
 #define TRACK_WIDTH_MM         80.0f  // Distância entre as rodas (bitola) em mm
 #define CELL_SIZE_MM           168.0f // Comprimento da célula oficial do labirinto (mm)
 

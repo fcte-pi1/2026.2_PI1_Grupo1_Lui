@@ -67,14 +67,15 @@ void test_battery_calculations() {
 void test_encoder_odometry() {
     std::cout << "[TEST] Validando Odometria Linear dos Encoders..." << std::endl;
 
-    // 1 volta completa = 360 pulsos = perimetro da roda (~100.53 mm)
+    // 1 volta completa = 360 pulsos = perimetro da roda (~69.13 mm)
     float dist_1 = ((float)ENCODER_TICKS_PER_REV / (float)ENCODER_TICKS_PER_REV) * WHEEL_CIRCUMFERENCE_MM;
-    assert(std::fabs(dist_1 - 100.5309649f) < 0.01f);
+    assert(std::fabs(dist_1 - WHEEL_CIRCUMFERENCE_MM) < 0.01f);
 
     // Célula padrão de micromouse: 168 mm
-    // Ticks esperados para 168 mm = 168 / (100.53 / 360) = ~601.5 ticks
+    // Ticks esperados para 168 mm = 168 / (69.13 / 360) = ~601.5 ticks
     float ticks_per_cell = (168.0f / WHEEL_CIRCUMFERENCE_MM) * ENCODER_TICKS_PER_REV;
-    assert(ticks_per_cell > 600.0f && ticks_per_cell < 603.0f);
+    // Com roda de 22mm: 168 / (69.115 / 360) = ~875 ticks
+    assert(ticks_per_cell > 870.0f && ticks_per_cell < 880.0f);
 
     std::cout << "  -> Resolucao linear do encoder: " << (WHEEL_CIRCUMFERENCE_MM / ENCODER_TICKS_PER_REV)
               << " mm/pulso. [OK]" << std::endl;

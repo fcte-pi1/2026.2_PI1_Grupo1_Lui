@@ -88,11 +88,21 @@ VL53L0X_Readings_t vl53l0x_manager_read(void) {
     readings.front_valid = false;
     readings.right_valid = false;
 
-    // Leitura Sensor 1 (Esquerdo)
+    static uint16_t last_valid_left = 60;
+    static uint16_t last_valid_front = 150;
+    static uint16_t last_valid_right = 60;
+
+    // Leitura Sensor 1 (Esquerdo) com rejeição de glitch
     if (s_left_ready) {
         uint16_t d = s_sensor_left.readRangeContinuousMillimeters();
-        if (!s_sensor_left.timeoutOccurred() && d > 0 && d < 8190) {
+        if (!s_sensor_left.timeoutOccurred() && d > 15 && d < 8000) {
+            // Filtro de suavização / rejeição de salto absurdo
             readings.dist_left_mm = d;
+            readings.left_valid = true;
+            last_valid_left = d;
+        } else if (last_valid_left < DIST_PAREDE_DETECTADA_MM) {
+            // Mantém valor recente por 1 ciclo se falhar momentaneamente perto da parede
+            readings.dist_left_mm = last_valid_left;
             readings.left_valid = true;
         }
     }
@@ -100,8 +110,12 @@ VL53L0X_Readings_t vl53l0x_manager_read(void) {
     // Leitura Sensor 2 (Frontal)
     if (s_front_ready) {
         uint16_t d = s_sensor_front.readRangeContinuousMillimeters();
-        if (!s_sensor_front.timeoutOccurred() && d > 0 && d < 8190) {
+        if (!s_sensor_front.timeoutOccurred() && d > 15 && d < 8000) {
             readings.dist_front_mm = d;
+            readings.front_valid = true;
+            last_valid_front = d;
+        } else if (last_valid_front < DIST_PAREDE_DETECTADA_MM) {
+            readings.dist_front_mm = last_valid_front;
             readings.front_valid = true;
         }
     }
@@ -109,8 +123,12 @@ VL53L0X_Readings_t vl53l0x_manager_read(void) {
     // Leitura Sensor 3 (Direito)
     if (s_right_ready) {
         uint16_t d = s_sensor_right.readRangeContinuousMillimeters();
-        if (!s_sensor_right.timeoutOccurred() && d > 0 && d < 8190) {
+        if (!s_sensor_right.timeoutOccurred() && d > 15 && d < 8000) {
             readings.dist_right_mm = d;
+            readings.right_valid = true;
+            last_valid_right = d;
+        } else if (last_valid_right < DIST_PAREDE_DETECTADA_MM) {
+            readings.dist_right_mm = last_valid_right;
             readings.right_valid = true;
         }
     }

@@ -5,8 +5,10 @@
 // conforme o contrato de dados (doc 4.4, seção 6). Cada JSON inclui "seq" (contador de pacotes
 // válidos) e "rssi" (dBm do quadro recebido).
 //
-// A saída serial contém SOMENTE linhas JSON (exceto o ruído do bootloader na inicialização).
-// Diagnósticos só são impressos com -DGATEWAY_DEBUG.
+// Também aceita comandos de caracteres pela Serial USB e os retransmite via broadcast
+// ESP-NOW para o robô (permitindo comando remoto de bancada sem fio).
+//
+// A saída serial contém linhas JSON (exceto diagnósticos com -DGATEWAY_DEBUG).
 
 #include <Arduino.h>
 
@@ -21,6 +23,9 @@
 
 #include "GatewayBridge.h"
 #include "TelemetriaConfig.h"
+
+// Endereço de broadcast para envio de comandos de rádio ao robô
+static uint8_t ENDERECO_BROADCAST[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 // Fila SPSC (callback do Wi-Fi -> loop). O callback roda na task/interrupção do Wi-Fi, então
 // a serial é escrita apenas no loop().
@@ -95,8 +100,10 @@ void setup() {
         delay(1000);
         ESP.restart();
     }
-    esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
+    // COMBO para permitir recepção da telemetria e envio de comandos
+    esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
     esp_now_register_recv_cb(aoReceberEsp8266);
+    esp_now_add_peer(ENDERECO_BROADCAST, ESP_NOW_ROLE_COMBO, TELEMETRIA_CANAL_WIFI, NULL, 0);
 #else
     esp_wifi_set_channel(TELEMETRIA_CANAL_WIFI, WIFI_SECOND_CHAN_NONE);
 
@@ -113,6 +120,13 @@ void setup() {
         ESP.restart();
     }
     esp_now_register_recv_cb(aoReceber);
+
+    esp_now_peer_info_t peer;
+    memset(&peer, 0, sizeof(peer));
+    memcpy(peer.peer_addr, ENDERECO_BROADCAST, 6);
+    peer.channel = TELEMETRIA_CANAL_WIFI;
+    peer.encrypt = false;
+    esp_now_add_peer(&peer);
 #endif
 
 #ifdef GATEWAY_DEBUG
@@ -124,6 +138,7 @@ void setup() {
 }
 
 void loop() {
+    // 1. Processamento e emissão da telemetria recebida do robô
     static char saida[512];
     while (filaLeitura != filaEscrita) {
         const QuadroRx q = fila[filaLeitura];
@@ -143,5 +158,17 @@ void loop() {
         }
 #endif
     }
+
+    // 2. Ponte Reversa: Encaminha caracteres da Serial USB para o robô via ESP-NOW
+    while (Serial.available()) {
+        char cmd = (char)Serial.read();
+        if (cmd == '\r' || cmd == '\n') continue;
+#if defined(ESP8266)
+        esp_now_send(ENDERECO_BROADCAST, (uint8_t*)&cmd, 1);
+#else
+        esp_now_send(ENDERECO_BROADCAST, (const uint8_t*)&cmd, 1);
+#endif
+    }
+
     delay(1);
 }
