@@ -12,6 +12,8 @@ Cenários:
   perda_conexao  perde PACOTES_PERDIDOS pacotes seguidos no meio do percurso
                  (rádio fora do ar) e termina em CONCLUIDO: o robô não depende
                  do rádio e segue navegando durante a perda
+  speed_run      exploração completa seguida de speed run pela rota ótima
+                 descoberta, em velocidade maior (HU-15 e HU-16)
 Em CONCLUIDO e TRAVADO a última mensagem se repete com o cronômetro congelado,
 como o robô real continua transmitindo depois de parar.
 """
@@ -25,7 +27,7 @@ from app.simulador.direcao import Direcao
 from app.simulador.pistas import Pista
 from app.simulador.robo_virtual import CURVA, MEIA_VOLTA, RETA, RoboVirtual
 
-CENARIOS = ("completa", "travado", "perda_conexao")
+CENARIOS = ("completa", "travado", "perda_conexao", "speed_run")
 INTERVALO_MS = 1000
 # Pacotes que não chegam ao gateway no cenário perda_conexao. O silêncio que o
 # painel vê é definido em tempo real pela fonte (FonteSimulador.silencio_perda_s).
@@ -49,8 +51,10 @@ _BATERIA_VAZIA_MV = 7000
 _DESCARGA_MV_POR_S = 2
 
 # Uma célula de 18 cm por segundo, mais devagar quando há curva ou meia-volta
-# (exploração de 15 a 30 cm/s, doc 4.3).
+# (exploração de 15 a 30 cm/s, doc 4.3). No speed run o robô percorre a rota
+# ótima em velocidade maior (HU-16).
 _VELOCIDADE_MM_S = {RETA: 180, CURVA: 140, MEIA_VOLTA: 100}
+_VELOCIDADE_SPEED_RUN_MM_S = {RETA: 260, CURVA: 200, MEIA_VOLTA: 140}
 
 
 @dataclass(frozen=True)
@@ -134,14 +138,16 @@ def gerar_corrida(
     linhas: list[str] = []
     seq = seq_inicial
     velocidades: list[int] = []
+    tempo_acumulado_ms = 0
 
     def emitir(tempo_ms, status, posicao, velocidade_mm_s, desafio=False, enviado=True):
         nonlocal seq
         linha, coluna, orientacao, paredes = posicao
         tempo_ms = min(tempo_ms, TIMESTAMP_MAX_MS)
+        tempo_bateria_s = (tempo_acumulado_ms + tempo_ms) // 1000
         bateria_mv = (
             _BATERIA_INICIAL_MV
-            - _DESCARGA_MV_POR_S * (tempo_ms // 1000)
+            - _DESCARGA_MV_POR_S * tempo_bateria_s
             - sorteio.randint(0, 4)
         )
         faixa = _BATERIA_CHEIA_MV - _BATERIA_VAZIA_MV
@@ -191,5 +197,29 @@ def gerar_corrida(
     status_final = "TRAVADO" if cenario == "travado" else "CONCLUIDO"
     for _ in range(mensagens_finais):
         emitir(tempo_ms, status_final, posicao, 0, desafio=status_final == "CONCLUIDO")
+
+    if cenario == "speed_run":
+        tempo_acumulado_ms += tempo_ms
+        velocidades.clear()
+        passos_speed_run = list(robo.speed_run())
+        for _ in range(mensagens_iniciais):
+            emitir(0, "AGUARDANDO", estado_inicial, 0)
+
+        posicao = estado_inicial
+        tempo_ms = 0
+        for indice, passo in enumerate(passos_speed_run, start=1):
+            tempo_ms = indice * INTERVALO_MS
+            posicao = (passo.linha, passo.coluna, passo.orientacao, passo.paredes)
+            if indice == len(passos_speed_run):
+                emitir(tempo_ms, "CONCLUIDO", posicao, 0, desafio=True)
+            else:
+                velocidade = (
+                    _VELOCIDADE_SPEED_RUN_MM_S[passo.manobra] + sorteio.randint(-8, 8)
+                )
+                velocidades.append(velocidade)
+                emitir(tempo_ms, "SPEED_RUN", posicao, velocidade)
+
+        for _ in range(mensagens_finais):
+            emitir(tempo_ms, "CONCLUIDO", posicao, 0, desafio=True)
 
     return linhas

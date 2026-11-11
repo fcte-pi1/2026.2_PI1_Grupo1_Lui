@@ -35,6 +35,7 @@ class Passo:
 class RoboVirtual:
     def __init__(self, pista: Pista, orientacao: Direcao = Direcao.LESTE):
         self.pista = pista
+        self._orientacao_inicial = orientacao
         self.linha, self.coluna = pista.largada
         self.orientacao = orientacao
         self.visitadas = {pista.largada}
@@ -53,12 +54,14 @@ class RoboVirtual:
     def paredes_da_celula_atual(self) -> int:
         return self.mapa[self.linha][self.coluna]
 
-    def distancias(self) -> list[list[int | None]]:
+    def distancias(self, *, apenas_visitadas: bool = False) -> list[list[int | None]]:
         """Flood fill a partir da chegada sobre o mapa do robô."""
         distancia: list[list[int | None]] = [
             [None] * COLUNAS for _ in range(self.pista.linhas)
         ]
         destino = self.pista.chegada
+        if apenas_visitadas and destino not in self.visitadas:
+            return distancia
         distancia[destino[0]][destino[1]] = 0
         fila = deque([destino])
         while fila:
@@ -67,15 +70,17 @@ class RoboVirtual:
                 vizinha = self.pista.vizinha(linha, coluna, direcao)
                 if vizinha is None or self.mapa[linha][coluna] & direcao.mascara:
                     continue
+                if apenas_visitadas and vizinha not in self.visitadas:
+                    continue
                 vl, vc = vizinha
                 if distancia[vl][vc] is None:
                     distancia[vl][vc] = distancia[linha][coluna] + 1
                     fila.append(vizinha)
         return distancia
 
-    def proxima_direcao(self) -> Direcao:
+    def proxima_direcao(self, *, apenas_visitadas: bool = False) -> Direcao:
         """Vizinha aberta com menor distância; empate: frente, direita, esquerda, trás."""
-        distancia = self.distancias()
+        distancia = self.distancias(apenas_visitadas=apenas_visitadas)
         candidatas = (
             self.orientacao,
             self.orientacao.direita,
@@ -97,8 +102,8 @@ class RoboVirtual:
             )
         return melhor[0]
 
-    def avancar(self) -> Passo:
-        direcao = self.proxima_direcao()
+    def avancar(self, *, apenas_visitadas: bool = False) -> Passo:
+        direcao = self.proxima_direcao(apenas_visitadas=apenas_visitadas)
         if direcao == self.orientacao:
             manobra = RETA
         elif direcao == self.orientacao.oposta:
@@ -124,6 +129,13 @@ class RoboVirtual:
                 raise ExploracaoSemSaida(f"limite de {limite} passos atingido")
             passos += 1
             yield self.avancar()
+
+    def speed_run(self) -> Iterator[Passo]:
+        """Reposiciona na largada e percorre a menor rota conhecida até a chegada."""
+        self.linha, self.coluna = self.pista.largada
+        self.orientacao = self._orientacao_inicial
+        while not self.chegou:
+            yield self.avancar(apenas_visitadas=True)
 
     def _sentir(self) -> None:
         for direcao in (

@@ -124,12 +124,15 @@ def test_todas_as_mensagens_sao_validas_e_coerentes(labirinto, cenario):
     assert [m.seq for m in msgs] == list(range(10, 10 + len(msgs)))
     assert all(m.labirinto == labirinto for m in msgs)
     assert all(-128 <= m.rssi <= 0 for m in msgs)
-    tempos = [m.timestamp_ms for m in msgs]
-    assert tempos == sorted(tempos)
-    assert max(tempos) <= TIMESTAMP_MAX_MS
+    assert max(m.timestamp_ms for m in msgs) <= TIMESTAMP_MAX_MS
     assert all(0 < m.bateria_volts <= 8.4 and 0 <= m.bateria_pct <= 100 for m in msgs)
 
     for anterior, atual in itertools.pairwise(msgs):
+        if anterior.status != "AGUARDANDO" and atual.status == "AGUARDANDO":
+            assert atual.timestamp_ms == 0
+            assert posicao(atual) == (0, 0)
+            continue  # reposicionamento na largada para o speed run
+        assert anterior.timestamp_ms <= atual.timestamp_ms
         if atual.timestamp_ms - anterior.timestamp_ms > INTERVALO_MS:
             continue  # lacuna dos pacotes perdidos (perda_conexao)
         (ca, la), (cb, lb) = posicao(anterior), posicao(atual)
@@ -208,6 +211,38 @@ def test_perda_de_conexao_perde_pacotes_no_meio_e_o_robo_segue_ate_a_chegada(lab
     tempos = [m.timestamp_ms for m in msgs if m.status == "MAPEANDO"]
     saltos = [b - a for a, b in zip(tempos, tempos[1:]) if b - a != INTERVALO_MS]
     assert saltos == [INTERVALO_MS * (PACOTES_PERDIDOS + 1)]
+
+
+@pytest.mark.parametrize("labirinto", GEOMETRIAS)
+def test_speed_run_executa_exploracao_seguida_de_rota_otima_mais_rapida(labirinto):
+    pista = pista_de_referencia(labirinto)
+    exploracao = mensagens(gerar_corrida(pista, "completa"))
+    msgs = mensagens(gerar_corrida(pista, "speed_run"))
+
+    # A primeira parte é a exploração completa; depois o robô volta para A1 e faz o speed run.
+    assert msgs[: len(exploracao)] == exploracao
+    rapida = msgs[len(exploracao) :]
+
+    for m in rapida[:2]:
+        assert m.status == "AGUARDANDO"
+        assert m.timestamp_ms == 0
+        assert posicao(m) == (0, 0)
+
+    em_percurso = rapida[2:-3]
+    assert em_percurso
+    assert all(m.status == "SPEED_RUN" and not m.desafio_cumprido for m in em_percurso)
+
+    finais = rapida[-3:]
+    assert all(m.status == "CONCLUIDO" and m.desafio_cumprido for m in finais)
+    assert all((posicao(m)[1], posicao(m)[0]) == pista.chegada for m in finais)
+    assert all(m.velocidade_atual == 0 for m in finais)
+    assert len({m.timestamp_ms for m in finais}) == 1
+
+    # HU-16 / CT-13: tempo pelo menos 20% menor que o da exploração e velocidade maior.
+    tempo_exploracao = exploracao[-1].timestamp_ms
+    tempo_speed_run = finais[-1].timestamp_ms
+    assert tempo_speed_run <= tempo_exploracao * 0.8
+    assert finais[-1].velocidade_media > exploracao[-1].velocidade_media
 
 
 def test_pista_toda_alcancavel_tambem_gera_corrida_completa():

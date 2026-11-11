@@ -4,7 +4,7 @@ TELEMETRIA_FONTE     nenhuma (padrão), simulador ou serial
 SERIAL_PORTA         porta do gateway, por exemplo COM3 ou /dev/ttyUSB0 (fonte serial)
 SERIAL_BAUD          padrão 115200
 SIMULADOR_LABIRINTO  4x4 (padrão), 8x4 ou 12x4
-SIMULADOR_CENARIO    completa (padrão), travado ou perda_conexao
+SIMULADOR_CENARIO    completa (padrão), travado, perda_conexao ou speed_run
 SIMULADOR_VELOCIDADE fator de velocidade; 1 = uma mensagem por segundo (padrão)
 SIMULADOR_REPETIR    1 para recomeçar a corrida ao terminar (padrão 0)
 SIMULADOR_SEMENTE    semente dos valores aleatórios (padrão 141)
