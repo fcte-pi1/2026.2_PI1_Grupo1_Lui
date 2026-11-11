@@ -194,6 +194,62 @@ void test_reiniciar_limpa_historico_do_detector(void) {
     TEST_ASSERT_EQUAL_UINT32(0, detector.tempoSemPulsoMs());
 }
 
+// Tração informada por roda: uma roda sem comando não é travamento.
+void test_detector_roda_sem_tracao_nao_e_dada_como_travada(void) {
+    DetectorTravamento detector;
+    // Só a roda direita acionada; a esquerda parada de propósito e sem pulsos desde 0.
+    for (uint32_t t = 0; t <= 3000; t += 50) {
+        TEST_ASSERT_FALSE(detector.verificar(false, true, 0, t, t));
+    }
+    TEST_ASSERT_EQUAL(RODA_NENHUMA, detector.rodaTravada());
+}
+
+void test_detector_roda_acionada_sozinha_trava_se_nao_girar(void) {
+    DetectorTravamento detector;
+    TEST_ASSERT_FALSE(detector.verificar(false, true, 0, 0, 0));
+    TEST_ASSERT_FALSE(detector.verificar(false, true, 0, 0, 999));
+    TEST_ASSERT_TRUE(detector.verificar(false, true, 0, 0, 1000));
+    TEST_ASSERT_EQUAL(RODA_DIREITA, detector.rodaTravada());
+}
+
+void test_detector_sobrecarga_antiga_equivale_a_tracao_igual_nas_duas_rodas(void) {
+    DetectorTravamento a, b;
+    for (uint32_t t = 0; t <= 1000; t += 50) {
+        TEST_ASSERT_EQUAL(a.verificar(true, 1000, 0, t), b.verificar(true, true, 1000, 0, t));
+    }
+    TEST_ASSERT_EQUAL(a.rodaTravada(), b.rodaTravada());
+}
+
+// Fonte de tração que informa as rodas separadamente.
+struct TracaoPorRodaFalsa : IFonteTracao {
+    bool esq, dir;
+    int chamadasParar;
+    TracaoPorRodaFalsa(bool e, bool d) : esq(e), dir(d), chamadasParar(0) {}
+    bool tracaoAtiva() const override { return esq || dir; }
+    bool tracaoEsqAtiva() const override { return esq; }
+    bool tracaoDirAtiva() const override { return dir; }
+    void parar() override { esq = dir = false; chamadasParar++; }
+};
+
+void test_monitor_usa_a_tracao_por_roda_da_fonte(void) {
+    // Roda esquerda sem comando e sem pulsos; roda direita acionada e girando: sem corte.
+    TracaoPorRodaFalsa tracao(false, true);
+    OdometriaFalsaTravamento odom(0);
+    MonitorTravamento monitor(tracao, odom);
+    for (uint32_t t = 0; t <= 3000; t += 50) {
+        odom.ultimoPulsoDirMs = t;
+        TEST_ASSERT_FALSE(monitor.verificar(t));
+    }
+    TEST_ASSERT_EQUAL(0, tracao.chamadasParar);
+
+    // A roda direita para de girar: corte em 1 s.
+    uint32_t t = 3000;
+    while (t <= 4200 && !monitor.verificar(t)) t += 50;
+    TEST_ASSERT_TRUE(monitor.travado());
+    TEST_ASSERT_EQUAL(RODA_DIREITA, monitor.rodaTravada());
+    TEST_ASSERT_EQUAL(1, tracao.chamadasParar);
+}
+
 // ---------------------------------------------------------------------------
 // Testes do MonitorTravamento (orquestração, corte em <= 1,2 s e estado TRAVADO)
 // ---------------------------------------------------------------------------
@@ -345,6 +401,10 @@ int main(void) {
     RUN_TEST(test_monitor_corta_em_no_maximo_1200ms_com_verificacao_a_cada_50ms);
     RUN_TEST(test_monitor_estado_travado_e_terminal_ate_iniciar_nova_prova);
     RUN_TEST(test_monitor_construtor_enxuto_com_cronometro_real);
+    RUN_TEST(test_detector_roda_sem_tracao_nao_e_dada_como_travada);
+    RUN_TEST(test_detector_roda_acionada_sozinha_trava_se_nao_girar);
+    RUN_TEST(test_detector_sobrecarga_antiga_equivale_a_tracao_igual_nas_duas_rodas);
+    RUN_TEST(test_monitor_usa_a_tracao_por_roda_da_fonte);
 
     return UNITY_END();
 }

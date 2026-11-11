@@ -53,8 +53,18 @@ public:
 
     // Avalia se houve travamento monitorando os pulsos de cada roda independentemente.
     // Devolve true quando a tração está ativa e qualquer uma das rodas atinge `limiarMs_`
-    // sem novos pulsos.
+    // sem novos pulsos. A tração é a mesma para as duas rodas; se o controle deixar uma
+    // roda parada de propósito, use a sobrecarga com tração por roda.
     bool verificar(bool tracaoAtiva, uint32_t ultimoPulsoEsqMs, uint32_t ultimoPulsoDirMs, uint32_t agoraMs) {
+        return verificar(tracaoAtiva, tracaoAtiva, ultimoPulsoEsqMs, ultimoPulsoDirMs, agoraMs);
+    }
+
+    // Tração informada por roda: uma roda sem comando (PWM zero) não pode ser dada como
+    // travada, mesmo que a outra esteja sendo acionada. A tração geral conta como ativa
+    // quando qualquer roda está acionada, e o instante em que ela ligou protege a largada.
+    bool verificar(bool tracaoEsqAtiva, bool tracaoDirAtiva,
+                   uint32_t ultimoPulsoEsqMs, uint32_t ultimoPulsoDirMs, uint32_t agoraMs) {
+        const bool tracaoAtiva = tracaoEsqAtiva || tracaoDirAtiva;
         if (!tracaoAtiva) {
             tracaoEstavaAtiva_ = false;
             tempoSemPulsoEsqMs_ = 0;
@@ -92,8 +102,8 @@ public:
                                ? tempoSemPulsoEsqMs_
                                : tempoSemPulsoDirMs_;
 
-        const bool esqTravada = (tempoSemPulsoEsqMs_ >= limiarMs_);
-        const bool dirTravada = (tempoSemPulsoDirMs_ >= limiarMs_);
+        const bool esqTravada = tracaoEsqAtiva && (tempoSemPulsoEsqMs_ >= limiarMs_);
+        const bool dirTravada = tracaoDirAtiva && (tempoSemPulsoDirMs_ >= limiarMs_);
 
         if (esqTravada && dirTravada) {
             rodaTravada_ = AMBAS_RODAS;
