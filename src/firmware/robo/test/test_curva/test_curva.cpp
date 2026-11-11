@@ -117,13 +117,43 @@ void test_inercia_que_leva_para_fora_da_tolerancia_e_corrigida_antes_de_concluir
 void test_conclusao_informa_o_sentido_da_curva_para_o_navegador(void) {
     // A orientacao de grade e do Navegador (confirmarGiro); a classe so informa o sentido
     // para quem for confirmar o giro.
+    // Usa a direita: SENTIDO_ESQUERDA e o valor inicial e passaria sem a atribuicao.
     ControleCurva c;
-    c.iniciar(SENTIDO_ESQUERDA, 0.0f, 0, 0, 0);
-    c.atualizar(leitura(30.0f, 100));
+    c.iniciar(SENTIDO_DIREITA, 0.0f, 0, 0, 0);
+    c.atualizar(leitura(-30.0f, 100));
     TEST_ASSERT_EQUAL(CURVA_GIRANDO, c.estado());
-    c.atualizar(leitura(90.0f, 200));
+    c.atualizar(leitura(-90.0f, 200));
     TEST_ASSERT_EQUAL(CURVA_GIRANDO, c.estado());  // ainda assentando
-    c.atualizar(leitura(90.0f, 300));
+    c.atualizar(leitura(-90.0f, 300));
+    TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
+    TEST_ASSERT_EQUAL(SENTIDO_DIREITA, c.sentido());
+}
+
+void test_curva_abortada_nao_e_dada_como_concluida(void) {
+    // Cenario do achado B1: a curva falha no meio e o giro nao pode ser confirmado.
+    const ParametrosControleCurva p = ControleCurva::parametrosPadrao();
+    ControleCurva c(p);
+    c.iniciar(SENTIDO_DIREITA, 0.0f, 0, 0, 0);
+    c.atualizar(leitura(-40.0f, 500));  // girou so ate a metade e emperrou
+    SaidaControleCurva s = c.atualizar(leitura(-40.0f, p.tempoLimiteMs + 1));
+    TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
+    TEST_ASSERT_TRUE(c.estado() != CURVA_CONCLUIDA);
+
+    // Mesmo que o robo chegue ao alvo depois (por inercia ou empurrado), a curva continua
+    // abortada: so um novo iniciar() pode levar a CURVA_CONCLUIDA.
+    s = c.atualizar(leitura(-90.0f, p.tempoLimiteMs + 200));
+    TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
+    s = c.atualizar(leitura(-90.0f, p.tempoLimiteMs + 500));
+    TEST_ASSERT_EQUAL(CURVA_FALHOU, s.estado);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velEsqMmS);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velDirMmS);
+
+    // Depois de ressincronizar com o rumo real, uma nova curva conclui normalmente.
+    c.ressincronizar(-40.0f);
+    const uint32_t t = p.tempoLimiteMs + 1000;
+    c.iniciar(SENTIDO_ESQUERDA, -40.0f, 0, 0, t);
+    c.atualizar(leitura(50.0f, t + 100));
+    c.atualizar(leitura(50.0f, t + 300));
     TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
     TEST_ASSERT_EQUAL(SENTIDO_ESQUERDA, c.sentido());
 }
@@ -150,7 +180,11 @@ void test_sequencia_de_curvas_conclui_todas_sem_acumular_erro(void) {
         TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, c.estado());
         TEST_ASSERT_EQUAL(SENTIDO_DIREITA, c.sentido());
     }
-    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, yaw);  // quatro para cada lado: de volta ao rumo inicial
+    // Quatro para cada lado: o rumo ideal interno voltou ao inicial. Uma nova curva a
+    // partir do rumo 0 medido tem erro de exatamente 90 graus, sem resto acumulado.
+    c.iniciar(SENTIDO_ESQUERDA, 0.0f, 0, 0, t);
+    const SaidaControleCurva s = c.atualizar(leitura(0.0f, t + 10));
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 90.0f, s.erroGraus);
 }
 
 void test_estado_parado_e_concluido_mantem_as_rodas_paradas(void) {
@@ -495,6 +529,7 @@ int main(void) {
     RUN_TEST(test_dentro_da_tolerancia_para_e_so_conclui_apos_o_assentamento);
     RUN_TEST(test_inercia_que_leva_para_fora_da_tolerancia_e_corrigida_antes_de_concluir);
     RUN_TEST(test_conclusao_informa_o_sentido_da_curva_para_o_navegador);
+    RUN_TEST(test_curva_abortada_nao_e_dada_como_concluida);
     RUN_TEST(test_sequencia_de_curvas_conclui_todas_sem_acumular_erro);
     RUN_TEST(test_estado_parado_e_concluido_mantem_as_rodas_paradas);
     // Alvo absoluto

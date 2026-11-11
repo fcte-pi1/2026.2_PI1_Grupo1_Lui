@@ -135,8 +135,10 @@ public:
     }
 
     EstadoControleCurva estado() const { return estado_; }
-    // Sentido da curva em andamento ou da ultima concluida: e o que o executor repassa ao
-    // Navegador em confirmarGiro().
+    // Sentido da ultima curva iniciada: e o que o executor repassa ao Navegador em
+    // confirmarGiro(). SO VALE com estado() == CURVA_CONCLUIDA. Depois de CURVA_FALHOU
+    // devolve o sentido da curva que falhou (o giro nao pode ser confirmado), e antes de
+    // qualquer curva devolve SENTIDO_ESQUERDA, o valor inicial.
     SentidoCurva sentido() const { return sentido_; }
 
     SaidaControleCurva atualizar(const EntradaControleCurva& e) {
@@ -164,7 +166,7 @@ public:
         s.erroGraus = erro_;
 
         if ((uint32_t)(e.agoraMs - inicioMs_) > p_.tempoLimiteMs) {
-            estado_ = CURVA_FALHOU;  // a orientacao nao e atualizada
+            estado_ = CURVA_FALHOU;  // nao conclui: quem chamou nao pode confirmar o giro
         } else if (fabsf(erro_) <= p_.toleranciaGraus) {
             if (!assentando_) {
                 assentando_ = true;
