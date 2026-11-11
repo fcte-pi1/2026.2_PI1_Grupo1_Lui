@@ -243,6 +243,10 @@ Interface não bloqueante (nova, em `movimento/InterfacesMovimento.h`):
 ```cpp
 enum ResultadoMovimento : uint8_t { MOV_OCIOSO, MOV_EM_ANDAMENTO, MOV_CONCLUIDO, MOV_FALHOU };
 
+enum MotivoFalhaMovimento : uint8_t {
+    FALHA_NENHUMA, FALHA_TEMPO, FALHA_EMERGENCIA_FRONTAL, FALHA_TRACAO_CORTADA
+};
+
 class ExecutorMovimentoNaoBloqueante {
 public:
     virtual ~ExecutorMovimentoNaoBloqueante() {}
@@ -250,10 +254,14 @@ public:
     virtual bool iniciarAvanco(uint32_t agoraMs) = 0;
     virtual ResultadoMovimento atualizar(uint32_t agoraMs) = 0;  // chamado no ritmo de controle
     virtual void abortar() = 0;                                   // para e volta a ocioso
+    virtual bool ocioso() const = 0;
+    virtual MotivoFalhaMovimento motivoUltimaFalha() const = 0;   // lido depois de MOV_FALHOU
 };
 ```
 
-`ExecutorMovimento` (bloqueante) não muda. Um adaptador `ExecutorImediato` embrulha um `ExecutorMovimento` na interface nova, concluindo no primeiro `atualizar()`; é o que o robô virtual usa sobre o `SimuladorLabirinto`, e um `ExecutorVirtualTemporizado` acrescenta duração configurável para exercitar as subfases com tempo.
+Um pedido recusado por `iniciarGiro()` ou `iniciarAvanco()` (movimento em andamento ou giro nulo) só devolve `false`: não muda o motivo da última falha, que o laço pode ainda não ter lido.
+
+`ExecutorMovimento` (bloqueante) não muda. Um adaptador `ExecutorImediato` embrulha um `ExecutorMovimento` na interface nova, concluindo no primeiro `atualizar()`; é o que o robô virtual usa sobre o `SimuladorLabirinto`. Se o executor embrulhado também implementar `InformanteMotivoFalha`, o adaptador repassa o motivo de cada falha; sem isso, toda falha é `FALHA_TEMPO`. O dublê `ExecutorTemporizado` (em `test/comum/`) faz o mesmo com duração configurável, devolvendo `MOV_EM_ANDAMENTO` por alguns ciclos, para exercitar as subfases com tempo.
 
 `ExecutorMovimentoRobo` (puro, testável) implementa a interface sobre `ControleReta`, `ControleCurva`, `Odometria`, `ConversorVelocidadePwm` e as interfaces `IMotores` e `ISensoresToF`:
 
@@ -268,7 +276,7 @@ public:
 1. `controleReta.iniciar(0, encEsq, encDir, agora)`; alvo em pulsos = `CELULA_MM / RODA_MM_POR_PULSO` (645 pulsos a 360 por volta).
 2. A cada tick com amostra nova dos laterais: `atualizar()` → velocidades → PWM. Entre amostras, mantém o último comando.
 3. Término por odometria (média das duas rodas ≥ alvo) ou por **encosto frontal**: se há parede à frente e a distância frontal ≤ `DIST_ENCOSTO_FRONTAL_MM` (valor inicial 45 mm, a calibrar: é a distância sensor-parede com o robô centrado na célula), termina ali, o que corrige o erro longitudinal acumulado.
-4. Emergência: distância frontal ≤ `DIST_MINIMA_SEGURA_MM` (30 mm) antes de atingir 60 % do alvo, ou tempo acima de `TEMPO_LIMITE_AVANCO_MS` (3 s) → freio, `MOV_FALHOU` com motivo `EMERGENCIA_FRONTAL` ou `TEMPO`.
+4. Emergência: distância frontal ≤ `DIST_MINIMA_SEGURA_MM` (30 mm) antes de atingir 60 % do alvo, ou tempo acima de `TEMPO_LIMITE_AVANCO_MS` (3 s) → freio, `MOV_FALHOU` com motivo `FALHA_EMERGENCIA_FRONTAL` ou `FALHA_TEMPO`.
 5. Freio ativo e 150 ms de assentamento antes de `MOV_CONCLUIDO`, para as leituras de parede da célula nova serem feitas com o robô parado.
 
 Parâmetros iniciais vêm do `hw/firm` (PWM 90 como partida, 3 s de limite de avanço, 2 s de curva, 200 ms de freio) e dos padrões dos controles; todos ficam em um `ParametrosExecutor` com `parametrosPadrao()`, no estilo das classes de Davi e João Pedro.
@@ -286,9 +294,9 @@ Parâmetros iniciais vêm do `hw/firm` (PWM 90 como partida, 3 s de limite de av
 |:---|:---|:---|:---|
 | Sensor ToF sem leitura válida na célula | `lerParedes()` devolve `false` por 150 ms | `navegador.registrarFalha()` e nova tentativa de leitura; na terceira falha seguida o `Navegador` vai a `NAV_FALHA` | `TRAVADO` (não há estado melhor no contrato; a distinção fica no log serial) |
 | Sensor ToF morre no meio da prova | Driver não bloqueante marca inválido (B10) | Idem acima; o `ControleReta` sem laterais válidas cai em `MODO_RUMO` por encoders | |
-| Travamento (roda sem pulsos por 1 s com tração) | `MonitorTravamento` a 50 ms | O monitor freia e congela o cronômetro; o executor vê `motores.bloqueado()` e aborta | `TRAVADO` |
-| Emergência frontal durante o avanço | Executor (frontal ≤ 30 mm antes de 60 % do avanço) | Freio, `MOV_FALHOU`; `registrarFalha()`; o laço relê as paredes e decide de novo; na terceira seguida o `Navegador` vai a `NAV_FALHA` | `COLISAO` quando a causa das falhas é emergência frontal; o laço guarda o motivo da última falha do executor |
-| Curva não converge em 3 s | `CURVA_FALHOU` | Freio, `MOV_FALHOU`, `registrarFalha()`; o `ControleCurva` é ressincronizado antes da próxima curva, então o rumo ideal não fica deslocado | `TRAVADO` na terceira seguida |
+| Travamento (roda sem pulsos por 1 s com tração) | `MonitorTravamento` a 50 ms | O monitor freia e congela o cronômetro; o executor vê `motores.bloqueado()` e encerra o movimento com `FALHA_TRACAO_CORTADA` | `TRAVADO` |
+| Emergência frontal durante o avanço | Executor (frontal ≤ 30 mm antes de 60 % do avanço) | Freio, `MOV_FALHOU`; `registrarFalha()`; o laço relê as paredes e decide de novo; na terceira seguida o `Navegador` vai a `NAV_FALHA` | `COLISAO` quando a causa das falhas é `FALHA_EMERGENCIA_FRONTAL`; o laço guarda o motivo da última falha do executor |
+| Curva não converge em 3 s | `CURVA_FALHOU` | Freio, `MOV_FALHOU` com `FALHA_TEMPO`, `registrarFalha()`; o `ControleCurva` é ressincronizado antes da próxima curva, então o rumo ideal não fica deslocado | `TRAVADO` na terceira seguida |
 | Destino inalcançável | `decidir()` devolve sem movimento e `NAV_INALCANCAVEL` | Freio, cronômetro congelado | `TRAVADO` |
 | Tempo esgotado (10 min) | `cronometro.decorridoMs(agora) >= TELEMETRIA_TIMESTAMP_MAX_MS` no tick de segurança | Freio, cronômetro já saturado | `TIMEOUT` |
 | Bateria baixa antes da largada | `bateria < BATERIA_MINIMA_LARGADA_MV` (6 800 mV) em `AGUARDANDO` | Largada recusada; LED vermelho piscando 3 vezes; log serial | `AGUARDANDO` |
