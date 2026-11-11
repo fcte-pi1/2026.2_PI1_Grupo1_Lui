@@ -67,8 +67,26 @@ void test_valores_da_bateria_passam_na_validacao_do_contrato(void) {
     TEST_ASSERT_EQUAL(TELEMETRIA_OK, telemetriaValidar(p));
 }
 
+// Largada recusada com bateria baixa (achado R4 de docs/firmware/integracao-loop.md).
+void test_largada_exige_a_tensao_minima(void) {
+    TEST_ASSERT_EQUAL_UINT16(6800, BATERIA_MINIMA_LARGADA_MV);
+    TEST_ASSERT_TRUE(bateriaPermiteLargada(8400));
+    TEST_ASSERT_TRUE(bateriaPermiteLargada(6800));   // no limite, aceita
+    TEST_ASSERT_FALSE(bateriaPermiteLargada(6799));
+    TEST_ASSERT_FALSE(bateriaPermiteLargada(0));     // ADC sem leitura
+}
+
+void test_minimo_da_largada_fica_abaixo_do_zero_por_cento_do_painel(void) {
+    // O painel mostra 0% em 7,0 V; a largada ainda é aceita entre 6,8 e 7,0 V, como o
+    // alarme do hw/firm. Se o painel marcar 0%, a equipe sabe que está no limite.
+    TEST_ASSERT_TRUE(BATERIA_MINIMA_LARGADA_MV < BATERIA_VAZIA_MV);
+    TEST_ASSERT_EQUAL_UINT8(0, porcentagemBateria(BATERIA_MINIMA_LARGADA_MV));
+}
+
 int main(void) {
     UNITY_BEGIN();
+    RUN_TEST(test_largada_exige_a_tensao_minima);
+    RUN_TEST(test_minimo_da_largada_fica_abaixo_do_zero_por_cento_do_painel);
     RUN_TEST(test_divisor_usa_os_resistores_do_modulo_5_para_1);
     RUN_TEST(test_divisor_converte_a_tensao_do_pino_para_a_da_bateria);
     RUN_TEST(test_divisor_multiplica_por_5_sem_erro_de_arredondamento);
