@@ -212,6 +212,29 @@ void test_detector_roda_acionada_sozinha_trava_se_nao_girar(void) {
     TEST_ASSERT_EQUAL(RODA_DIREITA, detector.rodaTravada());
 }
 
+// Revisão do PR #198: a roda que volta a ser acionada com a outra já girando recomeça a
+// contagem, como na largada.
+void test_detector_roda_que_volta_a_ser_acionada_ganha_tempo_para_pulsar(void) {
+    DetectorTravamento d;
+    for (uint32_t t = 0; t <= 3000; t += 50)
+        TEST_ASSERT_FALSE(d.verificar(false, true, 0, t, t));  // esq parada de propósito
+    // esq passa a ser comandada em 3000
+    TEST_ASSERT_FALSE(d.verificar(true, true, 0, 3000, 3050));
+    TEST_ASSERT_FALSE(d.verificar(true, true, 0, 3050, 3100));
+}
+
+void test_detector_roda_reacionada_que_nao_gira_trava_1_s_depois(void) {
+    DetectorTravamento d;
+    for (uint32_t t = 0; t <= 3000; t += 50) d.verificar(false, true, 0, t, t);
+    // A esquerda volta a ser acionada em 3050 e não gira; a direita segue girando.
+    uint32_t t = 3050;
+    for (; t < 3050 + TEMPO_TRAVAMENTO_MS; t += 50) {
+        TEST_ASSERT_FALSE(d.verificar(true, true, 0, t, t));
+    }
+    TEST_ASSERT_TRUE(d.verificar(true, true, 0, t, t));
+    TEST_ASSERT_EQUAL(RODA_ESQUERDA, d.rodaTravada());
+}
+
 void test_detector_sobrecarga_antiga_equivale_a_tracao_igual_nas_duas_rodas(void) {
     DetectorTravamento a, b;
     for (uint32_t t = 0; t <= 1000; t += 50) {
@@ -403,6 +426,8 @@ int main(void) {
     RUN_TEST(test_monitor_construtor_enxuto_com_cronometro_real);
     RUN_TEST(test_detector_roda_sem_tracao_nao_e_dada_como_travada);
     RUN_TEST(test_detector_roda_acionada_sozinha_trava_se_nao_girar);
+    RUN_TEST(test_detector_roda_que_volta_a_ser_acionada_ganha_tempo_para_pulsar);
+    RUN_TEST(test_detector_roda_reacionada_que_nao_gira_trava_1_s_depois);
     RUN_TEST(test_detector_sobrecarga_antiga_equivale_a_tracao_igual_nas_duas_rodas);
     RUN_TEST(test_monitor_usa_a_tracao_por_roda_da_fonte);
 

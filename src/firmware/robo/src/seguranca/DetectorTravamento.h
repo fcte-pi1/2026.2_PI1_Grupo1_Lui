@@ -12,8 +12,10 @@
 //    o travamento ainda assim é confirmado (não mascarado pelos pulsos da outra).
 //  - Quando a tração liga com o robô parado, o último pulso pode ser antigo.
 //    O tempo sem pulsos é contado a partir do maior instante entre o último pulso
-//    da respectiva roda e o momento em que a tração foi ligada, evitando falso
-//    disparo na largada.
+//    da respectiva roda e o momento em que a tração DESSA RODA foi ligada, evitando
+//    falso disparo na largada. Com a tração informada por roda, uma roda que volta a
+//    ser acionada depois de ficar parada de propósito ganha a mesma carência, mesmo
+//    que a outra roda já estivesse girando.
 //
 // Nota de calibração (motores / zona morta):
 //  - Caso o controle envie comandos de velocidade com PWM abaixo da zona morta dos
@@ -43,11 +45,13 @@ class DetectorTravamento {
 public:
     explicit DetectorTravamento(uint32_t limiarMs = TEMPO_TRAVAMENTO_MS)
         : limiarMs_(limiarMs),
-          inicioTracaoMs_(0),
+          inicioTracaoEsqMs_(0),
+          inicioTracaoDirMs_(0),
           tempoSemPulsoEsqMs_(0),
           tempoSemPulsoDirMs_(0),
           tempoSemPulsoMs_(0),
-          tracaoEstavaAtiva_(false),
+          tracaoEsqEstavaAtiva_(false),
+          tracaoDirEstavaAtiva_(false),
           rodaTravada_(RODA_NENHUMA),
           travado_(false) {}
 
@@ -60,13 +64,14 @@ public:
     }
 
     // Tração informada por roda: uma roda sem comando (PWM zero) não pode ser dada como
-    // travada, mesmo que a outra esteja sendo acionada. A tração geral conta como ativa
-    // quando qualquer roda está acionada, e o instante em que ela ligou protege a largada.
+    // travada, mesmo que a outra esteja sendo acionada, e o tempo sem pulso dela fica em 0.
+    // Cada roda guarda o instante em que foi acionada: é ele que protege a largada e a
+    // roda que volta a ser acionada no meio do movimento.
     bool verificar(bool tracaoEsqAtiva, bool tracaoDirAtiva,
                    uint32_t ultimoPulsoEsqMs, uint32_t ultimoPulsoDirMs, uint32_t agoraMs) {
-        const bool tracaoAtiva = tracaoEsqAtiva || tracaoDirAtiva;
-        if (!tracaoAtiva) {
-            tracaoEstavaAtiva_ = false;
+        if (!tracaoEsqAtiva && !tracaoDirAtiva) {
+            tracaoEsqEstavaAtiva_ = false;
+            tracaoDirEstavaAtiva_ = false;
             tempoSemPulsoEsqMs_ = 0;
             tempoSemPulsoDirMs_ = 0;
             tempoSemPulsoMs_ = 0;
@@ -75,28 +80,14 @@ public:
             return false;
         }
 
-        if (!tracaoEstavaAtiva_) {
-            tracaoEstavaAtiva_ = true;
-            inicioTracaoMs_ = agoraMs;
-        }
+        // Roda que passa de inativa a ativa: o tempo sem pulso dela recomeça agora.
+        if (tracaoEsqAtiva && !tracaoEsqEstavaAtiva_) inicioTracaoEsqMs_ = agoraMs;
+        if (tracaoDirAtiva && !tracaoDirEstavaAtiva_) inicioTracaoDirMs_ = agoraMs;
+        tracaoEsqEstavaAtiva_ = tracaoEsqAtiva;
+        tracaoDirEstavaAtiva_ = tracaoDirAtiva;
 
-        const uint32_t desdeInicioTracaoMs = (uint32_t)(agoraMs - inicioTracaoMs_);
-
-        const int32_t diffPulsoEsq = (int32_t)(agoraMs - ultimoPulsoEsqMs);
-        const uint32_t desdePulsoEsqMs = (diffPulsoEsq > 0) ? (uint32_t)diffPulsoEsq : 0UL;
-
-        const int32_t diffPulsoDir = (int32_t)(agoraMs - ultimoPulsoDirMs);
-        const uint32_t desdePulsoDirMs = (diffPulsoDir > 0) ? (uint32_t)diffPulsoDir : 0UL;
-
-        // Equivale a contar a partir de max(ultimoPulso, inicioTracaoMs_),
-        // preservando aritmética modular de 32 bits e protegendo a largada.
-        tempoSemPulsoEsqMs_ = (desdePulsoEsqMs < desdeInicioTracaoMs)
-                                  ? desdePulsoEsqMs
-                                  : desdeInicioTracaoMs;
-
-        tempoSemPulsoDirMs_ = (desdePulsoDirMs < desdeInicioTracaoMs)
-                                  ? desdePulsoDirMs
-                                  : desdeInicioTracaoMs;
+        tempoSemPulsoEsqMs_ = tracaoEsqAtiva ? tempoSemPulso(ultimoPulsoEsqMs, inicioTracaoEsqMs_, agoraMs) : 0;
+        tempoSemPulsoDirMs_ = tracaoDirAtiva ? tempoSemPulso(ultimoPulsoDirMs, inicioTracaoDirMs_, agoraMs) : 0;
 
         tempoSemPulsoMs_ = (tempoSemPulsoEsqMs_ > tempoSemPulsoDirMs_)
                                ? tempoSemPulsoEsqMs_
@@ -126,11 +117,13 @@ public:
 
     // Reinicia o histórico do detector para uma nova tentativa/corrida.
     void reiniciar() {
-        inicioTracaoMs_ = 0;
+        inicioTracaoEsqMs_ = 0;
+        inicioTracaoDirMs_ = 0;
         tempoSemPulsoEsqMs_ = 0;
         tempoSemPulsoDirMs_ = 0;
         tempoSemPulsoMs_ = 0;
-        tracaoEstavaAtiva_ = false;
+        tracaoEsqEstavaAtiva_ = false;
+        tracaoDirEstavaAtiva_ = false;
         rodaTravada_ = RODA_NENHUMA;
         travado_ = false;
     }
@@ -143,12 +136,23 @@ public:
     bool travamentoDetectado() const { return travado_; }
 
 private:
+    // Tempo sem pulso de uma roda acionada: contado a partir de max(ultimoPulso, inicio),
+    // preservando a aritmética modular de 32 bits e protegendo a largada.
+    static uint32_t tempoSemPulso(uint32_t ultimoPulsoMs, uint32_t inicioTracaoMs, uint32_t agoraMs) {
+        const uint32_t desdeInicioTracaoMs = (uint32_t)(agoraMs - inicioTracaoMs);
+        const int32_t diffPulso = (int32_t)(agoraMs - ultimoPulsoMs);
+        const uint32_t desdePulsoMs = (diffPulso > 0) ? (uint32_t)diffPulso : 0UL;
+        return (desdePulsoMs < desdeInicioTracaoMs) ? desdePulsoMs : desdeInicioTracaoMs;
+    }
+
     uint32_t limiarMs_;
-    uint32_t inicioTracaoMs_;
+    uint32_t inicioTracaoEsqMs_;
+    uint32_t inicioTracaoDirMs_;
     uint32_t tempoSemPulsoEsqMs_;
     uint32_t tempoSemPulsoDirMs_;
     uint32_t tempoSemPulsoMs_;
-    bool tracaoEstavaAtiva_;
+    bool tracaoEsqEstavaAtiva_;
+    bool tracaoDirEstavaAtiva_;
     RodaTravada rodaTravada_;
     bool travado_;
 };
