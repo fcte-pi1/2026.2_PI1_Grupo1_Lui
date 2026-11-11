@@ -660,9 +660,7 @@ void loop() {
         cmd = (char)Serial.read();
         temCmd = true;
     } else if (radio_telemetria_ler_comando(&cmd)) {
-        Serial.printf("
-[ESP-NOW REMOTO] Comando recebido pelo rádio: '%c'
-", cmd);
+        Serial.printf("\n[ESP-NOW REMOTO] Comando recebido pelo rádio: '%c'\n", cmd);
         temCmd = true;
     }
 
@@ -768,7 +766,7 @@ void loop() {
                           tof.left_valid ? tof.dist_left_mm : -1,
                           tof.front_valid ? tof.dist_front_mm : -1,
                           tof.right_valid ? tof.dist_right_mm : -1,
-                          tl, tr, bat.voltage_volts, bat.percentage);
+                          (int)tl, (int)tr, bat.voltage_volts, bat.percentage);
         }
 
         // Pisca LED indicador externo
