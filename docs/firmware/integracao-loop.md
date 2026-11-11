@@ -91,7 +91,7 @@ Leitura integral de `src/firmware/robo` (fonte e testes), `src/firmware/lib/tele
 | M2 | `navegacao/Navegador.h` (`estadoRobo()`) | Mapeia `NAV_INALCANCAVEL` e `NAV_FALHA` para `TRAVADO`. | Não usar para publicar; o laço decide (3.7). |
 | M3 | `src/main.cpp` | `telemetria.labirinto_id` é atualizado em dois lugares. | Preencher tudo em um único `montarTelemetria()`. |
 | M4 | `platformio.ini` (`build_src_filter = -<*>` no nativo) | O laço só é testável no nativo se a lógica dele não depender do Arduino. | Lógica do laço em cabeçalhos puros (`src/app/`), com o `main.cpp` reduzido ao invólucro Arduino (3.2). |
-| M5 | doc 4.4 seção 4.3 | O documento prevê tarefas FreeRTOS com mutex; o desenho recomendado usa um laço cooperativo (3.1). | Atualizar o 4.4 depois da integração, com os ritmos medidos. |
+| M5 | doc 4.4 seções 4.1 e 4.3 | O documento prevê tarefas FreeRTOS com mutex; o desenho aprovado usa um laço cooperativo (3.1). | Atualizar o 4.4 na etapa 3 (justificativa em 3.1); os tempos de tick medidos no robô entram no relatório 7.5. |
 | M6 | `hw/firm/src/main.cpp:71` (`PWM_TESTE = 90`, avanços e curvas em malha aberta por contagem de pulsos) | Rotinas de bancada úteis como referência de parâmetros (PWM de partida, alvos em pulsos, freio e 200 ms de assentamento). | Reaproveitar os valores como padrão inicial do executor e manter o `hw/firm` gravável para diagnóstico. |
 
 ### 2.5 Impacto de não ter IMU
@@ -145,7 +145,17 @@ Leitura integral de `src/firmware/robo` (fonte e testes), `src/firmware/lib/tele
 - Prós: aderente ao documento; a telemetria nunca atrasa o controle.
 - Contras: concorrência e mutex em código que hoje é todo sequencial e testado sem RTOS; o ambiente nativo não tem FreeRTOS, então o laço não seria testável como um todo; o ganho é pequeno, porque `esp_now_send` é assíncrono e a montagem do pacote custa poucos milissegundos (a leitura da bateria com 16 amostras é o item mais caro, cerca de 2 ms).
 
-**Recomendação: B.** Se a bancada mostrar que a telemetria atrapalha o controle (não é o esperado), a tarefa de telemetria da abordagem C pode ser acrescentada depois sem mudar as máquinas de estados: ela só lê um instantâneo do estado. O doc 4.4 fica para atualizar depois da integração (M5).
+**Recomendação: B.** Se a bancada mostrar que a telemetria atrapalha o controle (não é o esperado), a tarefa de telemetria da abordagem C pode ser acrescentada depois sem mudar as máquinas de estados: ela só lê um instantâneo do estado.
+
+**Por que B substitui as tarefas FreeRTOS do doc 4.4 (seções 4.1 e 4.3).** O documento previu tarefas concorrentes quando ainda não havia código; a premissa era que a telemetria pudesse atrasar o controle. Na implementação isso não se confirma:
+
+1. **Custo da telemetria.** `esp_now_send()` só enfileira o quadro e volta; montar o pacote custa microssegundos e a única leitura de hardware (16 amostras do ADC da bateria) custa cerca de 2 ms a cada 1 s. Isso é 0,2 % de um tick de controle de 10 ms, sem efeito perceptível na malha.
+2. **Tudo o que a lógica faz é curto e cooperativo.** Nenhum módulo existente bloqueia; o único ponto de espera, a leitura dos ToF, passa a ser por "amostra pronta" (B10). Com isso o tick mais longo fica bem abaixo de 10 ms, e o laço atende os ritmos de 10 ms, 50 ms e 1 s sem preempção.
+3. **Exclusão mútua deixa de ser necessária.** Com uma só linha de execução, a telemetria lê o estado entre dois ticks e nunca vê um estado parcialmente atualizado, que é exatamente o problema que o mutex do 4.4 resolveria.
+4. **Testabilidade no nativo.** O ambiente `native` não tem FreeRTOS. A prova de ponta a ponta pedida nesta issue (robô virtual rodando o `loop()` completo sobre o `SimuladorLabirinto`) só é possível se o laço for uma função pura chamada tick a tick com relógio falso. Tarefas e mutex tirariam essa possibilidade e deixariam a integração para ser depurada só no robô, com uma semana de bancada.
+5. **Risco.** Concorrência em código escrito por quatro pessoas e testado como sequencial introduz uma classe de erro (corrida de dados) que o cronograma até a AP18 não comporta.
+
+O que se preserva do 4.4: a máquina de estados com os estados do contrato, os três ritmos (controle, segurança e telemetria) e a regra de que a telemetria nunca atrasa o controle, agora garantida por medição de tempo de tick em vez de por preempção. A atualização da seção 4.3 do doc 4.4 (e da frase da seção 4.1 sobre tarefas FreeRTOS) entra na **etapa 3**, junto com as demais mudanças preparatórias, já que o 4.4 é documento de Software.
 
 ### 3.2 Estrutura de módulos
 
@@ -341,7 +351,7 @@ Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` confe
 | Etapa | Branch | Conteúdo | Base |
 |:---|:---|:---|:---|
 | 2 | `docs/149-desenho-integracao` | Este documento (PR) | `main` |
-| 3 | `refactor/149-preparacao-integracao` | B1 (orientação única no `ControleCurva`), R1 (tração por roda no detector e no monitor), R2 (`CELULA_MM` e `VAO_CORREDOR_MM` em `Pinos.h` e `VelocidadeMedia`), interface não bloqueante do executor e adaptador (B3), R12 (simulador em `test/comum`), testes atualizados | etapa 2 |
+| 3 | `refactor/149-preparacao-integracao` | B1 (orientação única no `ControleCurva`), R1 (tração por roda no detector e no monitor), R2 (`CELULA_MM` e `VAO_CORREDOR_MM` em `Pinos.h` e `VelocidadeMedia`), interface não bloqueante do executor e adaptador (B3), R12 (simulador em `test/comum`), testes atualizados; atualização das seções 4.1 e 4.3 do doc 4.4 para o laço cooperativo (M5) | etapa 2 |
 | 4 | `feat/149-drivers` | Porte dos drivers do `hw/firm` para `src/drivers/` com `Pinos.h` (motores com trinco, encoders, ToF não bloqueante, LED), partes puras (`Odometria`, `ClassificadorParedes`, `ConversorVelocidadePwm`) com testes; constantes novas em `Pinos.h`; nada em `hw/` | etapa 3 |
 | 5 | `feat/149-executor-loop` | `ExecutorMovimentoRobo`, `CicloProva`, `main.cpp` novo, telemetria completa, falhas, reinício; testes do executor e do ciclo | etapa 4 |
 | 6 | `test/149-robo-virtual` | `MundoVirtual`, leitor de pistas, testes de ponta a ponta nas três pistas, envio opcional ao backend | etapa 5 |
@@ -354,7 +364,7 @@ Se qualquer etapa revelar algo que mude este desenho (por exemplo, a contagem do
 
 ## 5. Pendências para as outras áreas
 
-Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pelos documentos:
+Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pelos documentos (o doc 4.4, que é de Software, é atualizado na etapa 3 e não entra aqui):
 
 1. **Pulsos por volta do encoder (B4).** `hw/firm/include/pinout.h:55` diz "12 CPR x 30:1 = 360" com decodificação 1x; o 7.3 (seção 2.5) diz "7 pares de polos, borda simples, 360 pulsos por volta". Pedir a medição com o firmware atual e a pinagem atual, ou a folha de dados do motor (CPR do disco e redução).
 2. **IMU (1.2).** Confirmar que não há MPU6050 montada. Se houver, informar pino INT, endereço e orientação do eixo Z.
@@ -363,8 +373,7 @@ Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pe
 5. **LED de estado (R5).** Qual LED está montado e em qual pino: WS2812B (doc 4.3, antes no GPIO 2) ou LED comum no GPIO 14.
 6. **Divisor da bateria (R4).** Módulo 5:1 (30 k/7,5 k) ou resistores 100 k/47 k do doc 4.3.
 7. **Doc 4.3.** A tabela de pinagem continua com a pinagem antiga (já apontado no PR [#188](https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/188)); o relatório 7.3 cita os GPIOs antigos dos encoders (27/26 e 25/33).
-8. **Doc 4.4 seção 4.3 (M5).** Prevê tarefas FreeRTOS; o desenho recomendado é um laço cooperativo. Atualizar depois da integração, com os ritmos medidos no robô.
-9. **GPIO 2 e pull-ups dos encoders.** Já registrados no PR #188: GPIO 2 (canal B do encoder direito) é pino de boot e os GPIO 35, 36 e 39 não têm pull-up interno.
+8. **GPIO 2 e pull-ups dos encoders.** Já registrados no PR #188: GPIO 2 (canal B do encoder direito) é pino de boot e os GPIO 35, 36 e 39 não têm pull-up interno.
 
 ---
 
@@ -372,12 +381,13 @@ Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pe
 
 Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apoio (rodas no ar) até o passo 6, bateria carregada, monitor serial a 115200 bps e câmera ligada (a issue pede registro).
 
-1. **Com o `hw/firm` gravado (o que já está no robô):** teste 9 (bateria: anotar a tensão lida e a do multímetro), teste 1 (ToF: leituras com a mão a 5, 10 e 20 cm de cada sensor; anotar leitura sem obstáculo), teste 3 (uma volta de cada roda na mão: anotar os pulsos; esse número define `ENCODER_PULSOS_POR_VOLTA`), teste 2 (sentido de cada motor e sinal das contagens).
-2. **Atualizar `Pinos.h`** com pulsos por volta, inversões e divisor da bateria; rodar `pio test -e native` e `pio run -e esp32dev`; gravar o firmware integrado.
-3. **Autoteste sem andar:** `AGUARDANDO` com LED verde; toque triplo troca a geometria com as piscadas; telemetria chegando no painel a 1 Hz com bateria e `AGUARDANDO`; segurar 2 s acende o branco.
-4. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`.
-5. **Travamento no ar:** largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".
-6. **No chão, corredor reto:** uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).
-7. **Curvas:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02).
-8. **Pista 4x4 completa** com o painel ao vivo (CT-05, CT-06, CT-07, CT-09): anotar tempo, deslocamentos, retornos e giros reportados na serial e comparar com a simulação.
-9. **Registrar** os valores finais das constantes e as divergências entre o robô virtual e o real (tarefa da issue #149).
+1. **Pulsos por volta da roda, antes de qualquer movimento.** Com o `hw/firm` gravado (o que já está no robô), teste 3 do menu: girar cada roda exatamente uma volta na mão, três vezes, e anotar os pulsos. Esse número define `ENCODER_PULSOS_POR_VOLTA` (B4); se não for 360, nenhum teste de movimento faz sentido antes de corrigir a constante. Aproveitar para conferir o sinal: a contagem deve crescer girando a roda no sentido de avanço.
+2. **Demais medições com o `hw/firm`:** teste 9 (bateria: anotar a tensão lida e a do multímetro), teste 1 (ToF: leituras com a mão a 5, 10 e 20 cm de cada sensor; anotar leitura sem obstáculo), teste 2 (sentido de cada motor).
+3. **Atualizar `Pinos.h`** com pulsos por volta, inversões e divisor da bateria; rodar `pio test -e native` e `pio run -e esp32dev`; gravar o firmware integrado.
+4. **Autoteste sem andar:** `AGUARDANDO` com LED verde; toque triplo troca a geometria com as piscadas; telemetria chegando no painel a 1 Hz com bateria e `AGUARDANDO`; segurar 2 s acende o branco.
+5. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`.
+6. **Travamento no ar:** largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".
+7. **No chão, corredor reto:** uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).
+8. **Curvas:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02).
+9. **Pista 4x4 completa** com o painel ao vivo (CT-05, CT-06, CT-07, CT-09): anotar tempo, deslocamentos, retornos e giros reportados na serial e comparar com a simulação.
+10. **Registrar** os valores finais das constantes e as divergências entre o robô virtual e o real (tarefa da issue #149).

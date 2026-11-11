@@ -81,6 +81,7 @@ nav:
       - Energia: "4.2 - Projeto conceitual de energia.md"
       - Hardware: "4.3 - Projeto conceitual de hardware.md"
       - Software: "4.4 - Projeto conceitual de software.md"
+      - "Software — Integração do laço do firmware": "firmware/integracao-loop.md"
 
   - Organização:
       - "5 — Cronograma": "5 - Cronograma.md"
