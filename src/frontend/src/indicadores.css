@@ -276,12 +276,32 @@ body {
 
 .historico-item {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 4px;
     background-color: #f7fafc;
     padding: 12px 16px;
     border-radius: 6px;
     font-size: 0.9rem;
     border: 1px solid #edf2f7;
+}
+
+.historico-item + .historico-item {
+    margin-top: 8px;
+}
+
+.historico-item-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    width: 100%;
+}
+
+.historico-comparacao-speed-run {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #276749;
 }
 
 /* Remover os estilos escuros antigos conflituosos */

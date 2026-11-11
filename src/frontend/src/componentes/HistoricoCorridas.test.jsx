@@ -23,6 +23,35 @@ describe('componentes/HistoricoCorridas.jsx', () => {
             expect(html).toContain('Tentativa 2');
             expect(html).toContain('Travado');
         });
+
+        it('deve exibir o modo de cada corrida e comparar o tempo do Speed Run com a Exploração no modo compacto (HU-16)', () => {
+            const corridas = [
+                {
+                    id: 1,
+                    nome: 'Tentativa 1',
+                    labirinto: '4x4',
+                    modo: 'EXPLORACAO',
+                    status: 'CONCLUIDO',
+                    resultado: 'Concluído',
+                    tempo_total_ms: 14000,
+                },
+                {
+                    id: 2,
+                    nome: 'Tentativa 2',
+                    labirinto: '4x4',
+                    modo: 'SPEED_RUN',
+                    status: 'CONCLUIDO',
+                    resultado: 'Concluído',
+                    tempo_total_ms: 10000,
+                },
+            ];
+            const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={corridas} modo="compacto" />);
+            expect(html).toContain('Tentativa 1 · Exploração');
+            expect(html).toContain('00:14 · Concluído');
+            expect(html).toContain('Tentativa 2 · Speed Run');
+            expect(html).toContain('00:10 · Concluído');
+            expect(html).toContain('-29% vs. Exploração (00:14)');
+        });
     });
 
     describe('Modo tabela (HU-13 / CT-11)', () => {
@@ -182,6 +211,41 @@ describe('componentes/HistoricoCorridas.jsx', () => {
             expect(duracao).toBeLessThan(1000); // Muito abaixo dos 2000 ms exigidos
             expect(html).toContain('001');
             expect(html).toContain('500');
+        });
+
+        it('deve exibir o modo Speed Run e a comparação de tempo com a exploração na tabela (HU-16)', () => {
+            const corridasComSpeedRun = [
+                {
+                    id: 2,
+                    labirinto: '12x4',
+                    geometria: '12x4',
+                    status: 'CONCLUIDO',
+                    modo: 'SPEED_RUN',
+                    tentativa: 2,
+                    iniciada_em: '2026-10-25T14:35:00Z',
+                    tempo_total_ms: 20000,
+                    velocidade_media: 22.0,
+                    celulas_visitadas: 21,
+                },
+                {
+                    id: 1,
+                    labirinto: '12x4',
+                    geometria: '12x4',
+                    status: 'CONCLUIDO',
+                    modo: 'EXPLORACAO',
+                    tentativa: 1,
+                    iniciada_em: '2026-10-25T14:30:00Z',
+                    tempo_total_ms: 30000,
+                    velocidade_media: 15.0,
+                    celulas_visitadas: 28,
+                },
+            ];
+
+            const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={corridasComSpeedRun} />);
+            expect(html).toContain('Speed Run');
+            expect(html).toContain('Exploração');
+            expect(html).toContain('00:20');
+            expect(html).toContain('(-33% vs. 00:30)');
         });
     });
 });

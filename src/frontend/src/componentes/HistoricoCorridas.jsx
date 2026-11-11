@@ -1,9 +1,65 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { filtrarCorridas, formatarDataHora } from '../servicos/historicoFiltros';
-import { rotuloStatus, formatarTempo } from '../servicos/formatacao';
+import { rotuloStatus, rotuloModo, formatarTempo, compararTemposSpeedRun } from '../servicos/formatacao';
 import { obterCorrida } from '../servicos/corridasApi';
 import ReplayCorrida from './ReplayCorrida';
 import './HistoricoCorridas.css';
+
+function ehCorridaConcluida(status) {
+    const s = String(status || '').toUpperCase();
+    return s === 'CONCLUIDO' || s === 'SUCESSO' || s === 'CONCLUÍDO';
+}
+
+/**
+ * Calcula em O(N) a comparação de tempo de cada corrida Speed Run com a
+ * exploração concluída anterior na mesma geometria (HU-16 / RF-SFT09).
+ */
+function calcularComparacoesPorCorrida(corridas) {
+    const mapa = new Map();
+    if (!Array.isArray(corridas) || corridas.length === 0) return mapa;
+
+    const ordemReversa =
+        corridas.length >= 2 &&
+        typeof corridas[0]?.id === 'number' &&
+        typeof corridas[corridas.length - 1]?.id === 'number' &&
+        corridas[0].id > corridas[corridas.length - 1].id;
+
+    const ultimaExploracaoPorGeometria = new Map();
+    const total = corridas.length;
+
+    for (let passo = 0; passo < total; passo++) {
+        const idx = ordemReversa ? total - 1 - passo : passo;
+        const c = corridas[idx];
+        if (!c) continue;
+        const chave = c.id ?? idx;
+
+        if (c.comparacao) {
+            mapa.set(chave, c.comparacao);
+            continue;
+        }
+
+        const geo = c.geometria || c.grid || c.labirinto || '4x4';
+        const modo = rotuloModo(c.modo);
+        const tempoMs = typeof c.tempo_total_ms === 'number' ? c.tempo_total_ms : c.timestamp_ms;
+
+        if (modo === 'Exploração' && ehCorridaConcluida(c.status || c.resultado) && typeof tempoMs === 'number' && tempoMs > 0) {
+            ultimaExploracaoPorGeometria.set(geo, tempoMs);
+        } else if (modo === 'Speed Run' && typeof tempoMs === 'number' && tempoMs > 0) {
+            const tempoExp =
+                typeof c.tempo_exploracao_ms === 'number'
+                    ? c.tempo_exploracao_ms
+                    : ultimaExploracaoPorGeometria.get(geo);
+            if (typeof tempoExp === 'number' && tempoExp > 0) {
+                const comp = compararTemposSpeedRun(tempoExp, tempoMs);
+                if (comp) {
+                    mapa.set(chave, comp);
+                }
+            }
+        }
+    }
+
+    return mapa;
+}
 
 /**
  * Retorna classe e ícone do status conforme protótipo visual
@@ -72,6 +128,10 @@ export default function HistoricoCorridas({
         });
     }, [corridas, filtroGeometria, filtroDataInicio, filtroDataFim]);
 
+    const comparacoesPorCorrida = useMemo(() => {
+        return calcularComparacoesPorCorrida(corridas);
+    }, [corridas]);
+
     const idAtivo = corridaSelecionadaId ?? selecionadaInternaId ?? (exibirInspecao && corridasFiltradas[0]?.id);
     const corridaAtiva = useMemo(() => {
         if (!idAtivo) return corridasFiltradas[0] || null;
@@ -127,12 +187,35 @@ export default function HistoricoCorridas({
                             Nenhuma corrida registrada
                         </div>
                     ) : (
-                        corridas.map((corrida, idx) => (
-                            <div key={corrida.id || idx} className="historico-item" data-testid={`historico-item-${idx}`}>
-                                <span>{corrida.nome || `Tentativa ${idx + 1}`}</span>
-                                <strong>{corrida.status || corrida.resultado || 'Concluído'}</strong>
-                            </div>
-                        ))
+                        corridas.map((corrida, idx) => {
+                            const chave = corrida.id ?? idx;
+                            const comparacao = comparacoesPorCorrida.get(chave) || corrida.comparacao || null;
+                            const tempoMs = typeof corrida.tempo_total_ms === 'number' ? corrida.tempo_total_ms : corrida.timestamp_ms;
+                            const textoModo = (corrida.modo || corrida.rotuloModo)
+                                ? (corrida.rotuloModo || rotuloModo(corrida.modo))
+                                : null;
+                            const textoStatus = corrida.resultado || corrida.status || 'Concluído';
+
+                            const rotuloTentativa = `${corrida.nome || `Tentativa ${idx + 1}`}${textoModo ? ` · ${textoModo}` : ''}`;
+                            const rotuloResultado = `${typeof tempoMs === 'number' ? `${formatarTempo(tempoMs)} · ` : ''}${textoStatus}`;
+                            const rotuloComparacao = comparacao
+                                ? `${comparacao.reducaoPct > 0 ? `-${comparacao.reducaoPct}%` : `${comparacao.reducaoPct}%`} vs. Exploração (${comparacao.tempoExploracaoFormatado})`
+                                : null;
+
+                            return (
+                                <div key={corrida.id || idx} className="historico-item" data-testid={`historico-item-${idx}`}>
+                                    <div className="historico-item-cabecalho">
+                                        <span>{rotuloTentativa}</span>
+                                        <strong>{rotuloResultado}</strong>
+                                    </div>
+                                    {rotuloComparacao && (
+                                        <div className="historico-comparacao-speed-run" data-testid="comparacao-speed-run">
+                                            {rotuloComparacao}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })
                     )}
                 </div>
             </div>
@@ -226,9 +309,10 @@ export default function HistoricoCorridas({
                                 const idExibicao = c.id != null ? String(c.id).padStart(3, '0') : String(idx + 1).padStart(3, '0');
                                 const statusFormatado = obterEstiloStatus(c.status);
                                 const isSelecionada = idAtivo !== null && idAtivo !== undefined && idAtivo === c.id;
+                                const comparacao = comparacoesPorCorrida.get(c.id ?? idx) || c.comparacao || null;
 
                                 const tempoFormatado = c.tempoFinal || c.tempo_total || (typeof c.tempo_total_ms === 'number' ? formatarTempo(c.tempo_total_ms) : '-');
-                                const modoFormatado = c.modo === 'EXPLORACAO' ? 'Exploração' : (c.modo === 'SPEED_RUN' ? 'Speed Run' : (c.modo || 'Exploração'));
+                                const modoFormatado = rotuloModo(c.modo);
                                 const tentativasFormatadas = c.tentativas || (c.tentativa != null ? `Tentativa ${c.tentativa}` : '—');
                                 const velMediaFormatada = c.velMedia || (typeof c.velocidade_media === 'number' ? `${c.velocidade_media} cm/s` : '-');
                                 const celulasFormatadas = c.celulasVisitadas || (c.celulas_visitadas != null ? `${c.celulas_visitadas}` : '-');
@@ -245,7 +329,17 @@ export default function HistoricoCorridas({
                                         <td className="col-geometria">{c.geometria || c.grid || c.labirinto || '-'}</td>
                                         <td>{modoFormatado}</td>
                                         <td>{tentativasFormatadas}</td>
-                                        <td>{tempoFormatado}</td>
+                                        <td>
+                                            <span>{tempoFormatado}</span>
+                                            {comparacao && (
+                                                <span
+                                                    className="comparacao-speed-run-badge"
+                                                    data-testid="comparacao-tabela-speed-run"
+                                                >
+                                                    {` (${comparacao.reducaoPct > 0 ? `-${comparacao.reducaoPct}%` : `${comparacao.reducaoPct}%`} vs. ${comparacao.tempoExploracaoFormatado})`}
+                                                </span>
+                                            )}
+                                        </td>
                                         <td>{velMediaFormatada}</td>
                                         <td>{celulasFormatadas}</td>
                                         <td>

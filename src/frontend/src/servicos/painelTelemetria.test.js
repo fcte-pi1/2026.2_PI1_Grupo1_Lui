@@ -202,5 +202,53 @@ describe('painelTelemetria.js', () => {
             expect(proximaCorrida.historico).toHaveLength(1);
             expect(proximaCorrida.historico[0].status).toBe('TRAVADO');
         });
+
+        it('registra exploração seguida de speed run no histórico comparando os tempos (HU-16)', () => {
+            const speedRun = [
+                {
+                    ...completa[0],
+                    status: 'AGUARDANDO',
+                    timestamp_ms: 0,
+                    posicao: { coluna: 'A', linha: 1 },
+                },
+                {
+                    ...completa[3],
+                    status: 'SPEED_RUN',
+                    timestamp_ms: 5000,
+                    posicao: { coluna: 'C', linha: 2 },
+                },
+                {
+                    ...completa[completa.length - 1],
+                    status: 'CONCLUIDO',
+                    timestamp_ms: 10000,
+                    posicao: { coluna: 'D', linha: 4 },
+                },
+            ];
+
+            const estado = aplicarTodos(emSequencia(completa, speedRun));
+            expect(estado.corrida).toBe(2);
+            expect(estado.modo).toBe('SPEED_RUN');
+            expect(estado.historico).toHaveLength(2);
+
+            expect(estado.historico[0]).toMatchObject({
+                id: 1,
+                modo: 'EXPLORACAO',
+                rotuloModo: 'Exploração',
+                status: 'CONCLUIDO',
+                resultado: 'Concluído',
+                tempo_total_ms: 14000,
+            });
+            expect(estado.historico[1]).toMatchObject({
+                id: 2,
+                modo: 'SPEED_RUN',
+                rotuloModo: 'Speed Run',
+                status: 'CONCLUIDO',
+                resultado: 'Concluído',
+                tempo_total_ms: 10000,
+                tempo_exploracao_ms: 14000,
+                reducao_pct: 29,
+            });
+            expect(estado.historico[1].comparacao.metaAtingida).toBe(true);
+        });
     });
 });

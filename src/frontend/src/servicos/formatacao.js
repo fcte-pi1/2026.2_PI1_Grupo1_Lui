@@ -34,3 +34,32 @@ export function estiloStatus(status) {
     }
     return "normal";
 }
+
+export function rotuloModo(modo) {
+    if (modo === "SPEED_RUN" || modo === "Speed Run") {
+        return "Speed Run";
+    }
+    return "Exploração";
+}
+
+export function compararTemposSpeedRun(tempoExploracaoMs, tempoSpeedRunMs) {
+    if (
+        typeof tempoExploracaoMs !== 'number' ||
+        typeof tempoSpeedRunMs !== 'number' ||
+        tempoExploracaoMs <= 0 ||
+        tempoSpeedRunMs < 0
+    ) {
+        return null;
+    }
+    const diferencaMs = tempoExploracaoMs - tempoSpeedRunMs;
+    const reducaoPct = Math.round((diferencaMs / tempoExploracaoMs) * 100);
+    return {
+        tempoExploracaoMs,
+        tempoSpeedRunMs,
+        diferencaMs,
+        reducaoPct,
+        tempoExploracaoFormatado: formatarTempo(tempoExploracaoMs),
+        tempoSpeedRunFormatado: formatarTempo(tempoSpeedRunMs),
+        metaAtingida: reducaoPct >= 20,
+    };
+}

@@ -1,5 +1,5 @@
 import { aplicarPacote, criarEstadoInicial } from './labirinto';
-import { rotuloStatus } from './formatacao';
+import { rotuloStatus, rotuloModo, compararTemposSpeedRun } from './formatacao';
 
 // Estado do painel alimentado pelo WebSocket de telemetria: o pacote mais recente
 // (indicadores da HU-11 e HU-19), o mapa acumulado da corrida atual (HU-10) e o
@@ -16,6 +16,7 @@ export function criarEstadoPainel() {
         pacote: null,
         mapa: criarEstadoInicial('4x4'),
         corrida: 0,
+        modo: 'EXPLORACAO',
         historico: [],
     };
 }
@@ -35,11 +36,35 @@ export function iniciaNovaCorrida(anterior, pacote) {
     return pacote.timestamp_ms < anterior.timestamp_ms;
 }
 
-// Registra ou atualiza a corrida encerrada no histórico da sessão (HU-19).
-function atualizarHistoricoSessao(historico = [], idCorrida, pacote) {
+function encontrarExploracaoAnterior(historico, idCorrida, labirinto) {
+    for (let i = historico.length - 1; i >= 0; i--) {
+        const item = historico[i];
+        if (
+            item.id < idCorrida &&
+            item.labirinto === labirinto &&
+            item.modo === 'EXPLORACAO' &&
+            item.status === 'CONCLUIDO' &&
+            typeof item.tempo_total_ms === 'number' &&
+            item.tempo_total_ms > 0
+        ) {
+            return item;
+        }
+    }
+    return null;
+}
+
+// Registra ou atualiza a corrida encerrada no histórico da sessão (HU-19 e HU-16).
+function atualizarHistoricoSessao(historico = [], idCorrida, pacote, modoCorrida = 'EXPLORACAO') {
     if (!ehStatusTerminal(pacote.status)) {
         return historico;
     }
+
+    const modo = modoCorrida === 'SPEED_RUN' ? 'SPEED_RUN' : 'EXPLORACAO';
+    const exploracaoAnterior =
+        modo === 'SPEED_RUN' ? encontrarExploracaoAnterior(historico, idCorrida, pacote.labirinto) : null;
+    const comparacao = exploracaoAnterior
+        ? compararTemposSpeedRun(exploracaoAnterior.tempo_total_ms, pacote.timestamp_ms)
+        : null;
 
     const registro = {
         id: idCorrida,
@@ -47,9 +72,19 @@ function atualizarHistoricoSessao(historico = [], idCorrida, pacote) {
         nome: `Tentativa ${idCorrida}`,
         labirinto: pacote.labirinto,
         geometria: pacote.labirinto,
+        modo,
+        rotuloModo: rotuloModo(modo),
         status: pacote.status,
         resultado: rotuloStatus(pacote.status),
         timestamp_ms: pacote.timestamp_ms,
+        tempo_total_ms: pacote.timestamp_ms,
+        ...(comparacao
+            ? {
+                  tempo_exploracao_ms: comparacao.tempoExploracaoMs,
+                  reducao_pct: comparacao.reducaoPct,
+                  comparacao,
+              }
+            : {}),
     };
 
     const idxExistente = historico.findIndex((item) => item.id === idCorrida);
@@ -70,6 +105,8 @@ export function reduzirTelemetria(estado, pacote) {
     const nova = iniciaNovaCorrida(estado.pacote, pacote);
     const base = nova ? criarEstadoInicial(pacote.labirinto) : estado.mapa;
     const corrida = estado.corrida + (nova ? 1 : 0);
+    const modoAnterior = nova ? 'EXPLORACAO' : (estado.modo || 'EXPLORACAO');
+    const modo = pacote.status === 'SPEED_RUN' ? 'SPEED_RUN' : modoAnterior;
 
     const mantemStatusTerminal =
         !nova &&
@@ -84,6 +121,7 @@ export function reduzirTelemetria(estado, pacote) {
         pacote: pacoteEfetivo,
         mapa: aplicarPacote(base, pacoteEfetivo),
         corrida,
-        historico: atualizarHistoricoSessao(estado.historico, corrida, pacoteEfetivo),
+        modo,
+        historico: atualizarHistoricoSessao(estado.historico, corrida, pacoteEfetivo, modo),
     };
 }
