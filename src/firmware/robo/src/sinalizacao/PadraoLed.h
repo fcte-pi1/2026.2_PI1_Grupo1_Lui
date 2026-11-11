@@ -71,4 +71,18 @@ inline bool ledComumAceso(EstadoRobo estado, bool largadaArmada, uint32_t agoraM
     return false;
 }
 
+// Piscadas de aviso (geometria escolhida, largada recusada), por cima do padrão do
+// estado: 'vezes' ciclos de 150 ms aceso e 150 ms apagado, os mesmos do main.cpp anterior,
+// mas pelo relógio em vez de delay() (achado R8).
+const uint32_t PISCADA_AVISO_MS = 150;
+
+inline bool avisoEmAndamento(uint8_t vezes, uint32_t desdeInicioMs) {
+    return desdeInicioMs < (uint32_t)vezes * 2 * PISCADA_AVISO_MS;
+}
+
+inline bool avisoAceso(uint8_t vezes, uint32_t desdeInicioMs) {
+    if (!avisoEmAndamento(vezes, desdeInicioMs)) return false;
+    return ((desdeInicioMs / PISCADA_AVISO_MS) % 2) == 0;
+}
+
 #endif

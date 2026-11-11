@@ -20,6 +20,19 @@ void SinalizacaoLed::iniciar() {
 }
 
 void SinalizacaoLed::atualizar(uint32_t agoraMs, bool largadaArmada) {
+    const uint32_t desdeAvisoMs = agoraMs - avisoInicioMs_;
+    if (avisoVezes_ > 0 && avisoEmAndamento(avisoVezes_, desdeAvisoMs)) {
+        const bool aceso = avisoAceso(avisoVezes_, desdeAvisoMs);
+        if (TIPO_LED_ESTADO == LED_WS2812B) {
+            pixel.setPixelColor(0, aceso ? pixel.Color(avisoCor_.r, avisoCor_.g, avisoCor_.b) : 0);
+            pixel.show();
+        } else {
+            digitalWrite(PINO_LED_ESTADO, aceso ? HIGH : LOW);
+        }
+        return;
+    }
+    avisoVezes_ = 0;
+
     if (TIPO_LED_ESTADO == LED_WS2812B) {
         const CorLed c = corDoEstado(estado_, largadaArmada, agoraMs);
         pixel.setPixelColor(0, pixel.Color(c.r, c.g, c.b));

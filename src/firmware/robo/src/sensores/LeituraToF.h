@@ -60,6 +60,11 @@ public:
 
     uint16_t distanciaMm() const { return distanciaMm_; }
 
+    // Instante da última amostra registrada. Serve para exigir uma amostra feita depois de
+    // o robô parar (o laço só classifica as paredes com amostras novas da célula).
+    uint32_t instanteMs() const { return instanteMs_; }
+    bool temAmostra() const { return temAmostra_; }
+
     // Distância no formato dos controles (EntradaControleReta): em mm, ou -1 se inválida.
     float distanciaParaControle(uint32_t agoraMs) const {
         return valida(agoraMs) ? (float)distanciaMm_ : -1.0f;

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "../sensores/ClassificadorParedes.h"  // AmostraParedes
 #include "../sensores/LeituraToF.h"
+#include "../app/InterfacesHardware.h"  // ISensoresToF
 
 // Driver dos três VL53L0X (porte de hw/firm/src/vl53l0x_manager.cpp com os pinos e
 // endereços de hardware/Pinos.h), com leitura SEM ESPERA (achado B10).
@@ -17,18 +18,18 @@
 // Uso: iniciar() no setup(); atualizar(agoraMs) em todo tick (o próprio driver limita as
 // consultas a uma a cada TOF_PERIODO_CONSULTA_MS); depois, esquerdo()/frontal()/direito()
 // para o controle de reta e amostraParedes() para o ClassificadorParedes.
-class SensoresToF {
+class SensoresToF : public ISensoresToF {
 public:
     // Liga os sensores um a um pelos XSHUT, atribui os endereços e começa a medição
     // contínua. Retorna true se os três responderam; um sensor que falhar fica sempre
     // inválido e o resto continua funcionando.
     bool iniciar();
 
-    void atualizar(uint32_t agoraMs);
+    void atualizar(uint32_t agoraMs) override;
 
-    LeituraToF& esquerdo() { return esq_; }
-    LeituraToF& frontal() { return frente_; }
-    LeituraToF& direito() { return dir_; }
+    LeituraToF& esquerdo() override { return esq_; }
+    LeituraToF& frontal() override { return frente_; }
+    LeituraToF& direito() override { return dir_; }
 
     AmostraParedes amostraParedes(uint32_t agoraMs) const {
         return amostraDasLeituras(esq_, frente_, dir_, agoraMs);

@@ -2,6 +2,7 @@
 #define ENCODERS_H
 
 #include <stdint.h>
+#include "../app/InterfacesHardware.h"  // IEncoders
 
 // Driver dos dois encoders em quadratura (porte de hw/firm/src/encoder_driver.cpp com os
 // pinos de hardware/Pinos.h). Só conta pulsos: uma interrupção na borda de subida do canal
@@ -17,7 +18,11 @@
 //
 // Os canais dos GPIO 35, 36 e 39 não têm pull-up interno: a placa dos encoders precisa
 // fornecer o nível alto (pendência da Eletrônica, PR #188).
-class Encoders {
+//
+// GPIO 36 e 39 com o ADC ligado (pendência 9 do desenho): pausarEsquerdo() e
+// retomarEsquerdo() desligam e religam só a interrupção do canal A esquerdo; o laço as
+// chama em volta da leitura da bateria.
+class Encoders : public IEncoders {
 public:
     // Configura os pinos, zera as contagens e liga as interrupções.
     void iniciar();
@@ -25,7 +30,10 @@ public:
     // Contagens acumuladas, lidas de forma atômica em relação às interrupções.
     int32_t esq() const;
     int32_t dir() const;
-    void ler(int32_t& esq, int32_t& dir) const;  // as duas no mesmo instante
+    void ler(int32_t& esq, int32_t& dir) override;  // as duas no mesmo instante
+
+    void pausarEsquerdo() override;
+    void retomarEsquerdo() override;
 
     void zerar();
 };

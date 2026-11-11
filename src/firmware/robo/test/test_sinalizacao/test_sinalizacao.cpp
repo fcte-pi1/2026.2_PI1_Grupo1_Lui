@@ -100,6 +100,24 @@ void test_estados_de_familias_diferentes_tem_ritmos_diferentes(void) {
     TEST_ASSERT_TRUE(concluido != falha);
 }
 
+void test_aviso_pisca_as_vezes_pedidas_e_termina(void) {
+    // 3 piscadas de 150 ms aceso e 150 ms apagado: 900 ms no total.
+    uint8_t acendimentos = 0;
+    bool antes = false;
+    for (uint32_t t = 0; t < 1200; t += 10) {
+        const bool agora = avisoAceso(3, t);
+        if (agora && !antes) acendimentos++;
+        antes = agora;
+    }
+    TEST_ASSERT_EQUAL_UINT8(3, acendimentos);
+    TEST_ASSERT_TRUE(avisoEmAndamento(3, 899));
+    TEST_ASSERT_FALSE(avisoEmAndamento(3, 900));
+    TEST_ASSERT_TRUE(avisoAceso(3, 0));
+    TEST_ASSERT_FALSE(avisoAceso(3, 150));
+    TEST_ASSERT_FALSE(avisoAceso(3, 900));
+    TEST_ASSERT_FALSE(avisoEmAndamento(0, 0));
+}
+
 void test_todo_estado_acende_em_algum_momento(void) {
     for (uint8_t i = 0; i < QTD; i++) {
         TEST_ASSERT_TRUE(acesoNoCiclo(TODOS[i], false) > 0);
@@ -119,5 +137,6 @@ int main(void) {
     RUN_TEST(test_falhas_duas_piscadas_curtas);
     RUN_TEST(test_estados_de_familias_diferentes_tem_ritmos_diferentes);
     RUN_TEST(test_todo_estado_acende_em_algum_momento);
+    RUN_TEST(test_aviso_pisca_as_vezes_pedidas_e_termina);
     return UNITY_END();
 }

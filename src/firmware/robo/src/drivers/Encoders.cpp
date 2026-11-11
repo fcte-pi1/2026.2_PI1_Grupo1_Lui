@@ -1,5 +1,6 @@
 #include "drivers/Encoders.h"
 #include <Arduino.h>
+#include <driver/gpio.h>
 #include "hardware/Pinos.h"
 
 // Contagens escritas pelas interrupções. A seção crítica protege a leitura das duas
@@ -52,7 +53,7 @@ int32_t Encoders::dir() const {
     return v;
 }
 
-void Encoders::ler(int32_t& esq, int32_t& dir) const {
+void Encoders::ler(int32_t& esq, int32_t& dir) {
     portENTER_CRITICAL(&travaContagens);
     esq = contagemEsq;
     dir = contagemDir;
@@ -64,4 +65,14 @@ void Encoders::zerar() {
     contagemEsq = 0;
     contagemDir = 0;
     portEXIT_CRITICAL(&travaContagens);
+}
+
+// Só a interrupção do canal A esquerdo (GPIO 36): é ela que conta pulsos falsos quando o
+// ADC1 liga. Desligar pelo ESP-IDF é mais rápido que detachInterrupt()/attachInterrupt().
+void Encoders::pausarEsquerdo() {
+    gpio_intr_disable((gpio_num_t)PINO_ENCODER_ESQ_A);
+}
+
+void Encoders::retomarEsquerdo() {
+    gpio_intr_enable((gpio_num_t)PINO_ENCODER_ESQ_A);
 }
