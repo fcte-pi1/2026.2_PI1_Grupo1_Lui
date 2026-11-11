@@ -100,6 +100,14 @@ void test_limiar_de_parede(void) {
     TEST_ASSERT_EQUAL_UINT16(5, HISTERESE_PAREDE_MM);
 }
 
+void test_distancias_frontais_do_avanco(void) {
+    TEST_ASSERT_EQUAL_UINT16(30, DIST_MINIMA_SEGURA_MM);  // limite de colisão do hw/firm
+    TEST_ASSERT_EQUAL_UINT16(45, DIST_ENCOSTO_FRONTAL_MM);
+    // O encosto acontece antes do limite de colisão, e ambos abaixo do limiar de parede.
+    TEST_ASSERT_TRUE(DIST_MINIMA_SEGURA_MM < DIST_ENCOSTO_FRONTAL_MM);
+    TEST_ASSERT_TRUE(DIST_ENCOSTO_FRONTAL_MM < LIMIAR_PAREDE_MM - HISTERESE_PAREDE_MM);
+}
+
 void test_led_de_estado(void) {
     TEST_ASSERT_EQUAL(LED_WS2812B, TIPO_LED_ESTADO);  // provisório (R5)
 }
@@ -115,6 +123,7 @@ int main(void) {
     RUN_TEST(test_montagem_sem_inversao_ate_a_bancada);
     RUN_TEST(test_sensores_tof);
     RUN_TEST(test_limiar_de_parede);
+    RUN_TEST(test_distancias_frontais_do_avanco);
     RUN_TEST(test_led_de_estado);
     return UNITY_END();
 }

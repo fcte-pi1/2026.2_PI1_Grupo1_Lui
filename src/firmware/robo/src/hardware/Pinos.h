@@ -126,6 +126,15 @@ const uint8_t TOF_I2C_TIMEOUT_MS = 5;
 const uint8_t TOF_ESPERA_APOS_ERRO_MS = 50;
 const uint16_t TOF_LEITURA_INVALIDA_MM = 8190;  // valor que o VL53L0X devolve sem alvo
 
+// Distâncias frontais do avanço de uma célula (seção 3.5 do desenho).
+// DIST_MINIMA_SEGURA_MM: limite de colisão do hw/firm; abaixo disso, antes de completar
+// 60 % do avanço, o executor freia e desiste (emergência frontal, que vira COLISAO).
+// DIST_ENCOSTO_FRONTAL_MM: com parede à frente, o avanço termina a esta distância dela,
+// o que zera o erro longitudinal da odometria. Valor inicial pela geometria (robô
+// centrado na célula), a calibrar na bancada com o robô parado no centro da célula.
+const uint16_t DIST_MINIMA_SEGURA_MM = 30;
+const uint16_t DIST_ENCOSTO_FRONTAL_MM = 45;
+
 // Classificação de parede (achado R3, sensores/ClassificadorParedes.h). Com o robô
 // centrado, a parede lateral fica a cerca de 40 mm do sensor e a ausência de parede mostra
 // pelo menos 200 mm; qualquer limiar entre 90 e 150 mm funciona. 110 mm é o do hw/firm, a
