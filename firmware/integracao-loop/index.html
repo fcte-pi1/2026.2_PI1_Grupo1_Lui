@@ -1,0 +1,2973 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/firmware/integracao-loop/">
+      
+      
+        <link rel="prev" href="../../4.4%20-%20Projeto%20conceitual%20de%20software/">
+      
+      
+        <link rel="next" href="../../5%20-%20Cronograma/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Software — Integração do laço do firmware - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#integracao-do-laco-principal-do-firmware-do-robo" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Software — Integração do laço do firmware
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software — Integração do laço do firmware
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software — Integração do laço do firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sumário
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-situacao-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Situação atual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Situação atual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-o-que-existe-e-esta-testado-no-ambiente-nativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 O que existe e está testado no ambiente nativo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-hipotese-sobre-a-imu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Hipótese sobre a IMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Auditoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Auditoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-metodo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Método
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-achados-que-bloqueiam-a-integracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Achados que bloqueiam a integração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-riscos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Riscos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-melhorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Melhorias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-impacto-de-nao-ter-imu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Impacto de não ter IMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-drivers-do-hwfirm-frente-as-interfaces-da-logica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Drivers do hw/firm frente às interfaces da lógica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-desenho-do-laco-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Desenho do laço principal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Desenho do laço principal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-abordagens-para-a-estrutura-do-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Abordagens para a estrutura do loop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-estrutura-de-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Estrutura de módulos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-estados-e-transicoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Estados e transições
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-ritmos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Ritmos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-executor-de-movimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Executor de movimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-fonte-unica-da-orientacao-e-da-chegada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Fonte única da orientação e da chegada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-falhas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Falhas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-origem-de-cada-campo-da-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Origem de cada campo da telemetria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-constantes-e-calibracoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Constantes e calibrações
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-estrategia-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Estratégia de testes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-plano-de-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Plano de execução
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Plano de execução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-registro-da-etapa-4-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Registro da etapa 4 (drivers)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-registro-da-etapa-5-executor-e-laco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Registro da etapa 5 (executor e laço)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pendencias-para-as-outras-areas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pendências para as outras áreas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-roteiro-preliminar-do-primeiro-dia-de-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roteiro preliminar do primeiro dia de bancada
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sumário
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-situacao-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Situação atual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Situação atual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-o-que-existe-e-esta-testado-no-ambiente-nativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 O que existe e está testado no ambiente nativo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-hipotese-sobre-a-imu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Hipótese sobre a IMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Auditoria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Auditoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-metodo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Método
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-achados-que-bloqueiam-a-integracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Achados que bloqueiam a integração
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-riscos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Riscos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-melhorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Melhorias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-impacto-de-nao-ter-imu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Impacto de não ter IMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-drivers-do-hwfirm-frente-as-interfaces-da-logica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Drivers do hw/firm frente às interfaces da lógica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-desenho-do-laco-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Desenho do laço principal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Desenho do laço principal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-abordagens-para-a-estrutura-do-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Abordagens para a estrutura do loop()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-estrutura-de-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Estrutura de módulos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-estados-e-transicoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Estados e transições
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-ritmos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Ritmos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-executor-de-movimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Executor de movimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-fonte-unica-da-orientacao-e-da-chegada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Fonte única da orientação e da chegada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-falhas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Falhas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-origem-de-cada-campo-da-telemetria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Origem de cada campo da telemetria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-constantes-e-calibracoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Constantes e calibrações
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-estrategia-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Estratégia de testes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-plano-de-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Plano de execução
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Plano de execução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-registro-da-etapa-4-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Registro da etapa 4 (drivers)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-registro-da-etapa-5-executor-e-laco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Registro da etapa 5 (executor e laço)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pendencias-para-as-outras-areas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pendências para as outras áreas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-roteiro-preliminar-do-primeiro-dia-de-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roteiro preliminar do primeiro dia de bancada
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="integracao-do-laco-principal-do-firmware-do-robo">Integração do laço principal do firmware do robô<a class="headerlink" href="#integracao-do-laco-principal-do-firmware-do-robo" title="Permanent link">&para;</a></h1>
+<p>Issue <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/issues/149">#149</a> (EAP 5.3.1.3). Auditoria do código existente e desenho do <code>loop()</code> que liga navegação, controle, segurança, parada e telemetria aos drivers do robô. Base: <code>main</code> em <code>2a9630b</code> (10/11/2026), com <code>pio test -e native</code> em 227 casos aprovados e <code>pio run -e esp32dev</code> compilando (RAM 13,5 %, flash 57,2 %).</p>
+<p>Escopo de escrita deste trabalho: <code>src/firmware/robo</code>, <code>src/firmware/lib/telemetria</code> (só se indispensável, sem mudar o contrato) e <code>docs/firmware/</code>. O firmware da Eletrônica (<code>hw/firm</code>), o gateway e os documentos das outras áreas são referência e não são alterados; o que depende deles está listado na seção 5.</p>
+<h2 id="sumario">Sumário<a class="headerlink" href="#sumario" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-situação-atual">Situação atual</a></li>
+<li><a href="#2-auditoria">Auditoria</a></li>
+<li><a href="#3-desenho-do-laço-principal">Desenho do laço principal</a></li>
+<li><a href="#4-plano-de-execução">Plano de execução</a></li>
+<li><a href="#5-pendências-para-as-outras-áreas">Pendências para as outras áreas</a></li>
+<li><a href="#6-roteiro-preliminar-do-primeiro-dia-de-bancada">Roteiro preliminar do primeiro dia de bancada</a></li>
+</ol>
+<hr />
+<h2 id="1-situacao-atual">1. Situação atual<a class="headerlink" href="#1-situacao-atual" title="Permanent link">&para;</a></h2>
+<h3 id="11-o-que-existe-e-esta-testado-no-ambiente-nativo">1.1 O que existe e está testado no ambiente nativo<a class="headerlink" href="#11-o-que-existe-e-esta-testado-no-ambiente-nativo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Arquivo</th>
+<th style="text-align: left;">HU</th>
+<th style="text-align: left;">Estado na <code>main</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>Direcao</code>, <code>Mapa</code></td>
+<td style="text-align: left;"><code>src/mapa/</code></td>
+<td style="text-align: left;">HU-03</td>
+<td style="text-align: left;">Usados pelo <code>Navegador</code> e pela telemetria</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Botao</code>, <code>Cronometro</code></td>
+<td style="text-align: left;"><code>src/botao/</code>, <code>src/cronometro/</code></td>
+<td style="text-align: left;">HU-05</td>
+<td style="text-align: left;">Ligados no <code>loop()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Navegador</code>, <code>SensoresParedes</code>, <code>ExecutorMovimento</code></td>
+<td style="text-align: left;"><code>src/navegacao/</code></td>
+<td style="text-align: left;">HU-06</td>
+<td style="text-align: left;">Instanciado no <code>main</code>, mas <code>iniciar()</code> e <code>passo()</code> nunca são chamados</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ParadaObjetivo</code>, <code>AdaptadorCronometro</code></td>
+<td style="text-align: left;"><code>src/parada/</code></td>
+<td style="text-align: left;">HU-07</td>
+<td style="text-align: left;">Não instanciados</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ControleReta</code></td>
+<td style="text-align: left;"><code>src/controle/ControleReta.h</code></td>
+<td style="text-align: left;">HU-01</td>
+<td style="text-align: left;">Não instanciado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ControleCurva</code></td>
+<td style="text-align: left;"><code>src/controle/ControleCurva.h</code></td>
+<td style="text-align: left;">HU-02</td>
+<td style="text-align: left;">Não instanciado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DetectorTravamento</code>, <code>MonitorTravamento</code></td>
+<td style="text-align: left;"><code>src/seguranca/</code></td>
+<td style="text-align: left;">HU-18</td>
+<td style="text-align: left;">Não instanciados</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Bateria</code>, <code>BateriaConversao</code>, <code>VelocidadeMedia</code></td>
+<td style="text-align: left;"><code>src/sensores/</code>, <code>src/navegacao/</code></td>
+<td style="text-align: left;">HU-08</td>
+<td style="text-align: left;">Ligados na telemetria</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>RadioTelemetria</code></td>
+<td style="text-align: left;"><code>src/radio/</code></td>
+<td style="text-align: left;">HU-08</td>
+<td style="text-align: left;">Ligado na telemetria</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Pinos.h</code></td>
+<td style="text-align: left;"><code>src/hardware/Pinos.h</code></td>
+<td style="text-align: left;">#149</td>
+<td style="text-align: left;">Pinagem e constantes da Eletrônica, usado por bateria e controles</td>
+</tr>
+<tr>
+<td style="text-align: left;">Contrato de dados</td>
+<td style="text-align: left;"><code>lib/telemetria</code></td>
+<td style="text-align: left;">#139</td>
+<td style="text-align: left;">Pacote de 18 bytes, codec, JSON, <code>TemporizadorPeriodico</code></td>
+</tr>
+</tbody>
+</table>
+<p>O <code>main.cpp</code> de hoje trata botão, cronômetro, LED e telemetria a 1 Hz. Não há drivers de motores, encoders nem sensores ToF em <code>src/firmware/robo</code>; eles existem, funcionando no robô, em <code>hw/firm</code> (ponte H TB6612FNG com freio, encoders por interrupção, três VL53L0X com XSHUT e bateria), junto com um menu de testes de bancada.</p>
+<h3 id="12-hipotese-sobre-a-imu">1.2 Hipótese sobre a IMU<a class="headerlink" href="#12-hipotese-sobre-a-imu" title="Permanent link">&para;</a></h3>
+<p>O doc 4.3 lista a MPU6050 no orçamento e na tabela de conectores, mas o firmware da Eletrônica que roda no robô não tem driver de IMU, <code>pinout.h</code> não reserva pino nem endereço I2C para ela e nenhum ensaio do 7.3 a utiliza. A hipótese de trabalho é que <strong>o robô não tem IMU</strong>. O desenho abaixo funciona sem ela (os dois controles já aceitam <code>imuValido = false</code>) e deixa um ponto de entrada caso ela apareça. A confirmação está na seção 5.</p>
+<hr />
+<h2 id="2-auditoria">2. Auditoria<a class="headerlink" href="#2-auditoria" title="Permanent link">&para;</a></h2>
+<h3 id="21-metodo">2.1 Método<a class="headerlink" href="#21-metodo" title="Permanent link">&para;</a></h3>
+<p>Leitura integral de <code>src/firmware/robo</code> (fonte e testes), <code>src/firmware/lib/telemetria</code>, <code>src/firmware/gateway/src/main.cpp</code> e <code>hw/firm</code> (fonte, testes e README), com os docs 4.3, 4.4 e 7.3 como referência. Cada achado traz arquivo e linha na <code>main</code> em <code>2a9630b</code>, o motivo e a correção proposta, com a etapa em que ela entra (seção 4). A classificação é:</p>
+<ul>
+<li><strong>Bloqueia</strong>: sem a correção o <code>loop()</code> integrado não funciona, ou funciona errado no robô.</li>
+<li><strong>Risco</strong>: pode falhar no robô ou na bancada; a correção é barata e entra junto com a integração.</li>
+<li><strong>Melhoria</strong>: não impede a integração; fica registrada para depois, se houver tempo.</li>
+</ul>
+<h3 id="22-achados-que-bloqueiam-a-integracao">2.2 Achados que bloqueiam a integração<a class="headerlink" href="#22-achados-que-bloqueiam-a-integracao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Id</th>
+<th style="text-align: left;">Onde</th>
+<th style="text-align: left;">Problema</th>
+<th style="text-align: left;">Correção proposta</th>
+<th style="text-align: left;">Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">B1</td>
+<td style="text-align: left;"><code>controle/ControleCurva.h:48</code> (<code>enum Orientacao</code>), <code>:142</code> (<code>definirOrientacao</code>), <code>:212</code> (<code>girar</code>), <code>:221</code> (<code>orientacao_</code>); <code>navegacao/Navegador.h:63</code> (<code>Direcao orientacao_</code>); <code>mapa/Direcao.h:9</code></td>
+<td style="text-align: left;"><strong>Três representações de orientação.</strong> <code>Direcao</code> e <code>Orientacao</code> são dois enums com os mesmos valores e funções de giro duplicadas, e dois objetos guardam estado de orientação: o <code>Navegador</code> (atualizado em <code>confirmarGiro</code>) e o <code>ControleCurva</code> (atualizado em <code>CURVA_CONCLUIDA</code>). O rumo ideal contínuo do <code>ControleCurva</code> (<code>rumoIdealGraus_</code>) é uma terceira forma. Basta uma curva falhar ou ser abortada para as duas cópias divergirem, e a telemetria pode publicar uma orientação diferente da que o mapa usa.</td>
+<td style="text-align: left;">O <code>Navegador::orientacao()</code> (tipo <code>Direcao</code>) passa a ser a única fonte da orientação de grade. O <code>ControleCurva</code> deixa de guardar orientação: saem <code>enum Orientacao</code>, <code>definirOrientacao()</code>, <code>orientacao()</code>, a tabela <code>girar()</code> e o parâmetro <code>inicial</code> do construtor. A classe passa a controlar só o ângulo. Os testes de <code>test_curva</code> que conferem a orientação após as curvas passam a conferir o estado <code>CURVA_CONCLUIDA</code> e o erro final (a conferência de N/L/S/O já é coberta por <code>test_direcao</code> e <code>test_navegador</code>). Mudança de interface justificada: elimina a duplicação de estado e deixa o <code>ControleCurva</code> reutilizável no speed run.</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">B2</td>
+<td style="text-align: left;"><code>navegacao/Navegador.h:155</code> (<code>NAV_CHEGOU</code>) e <code>parada/ParadaObjetivo.h:106</code> (<code>atualizar</code>)</td>
+<td style="text-align: left;"><strong>Chegada detectada em dois lugares.</strong> Os dois calculam o destino do mesmo jeito (última linha da coluna D), mas são dois critérios independentes; se divergirem (por exemplo geometria trocada sem reconfigurar o <code>ParadaObjetivo</code>), o robô pode parar de navegar sem parar os motores ou o contrário. O <code>main</code> ainda não configura o objetivo do <code>ParadaObjetivo</code> ao trocar a geometria.</td>
+<td style="text-align: left;">Dividir papéis sem mudar interfaces: o <code>Navegador</code> detecta a célula (é quem sabe onde o robô está) e o <code>ParadaObjetivo</code> é o único a agir (parar tração e congelar cronômetro) e o único que autoriza o estado <code>CONCLUIDO</code>. O laço chama <code>parada.atualizar(nav.linha(), nav.coluna())</code> logo depois de <code>confirmarAvanco()</code> e só muda o estado para <code>CONCLUIDO</code> quando <code>parada.concluido()</code>. O objetivo é reconfigurado por <code>configurarObjetivoPorGeometria()</code> a cada largada. <code>desafio_cumprido</code> vem de <code>parada.desafioCumprido()</code>. O <code>Navegador::estadoRobo()</code> não é usado para o estado publicado.</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">B3</td>
+<td style="text-align: left;"><code>navegacao/Navegador.h:169</code> (<code>passo</code>); <code>navegacao/InterfacesNavegacao.h:36-37</code></td>
+<td style="text-align: left;"><strong><code>passo()</code> bloqueia durante o movimento.</strong> O contrato de <code>ExecutorMovimento</code> é "retorna quando o movimento terminou", ou seja, 1 a 2 s por célula no robô. Nesse intervalo o <code>loop()</code> não roda telemetria (1 Hz), botão, LED nem o monitor de travamento (50 ms), e o corte por travamento perderia o prazo de 1,2 s.</td>
+<td style="text-align: left;">O robô não usa <code>passo()</code>: o laço usa as três camadas que o <code>Navegador</code> já expõe (<code>observar</code>, <code>decidir</code>, <code>confirmarGiro</code>, <code>confirmarAvanco</code>, <code>registrarFalha</code>) a partir de uma máquina de estados sem bloqueio (seção 3). <code>passo()</code> e <code>ExecutorMovimento</code> ficam como estão, para os testes e o <code>SimuladorLabirinto</code>. Entra uma interface nova, não bloqueante, para o executor real (<code>iniciarGiro</code>/<code>iniciarAvanco</code>/<code>atualizar</code>), e um adaptador que embrulha um <code>ExecutorMovimento</code> bloqueante nela, para o robô virtual reaproveitar o simulador. Nenhuma assinatura existente muda.</td>
+<td style="text-align: left;">3 e 5</td>
+</tr>
+<tr>
+<td style="text-align: left;">B4</td>
+<td style="text-align: left;"><code>hw/firm/src/encoder_driver.cpp:16,24,39-40</code>; <code>hw/firm/include/pinout.h:55</code>; <code>hardware/Pinos.h</code> (<code>ENCODER_PULSOS_POR_VOLTA = 360</code>)</td>
+<td style="text-align: left;"><strong>Forma de contar pulsos vs. 360 pulsos por volta.</strong> A ISR conta só a borda de subida do canal A (decodificação 1x). O comentário diz "12 CPR x 30:1 = 360": 12 CPR nos encoders magnéticos de N20 costuma ser a contagem em 4x (3 pulsos por canal por volta do motor); em 1x daria 90 pulsos por volta da roda. O relatório 7.3 fala em disco de 7 pares de polos com "borda simples", o que daria 210. As fontes são incoerentes e o ensaio de 3600 pulsos do 7.3 foi feito com a pinagem antiga e outro firmware. Se a constante estiver errada por 4x, "avançar 180 mm" vira 720 mm.</td>
+<td style="text-align: left;">A constante fica única em <code>Pinos.h</code> e todos os cálculos (odometria, alvo de avanço, giro por encoders, velocidade) a usam. <strong>Medir no primeiro dia de bancada</strong> com o teste 3 do menu do <code>hw/firm</code> (uma volta da roda na mão) e corrigir <code>ENCODER_PULSOS_POR_VOLTA</code> e o <code>test_pinos</code>. O firmware não deve depender de 360 estar certo: o executor usa o alvo em pulsos derivado da constante, e o robô virtual roda com qualquer valor.</td>
+<td style="text-align: left;">4 (código) e bancada</td>
+</tr>
+<tr>
+<td style="text-align: left;">B5</td>
+<td style="text-align: left;"><code>controle/ControleCurva.h:120-124,165</code></td>
+<td style="text-align: left;"><strong>Sem IMU, a curva seguinte mira 180°.</strong> <code>iniciar()</code> guarda o yaw recebido como referência só na primeira curva e depois soma ±90° ao rumo ideal acumulado; <code>atualizar()</code> com <code>imuValido = false</code> calcula o ângulo atual como <code>yawInicio + giroPorEncoders</code>. Se o laço passar sempre o mesmo yaw (0, por não ter IMU), na segunda curva o erro começa em 180° e o robô gira meia volta.</td>
+<td style="text-align: left;">O executor mantém o rumo nominal da grade a partir da orientação do <code>Navegador</code> (fonte única, B1): antes de cada curva chama <code>ressincronizar(rumoNominal)</code> e passa esse mesmo valor em <code>iniciar()</code>, com <code>imuValido = false</code>. Assim cada curva é relativa (erro inicial ±90°) e o <code>ControleCurva</code> não muda. Se uma IMU aparecer, basta passar o yaw real e <code>imuValido = true</code>.</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">B6</td>
+<td style="text-align: left;"><code>src/main.cpp</code> (sem conversão); <code>hw/firm/include/tb6612_driver.h</code> (<code>int16_t speed</code> de -255 a 255); <code>controle/*.h</code> (saídas em mm/s)</td>
+<td style="text-align: left;"><strong>Falta a conversão de velocidade em PWM.</strong> Os controles entregam mm/s por roda; a ponte H recebe PWM de 8 bits. Não existe essa camada em lugar nenhum.</td>
+<td style="text-align: left;">Módulo puro <code>ConversorVelocidadePwm</code> (testável no nativo): mapa linear com zona morta (<code>pwmMinimo</code> e <code>pwmPorMmS</code>, em <code>Pinos.h</code> como valores provisórios a calibrar), saturação e sinal. Primeiro dia: malha aberta com o PWM 90 do <code>hw/firm</code> como referência (35 %); se sobrar tempo, PI de velocidade por roda sobre os encoders, sem mudar a interface.</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">B7</td>
+<td style="text-align: left;"><code>parada/ParadaObjetivo.h:48</code> (<code>ITracao::parar</code>); <code>seguranca/MonitorTravamento.h:95-110</code>; executor (a criar)</td>
+<td style="text-align: left;"><strong>O corte de segurança pode ser desfeito no ciclo seguinte.</strong> <code>parar()</code> é chamado de dentro do <code>ParadaObjetivo</code> ou do <code>MonitorTravamento</code>, mas o executor continua rodando o controle e no próximo tick reaplica PWM.</td>
+<td style="text-align: left;">O driver de motores tem um trinco: <code>parar()</code> freia e marca <code>bloqueado</code>; qualquer <code>comandar()</code> posterior é ignorado até <code>liberar()</code> na próxima largada. O executor, ao ver <code>bloqueado</code>, vai para um estado terminal. Testado no nativo.</td>
+<td style="text-align: left;">4 e 5</td>
+</tr>
+<tr>
+<td style="text-align: left;">B8</td>
+<td style="text-align: left;"><code>src/main.cpp:185-192</code> (estados terminais vazios); <code>cronometro/Cronometro.h</code> (só satura em 600 000 ms)</td>
+<td style="text-align: left;"><strong>Não existe a transição para <code>TIMEOUT</code></strong> (10 min, doc 4.4 seção 4.3) nem para <code>COLISAO</code>. O cronômetro satura e o robô continuaria andando com o painel mostrando 10:00.</td>
+<td style="text-align: left;">Na máquina de estados: <code>decorridoMs &gt;= TELEMETRIA_TIMESTAMP_MAX_MS</code> em <code>MAPEANDO</code> corta a tração e vai para <code>TIMEOUT</code>. <code>COLISAO</code> fica definido na seção 3.7 (parada de emergência frontal repetida).</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">B9</td>
+<td style="text-align: left;"><code>src/main.cpp:46-56</code></td>
+<td style="text-align: left;"><strong>Campos da telemetria sem origem</strong>: <code>desafio_cumprido</code> nunca é preenchido (sempre 0) e <code>velocidade_atual</code> é fixa em 0. O painel e o encerramento da corrida no backend usam os dois.</td>
+<td style="text-align: left;"><code>desafio_cumprido = parada.desafioCumprido()</code>, <code>velocidade_atual</code> da odometria (média das duas rodas em uma janela de 200 ms, como o <code>hw/firm</code> já faz). Tabela completa na seção 3.8.</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">B10</td>
+<td style="text-align: left;"><code>hw/firm/src/vl53l0x_manager.cpp:37,53,69</code> (<code>setTimeout(500)</code>) e <code>:93,102,111</code> (<code>readRangeContinuousMillimeters</code>)</td>
+<td style="text-align: left;"><strong>Leitura dos ToF bloqueante.</strong> <code>readRangeContinuousMillimeters()</code> espera a amostra ficar pronta: até 33 ms por sensor em operação normal e <strong>até 500 ms por sensor</strong> se um deles parar de responder no meio da prova, o que trava o laço por 1,5 s e fura o prazo do corte por travamento.</td>
+<td style="text-align: left;">No driver portado, consultar o registrador de "amostra pronta" (<code>RESULT_INTERRUPT_STATUS</code>, via <code>readReg</code>, que a biblioteca Pololu expõe) e só então ler; sensor sem amostra nova por mais de 100 ms é marcado inválido naquele ciclo, sem bloquear. Timeout da biblioteca reduzido a 20 ms como segunda barreira.</td>
+<td style="text-align: left;">4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-riscos">2.3 Riscos<a class="headerlink" href="#23-riscos" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Id</th>
+<th style="text-align: left;">Onde</th>
+<th style="text-align: left;">Problema</th>
+<th style="text-align: left;">Correção proposta</th>
+<th style="text-align: left;">Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">R1</td>
+<td style="text-align: left;"><code>seguranca/DetectorTravamento.h:57</code>; <code>seguranca/MonitorTravamento.h:32</code> (<code>tracaoAtiva()</code> único)</td>
+<td style="text-align: left;"><strong>Tração ativa única para as duas rodas.</strong> Os pulsos são monitorados por roda, mas a tração é um único booleano. Se o controle deixar uma roda parada de propósito por mais de 1 s enquanto a outra gira (hoje não acontece: a reta satura em <code>base - 60</code> mm/s e a curva usa velocidade mínima nas duas rodas), essa roda seria dada como travada. O caso real é a zona morta: a velocidade mínima da curva (12 mm/s, <code>ControleCurva.h:100</code>) abaixo da zona morta deixa as duas rodas sem pulsos e dispara o corte em 1 s.</td>
+<td style="text-align: left;">Acrescentar sobrecarga com tração por roda (<code>verificar(bool tracaoEsq, bool tracaoDir, ...)</code>) no detector e <code>tracaoEsqAtiva()/tracaoDirAtiva()</code> em <code>IFonteTracao</code> com implementação padrão delegando a <code>tracaoAtiva()</code>. As assinaturas atuais continuam valendo e os 350 testes de <code>test_travamento</code> não mudam. A zona morta é calibração de bancada (<code>pwmMinimo</code>, B6); o conversor nunca emite PWM entre 0 e <code>pwmMinimo</code>.</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">R2</td>
+<td style="text-align: left;"><code>hw/firm/include/pinout.h:59</code> (<code>CELL_SIZE_MM 168</code>); <code>navegacao/VelocidadeMedia.h:11</code> (<code>TAMANHO_CELULA_MM 180</code>)</td>
+<td style="text-align: left;"><strong>Dois tamanhos de célula.</strong> 180 mm é o passo entre centros de células (regulamento); 168 mm é o vão livre entre paredes de 12 mm. O avanço de uma célula é 180 mm de centro a centro; o <code>hw/firm</code> avança 168.</td>
+<td style="text-align: left;"><code>Pinos.h</code> ganha <code>CELULA_MM = 180</code> e <code>VAO_CORREDOR_MM = 168</code>; <code>VelocidadeMedia</code> passa a usar a primeira. Validar na pista real (a pista da AP18 pode ter outra medida; vira constante única).</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">R3</td>
+<td style="text-align: left;"><code>hw/firm/include/pinout.h:84</code> (110 mm); doc 4.3 seção sobre sensores (120 mm com histerese de 5 mm); <code>controle/ControleReta.h:88</code> (100 mm para "parede válida")</td>
+<td style="text-align: left;"><strong>Três limiares de parede.</strong> Com o robô centrado, a parede lateral fica a cerca de 40 mm do sensor e a ausência de parede mostra pelo menos 200 mm, então qualquer limiar entre 90 e 150 mm funciona; o problema é ter três valores em três lugares.</td>
+<td style="text-align: left;">Classificador puro de paredes (<code>ClassificadorParedes</code>) com um limiar e histerese em <code>Pinos.h</code>, usado tanto para o <code>SensoresParedes</code> quanto como <code>distMaxParedeMm</code> do <code>ControleReta</code>. Valor inicial 110 mm, a confirmar na bancada com o teste 1 do menu do <code>hw/firm</code>.</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">R4</td>
+<td style="text-align: left;"><code>hw/firm/src/battery_monitor.cpp:25-35</code>; <code>sensores/Bateria.cpp</code>; <code>sensores/BateriaConversao.h:19</code></td>
+<td style="text-align: left;"><strong>Duas leituras de bateria diferentes.</strong> O <code>hw/firm</code> usa <code>analogRead</code> bruto vezes 3,3/4095 (sem calibração do ADC) e porcentagem de 6,6 a 8,4 V; o robô usa <code>analogReadMilliVolts</code> (calibrado de fábrica) com divisor 5:1 e porcentagem de 7,0 a 8,4 V (igual ao simulador do backend). O divisor montado ainda não foi confirmado (5:1 do módulo ou 100 k/47 k do doc 4.3).</td>
+<td style="text-align: left;">Manter a <code>Bateria</code> do robô (mais exata). Confirmar o divisor com multímetro no primeiro dia e ajustar <code>BATERIA_R_*</code> em <code>Pinos.h</code>. Definir <code>BATERIA_MINIMA_LARGADA_MV</code> (6 800 mV, o alarme do <code>hw/firm</code>) para recusar a largada; durante a prova não há corte automático (ver 3.7).</td>
+<td style="text-align: left;">4 e bancada</td>
+</tr>
+<tr>
+<td style="text-align: left;">R5</td>
+<td style="text-align: left;"><code>hardware/Pinos.h</code> (<code>PINO_LED_ESTADO = 14</code>, provisório); <code>hw/firm/include/pinout.h:104</code> (<code>PIN_STATUS_LED 14</code>, LED comum com <code>digitalWrite</code>); <code>src/main.cpp</code> (NeoPixel)</td>
+<td style="text-align: left;"><strong>LED de estado indefinido.</strong> O robô aciona um WS2812B no GPIO 14; a Eletrônica trata o 14 como LED comum ou pino livre. Se o LED montado for comum, o firmware do robô não acende nada e o operador perde a indicação de "pode soltar" da largada.</td>
+<td style="text-align: left;">Implementar <code>ISinalizacaoEstado</code> com duas variantes selecionadas por uma constante em <code>Pinos.h</code> (<code>LED_WS2812B</code> ou LED comum com padrões de piscada). Confirmar com a Eletrônica.</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">R6</td>
+<td style="text-align: left;"><code>seguranca/MonitorTravamento.h:36-42</code> (<code>IFontePulsos</code> pede o instante do último pulso); <code>hw/firm/src/encoder_driver.cpp</code> (só contagem)</td>
+<td style="text-align: left;"><strong>O driver de encoders não registra instante de pulso.</strong></td>
+<td style="text-align: left;">A parte pura <code>Odometria</code> (testável) recebe as contagens a cada tick e registra o instante em que cada contagem mudou; isso implementa <code>IFontePulsos</code> sem tocar na ISR.</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">R7</td>
+<td style="text-align: left;"><code>hw/firm/src/encoder_driver.cpp:16,24</code>; <code>hw/firm/src/tb6612_driver.cpp</code> (sentido)</td>
+<td style="text-align: left;"><strong>Sinais de sentido a confirmar.</strong> As ISRs usam convenções espelhadas para os dois motores e a ponte H define "frente" pela fiação. <code>ControleReta</code> e <code>DetectorTravamento</code> assumem que as duas contagens crescem ao avançar.</td>
+<td style="text-align: left;">Constantes <code>ENCODER_ESQ_INVERTIDO</code>, <code>ENCODER_DIR_INVERTIDO</code>, <code>MOTOR_ESQ_INVERTIDO</code>, <code>MOTOR_DIR_INVERTIDO</code> em <code>Pinos.h</code>, aplicadas nos drivers; conferência no primeiro dia (testes 2 e 3 do menu).</td>
+<td style="text-align: left;">4 e bancada</td>
+</tr>
+<tr>
+<td style="text-align: left;">R8</td>
+<td style="text-align: left;"><code>src/main.cpp:62-71</code> (<code>piscarFeedbackLED</code> com <code>delay(150)</code>, até 900 ms) e <code>:195</code> (<code>delay(10)</code>)</td>
+<td style="text-align: left;"><strong>Bloqueios no laço.</strong> Só ocorrem em <code>AGUARDANDO</code>, mas atrasam telemetria e debounce e o <code>delay(10)</code> limita o laço a 100 Hz.</td>
+<td style="text-align: left;">Piscadas por temporizador (<code>TemporizadorPeriodico</code>) e laço sem <code>delay</code> fixo, com ritmos explícitos (seção 3.4).</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">R9</td>
+<td style="text-align: left;"><code>navegacao/Navegador.h:78-88</code> (<code>iniciar()</code> não limpa o mapa); <code>src/main.cpp:157-160</code> (<code>darLargada</code>)</td>
+<td style="text-align: left;"><strong>Segunda tentativa sem reiniciar.</strong> O doc 4.4 prevê <code>CONCLUIDO -&gt; AGUARDANDO</code> ("robô reposicionado"); hoje os estados terminais ignoram o botão e o mapa só é limpo em <code>setGeometria</code>.</td>
+<td style="text-align: left;">Em qualquer estado terminal, segurar 2 s e soltar volta a <code>AGUARDANDO</code>: <code>mapa.setGeometria(geo)</code> (limpa), <code>cronometro.zerar()</code>, <code>parada.iniciarProva()</code>, <code>monitor.iniciarProva()</code>, <code>motores.liberar()</code>. A telemetria volta a <code>AGUARDANDO</code> com <code>timestamp_ms = 0</code>, que é o que o backend usa para abrir nova tentativa. Não viola o RNF-SFT01, pois a prova já terminou.</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">R10</td>
+<td style="text-align: left;"><code>parada/AdaptadorCronometro.h:16</code> (<code>uint32_t (*)()</code>)</td>
+<td style="text-align: left;"><code>millis()</code> do Arduino-ESP32 devolve <code>unsigned long</code>, tipo distinto de <code>uint32_t</code> no ESP32; o ponteiro não casa sem um invólucro.</td>
+<td style="text-align: left;">Função <code>static uint32_t agoraMs() { return (uint32_t)millis(); }</code> no <code>main</code>. Sem mudança de interface.</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">R11</td>
+<td style="text-align: left;"><code>hw/firm/src/vl53l0x_manager.cpp:40</code> (33 ms de orçamento, cerca de 30 Hz)</td>
+<td style="text-align: left;"><strong>Ritmo dos ToF vs. 20 Hz mínimos do doc 4.4.</strong> A 30 Hz, com o laço a 100 Hz, cada amostra é usada por 3 ticks. O controle de reta deriva o erro por amostra nova.</td>
+<td style="text-align: left;">O controle só chama <code>ControleReta::atualizar()</code> quando há amostra nova dos laterais (a classe avisa que chamar mais rápido gera derivada nula seguida de picos). Encoders e segurança rodam em todo tick.</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">R12</td>
+<td style="text-align: left;"><code>test/test_navegador/SimuladorLabirinto.h</code></td>
+<td style="text-align: left;">O simulador vive dentro de um diretório de teste; o robô virtual (outro diretório) precisa dele.</td>
+<td style="text-align: left;">Mover para <code>test/comum/SimuladorLabirinto.h</code> e ajustar o <code>#include</code> do <code>test_navegador</code>. Sem mudança de código do simulador.</td>
+<td style="text-align: left;">6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-melhorias">2.4 Melhorias<a class="headerlink" href="#24-melhorias" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Id</th>
+<th style="text-align: left;">Onde</th>
+<th style="text-align: left;">Observação</th>
+<th style="text-align: left;">Proposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">M1</td>
+<td style="text-align: left;"><code>seguranca/MonitorTravamento.h:138</code></td>
+<td style="text-align: left;"><code>estadoRobo()</code> devolve <code>MAPEANDO</code> quando não há travamento, o que induz a usar o monitor como fonte de estado.</td>
+<td style="text-align: left;">Não usar; o estado é do laço. Comentário no código.</td>
+</tr>
+<tr>
+<td style="text-align: left;">M2</td>
+<td style="text-align: left;"><code>navegacao/Navegador.h</code> (<code>estadoRobo()</code>)</td>
+<td style="text-align: left;">Mapeia <code>NAV_INALCANCAVEL</code> e <code>NAV_FALHA</code> para <code>TRAVADO</code>.</td>
+<td style="text-align: left;">Não usar para publicar; o laço decide (3.7).</td>
+</tr>
+<tr>
+<td style="text-align: left;">M3</td>
+<td style="text-align: left;"><code>src/main.cpp</code></td>
+<td style="text-align: left;"><code>telemetria.labirinto_id</code> é atualizado em dois lugares.</td>
+<td style="text-align: left;">Preencher tudo em um único <code>montarTelemetria()</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">M4</td>
+<td style="text-align: left;"><code>platformio.ini</code> (<code>build_src_filter = -&lt;*&gt;</code> no nativo)</td>
+<td style="text-align: left;">O laço só é testável no nativo se a lógica dele não depender do Arduino.</td>
+<td style="text-align: left;">Lógica do laço em cabeçalhos puros (<code>src/app/</code>), com o <code>main.cpp</code> reduzido ao invólucro Arduino (3.2).</td>
+</tr>
+<tr>
+<td style="text-align: left;">M5</td>
+<td style="text-align: left;">doc 4.4 seções 4.1 e 4.3</td>
+<td style="text-align: left;">O documento prevê tarefas FreeRTOS com mutex; o desenho aprovado usa um laço cooperativo (3.1).</td>
+<td style="text-align: left;">Atualizar o 4.4 na etapa 3 (justificativa em 3.1); os tempos de tick medidos no robô entram no relatório 7.5.</td>
+</tr>
+<tr>
+<td style="text-align: left;">M6</td>
+<td style="text-align: left;"><code>hw/firm/src/main.cpp:71</code> (<code>PWM_TESTE = 90</code>, avanços e curvas em malha aberta por contagem de pulsos)</td>
+<td style="text-align: left;">Rotinas de bancada úteis como referência de parâmetros (PWM de partida, alvos em pulsos, freio e 200 ms de assentamento).</td>
+<td style="text-align: left;">Reaproveitar os valores como padrão inicial do executor e manter o <code>hw/firm</code> gravável para diagnóstico.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-impacto-de-nao-ter-imu">2.5 Impacto de não ter IMU<a class="headerlink" href="#25-impacto-de-nao-ter-imu" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Onde a IMU era usada</th>
+<th style="text-align: left;">O que acontece sem ela</th>
+<th style="text-align: left;">Mitigação no desenho</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>ControleReta</code> em <code>MODO_RUMO</code> (sem parede em um dos lados)</td>
+<td style="text-align: left;">O rumo vem da diferença dos encoders desde <code>iniciar()</code>; derrapagem vira erro de rumo.</td>
+<td style="text-align: left;">A reta é de uma célula (180 mm) e <code>iniciar()</code> é chamado em toda célula com o robô parado e, quando há paredes, centrado. O erro não acumula entre células.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ControleCurva</code> (medida do giro e alvo absoluto)</td>
+<td style="text-align: left;">Giro só por encoders; o alvo absoluto não existe (B5).</td>
+<td style="text-align: left;">Curva relativa com <code>ressincronizar(rumoNominal)</code> antes de cada curva; <code>discrepanciaGraus</code> fica 0 na telemetria de depuração.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Critério de ±3° do RF-SFT01</td>
+<td style="text-align: left;">Não há como medir o ângulo absoluto a bordo.</td>
+<td style="text-align: left;">Realinhamento passivo pelas paredes: o controle de reta com duas paredes corrige o rumo na célula seguinte; com parede frontal, o avanço termina a uma distância fixa dela ("encosto frontal"), o que zera o erro longitudinal da odometria. A medição do ±3° fica para a bancada com câmera (CT-02).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>IFontePulsos</code>/odometria do doc 4.4 ("encoders e IMU")</td>
+<td style="text-align: left;">Só encoders.</td>
+<td style="text-align: left;">A <code>Odometria</code> pura expõe deslocamento por roda, velocidade e rumo odométrico; se uma IMU aparecer, entra como <code>IFonteRumo</code> opcional sem mudar o restante.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-drivers-do-hwfirm-frente-as-interfaces-da-logica">2.6 Drivers do <code>hw/firm</code> frente às interfaces da lógica<a class="headerlink" href="#26-drivers-do-hwfirm-frente-as-interfaces-da-logica" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">O que a lógica espera</th>
+<th style="text-align: left;">Interface / tipo</th>
+<th style="text-align: left;">O que o <code>hw/firm</code> oferece</th>
+<th style="text-align: left;">Lacuna e adaptação (etapa 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Parede à frente, esquerda e direita da célula</td>
+<td style="text-align: left;"><code>SensoresParedes::lerParedes(bool&amp;, bool&amp;, bool&amp;)</code> → <code>false</code> se leitura inválida</td>
+<td style="text-align: left;"><code>vl53l0x_manager_read()</code> → distâncias (<code>uint16_t</code>, 8190 = inválida), flags <code>*_valid</code> e <code>wall_*</code> com limiar fixo de 110 mm; leitura bloqueante</td>
+<td style="text-align: left;">Driver <code>SensoresToF</code> (hardware, leitura não bloqueante, B10) + <code>ClassificadorParedes</code> puro (limiar e histerese, R3). <code>lerParedes</code> devolve <code>false</code> se algum sensor estiver inválido; o laço repete por até 150 ms antes de registrar falha.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Distâncias laterais para centrar</td>
+<td style="text-align: left;"><code>EntradaControleReta::distEsqMm/distDirMm</code> (<code>float</code>, negativo = inválida)</td>
+<td style="text-align: left;">Idem</td>
+<td style="text-align: left;">Conversão <code>uint16_t</code> + <code>valid</code> → <code>float</code> ou -1.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Yaw</td>
+<td style="text-align: left;"><code>EntradaControleReta::yawGraus/imuValido</code>, <code>EntradaControleCurva</code> idem</td>
+<td style="text-align: left;">Nada</td>
+<td style="text-align: left;"><code>imuValido = false</code> sempre; <code>yawGraus</code> = rumo nominal da grade (B5).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Contagem acumulada por roda</td>
+<td style="text-align: left;"><code>EntradaControleReta::encEsq/encDir</code> (<code>int32_t</code>, cresce ao avançar), <code>EntradaControleCurva</code> idem</td>
+<td style="text-align: left;"><code>encoder_get_ticks_left/right()</code> (<code>int32_t</code>, ISR 1x, sentido a confirmar)</td>
+<td style="text-align: left;">Driver <code>Encoders</code> (hardware) → <code>Odometria</code> pura (contagens, mm, velocidade, instante do último pulso, rumo odométrico) usando <code>Pinos.h</code>. Inversão por constante (R7).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Velocidade desejada por roda</td>
+<td style="text-align: left;"><code>SaidaControleReta/Curva::velEsqMmS/velDirMmS</code> (mm/s, curva pode ser negativa)</td>
+<td style="text-align: left;"><code>tb6612_set_motors(int16_t, int16_t)</code> em PWM -255..255</td>
+<td style="text-align: left;"><code>ConversorVelocidadePwm</code> puro (B6) + driver <code>Motores</code> (hardware) com trinco (B7).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Parar a tração em menos de 200 ms</td>
+<td style="text-align: left;"><code>ITracao::parar()</code></td>
+<td style="text-align: left;"><code>tb6612_brake()</code> (freio ativo) e <code>tb6612_stop()</code> (roda livre)</td>
+<td style="text-align: left;"><code>Motores::parar()</code> = freio ativo imediato; roda livre e standby só na volta a <code>AGUARDANDO</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Saber se há tração</td>
+<td style="text-align: left;"><code>IFonteTracao::tracaoAtiva()</code></td>
+<td style="text-align: left;">Nada (o driver não guarda estado)</td>
+<td style="text-align: left;"><code>Motores</code> guarda o último comando por roda; tração ativa = PWM diferente de zero (por roda, R1).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Instante do último pulso por roda</td>
+<td style="text-align: left;"><code>IFontePulsos::getUltimoPulsoEsqMs/DirMs()</code></td>
+<td style="text-align: left;">Nada</td>
+<td style="text-align: left;"><code>Odometria</code> registra quando cada contagem mudou (R6).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Congelar o cronômetro</td>
+<td style="text-align: left;"><code>ICronometro::congelar()</code></td>
+<td style="text-align: left;">Não se aplica</td>
+<td style="text-align: left;"><code>AdaptadorCronometro</code> + invólucro de <code>millis()</code> (R10).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Relógio em µs para a latência da parada</td>
+<td style="text-align: left;"><code>IRelogioUs::agoraUs()</code></td>
+<td style="text-align: left;">Não se aplica</td>
+<td style="text-align: left;"><code>micros()</code> no invólucro Arduino.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mostrar estado</td>
+<td style="text-align: left;"><code>ISinalizacaoEstado::mostrarEstado(EstadoRobo)</code></td>
+<td style="text-align: left;"><code>digitalWrite</code> em LED comum no 14</td>
+<td style="text-align: left;"><code>SinalizacaoLed</code> com variante WS2812B ou LED comum (R5).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tensão da bateria</td>
+<td style="text-align: left;"><code>Bateria::lerMilivolts()</code> (já existe no robô)</td>
+<td style="text-align: left;"><code>battery_monitor_read()</code> (menos exato)</td>
+<td style="text-align: left;">Manter a do robô; confirmar divisor (R4).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rádio</td>
+<td style="text-align: left;"><code>radioTelemetriaInit/Enviar</code> (já existe no robô)</td>
+<td style="text-align: left;"><code>radio_telemetria_*</code> equivalente</td>
+<td style="text-align: left;">Manter a do robô.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Botão</td>
+<td style="text-align: left;"><code>Botao::atualizar(bool, ms)</code> (já existe)</td>
+<td style="text-align: left;"><code>delay(50)</code> bloqueante</td>
+<td style="text-align: left;">Manter a do robô.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Avançar uma célula, girar 90° e 180°</td>
+<td style="text-align: left;"><code>ExecutorMovimento</code> (bloqueante) e a nova interface não bloqueante</td>
+<td style="text-align: left;">Testes 4 a 7 do menu: malha aberta a PWM 90, alvo em pulsos (<code>168 / 100,53 x 360</code> e <code>pi x bitola / 4</code>), espera por contagem, freio e 200 ms</td>
+<td style="text-align: left;">Referência de parâmetros iniciais do <code>ExecutorMovimentoRobo</code> (3.5).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Parada de emergência frontal</td>
+<td style="text-align: left;">Não existe na lógica</td>
+<td style="text-align: left;">Teste 8: freia a 100 mm</td>
+<td style="text-align: left;">Limiar de segurança de 30 mm (<code>DIST_MINIMA_SEGURA_MM</code>) durante o avanço e distância-alvo de encosto frontal (3.5).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-desenho-do-laco-principal">3. Desenho do laço principal<a class="headerlink" href="#3-desenho-do-laco-principal" title="Permanent link">&para;</a></h2>
+<h3 id="31-abordagens-para-a-estrutura-do-loop">3.1 Abordagens para a estrutura do <code>loop()</code><a class="headerlink" href="#31-abordagens-para-a-estrutura-do-loop" title="Permanent link">&para;</a></h3>
+<p><strong>A. Bloqueante com tarefas de fundo durante o movimento.</strong> Mantém <code>Navegador::passo()</code>. O <code>ExecutorMovimento</code> real roda um <code>while</code> por movimento e, a cada volta, chama uma função <code>servicosDeFundo(agora)</code> que atende telemetria, botão, LED e monitor de travamento.</p>
+<ul>
+<li>Prós: menor mudança; reaproveita <code>passo()</code> tal como testado; fácil de ler.</li>
+<li>Contras: inversão de controle (os serviços são chamados de dentro do driver); timeout de 10 min, bateria e corte de segurança precisam interromper o <code>while</code> de dentro do executor; a lógica da prova fica espalhada entre o <code>main</code> e o executor; não dá para testar o laço completo no nativo tick a tick (o teste teria que furar o <code>while</code>); o speed run futuro repetiria a estrutura.</li>
+</ul>
+<p><strong>B. Máquina de estados sem bloqueio (recomendada).</strong> O <code>loop()</code> executa um tick: lê entradas, roda as tarefas periódicas vencidas (controle, segurança, telemetria, botão, LED) e avança duas máquinas de estados: <code>CicloProva</code> (estados da prova, iguais ao <code>EstadoRobo</code> do contrato, com subfases da exploração) e <code>ExecutorMovimentoRobo</code> (um giro ou um avanço por vez). O <code>Navegador</code> é usado por <code>observar</code>/<code>decidir</code>/<code>confirmar*</code>.</p>
+<ul>
+<li>Prós: nada bloqueia; cada serviço roda no seu ritmo; o corte de segurança é um estado terminal natural; timeout, bateria e falhas ficam em um único lugar; o laço inteiro roda no nativo com drivers falsos e relógio falso (robô virtual), que é a prova pedida; o speed run entra como mais um estado.</li>
+<li>Contras: mais código (duas máquinas de estados e uma interface nova de executor); <code>passo()</code> não é usado no robô, então existem dois caminhos de orquestração (um nos testes, outro no robô). Mitigação: o robô virtual testa o caminho do robô sobre o mesmo <code>SimuladorLabirinto</code>, e os cenários do <code>test_navegador</code> continuam cobrindo o algoritmo.</li>
+</ul>
+<p><strong>C. Tarefas FreeRTOS (como o doc 4.4 seção 4.3).</strong> Controle e navegação em uma tarefa no núcleo 1, telemetria em outra no núcleo 0, estado compartilhado sob mutex.</p>
+<ul>
+<li>Prós: aderente ao documento; a telemetria nunca atrasa o controle.</li>
+<li>Contras: concorrência e mutex em código que hoje é todo sequencial e testado sem RTOS; o ambiente nativo não tem FreeRTOS, então o laço não seria testável como um todo; o ganho é pequeno, porque <code>esp_now_send</code> é assíncrono e a montagem do pacote custa poucos milissegundos (a leitura da bateria com 16 amostras é o item mais caro, cerca de 2 ms).</li>
+</ul>
+<p><strong>Recomendação: B.</strong> Se a bancada mostrar que a telemetria atrapalha o controle (não é o esperado), a tarefa de telemetria da abordagem C pode ser acrescentada depois sem mudar as máquinas de estados: ela só lê um instantâneo do estado.</p>
+<p><strong>Por que B substitui as tarefas FreeRTOS do doc 4.4 (seções 4.1 e 4.3).</strong> O documento previu tarefas concorrentes quando ainda não havia código; a premissa era que a telemetria pudesse atrasar o controle. Na implementação isso não se confirma:</p>
+<ol>
+<li><strong>Custo da telemetria.</strong> <code>esp_now_send()</code> só enfileira o quadro e volta; montar o pacote custa microssegundos e a única leitura de hardware (16 amostras do ADC da bateria) custa cerca de 2 ms a cada 1 s. Isso é 0,2 % de um tick de controle de 10 ms, sem efeito perceptível na malha.</li>
+<li><strong>Tudo o que a lógica faz é curto e cooperativo.</strong> Nenhum módulo existente bloqueia; o único ponto de espera, a leitura dos ToF, passa a ser por "amostra pronta" (B10). Com isso o tick mais longo fica bem abaixo de 10 ms, e o laço atende os ritmos de 10 ms, 50 ms e 1 s sem preempção.</li>
+<li><strong>Exclusão mútua deixa de ser necessária.</strong> Com uma só linha de execução, a telemetria lê o estado entre dois ticks e nunca vê um estado parcialmente atualizado, que é exatamente o problema que o mutex do 4.4 resolveria.</li>
+<li><strong>Testabilidade no nativo.</strong> O ambiente <code>native</code> não tem FreeRTOS. A prova de ponta a ponta pedida nesta issue (robô virtual rodando o <code>loop()</code> completo sobre o <code>SimuladorLabirinto</code>) só é possível se o laço for uma função pura chamada tick a tick com relógio falso. Tarefas e mutex tirariam essa possibilidade e deixariam a integração para ser depurada só no robô, com uma semana de bancada.</li>
+<li><strong>Risco.</strong> Concorrência em código escrito por quatro pessoas e testado como sequencial introduz uma classe de erro (corrida de dados) que o cronograma até a AP18 não comporta.</li>
+</ol>
+<p>O que se preserva do 4.4: a máquina de estados com os estados do contrato, os três ritmos (controle, segurança e telemetria) e a regra de que a telemetria nunca atrasa o controle, agora garantida por medição de tempo de tick em vez de por preempção. A atualização da seção 4.3 do doc 4.4 (e da frase da seção 4.1 sobre tarefas FreeRTOS) entra na <strong>etapa 3</strong>, junto com as demais mudanças preparatórias, já que o 4.4 é documento de Software.</p>
+<h3 id="32-estrutura-de-modulos">3.2 Estrutura de módulos<a class="headerlink" href="#32-estrutura-de-modulos" title="Permanent link">&para;</a></h3>
+<p>Arquivos novos em <code>src/firmware/robo/src</code>, mantendo a convenção do projeto (lógica em cabeçalhos puros, hardware em <code>.cpp</code> com Arduino):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Pasta</th>
+<th style="text-align: left;">Arquivo</th>
+<th style="text-align: left;">Tipo</th>
+<th style="text-align: left;">Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>hardware/</code></td>
+<td style="text-align: left;"><code>Pinos.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Já existe; ganha constantes novas (seção 3.10)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>drivers/</code></td>
+<td style="text-align: left;"><code>Motores.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Trinco de parada, tração por roda e inversão de montagem sobre a interface <code>IPonteH</code>; implementa <code>IFonteTracao</code> (testado no nativo)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>drivers/</code></td>
+<td style="text-align: left;"><code>PonteHTb6612.h/.cpp</code></td>
+<td style="text-align: left;">hardware</td>
+<td style="text-align: left;">Ponte H (porte do <code>tb6612_driver</code>); implementa <code>IPonteH</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>drivers/</code></td>
+<td style="text-align: left;"><code>Encoders.h/.cpp</code></td>
+<td style="text-align: left;">hardware</td>
+<td style="text-align: left;">ISRs e contagens (porte do <code>encoder_driver</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>drivers/</code></td>
+<td style="text-align: left;"><code>SensoresToF.h/.cpp</code></td>
+<td style="text-align: left;">hardware</td>
+<td style="text-align: left;">Três VL53L0X com XSHUT (porte do <code>vl53l0x_manager</code>), leitura não bloqueante</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>drivers/</code></td>
+<td style="text-align: left;"><code>SinalizacaoLed.h/.cpp</code></td>
+<td style="text-align: left;">hardware</td>
+<td style="text-align: left;"><code>ISinalizacaoEstado</code> (WS2812B ou LED comum)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>odometria/</code></td>
+<td style="text-align: left;"><code>Odometria.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Contagens → mm, velocidade, último pulso por roda, rumo odométrico; implementa <code>IFontePulsos</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sensores/</code></td>
+<td style="text-align: left;"><code>LeituraToF.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Validade de cada leitura ToF pela idade da amostra (100 ms) e marca de amostra nova</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sensores/</code></td>
+<td style="text-align: left;"><code>ClassificadorParedes.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Distâncias → paredes com histerese; implementa <code>SensoresParedes</code> a partir de uma amostra</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>controle/</code></td>
+<td style="text-align: left;"><code>ConversorVelocidadePwm.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">mm/s → PWM com zona morta e saturação</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sinalizacao/</code></td>
+<td style="text-align: left;"><code>PadraoLed.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Cor (WS2812B) ou padrão de piscada (LED comum) de cada estado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>movimento/</code></td>
+<td style="text-align: left;"><code>ExecutorMovimentoRobo.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Máquina de estados de giro e avanço sobre <code>ControleReta</code>, <code>ControleCurva</code>, <code>Odometria</code>, conversor e interfaces de motores e ToF</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>movimento/</code></td>
+<td style="text-align: left;"><code>InterfacesMovimento.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Interface não bloqueante do executor e adaptador para <code>ExecutorMovimento</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>app/</code></td>
+<td style="text-align: left;"><code>CicloProva.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Máquina de estados da prova; recebe todas as dependências por interface</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>app/</code></td>
+<td style="text-align: left;"><code>InterfacesHardware.h</code></td>
+<td style="text-align: left;">puro</td>
+<td style="text-align: left;">Interfaces mínimas do hardware que o <code>CicloProva</code> e o executor usam (<code>IEntradaBotao</code>, <code>IEncoders</code>, <code>ISensoresToF</code>, <code>IBateria</code>, <code>IRadioTelemetria</code>, <code>ILedEstado</code>, <code>IRegistro</code>); os motores entram pela classe pura <code>Motores</code>, e o relógio é o argumento de <code>tick()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>main.cpp</code></td>
+<td style="text-align: left;">Arduino</td>
+<td style="text-align: left;">Instancia drivers reais, relógio e rádio, e chama <code>ciclo.tick(agoraMs)</code></td>
+</tr>
+</tbody>
+</table>
+<p>A lógica inteira do laço (tudo que é "puro") compila no ambiente nativo e é o que o robô virtual executa.</p>
+<h3 id="33-estados-e-transicoes">3.3 Estados e transições<a class="headerlink" href="#33-estados-e-transicoes" title="Permanent link">&para;</a></h3>
+<p>Os estados da prova são os do contrato (<code>EstadoRobo</code>), publicados como estão no campo <code>status_id</code>. Dentro de <code>MAPEANDO</code> há subfases internas, não publicadas.</p>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; AGUARDANDO
+    AGUARDANDO --&gt; MAPEANDO: largada (botao 2 s, bateria acima do minimo)
+    AGUARDANDO --&gt; AGUARDANDO: toque triplo (geometria)
+    MAPEANDO --&gt; CONCLUIDO: ParadaObjetivo.concluido()
+    MAPEANDO --&gt; TRAVADO: MonitorTravamento.travado() ou NAV_INALCANCAVEL ou NAV_FALHA por leitura
+    MAPEANDO --&gt; COLISAO: NAV_FALHA por avancos abortados (emergencia frontal)
+    MAPEANDO --&gt; TIMEOUT: cronometro &gt;= 600 000 ms
+    CONCLUIDO --&gt; AGUARDANDO: botao 2 s (nova tentativa)
+    TRAVADO --&gt; AGUARDANDO: botao 2 s
+    COLISAO --&gt; AGUARDANDO: botao 2 s
+    TIMEOUT --&gt; AGUARDANDO: botao 2 s</code></pre>
+<p>Subfases de <code>MAPEANDO</code>:</p>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; LENDO_PAREDES
+    LENDO_PAREDES --&gt; DECIDINDO: leitura valida (observar)
+    LENDO_PAREDES --&gt; LENDO_PAREDES: sem leitura valida, ate 150 ms
+    LENDO_PAREDES --&gt; LENDO_PAREDES: 150 ms sem leitura (registrarFalha e nova tentativa)
+    DECIDINDO --&gt; GIRANDO: decisao com giro
+    DECIDINDO --&gt; AVANCANDO: decisao sem giro
+    DECIDINDO --&gt; [*]: sem movimento (NAV_CHEGOU, NAV_INALCANCAVEL, NAV_FALHA)
+    GIRANDO --&gt; AVANCANDO: executor concluiu (confirmarGiro)
+    GIRANDO --&gt; LENDO_PAREDES: executor falhou (registrarFalha)
+    AVANCANDO --&gt; LENDO_PAREDES: executor concluiu (confirmarAvanco, parada.atualizar)
+    AVANCANDO --&gt; LENDO_PAREDES: executor falhou (registrarFalha)</code></pre>
+<p>Regras:</p>
+<ul>
+<li>A largada faz, nesta ordem: <code>mapa.setGeometria(geo)</code>, <code>parada.configurarObjetivoPorGeometria(geo)</code>, <code>parada.iniciarProva()</code>, <code>monitor.iniciarProva()</code>, <code>motores.liberar()</code>, <code>navegador.iniciar()</code>, <code>cronometro.iniciar(agora)</code>, estado <code>MAPEANDO</code>, subfase <code>LENDO_PAREDES</code>.</li>
+<li>Em <code>GIRANDO</code> e <code>AVANCANDO</code>, a cada tick de controle o laço chama <code>executor.atualizar(agora)</code>; o resultado <code>CONCLUIDO</code> ou <code>FALHOU</code> é o que autoriza <code>confirmarGiro</code>/<code>confirmarAvanco</code> ou <code>registrarFalha</code>. A posição lógica só muda aí, como hoje.</li>
+<li>Depois de <code>confirmarAvanco()</code>, <code>parada.atualizar(nav.linha(), nav.coluna())</code>; se <code>parada.concluido()</code>, estado <code>CONCLUIDO</code> (a tração já foi parada pelo <code>ParadaObjetivo</code>).</li>
+<li>Os guardas de segurança (travamento, timeout) são avaliados em todo tick de segurança, em qualquer subfase, antes do executor.</li>
+<li>Estados terminais: motores em freio por 300 ms e depois roda livre; o cronômetro fica congelado; a telemetria continua a 1 Hz com o estado terminal (o backend precisa dele para fechar a corrida).</li>
+</ul>
+<h3 id="34-ritmos">3.4 Ritmos<a class="headerlink" href="#34-ritmos" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Tarefa</th>
+<th style="text-align: left;">Período</th>
+<th style="text-align: left;">O que faz</th>
+<th style="text-align: left;">Observações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Entradas</td>
+<td style="text-align: left;">todo tick (laço livre, cerca de 1 kHz)</td>
+<td style="text-align: left;"><code>botao.atualizar()</code>, amostra dos encoders na <code>Odometria</code>, verifica amostra nova dos ToF</td>
+<td style="text-align: left;">Sem <code>delay()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Controle</td>
+<td style="text-align: left;">10 ms (100 Hz)</td>
+<td style="text-align: left;"><code>executor.atualizar(agora)</code>: <code>ControleCurva</code> por tick; <code>ControleReta</code> só com amostra nova dos laterais (cerca de 30 Hz); conversão e comando dos motores</td>
+<td style="text-align: left;">Atende o mínimo de 20 Hz do doc 4.4</td>
+</tr>
+<tr>
+<td style="text-align: left;">Segurança</td>
+<td style="text-align: left;">50 ms (<code>PERIODO_SEGURANCA_MS</code>)</td>
+<td style="text-align: left;"><code>monitor.verificar(agora)</code>; timeout de 10 min; emergência frontal durante o avanço</td>
+<td style="text-align: left;">Corte em 1 000 a 1 050 ms, dentro dos 1 200 ms do RF-SFT11</td>
+</tr>
+<tr>
+<td style="text-align: left;">Telemetria</td>
+<td style="text-align: left;">1 000 ms (<code>TELEMETRIA_PERIODO_MS</code>)</td>
+<td style="text-align: left;">Monta o pacote a partir do estado e envia</td>
+<td style="text-align: left;">Única leitura de hardware: bateria (16 amostras, cerca de 2 ms)</td>
+</tr>
+<tr>
+<td style="text-align: left;">LED</td>
+<td style="text-align: left;">50 ms</td>
+<td style="text-align: left;">Padrões por estado e piscadas de aviso, por relógio</td>
+<td style="text-align: left;">Sem <code>delay()</code>; 50 ms deixa regulares as piscadas de aviso de 150 ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">Botão</td>
+<td style="text-align: left;">todo tick</td>
+<td style="text-align: left;">Gestos só têm efeito em <code>AGUARDANDO</code> e, para reiniciar, nos estados terminais</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>Ordem dentro do tick: entradas, segurança, máquina da prova (que chama o controle), telemetria, LED. Assim um corte de segurança é visto pela máquina da prova no mesmo tick.</p>
+<h3 id="35-executor-de-movimento">3.5 Executor de movimento<a class="headerlink" href="#35-executor-de-movimento" title="Permanent link">&para;</a></h3>
+<p>Interface não bloqueante (nova, em <code>movimento/InterfacesMovimento.h</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span><span class="w"> </span><span class="nc">ResultadoMovimento</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">MOV_OCIOSO</span><span class="p">,</span><span class="w"> </span><span class="n">MOV_EM_ANDAMENTO</span><span class="p">,</span><span class="w"> </span><span class="n">MOV_CONCLUIDO</span><span class="p">,</span><span class="w"> </span><span class="n">MOV_FALHOU</span><span class="w"> </span><span class="p">};</span>
+
+<span class="k">enum</span><span class="w"> </span><span class="nc">MotivoFalhaMovimento</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FALHA_NENHUMA</span><span class="p">,</span><span class="w"> </span><span class="n">FALHA_TEMPO</span><span class="p">,</span><span class="w"> </span><span class="n">FALHA_EMERGENCIA_FRONTAL</span><span class="p">,</span><span class="w"> </span><span class="n">FALHA_TRACAO_CORTADA</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ExecutorMovimentoNaoBloqueante</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">ExecutorMovimentoNaoBloqueante</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">iniciarGiro</span><span class="p">(</span><span class="n">Giro</span><span class="w"> </span><span class="n">giro</span><span class="p">,</span><span class="w"> </span><span class="n">Direcao</span><span class="w"> </span><span class="n">orientacaoAtual</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">agoraMs</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">iniciarAvanco</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">agoraMs</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="n">ResultadoMovimento</span><span class="w"> </span><span class="nf">atualizar</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">agoraMs</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// chamado no ritmo de controle</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">abortar</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                                   </span><span class="c1">// para e volta a ocioso</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ocioso</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="n">MotivoFalhaMovimento</span><span class="w"> </span><span class="nf">motivoUltimaFalha</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">   </span><span class="c1">// lido depois de MOV_FALHOU</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>Um pedido recusado por <code>iniciarGiro()</code> ou <code>iniciarAvanco()</code> (movimento em andamento ou giro nulo) só devolve <code>false</code>: não muda o motivo da última falha, que o laço pode ainda não ter lido.</p>
+<p><code>ExecutorMovimento</code> (bloqueante) não muda. Um adaptador <code>ExecutorImediato</code> embrulha um <code>ExecutorMovimento</code> na interface nova, concluindo no primeiro <code>atualizar()</code>; é o que o robô virtual usa sobre o <code>SimuladorLabirinto</code>. Se o executor embrulhado também implementar <code>InformanteMotivoFalha</code>, o adaptador repassa o motivo de cada falha; sem isso, toda falha é <code>FALHA_TEMPO</code>. O dublê <code>ExecutorTemporizado</code> (em <code>test/comum/</code>) faz o mesmo com duração configurável, devolvendo <code>MOV_EM_ANDAMENTO</code> por alguns ciclos, para exercitar as subfases com tempo.</p>
+<p><code>ExecutorMovimentoRobo</code> (puro, testável) implementa a interface sobre <code>ControleReta</code>, <code>ControleCurva</code>, <code>Odometria</code>, <code>ConversorVelocidadePwm</code> e as interfaces <code>IMotores</code> e <code>ISensoresToF</code>:</p>
+<p><strong>Giro</strong> (<code>GIRO_DIREITA</code>, <code>GIRO_ESQUERDA</code>, <code>GIRO_MEIA_VOLTA</code> como duas curvas seguidas no mesmo sentido):</p>
+<ol>
+<li><code>controleCurva.ressincronizar(rumoNominal(orientacaoAtual))</code> e <code>iniciar(sentido, rumoNominal, encEsq, encDir, agora)</code> (B5).</li>
+<li>A cada tick: <code>atualizar()</code> com <code>imuValido = false</code> e as contagens; converte as duas velocidades em PWM; <code>CURVA_CONCLUIDA</code> → <code>MOV_CONCLUIDO</code>; <code>CURVA_FALHOU</code> (3 s) → freio e <code>MOV_FALHOU</code>.</li>
+<li>Assentamento de 100 ms já está no <code>ControleCurva</code>.</li>
+</ol>
+<p><strong>Avanço de uma célula</strong>:</p>
+<ol>
+<li><code>controleReta.iniciar(0, encEsq, encDir, agora)</code>; alvo em pulsos = <code>CELULA_MM / RODA_MM_POR_PULSO</code> (645 pulsos a 360 por volta).</li>
+<li>A cada tick com amostra nova dos laterais: <code>atualizar()</code> → velocidades → PWM. Entre amostras, mantém o último comando.</li>
+<li>Término por odometria (média das duas rodas ≥ alvo) ou por <strong>encosto frontal</strong>: se há parede à frente e a distância frontal ≤ <code>DIST_ENCOSTO_FRONTAL_MM</code> (valor inicial 45 mm, a calibrar: é a distância sensor-parede com o robô centrado na célula), termina ali, o que corrige o erro longitudinal acumulado.</li>
+<li>Emergência: distância frontal ≤ <code>DIST_MINIMA_SEGURA_MM</code> (30 mm) antes de atingir 60 % do alvo, ou tempo acima de <code>TEMPO_LIMITE_AVANCO_MS</code> (3 s) → freio, <code>MOV_FALHOU</code> com motivo <code>FALHA_EMERGENCIA_FRONTAL</code> ou <code>FALHA_TEMPO</code>.</li>
+<li>Freio ativo, 200 ms de assentamento (o do <code>hw/firm</code>) e roda livre antes de <code>MOV_CONCLUIDO</code>, para as leituras de parede da célula nova serem feitas com o robô parado.</li>
+</ol>
+<p>Parâmetros iniciais vêm do <code>hw/firm</code> (PWM 90 como partida, 3 s de limite de avanço, 2 s de curva, 200 ms de freio) e dos padrões dos controles; todos ficam em um <code>ParametrosExecutor</code> com <code>parametrosPadrao()</code>, no estilo das classes de Davi e João Pedro.</p>
+<h3 id="36-fonte-unica-da-orientacao-e-da-chegada">3.6 Fonte única da orientação e da chegada<a class="headerlink" href="#36-fonte-unica-da-orientacao-e-da-chegada" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Orientação</strong>: <code>Navegador::orientacao()</code> (<code>Direcao</code>). O executor recebe a orientação atual só para calcular o rumo nominal da curva; não guarda cópia. O <code>ControleCurva</code> deixa de ter orientação (B1). A telemetria publica <code>navegador.orientacao()</code> via <code>preencherPosicao()</code>.</li>
+<li><strong>Posição</strong>: <code>Navegador::linha()/coluna()</code>, atualizadas só em <code>confirmarAvanco()</code>.</li>
+<li><strong>Chegada</strong>: detectada pelo <code>Navegador</code> (a célula de destino é alcançada em <code>confirmarAvanco()</code>), executada pelo <code>ParadaObjetivo</code> (parar e congelar, na ordem já testada) e publicada pelo laço somente a partir de <code>parada.concluido()</code> (B2). <code>desafio_cumprido = parada.desafioCumprido()</code>.</li>
+<li><strong>Estado da prova</strong>: só o <code>CicloProva</code> escreve <code>estadoAtual</code>; <code>Navegador::estadoRobo()</code> e <code>MonitorTravamento::estadoRobo()</code> não são usados para publicar.</li>
+</ul>
+<h3 id="37-falhas">3.7 Falhas<a class="headerlink" href="#37-falhas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Situação</th>
+<th style="text-align: left;">Detecção</th>
+<th style="text-align: left;">Ação</th>
+<th style="text-align: left;">Estado publicado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Sensor ToF sem leitura válida na célula</td>
+<td style="text-align: left;"><code>lerParedes()</code> devolve <code>false</code> por 150 ms</td>
+<td style="text-align: left;"><code>navegador.registrarFalha()</code> e nova tentativa de leitura; na terceira falha seguida o <code>Navegador</code> vai a <code>NAV_FALHA</code></td>
+<td style="text-align: left;"><code>TRAVADO</code> (não há estado melhor no contrato; a distinção fica no log serial)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sensor ToF morre no meio da prova</td>
+<td style="text-align: left;">Driver não bloqueante marca inválido (B10)</td>
+<td style="text-align: left;">Idem acima; o <code>ControleReta</code> sem laterais válidas cai em <code>MODO_RUMO</code> por encoders</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Travamento (roda sem pulsos por 1 s com tração)</td>
+<td style="text-align: left;"><code>MonitorTravamento</code> a 50 ms</td>
+<td style="text-align: left;">O monitor freia e congela o cronômetro; o executor vê <code>motores.bloqueado()</code> e encerra o movimento com <code>FALHA_TRACAO_CORTADA</code></td>
+<td style="text-align: left;"><code>TRAVADO</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Emergência frontal durante o avanço</td>
+<td style="text-align: left;">Executor (frontal ≤ 30 mm antes de 60 % do avanço)</td>
+<td style="text-align: left;">Freio, <code>MOV_FALHOU</code>; <code>registrarFalha()</code>; o laço relê as paredes e decide de novo; na terceira seguida o <code>Navegador</code> vai a <code>NAV_FALHA</code></td>
+<td style="text-align: left;"><code>COLISAO</code> quando a causa das falhas é <code>FALHA_EMERGENCIA_FRONTAL</code>; o laço guarda o motivo da última falha do executor</td>
+</tr>
+<tr>
+<td style="text-align: left;">Curva não converge em 2 s (o limite do <code>hw/firm</code>, por curva de 90°)</td>
+<td style="text-align: left;"><code>CURVA_FALHOU</code></td>
+<td style="text-align: left;">Freio, <code>MOV_FALHOU</code> com <code>FALHA_TEMPO</code>, <code>registrarFalha()</code>; o <code>ControleCurva</code> é ressincronizado antes da próxima curva, então o rumo ideal não fica deslocado</td>
+<td style="text-align: left;"><code>TRAVADO</code> na terceira seguida</td>
+</tr>
+<tr>
+<td style="text-align: left;">Destino inalcançável</td>
+<td style="text-align: left;"><code>decidir()</code> devolve sem movimento e <code>NAV_INALCANCAVEL</code></td>
+<td style="text-align: left;">Freio, cronômetro congelado</td>
+<td style="text-align: left;"><code>TRAVADO</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Tempo esgotado (10 min)</td>
+<td style="text-align: left;"><code>cronometro.decorridoMs(agora) &gt;= TELEMETRIA_TIMESTAMP_MAX_MS</code> no tick de segurança</td>
+<td style="text-align: left;">Freio, cronômetro já saturado</td>
+<td style="text-align: left;"><code>TIMEOUT</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Bateria baixa antes da largada</td>
+<td style="text-align: left;"><code>bateria &lt; BATERIA_MINIMA_LARGADA_MV</code> (6 800 mV) em <code>AGUARDANDO</code></td>
+<td style="text-align: left;">Largada recusada; LED vermelho piscando 3 vezes; log serial</td>
+<td style="text-align: left;"><code>AGUARDANDO</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Bateria baixa durante a prova</td>
+<td style="text-align: left;">Idem, em <code>MAPEANDO</code></td>
+<td style="text-align: left;">Nenhuma ação automática: sob carga dos motores a tensão afunda e um corte geraria falsos encerramentos; o painel destaca a bateria (HU-11) e a prova de 4x4 dura menos de 1 min</td>
+<td style="text-align: left;">inalterado</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rádio falhou no <code>setup()</code></td>
+<td style="text-align: left;"><code>radioTelemetriaInit()</code> falso</td>
+<td style="text-align: left;">A prova roda sem telemetria (RNF-SFT01: a navegação não depende do rádio); log serial a 1 Hz</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>parar()</code> chamado por dois lugares no mesmo tick</td>
+<td style="text-align: left;">Trinco em <code>Motores</code></td>
+<td style="text-align: left;">Primeiro <code>parar()</code> vence; os demais são inócuos</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="38-origem-de-cada-campo-da-telemetria">3.8 Origem de cada campo da telemetria<a class="headerlink" href="#38-origem-de-cada-campo-da-telemetria" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Origem</th>
+<th style="text-align: left;">Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>timestamp_ms</code></td>
+<td style="text-align: left;"><code>cronometro.decorridoMs(agora)</code></td>
+<td style="text-align: left;">0 antes da largada; congelado na chegada, no travamento e no timeout</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>labirinto_id</code></td>
+<td style="text-align: left;"><code>mapa.getGeometria()</code></td>
+<td style="text-align: left;">Alterado só em <code>AGUARDANDO</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>status_id</code></td>
+<td style="text-align: left;"><code>estadoAtual</code> do <code>CicloProva</code></td>
+<td style="text-align: left;">Única fonte (3.6)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>desafio_cumprido</code></td>
+<td style="text-align: left;"><code>parada.desafioCumprido()</code></td>
+<td style="text-align: left;">Hoje sempre 0 (B9)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bateria_pct</code>, <code>bateria_mv</code></td>
+<td style="text-align: left;"><code>bateria.lerMilivolts()</code> + <code>porcentagemBateria()</code></td>
+<td style="text-align: left;">Única leitura de hardware da telemetria</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>velocidade_atual</code></td>
+<td style="text-align: left;"><code>odometria.velocidadeMmS()</code> (média das rodas, janela de 200 ms)</td>
+<td style="text-align: left;">Hoje fixa em 0 (B9); 0 quando parado</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>velocidade_media</code></td>
+<td style="text-align: left;"><code>velocidadeMediaMmS(navegador.deslocamentos(), timestamp_ms)</code></td>
+<td style="text-align: left;">Como hoje, com <code>CELULA_MM</code> (R2)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>coluna</code>, <code>linha</code></td>
+<td style="text-align: left;"><code>navegador.coluna()/linha()</code> via <code>preencherPosicao()</code></td>
+<td style="text-align: left;">0,0 antes de <code>iniciar()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>orientacao</code></td>
+<td style="text-align: left;"><code>navegador.orientacao()</code> via <code>preencherPosicao()</code></td>
+<td style="text-align: left;"><code>DIR_LESTE</code> (2) na largada</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>paredes</code></td>
+<td style="text-align: left;"><code>mapa.getParedes(linha, coluna)</code> via <code>preencherPosicao()</code></td>
+<td style="text-align: left;">Lados ainda não observados aparecem sem parede, como hoje</td>
+</tr>
+</tbody>
+</table>
+<p>O pacote é montado em uma única função <code>montarTelemetria()</code> e validado com <code>telemetriaValidar()</code> antes do envio, como o <code>hw/firm</code> faz; um pacote inválido é um erro de programação e vai para o log serial.</p>
+<h3 id="39-constantes-e-calibracoes">3.9 Constantes e calibrações<a class="headerlink" href="#39-constantes-e-calibracoes" title="Permanent link">&para;</a></h3>
+<p>Entram em <code>Pinos.h</code> (constantes físicas, sem Arduino), com o <code>test_pinos</code> conferindo coerência. Critério para os parâmetros de hardware: o <code>hw/firm</code> é o único código que já rodou no robô montado, então os valores que funcionaram nele são o ponto de partida, e não valores calculados aqui. As exceções são a célula de 180 mm (o 168 do <code>hw/firm</code> é o vão do corredor, R2) e os 360 pulsos por volta, que continuam a confirmar na bancada (B4).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Constante</th>
+<th style="text-align: left;">Valor inicial</th>
+<th style="text-align: left;">Origem</th>
+<th style="text-align: left;">Como calibrar na bancada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>ENCODER_PULSOS_POR_VOLTA</code></td>
+<td style="text-align: left;">360 (a confirmar, B4)</td>
+<td style="text-align: left;"><code>hw/firm</code></td>
+<td style="text-align: left;">Uma volta da roda na mão (teste 3 do menu)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CELULA_MM</code> / <code>VAO_CORREDOR_MM</code></td>
+<td style="text-align: left;">180 / 168</td>
+<td style="text-align: left;">regulamento</td>
+<td style="text-align: left;">Trena na pista da AP18</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>BITOLA_MM</code></td>
+<td style="text-align: left;">80</td>
+<td style="text-align: left;"><code>hw/firm</code></td>
+<td style="text-align: left;">Curva de 90°: ajustar até o giro bater (teste 5 e 6)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LIMIAR_PAREDE_MM</code> / <code>HISTERESE_PAREDE_MM</code></td>
+<td style="text-align: left;">110 / 5</td>
+<td style="text-align: left;"><code>hw/firm</code> e doc 4.3</td>
+<td style="text-align: left;">Leituras com e sem parede (teste 1)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DIST_ENCOSTO_FRONTAL_MM</code></td>
+<td style="text-align: left;">45</td>
+<td style="text-align: left;">geometria</td>
+<td style="text-align: left;">Robô centrado na célula com parede à frente</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DIST_MINIMA_SEGURA_MM</code></td>
+<td style="text-align: left;">30</td>
+<td style="text-align: left;"><code>hw/firm</code></td>
+<td style="text-align: left;">Mantido</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PWM_MAXIMO_MOVIMENTO</code></td>
+<td style="text-align: left;">90 (provisório)</td>
+<td style="text-align: left;">PWM dos avanços e curvas do <code>hw/firm</code></td>
+<td style="text-align: left;">Só sobe depois da rampa de PWM (passo 5 da seção 6)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PWM_MINIMO</code> / <code>PWM_POR_MM_S</code></td>
+<td style="text-align: left;">40 / cerca de 0,33 (provisórios)</td>
+<td style="text-align: left;">zona morta de 10 a 15 % do doc 4.3; inclinação que põe os 150 mm/s da reta no PWM 90</td>
+<td style="text-align: left;">Rampa de PWM com leitura dos encoders (velocidade em função do PWM)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MOTOR_*_INVERTIDO</code>, <code>ENCODER_*_INVERTIDO</code></td>
+<td style="text-align: left;">false</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Testes 2 e 3 do menu</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>BATERIA_R_SERIE_OHM</code> / <code>BATERIA_R_GND_OHM</code></td>
+<td style="text-align: left;">30 000 / 7 500</td>
+<td style="text-align: left;"><code>hw/firm</code></td>
+<td style="text-align: left;">Multímetro na bateria vs. leitura</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>BATERIA_MINIMA_LARGADA_MV</code></td>
+<td style="text-align: left;">6 800</td>
+<td style="text-align: left;"><code>hw/firm</code></td>
+<td style="text-align: left;">Mantido</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PINO_LED_ESTADO</code> e tipo do LED</td>
+<td style="text-align: left;">14, WS2812B</td>
+<td style="text-align: left;">provisório (R5)</td>
+<td style="text-align: left;">Confirmar com a Eletrônica</td>
+</tr>
+</tbody>
+</table>
+<h3 id="310-estrategia-de-testes">3.10 Estratégia de testes<a class="headerlink" href="#310-estrategia-de-testes" title="Permanent link">&para;</a></h3>
+<p><strong>Nível 1, unitário no nativo (cada PR).</strong> Todos os módulos puros novos ganham <code>test_*</code> próprios: <code>Odometria</code> (mm, velocidade, último pulso por roda, rumo), <code>ClassificadorParedes</code> (limiar, histerese, inválidos), <code>ConversorVelocidadePwm</code> (zona morta, saturação, sinal), <code>ExecutorMovimentoRobo</code> com motores e ToF falsos (giro conclui pelos encoders, avanço termina por odometria e por encosto, emergência frontal, limite de tempo, trinco), <code>CicloProva</code> com todas as dependências falsas (largada, geometria, timeout, bateria, reinício). As mudanças de interface do B1 e do R1 atualizam <code>test_curva</code> e <code>test_travamento</code>.</p>
+<p><strong>Nível 2, robô virtual no nativo (etapa 6).</strong> <code>test/test_robo_virtual/</code> compila o <code>CicloProva</code> com drivers falsos e relógio falso avançando 1 ms por tick:</p>
+<ul>
+<li><code>MundoVirtual</code> sobre o <code>SimuladorLabirinto</code> (movido para <code>test/comum/</code>): guarda a posição real do robô dentro da célula (progresso em mm e ângulo em graus), gera pulsos de encoder a partir do PWM comandado (com um modelo simples PWM → mm/s, incluindo zona morta), devolve distâncias ToF a partir das paredes verdadeiras e da posição na célula, e bloqueia as rodas quando o robô encosta em uma parede (para o cenário de travamento).</li>
+<li>As três pistas dos slides são as mesmas de <code>src/backend/app/simulador/pistas.txt</code>: o teste traz um leitor do mesmo formato de texto, com as três pistas copiadas em um cabeçalho, para a prova no nativo ser fiel à pista do painel.</li>
+<li>Casos: largada por botão (segurar 2 s e soltar, geometria por toque triplo), navegação até <code>CONCLUIDO</code> em D4, D8 e D12, motores parados e cronômetro congelado após a chegada, <code>desafio_cumprido</code> e todos os campos preenchidos e válidos em cada pacote de 1 Hz, corte em até 1 200 ms com <code>TRAVADO</code> quando as rodas são bloqueadas, <code>TIMEOUT</code> aos 10 min com o relógio acelerado, <code>COLISAO</code> com uma parede inesperada à frente, recusa de largada com bateria baixa, e reinício para nova tentativa.</li>
+<li>Envio ao painel: a <code>FonteSerial</code> do backend aceita URLs do pyserial como <code>socket://localhost:7777</code>. O robô virtual, em um ambiente <code>native_virtual</code> (ou um teste com variável de ambiente), roda em tempo real e escreve as linhas JSON geradas pelo <code>GatewayBridge</code> (a mesma conversão do gateway) em um servidor TCP local. Isso não exige mudança no backend nem no frontend; a decisão de implementar como servidor TCP no próprio binário ou como um utilitário Python em <code>src/firmware/robo/tools</code> fica para a etapa 6, conforme o que ficar mais simples no Windows.</li>
+</ul>
+<p><strong>Nível 3, bancada e pista (seção 6).</strong> Testes do menu do <code>hw/firm</code> para calibrar as constantes, depois o firmware integrado em etapas: uma célula, uma curva, corredor de três células (CT-01), curvas seguidas (CT-02), pista 4x4 completa (CT-05 e CT-06) com o painel (CT-07 e CT-09), travamento provocado (CT-15).</p>
+<hr />
+<h2 id="4-plano-de-execucao">4. Plano de execução<a class="headerlink" href="#4-plano-de-execucao" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Etapa</th>
+<th style="text-align: left;">Branch</th>
+<th style="text-align: left;">Conteúdo</th>
+<th style="text-align: left;">Base</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><code>docs/149-desenho-integracao</code></td>
+<td style="text-align: left;">Este documento (PR)</td>
+<td style="text-align: left;"><code>main</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"><code>refactor/149-preparacao-integracao</code></td>
+<td style="text-align: left;">B1 (orientação única no <code>ControleCurva</code>), R1 (tração por roda no detector e no monitor), R2 (<code>CELULA_MM</code> e <code>VAO_CORREDOR_MM</code> em <code>Pinos.h</code> e <code>VelocidadeMedia</code>), interface não bloqueante do executor e adaptador (B3), R12 (simulador em <code>test/comum</code>), testes atualizados; atualização das seções 4.1 e 4.3 do doc 4.4 para o laço cooperativo (M5)</td>
+<td style="text-align: left;">etapa 2</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><code>feat/149-drivers</code></td>
+<td style="text-align: left;">Porte dos drivers do <code>hw/firm</code> para <code>src/drivers/</code> com <code>Pinos.h</code> (motores com trinco, encoders, ToF não bloqueante, LED), partes puras (<code>Odometria</code>, <code>ClassificadorParedes</code>, <code>ConversorVelocidadePwm</code>) com testes; constantes novas em <code>Pinos.h</code>; nada em <code>hw/</code></td>
+<td style="text-align: left;">etapa 3</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;"><code>feat/149-executor-loop</code></td>
+<td style="text-align: left;"><code>ExecutorMovimentoRobo</code>, <code>CicloProva</code>, <code>main.cpp</code> novo, telemetria completa, falhas, reinício; pausa da interrupção do encoder esquerdo durante a leitura da bateria (pendência 9 da seção 5); testes do executor e do ciclo</td>
+<td style="text-align: left;">etapa 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;"><code>test/149-robo-virtual</code></td>
+<td style="text-align: left;"><code>MundoVirtual</code>, leitor de pistas, testes de ponta a ponta nas três pistas, envio opcional ao backend</td>
+<td style="text-align: left;">etapa 5</td>
+</tr>
+</tbody>
+</table>
+<p>Mudanças de interface previstas, todas justificadas acima: remoção de <code>Orientacao</code>, <code>definirOrientacao()</code>, <code>orientacao()</code> e do parâmetro <code>inicial</code> do <code>ControleCurva</code> (B1); sobrecargas novas em <code>DetectorTravamento::verificar</code> e <code>MonitorTravamento::verificar</code> e métodos novos com implementação padrão em <code>IFonteTracao</code> (R1, compatível); interface nova <code>ExecutorMovimentoNaoBloqueante</code> sem alterar <code>ExecutorMovimento</code> (B3); <code>TAMANHO_CELULA_MM</code> passa a vir de <code>Pinos.h</code> (R2). Nada muda em <code>lib/telemetria</code>.</p>
+<h3 id="41-registro-da-etapa-4-drivers">4.1 Registro da etapa 4 (drivers)<a class="headerlink" href="#41-registro-da-etapa-4-drivers" title="Permanent link">&para;</a></h3>
+<p>Decisões tomadas na implementação, dentro do desenho acima:</p>
+<ul>
+<li><strong>Motores divididos em lógica e hardware (B7).</strong> O trinco precisa ser testado no nativo, então a lógica (<code>drivers/Motores.h</code>: trinco, tração por roda e inversão) fala com a ponte H por uma interface <code>IPonteH</code>, e o porte do <code>tb6612_driver</code> fica em <code>drivers/PonteHTb6612.cpp</code>. <code>Motores</code> tem três formas de parar: <code>parar()</code> é o corte de segurança e fecha o trinco, <code>frear()</code> é o freio do fim de um movimento e <code>soltar()</code> deixa as rodas livres. As duas últimas não abrem o trinco.</li>
+<li><strong>Sem alvo ao alcance não é leitura inválida (B10, R3).</strong> O VL53L0X devolve 8190 mm quando não enxerga nada, como num corredor longo. Para a classificação isso é "não há parede"; para o controle de reta é distância inválida (-1). Inválido para os dois é só o sensor sem amostra nova há mais de 100 ms ou a leitura 0.</li>
+<li><strong>Erro de I2C não pode travar o laço (B10).</strong> Além da consulta de "amostra pronta", o timeout do barramento cai para 5 ms e um sensor com erro fica 50 ms sem ser consultado. No pior caso (barramento travado), o laço perde cerca de 15 ms a cada 50 ms, em vez de 1,5 s.</li>
+<li><strong>Modelo do conversor (B6).</strong> <code>|PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S</code>, saturado em <code>PWM_MAXIMO_MOVIMENTO</code> e sem nunca emitir PWM entre 1 e <code>PWM_MINIMO - 1</code>. Até a rampa de PWM, o teto é 90, o PWM dos avanços e curvas do <code>hw/firm</code>. A resolução de 255 da ponte H continua valendo só para o freio ativo, que no <code>hw/firm</code> também usa o duty máximo. A inclinação passou de 0,6 para cerca de 0,33, para os 150 mm/s da reta caírem em PWM 90. Com 0,6 e o teto em 90, toda a faixa da reta, de 90 a 210 mm/s, saturaria nas duas rodas e o controle de reta perderia a correção lateral. Com 0,33, a roda que acelera satura, mas a que desacelera desce até PWM 70, e a correção continua.</li>
+<li><strong>Limiar de parede no controle de reta (R3).</strong> O padrão do <code>ControleReta</code> (<code>distMaxParedeMm = 100</code>) não foi alterado. O executor da etapa 5 é quem configura <code>distMaxParedeMm = LIMIAR_PAREDE_MM</code>, para o controle e o classificador concordarem.</li>
+<li><strong>Bateria (R4).</strong> <code>bateriaPermiteLargada()</code> em <code>BateriaConversao.h</code> compara com <code>BATERIA_MINIMA_LARGADA_MV</code>; o <code>CicloProva</code> da etapa 5 é quem recusa a largada.</li>
+</ul>
+<p>Interfaces novas da etapa 4, todas em arquivos novos: <code>IPonteH</code> e <code>Motores</code>, <code>LeituraToF</code>, <code>ClassificadorParedes</code> e <code>AmostraParedes</code>, <code>ConversorVelocidadePwm</code>, <code>Odometria</code>, <code>PadraoLed</code>, os quatro drivers de hardware e <code>bateriaPermiteLargada()</code>. Nenhuma assinatura existente muda.</p>
+<h3 id="42-registro-da-etapa-5-executor-e-laco">4.2 Registro da etapa 5 (executor e laço)<a class="headerlink" href="#42-registro-da-etapa-5-executor-e-laco" title="Permanent link">&para;</a></h3>
+<p>Decisões tomadas na implementação, dentro do desenho acima:</p>
+<ul>
+<li><strong>Parâmetros do executor.</strong> Partem do <code>hw/firm</code>: 3 s de limite no avanço, 2 s por curva de 90°, freio ativo, 200 ms de assentamento e roda livre no fim de cada movimento. O alvo do avanço é a célula de 180 mm em pulsos (645 a 360 pulsos por volta); o <code>hw/firm</code> usa 168 mm, o vão do corredor. O alvo da curva é o mesmo do <code>hw/firm</code> (arco de π × bitola / 4 por roda), medido pelo <code>ControleCurva</code> com os encoders. A meia-volta são duas curvas para a direita; o <code>hw/firm</code> faz o arco de 180° de uma vez, com o mesmo total de pulsos.</li>
+<li><strong>Curva abortada.</strong> O <code>ControleCurva</code> não tem como cancelar uma curva em andamento. Em vez de mudar a classe, o executor cria um controle novo a cada giro, já ressincronizado com o rumo nominal (B5).</li>
+<li><strong>Leitura das paredes.</strong> Só vale com amostras dos três ToF feitas depois de o robô parar na célula (<code>LeituraToF::instanteMs()</code>). Sem leitura válida em 150 ms, o laço registra a falha e tenta de novo, como o <code>passo()</code> e a tabela 3.7; o diagrama de subfases foi corrigido.</li>
+<li><strong>Cronômetro sem função global (R10).</strong> O <code>CicloProva</code> congela o cronômetro por um adaptador interno que usa o instante do tick em andamento, em vez do <code>AdaptadorCronometro</code> com ponteiro para função. O efeito é o mesmo e vários ciclos podem coexistir nos testes. O <code>main.cpp</code> continua convertendo <code>millis()</code> para <code>uint32_t</code>.</li>
+<li><strong>GPIO 36 e 39 (pendência 9).</strong> Toda leitura da bateria, da telemetria e da largada, é feita com a interrupção do canal A esquerdo pausada (<code>IEncoders::pausarEsquerdo()</code>, por <code>gpio_intr_disable</code>).</li>
+<li><strong>Telemetria.</strong> Em <code>AGUARDANDO</code> o pacote publica A1 virado para o leste, também depois de uma nova tentativa. Um pacote que não passa em <code>telemetriaValidar()</code> não é enviado e vai para o log.</li>
+<li><strong>Tempo de tick.</strong> O <code>main.cpp</code> imprime a cada 5 s quantos ticks rodaram e o maior tick em µs, para o relatório 7.5.</li>
+</ul>
+<p>Se qualquer etapa revelar algo que mude este desenho (por exemplo, a contagem dos encoders ser 4x diferente, ou o robô ter IMU), o trabalho para e o documento é revisto antes de seguir.</p>
+<hr />
+<h2 id="5-pendencias-para-as-outras-areas">5. Pendências para as outras áreas<a class="headerlink" href="#5-pendencias-para-as-outras-areas" title="Permanent link">&para;</a></h2>
+<p>Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pelos documentos (o doc 4.4, que é de Software, é atualizado na etapa 3 e não entra aqui):</p>
+<ol>
+<li><strong>Pulsos por volta do encoder (B4).</strong> <code>hw/firm/include/pinout.h:55</code> diz "12 CPR x 30:1 = 360" com decodificação 1x; o 7.3 (seção 2.5) diz "7 pares de polos, borda simples, 360 pulsos por volta". Pedir a medição com o firmware atual e a pinagem atual, ou a folha de dados do motor (CPR do disco e redução).</li>
+<li><strong>IMU (1.2).</strong> Confirmar que não há MPU6050 montada. Se houver, informar pino INT, endereço e orientação do eixo Z.</li>
+<li><strong>Tamanho da célula no <code>hw/firm</code> (R2).</strong> <code>CELL_SIZE_MM 168</code> em <code>pinout.h:59</code> e o teste 4 avançam 168 mm; o passo entre centros é 180 mm. Sugerir a correção no <code>hw/firm</code> e em <code>hw/firm/test/test_firmware.cpp</code>.</li>
+<li><strong>Leitura dos ToF (B10).</strong> <code>vl53l0x_manager_read()</code> bloqueia até 500 ms por sensor ausente; sugerir leitura por "amostra pronta" também no <code>hw/firm</code>, para o menu de testes não travar com um sensor solto.</li>
+<li><strong>LED de estado (R5).</strong> Qual LED está montado e em qual pino: WS2812B (doc 4.3, antes no GPIO 2) ou LED comum no GPIO 14.</li>
+<li><strong>Divisor da bateria (R4).</strong> Módulo 5:1 (30 k/7,5 k) ou resistores 100 k/47 k do doc 4.3.</li>
+<li><strong>Doc 4.3.</strong> A tabela de pinagem continua com a pinagem antiga (já apontado no PR <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/188">#188</a>); o relatório 7.3 cita os GPIOs antigos dos encoders (27/26 e 25/33).</li>
+<li><strong>GPIO 2 e pull-ups dos encoders.</strong> Já registrados no PR #188: GPIO 2 (canal B do encoder direito) é pino de boot e os GPIO 35, 36 e 39 não têm pull-up interno.</li>
+<li><strong>GPIO 36 e 39 com o ADC ligado.</strong> A errata do ESP32 (item 3.11) informa que, quando o ADC1 é ligado, as entradas dos GPIO 36 e 39 são puxadas para baixo por cerca de 80 ns. Os dois canais do encoder esquerdo estão nesses pinos, e a interrupção na borda de subida do canal A pode contar pulsos falsos a cada leitura da bateria, que tem 16 amostras por segundo. Na bancada, conferir se a contagem esquerda muda com o robô parado e a telemetria ligada (passo 4 da seção 6). A mitigação do lado do Software foi implementada na etapa 5: o próprio laço pausa a interrupção do encoder esquerdo durante os cerca de 2 ms da leitura da bateria, a cada segundo, ao custo de no máximo um ou dois pulsos reais perdidos. A conferência na bancada continua no autoteste. Se a contagem ainda andar com o robô parado, a Eletrônica pode trocar o encoder esquerdo para pinos sem essa limitação.</li>
+</ol>
+<hr />
+<h2 id="6-roteiro-preliminar-do-primeiro-dia-de-bancada">6. Roteiro preliminar do primeiro dia de bancada<a class="headerlink" href="#6-roteiro-preliminar-do-primeiro-dia-de-bancada" title="Permanent link">&para;</a></h2>
+<p>Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apoio (rodas no ar) até o passo 6, bateria carregada, monitor serial a 115200 bps e câmera ligada (a issue pede registro).</p>
+<ol>
+<li><strong>Pulsos por volta da roda, antes de qualquer movimento.</strong> Com o <code>hw/firm</code> gravado (o que já está no robô), teste 3 do menu: girar cada roda exatamente uma volta na mão, três vezes, e anotar os pulsos. Esse número define <code>ENCODER_PULSOS_POR_VOLTA</code> (B4); se não for 360, nenhum teste de movimento faz sentido antes de corrigir a constante. Aproveitar para conferir o sinal: a contagem deve crescer girando a roda no sentido de avanço.</li>
+<li><strong>Demais medições com o <code>hw/firm</code>:</strong> teste 9 (bateria: anotar a tensão lida e a do multímetro), teste 1 (ToF: leituras com a mão a 5, 10 e 20 cm de cada sensor; anotar leitura sem obstáculo), teste 2 (sentido de cada motor).</li>
+<li><strong>Atualizar <code>Pinos.h</code></strong> com pulsos por volta, inversões e divisor da bateria; rodar <code>pio test -e native</code> e <code>pio run -e esp32dev</code>; gravar o firmware integrado.</li>
+<li><strong>Autoteste sem andar:</strong> <code>AGUARDANDO</code> com LED verde; toque triplo troca a geometria com as piscadas; telemetria chegando no painel a 1 Hz com bateria e <code>AGUARDANDO</code>; segurar 2 s acende o branco. Com o robô parado e a telemetria ligada por 1 min, as contagens dos encoders não podem mudar (item 9 da seção 5). Anotar a linha <code>[tick]</code> do monitor serial: quantos ticks em 5 s e o maior tick em µs.</li>
+<li><strong>Rampa de PWM</strong> (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir <code>PWM_MINIMO</code> e <code>PWM_POR_MM_S</code>. Até este passo, nenhum movimento passa do PWM 90 do <code>hw/firm</code> (<code>PWM_MAXIMO_MOVIMENTO</code>); só depois da rampa o teto pode subir, com a inclinação refeita a partir das medidas.</li>
+<li><strong>Travamento no ar:</strong> largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".</li>
+<li><strong>No chão, corredor reto:</strong> uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).</li>
+<li><strong>Curvas:</strong> 90° direita, 90° esquerda e 180° isoladas; ajustar <code>BITOLA_MM</code> até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02).</li>
+<li><strong>Pista 4x4 completa</strong> com o painel ao vivo (CT-05, CT-06, CT-07, CT-09): anotar tempo, deslocamentos, retornos e giros reportados na serial e comparar com a simulação.</li>
+<li><strong>Registrar</strong> os valores finais das constantes e as divergências entre o robô virtual e o real (tarefa da issue #149).</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Software">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Software
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../5%20-%20Cronograma/" class="md-footer__link md-footer__link--next" aria-label="Próximo: 5 — Cronograma">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                5 — Cronograma
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

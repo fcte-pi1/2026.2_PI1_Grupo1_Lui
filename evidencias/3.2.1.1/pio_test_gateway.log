@@ -1,0 +1,26 @@
+Verbosity level can be increased via `-v, -vv, or -vvv` option
+Collected 1 tests
+
+Processing test_bridge in native environment
+--------------------------------------------------------------------------------
+Building...
+Library Manager: Installing bblanchon/ArduinoJson @ ^7.0.0
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Library Manager: ArduinoJson@7.4.3 has been installed!
+Library Manager: Installing throwtheswitch/Unity @ ^2.6.1
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Library Manager: Unity@2.6.1 has been installed!
+Testing...
+test\test_bridge\test_bridge.cpp:106: test_quadro_valido_gera_uma_linha_json	[PASSED]
+test\test_bridge\test_bridge.cpp:107: test_sequencia_incrementa_a_cada_pacote_valido	[PASSED]
+test\test_bridge\test_bridge.cpp:108: test_quadro_com_tamanho_errado_e_descartado	[PASSED]
+test\test_bridge\test_bridge.cpp:109: test_quadro_com_campo_invalido_e_descartado_sem_consumir_seq	[PASSED]
+test\test_bridge\test_bridge.cpp:110: test_buffer_de_saida_insuficiente_descarta	[PASSED]
+test\test_bridge\test_bridge.cpp:111: test_ponteiro_nulo_e_descartado	[PASSED]
+---------------- native:test_bridge [PASSED] Took 8.99 seconds ----------------
+
+=================================== SUMMARY ===================================
+Environment    Test         Status    Duration
+-------------  -----------  --------  ------------
+native         test_bridge  PASSED    00:00:08.990
+================== 6 test cases: 6 succeeded in 00:00:08.990 ==================

@@ -1,0 +1,46 @@
+Verbosity level can be increased via `-v, -vv, or -vvv` option
+Collected 2 tests
+
+Processing test_mapa in native environment
+--------------------------------------------------------------------------------
+Building...
+Testing...
+test\test_mapa\test_mapa.cpp:56: test_mapa_default_geometry	[PASSED]
+test\test_mapa\test_mapa.cpp:57: test_mapa_change_to_8x4	[PASSED]
+test\test_mapa\test_mapa.cpp:58: test_mapa_change_to_12x4	[PASSED]
+test\test_mapa\test_mapa.cpp:59: test_mapa_cycle_geometry	[PASSED]
+----------------- native:test_mapa [PASSED] Took 3.79 seconds -----------------
+
+Processing test_telemetria in native environment
+--------------------------------------------------------------------------------
+Building...
+Testing...
+test\test_telemetria\test_telemetria.cpp:307: test_pacote_tem_18_bytes	[PASSED]
+test\test_telemetria\test_telemetria.cpp:308: test_codificar_layout_little_endian	[PASSED]
+test\test_telemetria\test_telemetria.cpp:309: test_codificacao_igual_a_struct_na_memoria	[PASSED]
+test\test_telemetria\test_telemetria.cpp:310: test_ida_e_volta_preserva_todos_os_campos	[PASSED]
+test\test_telemetria\test_telemetria.cpp:311: test_ida_e_volta_velocidades_negativas	[PASSED]
+test\test_telemetria\test_telemetria.cpp:312: test_ida_e_volta_valores_extremos_validos	[PASSED]
+test\test_telemetria\test_telemetria.cpp:313: test_codificar_buffer_pequeno_ou_nulo	[PASSED]
+test\test_telemetria\test_telemetria.cpp:314: test_decodificar_tamanho_invalido	[PASSED]
+test\test_telemetria\test_telemetria.cpp:315: test_decodificar_rejeita_campos_fora_do_dominio	[PASSED]
+test\test_telemetria\test_telemetria.cpp:316: test_decodificar_rejeita_timestamp_acima_de_10_min	[PASSED]
+test\test_telemetria\test_telemetria.cpp:317: test_linha_valida_depende_da_geometria	[PASSED]
+test\test_telemetria\test_telemetria.cpp:318: test_decodificar_erro_nao_altera_saida	[PASSED]
+test\test_telemetria\test_telemetria.cpp:319: test_json_exemplo_do_contrato_com_seq_e_rssi	[PASSED]
+test\test_telemetria\test_telemetria.cpp:320: test_json_contem_todos_os_campos_obrigatorios	[PASSED]
+test\test_telemetria\test_telemetria.cpp:321: test_json_conversoes_de_cantos	[PASSED]
+test\test_telemetria\test_telemetria.cpp:322: test_json_todos_os_status_e_orientacoes	[PASSED]
+test\test_telemetria\test_telemetria.cpp:323: test_json_rejeita_pacote_invalido_e_buffer_pequeno	[PASSED]
+test\test_telemetria\test_telemetria.cpp:324: test_temporizador_dispara_a_1_hz	[PASSED]
+test\test_telemetria\test_telemetria.cpp:325: test_temporizador_sem_deriva_com_atraso_pequeno	[PASSED]
+test\test_telemetria\test_telemetria.cpp:326: test_temporizador_nao_dispara_em_rajada_apos_bloqueio	[PASSED]
+test\test_telemetria\test_telemetria.cpp:327: test_temporizador_overflow_de_millis	[PASSED]
+-------------- native:test_telemetria [PASSED] Took 5.75 seconds --------------
+
+=================================== SUMMARY ===================================
+Environment    Test             Status    Duration
+-------------  ---------------  --------  ------------
+native         test_mapa        PASSED    00:00:03.788
+native         test_telemetria  PASSED    00:00:05.751
+================= 25 test cases: 25 succeeded in 00:00:09.539 =================
