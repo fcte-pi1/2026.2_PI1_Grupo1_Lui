@@ -36,4 +36,11 @@ inline uint8_t porcentagemBateria(uint16_t mvBateria) {
     return (uint8_t)(((uint32_t)(mvBateria - BATERIA_VAZIA_MV) * 100 + faixa / 2) / faixa);
 }
 
+// A largada só é aceita com a bateria em pelo menos BATERIA_MINIMA_LARGADA_MV
+// (hardware/Pinos.h, achado R4 de docs/firmware/integracao-loop.md). A leitura é feita com
+// os motores parados, em AGUARDANDO; durante a prova não há corte por bateria.
+inline bool bateriaPermiteLargada(uint16_t mvBateria) {
+    return mvBateria >= BATERIA_MINIMA_LARGADA_MV;
+}
+
 #endif
