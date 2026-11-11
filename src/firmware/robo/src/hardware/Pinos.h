@@ -63,6 +63,14 @@ constexpr float BITOLA_MM = 80.0f;              // distância entre os centros d
 // Deslocamento de uma roda por pulso: pi x 32 / 360, cerca de 0,279 mm.
 constexpr float RODA_MM_POR_PULSO = 3.14159265f * RODA_DIAMETRO_MM / ENCODER_PULSOS_POR_VOLTA;
 
+// --- Labirinto (regulamento) ---
+// Passo entre centros de células: é o que o robô avança por célula e o que a velocidade
+// média usa. O vão livre do corredor é o passo menos a espessura da parede (12 mm) e serve
+// de referência para os limiares dos sensores de distância. O hw/firm usa 168 mm como
+// "célula"; aqui o avanço é de centro a centro (docs/firmware/integracao-loop.md, R2).
+const uint16_t CELULA_MM = 180;
+const uint16_t VAO_CORREDOR_MM = 168;
+
 // Divisor de tensão da bateria (resistor em série com a bateria e resistor para o GND,
 // com o ponto médio em PINO_BATERIA_ADC). Valores do firmware que roda no robô: módulo
 // sensor de tensão comercial de 30 kΩ / 7,5 kΩ, proporção 5:1 (bateria cheia de 8,4 V

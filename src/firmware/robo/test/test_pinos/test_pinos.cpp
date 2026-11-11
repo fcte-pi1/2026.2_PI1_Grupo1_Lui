@@ -56,11 +56,18 @@ void test_constantes_fisicas(void) {
     TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.2793f, RODA_MM_POR_PULSO);
 }
 
+void test_celula_do_regulamento(void) {
+    TEST_ASSERT_EQUAL_UINT16(180, CELULA_MM);
+    TEST_ASSERT_EQUAL_UINT16(168, VAO_CORREDOR_MM);
+    TEST_ASSERT_EQUAL_UINT16(12, CELULA_MM - VAO_CORREDOR_MM);  // espessura da parede
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_nenhum_pino_aparece_duas_vezes);
     RUN_TEST(test_todos_os_pinos_estao_na_lista_em_uso);
     RUN_TEST(test_pinos_da_pinagem_da_eletronica);
     RUN_TEST(test_constantes_fisicas);
+    RUN_TEST(test_celula_do_regulamento);
     return UNITY_END();
 }

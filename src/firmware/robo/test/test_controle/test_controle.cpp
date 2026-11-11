@@ -281,8 +281,9 @@ void test_iniciar_descarta_a_derivada_da_reta_anterior(void) {
 // ---------------------------------------------------------------------------
 
 static const float PI_F = 3.14159265f;
-static const float CORREDOR_MM = 168.0f;
-static const float CELULA_MM = 180.0f;
+// Corredor e célula vêm de hardware/Pinos.h (VAO_CORREDOR_MM e CELULA_MM), as mesmas
+// constantes que o firmware usa (docs/firmware/integracao-loop.md, R2).
+static const float CORREDOR_MM = (float)VAO_CORREDOR_MM;
 static const float DESVIO_MAXIMO_MM = 15.0f;  // critério de aceitação do RF-SFT01
 
 struct Gerador {
