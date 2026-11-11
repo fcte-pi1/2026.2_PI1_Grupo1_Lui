@@ -30,7 +30,7 @@ python -m venv .venv
 # Escolhe o simulador e a corrida
 $env:TELEMETRIA_FONTE = "simulador"
 $env:SIMULADOR_LABIRINTO = "4x4"      # 4x4, 8x4 ou 12x4
-$env:SIMULADOR_CENARIO = "completa"   # completa, travado ou perda_conexao
+$env:SIMULADOR_CENARIO = "completa"   # completa, travado, perda_conexao ou speed_run
 $env:SIMULADOR_REPETIR = "1"          # recomeça a corrida ao terminar
 
 .\.venv\Scripts\python -m uvicorn app.main:app

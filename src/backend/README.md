@@ -110,7 +110,7 @@ A fonte é escolhida pela variável `TELEMETRIA_FONTE`. Cada mensagem válida da
 | `SERIAL_PORTA` | Porta do gateway: `COM3`, `/dev/ttyUSB0` ou uma URL do pyserial, como `socket://localhost:7777` | - (obrigatória com `serial`) |
 | `SERIAL_BAUD` | Velocidade da serial | `115200` |
 | `SIMULADOR_LABIRINTO` | `4x4`, `8x4` ou `12x4` | `4x4` |
-| `SIMULADOR_CENARIO` | `completa`, `travado` ou `perda_conexao` | `completa` |
+| `SIMULADOR_CENARIO` | `completa`, `travado`, `perda_conexao` ou `speed_run` | `completa` |
 | `SIMULADOR_VELOCIDADE` | Fator de velocidade: `1` é uma mensagem por segundo, `5` é cinco vezes mais rápido | `1` |
 | `SIMULADOR_REPETIR` | `1` para recomeçar a corrida ao terminar | `0` |
 | `SIMULADOR_SEMENTE` | Semente dos valores aleatórios (bateria, velocidade, RSSI) | `141` |
@@ -166,6 +166,7 @@ O simulador emula o robô explorando uma pista e gera, a cada célula percorrida
 | `completa` | `CONCLUIDO` na chegada, com `desafio_cumprido` verdadeiro |
 | `travado` | `TRAVADO` no meio do percurso, com velocidade atual 0 |
 | `perda_conexao` | Perde 4 pacotes seguidos no meio do percurso e depois termina em `CONCLUIDO`: o robô não depende do rádio e segue navegando durante a perda |
+| `speed_run` | Executa a exploração completa (`MAPEANDO` até `CONCLUIDO`) seguida do percurso pela rota ótima descoberta em velocidade maior (`SPEED_RUN` até `CONCLUIDO`), com tempo ao menos 20% menor que o da exploração (HU-16 / RF-SFT09) |
 
 Em `CONCLUIDO` e `TRAVADO` a última mensagem se repete duas vezes com o cronômetro congelado, como o robô real continua transmitindo depois de parar.
 

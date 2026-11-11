@@ -186,3 +186,38 @@ test('recomeço limpo do mapa quando o simulador repete a corrida', async ({ pag
     expect(await pontosDoRastro(page)).toBe(rastroPrimeira);
     expect(await roboNaCelula(page, 'D04')).toBe(true);
 });
+
+test('CT-13 (HU-16): cenário speed_run executa exploração seguida de Speed Run e compara os tempos no histórico', async ({ page, iniciarBackend, evidencia }) => {
+    await iniciarBackend({ cenario: 'speed_run', labirinto: '4x4', velocidade: 5 });
+    await registrarPercurso(page);
+    await page.goto('/');
+
+    const tentativa = page.getByTestId('status-tentativa');
+    await expect(tentativa).toHaveText('Tentativa 1');
+    await expect(page.getByTestId('valor-status')).toHaveText('Concluído', { timeout: 30_000 });
+
+    // A segunda corrida começa na largada e percorre a rota ótima em Speed Run.
+    await expect(tentativa).toHaveText('Tentativa 2', { timeout: 30_000 });
+    await expect(page.getByTestId('valor-status')).toHaveText('Concluído', { timeout: 30_000 });
+
+    const { status } = await percurso(page);
+    expect(status).toContain('Explorando');
+    expect(status).toContain('Speed Run');
+    expect(await roboNaCelula(page, 'D04')).toBe(true);
+
+    // Histórico da sessão e tabela geral registram os modos e a redução >= 20% (RF-SFT09).
+    await expect(page.getByTestId('historico-item-0')).toContainText('Exploração');
+    await expect(page.getByTestId('historico-item-1')).toContainText('Speed Run');
+    await expect(page.getByTestId('comparacao-speed-run')).toContainText('-29% vs. Exploração (00:14)');
+
+    const tabela = page.getByTestId('tabela-historico');
+    await expect.poll(async () => {
+        await page.getByRole('button', { name: 'Atualizar histórico' }).click();
+        return tabela.textContent();
+    }, { timeout: 10_000, intervals: [200] }).toContain('(-29% vs. 00:14)');
+    await expect(tabela).toContainText('Exploração');
+    await expect(tabela).toContainText('Speed Run');
+    await expect(page.getByTestId('comparacao-tabela-speed-run')).toContainText('(-29% vs. 00:14)');
+
+    await evidencia('ct13-speed-run-comparacao');
+});
