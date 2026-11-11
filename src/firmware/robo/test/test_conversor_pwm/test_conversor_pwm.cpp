@@ -21,7 +21,19 @@ void test_padrao_usa_as_constantes_de_pinos(void) {
     const ParametrosConversorPwm p = ConversorVelocidadePwm::parametrosPadrao();
     TEST_ASSERT_EQUAL_UINT8(PWM_MINIMO, p.pwmMinimo);
     TEST_ASSERT_EQUAL_FLOAT(PWM_POR_MM_S, p.pwmPorMmS);
-    TEST_ASSERT_EQUAL_UINT8(PWM_MAXIMO, p.pwmMaximo);
+    TEST_ASSERT_EQUAL_UINT8(PWM_MAXIMO_MOVIMENTO, p.pwmMaximo);
+}
+
+void test_padrao_nunca_passa_do_pwm_90_do_hw_firm(void) {
+    // Até a rampa de PWM na bancada, nenhum movimento passa do PWM dos testes do hw/firm.
+    ConversorVelocidadePwm c;
+    TEST_ASSERT_EQUAL_INT16(90, c.converter(10000.0f));
+    TEST_ASSERT_EQUAL_INT16(-90, c.converter(-10000.0f));
+}
+
+void test_velocidade_base_da_reta_vira_o_pwm_90_do_hw_firm(void) {
+    ConversorVelocidadePwm c;
+    TEST_ASSERT_EQUAL_INT16(90, c.converter(ControleReta::parametrosPadrao().velocidadeBaseMmS));
 }
 
 void test_velocidade_zero_e_pwm_zero(void) {
@@ -51,7 +63,7 @@ void test_nunca_emite_pwm_dentro_da_zona_morta(void) {
         const int16_t pwm = c.converter(i * 0.25f);
         const int16_t modulo = pwm < 0 ? (int16_t)-pwm : pwm;
         TEST_ASSERT_TRUE(modulo == 0 || modulo >= PWM_MINIMO);
-        TEST_ASSERT_TRUE(modulo <= PWM_MAXIMO);
+        TEST_ASSERT_TRUE(modulo <= PWM_MAXIMO_MOVIMENTO);
     }
 }
 
@@ -82,12 +94,25 @@ void test_velocidade_minima_da_curva_vence_a_zona_morta(void) {
     TEST_ASSERT_TRUE(c.converter(-minimo) <= -(int16_t)PWM_MINIMO);
 }
 
-void test_faixa_do_controle_de_reta_cabe_no_pwm(void) {
-    // Velocidade base mais a correção máxima ainda fica abaixo da saturação.
+void test_correcao_da_reta_continua_mudando_o_pwm_com_o_teto(void) {
+    // Com o teto em 90, a roda que acelera satura, mas a que desacelera continua abaixo do
+    // teto e acima da zona morta: a correção lateral do ControleReta não se perde.
     ConversorVelocidadePwm c;
     const ParametrosControleReta r = ControleReta::parametrosPadrao();
-    TEST_ASSERT_TRUE(c.converter(r.velocidadeBaseMmS + r.limiteGiroMmS) < PWM_MAXIMO);
-    TEST_ASSERT_TRUE(c.converter(r.velocidadeBaseMmS - r.limiteGiroMmS) > PWM_MINIMO);
+    const int16_t base = c.converter(r.velocidadeBaseMmS);
+    const int16_t lenta = c.converter(r.velocidadeBaseMmS - r.limiteGiroMmS);
+    TEST_ASSERT_TRUE(lenta < base);
+    TEST_ASSERT_TRUE(lenta > PWM_MINIMO);
+    TEST_ASSERT_TRUE(base - lenta >= 15);  // diferença útil entre as rodas
+    // Metade da correção máxima ainda produz diferença.
+    TEST_ASSERT_TRUE(c.converter(r.velocidadeBaseMmS - r.limiteGiroMmS / 2) < base);
+}
+
+void test_faixa_da_curva_fica_dentro_do_teto(void) {
+    // A curva vai até 100 mm/s: abaixo da saturação, o controle proporcional vale inteiro.
+    ConversorVelocidadePwm c;
+    const ParametrosControleCurva p = ControleCurva::parametrosPadrao();
+    TEST_ASSERT_TRUE(c.converter(p.velocidadeMaxMmS) < PWM_MAXIMO_MOVIMENTO);
 }
 
 int main(void) {
@@ -100,6 +125,9 @@ int main(void) {
     RUN_TEST(test_satura_no_maximo);
     RUN_TEST(test_monotono_na_velocidade);
     RUN_TEST(test_velocidade_minima_da_curva_vence_a_zona_morta);
-    RUN_TEST(test_faixa_do_controle_de_reta_cabe_no_pwm);
+    RUN_TEST(test_padrao_nunca_passa_do_pwm_90_do_hw_firm);
+    RUN_TEST(test_velocidade_base_da_reta_vira_o_pwm_90_do_hw_firm);
+    RUN_TEST(test_correcao_da_reta_continua_mudando_o_pwm_com_o_teto);
+    RUN_TEST(test_faixa_da_curva_fica_dentro_do_teto);
     return UNITY_END();
 }

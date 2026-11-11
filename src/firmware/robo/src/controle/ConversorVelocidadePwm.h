@@ -14,7 +14,9 @@
 // emite PWM entre 1 e pwmMinimo - 1: um comando que não vence a zona morta deixaria a roda
 // parada com tração ativa, e o monitor de travamento cortaria os motores em 1 s (achado R1).
 //
-// Os valores padrão (hardware/Pinos.h) são provisórios e saem da rampa de PWM da bancada.
+// Os valores padrão (hardware/Pinos.h) são provisórios e saem da rampa de PWM da bancada;
+// até lá o teto é o PWM 90 dos testes do hw/firm (PWM_MAXIMO_MOVIMENTO), e não os 255 da
+// ponte H.
 // Se sobrar tempo, um PI de velocidade por roda sobre a Odometria pode entrar entre o
 // controle e este conversor sem mudar esta interface.
 
@@ -31,7 +33,7 @@ public:
         ParametrosConversorPwm p;
         p.pwmMinimo = PWM_MINIMO;      // hardware/Pinos.h, a calibrar
         p.pwmPorMmS = PWM_POR_MM_S;    // hardware/Pinos.h, a calibrar
-        p.pwmMaximo = PWM_MAXIMO;
+        p.pwmMaximo = PWM_MAXIMO_MOVIMENTO;  // hardware/Pinos.h: 90, como no hw/firm, até a rampa
         p.velocidadeNulaMmS = 0.5f;
         return p;
     }

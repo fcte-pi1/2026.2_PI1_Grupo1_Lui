@@ -81,15 +81,22 @@ const bool ENCODER_DIR_INVERTIDO = false;
 // --- Ponte H: PWM do ESP32 (LEDC), como no hw/firm ---
 const uint32_t PONTE_PWM_FREQ_HZ = 20000;  // acima da faixa audível
 const uint8_t PONTE_PWM_BITS = 8;          // PWM de 0 a 255
-const uint8_t PWM_MAXIMO = 255;
+const uint8_t PWM_MAXIMO = 255;  // resolução da ponte H; o freio ativo usa o máximo, como no hw/firm
 
 // Conversão de velocidade em PWM (achado B6, controle/ConversorVelocidadePwm.h), em malha
-// aberta: |PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S, saturado em PWM_MAXIMO. PWM_MINIMO
-// vence a zona morta dos motores (10 a 15 % segundo o doc 4.3). Valores provisórios: a
-// calibrar com a rampa de PWM do roteiro de bancada (velocidade medida nos encoders em
-// função do PWM, rodas no ar).
+// aberta: |PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S, saturado em PWM_MAXIMO_MOVIMENTO.
+// PWM_MINIMO vence a zona morta dos motores (10 a 15 % segundo o doc 4.3).
+//
+// Valores provisórios, partindo do hw/firm, que é o único código que já moveu o robô: os
+// avanços e curvas dele usam PWM 90 (cerca de 35 %), então nenhum movimento passa de 90 até
+// a rampa de PWM do roteiro de bancada (velocidade medida nos encoders em função do PWM,
+// rodas no ar). A inclinação põe a velocidade base da reta (150 mm/s, ControleReta) em
+// PWM 90: com o teto em 90, uma inclinação maior saturaria as duas rodas em toda a faixa
+// da reta e o controle perderia a correção lateral. Depois da rampa, substituir os três
+// valores pelos medidos.
 const uint8_t PWM_MINIMO = 40;
-constexpr float PWM_POR_MM_S = 0.6f;
+const uint8_t PWM_MAXIMO_MOVIMENTO = 90;
+constexpr float PWM_POR_MM_S = (float)(PWM_MAXIMO_MOVIMENTO - PWM_MINIMO) / 150.0f;  // cerca de 0,33
 
 // --- Labirinto (regulamento) ---
 // Passo entre centros de células: é o que o robô avança por célula e o que a velocidade

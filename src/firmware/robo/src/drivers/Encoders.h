@@ -9,8 +9,9 @@
 // instante do último pulso ficam na Odometria (odometria/Odometria.h), que é testada no
 // ambiente nativo e recebe estas contagens a cada tick (achado R6).
 //
-// Contagem 1x (só a borda de subida do canal A): ENCODER_PULSOS_POR_VOLTA em
-// hardware/Pinos.h precisa ser medido nessa mesma forma de contar (achado B4).
+// Contagem 1x (só a borda de subida do canal A), igual à do hw/firm, que foi a usada nas
+// medições da Eletrônica. Não trocar para 2x ou 4x: ENCODER_PULSOS_POR_VOLTA em
+// hardware/Pinos.h é medido nessa mesma forma de contar (achado B4).
 // Sentido: as contagens devem crescer com o robô andando para a frente; se uma roda contar
 // ao contrário na bancada, troque ENCODER_ESQ_INVERTIDO ou ENCODER_DIR_INVERTIDO (R7).
 //
