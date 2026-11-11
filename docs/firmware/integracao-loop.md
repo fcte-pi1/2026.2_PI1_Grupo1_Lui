@@ -318,7 +318,7 @@ O pacote é montado em uma única função `montarTelemetria()` e validado com `
 
 ### 3.9 Constantes e calibrações
 
-Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` conferindo coerência:
+Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` conferindo coerência. Critério para os parâmetros de hardware: o `hw/firm` é o único código que já rodou no robô montado, então os valores que funcionaram nele são o ponto de partida, e não valores calculados aqui. As exceções são a célula de 180 mm (o 168 do `hw/firm` é o vão do corredor, R2) e os 360 pulsos por volta, que continuam a confirmar na bancada (B4).
 
 | Constante | Valor inicial | Origem | Como calibrar na bancada |
 |:---|:---|:---|:---|
@@ -328,7 +328,8 @@ Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` confe
 | `LIMIAR_PAREDE_MM` / `HISTERESE_PAREDE_MM` | 110 / 5 | `hw/firm` e doc 4.3 | Leituras com e sem parede (teste 1) |
 | `DIST_ENCOSTO_FRONTAL_MM` | 45 | geometria | Robô centrado na célula com parede à frente |
 | `DIST_MINIMA_SEGURA_MM` | 30 | `hw/firm` | Mantido |
-| `PWM_MINIMO` / `PWM_POR_MM_S` | 40 / 0,6 (provisórios) | zona morta de 10 a 15 % do doc 4.3 e PWM 90 do `hw/firm` | Rampa de PWM com leitura dos encoders (velocidade em função do PWM) |
+| `PWM_MAXIMO_MOVIMENTO` | 90 (provisório) | PWM dos avanços e curvas do `hw/firm` | Só sobe depois da rampa de PWM (passo 5 da seção 6) |
+| `PWM_MINIMO` / `PWM_POR_MM_S` | 40 / cerca de 0,33 (provisórios) | zona morta de 10 a 15 % do doc 4.3; inclinação que põe os 150 mm/s da reta no PWM 90 | Rampa de PWM com leitura dos encoders (velocidade em função do PWM) |
 | `MOTOR_*_INVERTIDO`, `ENCODER_*_INVERTIDO` | false | | Testes 2 e 3 do menu |
 | `BATERIA_R_SERIE_OHM` / `BATERIA_R_GND_OHM` | 30 000 / 7 500 | `hw/firm` | Multímetro na bateria vs. leitura |
 | `BATERIA_MINIMA_LARGADA_MV` | 6 800 | `hw/firm` | Mantido |
@@ -356,7 +357,7 @@ Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` confe
 | 2 | `docs/149-desenho-integracao` | Este documento (PR) | `main` |
 | 3 | `refactor/149-preparacao-integracao` | B1 (orientação única no `ControleCurva`), R1 (tração por roda no detector e no monitor), R2 (`CELULA_MM` e `VAO_CORREDOR_MM` em `Pinos.h` e `VelocidadeMedia`), interface não bloqueante do executor e adaptador (B3), R12 (simulador em `test/comum`), testes atualizados; atualização das seções 4.1 e 4.3 do doc 4.4 para o laço cooperativo (M5) | etapa 2 |
 | 4 | `feat/149-drivers` | Porte dos drivers do `hw/firm` para `src/drivers/` com `Pinos.h` (motores com trinco, encoders, ToF não bloqueante, LED), partes puras (`Odometria`, `ClassificadorParedes`, `ConversorVelocidadePwm`) com testes; constantes novas em `Pinos.h`; nada em `hw/` | etapa 3 |
-| 5 | `feat/149-executor-loop` | `ExecutorMovimentoRobo`, `CicloProva`, `main.cpp` novo, telemetria completa, falhas, reinício; testes do executor e do ciclo | etapa 4 |
+| 5 | `feat/149-executor-loop` | `ExecutorMovimentoRobo`, `CicloProva`, `main.cpp` novo, telemetria completa, falhas, reinício; pausa da interrupção do encoder esquerdo durante a leitura da bateria (pendência 9 da seção 5); testes do executor e do ciclo | etapa 4 |
 | 6 | `test/149-robo-virtual` | `MundoVirtual`, leitor de pistas, testes de ponta a ponta nas três pistas, envio opcional ao backend | etapa 5 |
 
 Mudanças de interface previstas, todas justificadas acima: remoção de `Orientacao`, `definirOrientacao()`, `orientacao()` e do parâmetro `inicial` do `ControleCurva` (B1); sobrecargas novas em `DetectorTravamento::verificar` e `MonitorTravamento::verificar` e métodos novos com implementação padrão em `IFonteTracao` (R1, compatível); interface nova `ExecutorMovimentoNaoBloqueante` sem alterar `ExecutorMovimento` (B3); `TAMANHO_CELULA_MM` passa a vir de `Pinos.h` (R2). Nada muda em `lib/telemetria`.
@@ -368,7 +369,7 @@ Decisões tomadas na implementação, dentro do desenho acima:
 - **Motores divididos em lógica e hardware (B7).** O trinco precisa ser testado no nativo, então a lógica (`drivers/Motores.h`: trinco, tração por roda e inversão) fala com a ponte H por uma interface `IPonteH`, e o porte do `tb6612_driver` fica em `drivers/PonteHTb6612.cpp`. `Motores` tem três formas de parar: `parar()` é o corte de segurança e fecha o trinco, `frear()` é o freio do fim de um movimento e `soltar()` deixa as rodas livres. As duas últimas não abrem o trinco.
 - **Sem alvo ao alcance não é leitura inválida (B10, R3).** O VL53L0X devolve 8190 mm quando não enxerga nada, como num corredor longo. Para a classificação isso é "não há parede"; para o controle de reta é distância inválida (-1). Inválido para os dois é só o sensor sem amostra nova há mais de 100 ms ou a leitura 0.
 - **Erro de I2C não pode travar o laço (B10).** Além da consulta de "amostra pronta", o timeout do barramento cai para 5 ms e um sensor com erro fica 50 ms sem ser consultado. No pior caso (barramento travado), o laço perde cerca de 15 ms a cada 50 ms, em vez de 1,5 s.
-- **Modelo do conversor (B6).** `|PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S`, com saturação e sem nunca emitir PWM entre 1 e `PWM_MINIMO - 1`. Com os valores provisórios (40 e 0,6), os 150 mm/s da reta viram PWM 130, acima do PWM 90 dos testes do `hw/firm`. Os dois valores precisam sair da rampa de PWM (passo 5 da seção 6) antes do primeiro teste no chão.
+- **Modelo do conversor (B6).** `|PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S`, saturado em `PWM_MAXIMO_MOVIMENTO` e sem nunca emitir PWM entre 1 e `PWM_MINIMO - 1`. Até a rampa de PWM, o teto é 90, o PWM dos avanços e curvas do `hw/firm`. A resolução de 255 da ponte H continua valendo só para o freio ativo, que no `hw/firm` também usa o duty máximo. A inclinação passou de 0,6 para cerca de 0,33, para os 150 mm/s da reta caírem em PWM 90. Com 0,6 e o teto em 90, toda a faixa da reta, de 90 a 210 mm/s, saturaria nas duas rodas e o controle de reta perderia a correção lateral. Com 0,33, a roda que acelera satura, mas a que desacelera desce até PWM 70, e a correção continua.
 - **Limiar de parede no controle de reta (R3).** O padrão do `ControleReta` (`distMaxParedeMm = 100`) não foi alterado. O executor da etapa 5 é quem configura `distMaxParedeMm = LIMIAR_PAREDE_MM`, para o controle e o classificador concordarem.
 - **Bateria (R4).** `bateriaPermiteLargada()` em `BateriaConversao.h` compara com `BATERIA_MINIMA_LARGADA_MV`; o `CicloProva` da etapa 5 é quem recusa a largada.
 
@@ -390,7 +391,7 @@ Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pe
 6. **Divisor da bateria (R4).** Módulo 5:1 (30 k/7,5 k) ou resistores 100 k/47 k do doc 4.3.
 7. **Doc 4.3.** A tabela de pinagem continua com a pinagem antiga (já apontado no PR [#188](https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui/pull/188)); o relatório 7.3 cita os GPIOs antigos dos encoders (27/26 e 25/33).
 8. **GPIO 2 e pull-ups dos encoders.** Já registrados no PR #188: GPIO 2 (canal B do encoder direito) é pino de boot e os GPIO 35, 36 e 39 não têm pull-up interno.
-9. **GPIO 36 e 39 com o ADC ligado.** A errata do ESP32 (item 3.11) informa que, quando o ADC1 é ligado, as entradas dos GPIO 36 e 39 são puxadas para baixo por cerca de 80 ns. Os dois canais do encoder esquerdo estão nesses pinos, e a interrupção na borda de subida do canal A pode contar pulsos falsos a cada leitura da bateria, que tem 16 amostras por segundo. Na bancada, conferir se a contagem esquerda muda com o robô parado e a telemetria ligada (passo 4 da seção 6). Se mudar, há duas saídas. Pela Eletrônica, trocar o encoder esquerdo para pinos sem essa limitação. Pelo Software, na etapa 5, desligar a interrupção do encoder esquerdo durante os cerca de 2 ms da leitura da bateria.
+9. **GPIO 36 e 39 com o ADC ligado.** A errata do ESP32 (item 3.11) informa que, quando o ADC1 é ligado, as entradas dos GPIO 36 e 39 são puxadas para baixo por cerca de 80 ns. Os dois canais do encoder esquerdo estão nesses pinos, e a interrupção na borda de subida do canal A pode contar pulsos falsos a cada leitura da bateria, que tem 16 amostras por segundo. Na bancada, conferir se a contagem esquerda muda com o robô parado e a telemetria ligada (passo 4 da seção 6). A mitigação do lado do Software está decidida para a etapa 5: o próprio laço pausa a interrupção do encoder esquerdo durante os cerca de 2 ms da leitura da bateria, a cada segundo, ao custo de no máximo um ou dois pulsos reais perdidos. A conferência na bancada continua no autoteste. Se a contagem ainda andar com o robô parado, a Eletrônica pode trocar o encoder esquerdo para pinos sem essa limitação.
 
 ---
 
@@ -402,7 +403,7 @@ Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apo
 2. **Demais medições com o `hw/firm`:** teste 9 (bateria: anotar a tensão lida e a do multímetro), teste 1 (ToF: leituras com a mão a 5, 10 e 20 cm de cada sensor; anotar leitura sem obstáculo), teste 2 (sentido de cada motor).
 3. **Atualizar `Pinos.h`** com pulsos por volta, inversões e divisor da bateria; rodar `pio test -e native` e `pio run -e esp32dev`; gravar o firmware integrado.
 4. **Autoteste sem andar:** `AGUARDANDO` com LED verde; toque triplo troca a geometria com as piscadas; telemetria chegando no painel a 1 Hz com bateria e `AGUARDANDO`; segurar 2 s acende o branco. Com o robô parado e a telemetria ligada por 1 min, as contagens dos encoders não podem mudar (item 9 da seção 5).
-5. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`.
+5. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`. Até este passo, nenhum movimento passa do PWM 90 do `hw/firm` (`PWM_MAXIMO_MOVIMENTO`); só depois da rampa o teto pode subir, com a inclinação refeita a partir das medidas.
 6. **Travamento no ar:** largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".
 7. **No chão, corredor reto:** uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).
 8. **Curvas:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02).
