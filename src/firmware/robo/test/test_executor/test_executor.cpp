@@ -5,7 +5,9 @@
 
 // Testes do ExecutorMovimentoRobo (docs/firmware/integracao-loop.md, seção 3.5) sobre uma
 // bancada simulada: os encoders contam a partir do PWM aplicado na ponte (o inverso do
-// ConversorVelocidadePwm, sem inércia) e os ToF entregam uma amostra a cada 33 ms.
+// ConversorVelocidadePwm, sem inércia) e os ToF entregam uma amostra a cada 33 ms. A
+// bancada é um corredor: guarda o rumo real e o deslocamento lateral do robô (que o
+// executor não vê) e as leituras laterais dependem deles.
 
 void setUp(void) {}
 void tearDown(void) {}
@@ -58,11 +60,16 @@ struct Bancada {
     float frontalInicialMm;  // distância à parede da frente no início
     uint16_t frontalFixoMm;  // obstáculo parado à frente (0 = nenhum)
     bool rodasTravadas;
+    bool travaEsq;           // só a roda esquerda presa
+    bool paredesLaterais;    // corredor com as duas paredes (senão, sem alvo dos lados)
+    float rumoRealGraus;     // rumo real em relação ao corredor (+ = girado à esquerda)
+    float lateralMm;         // deslocamento real a partir do centro (+ = à esquerda)
     uint32_t ultimoMovimentoMs;
 
     Bancada()
         : motores(ponte, false, false), exec(motores, odo, tof), encEsq(0), encDir(0), t(0),
           paredeFrente(false), frontalInicialMm(0), frontalFixoMm(0), rodasTravadas(false),
+          travaEsq(false), paredesLaterais(true), rumoRealGraus(0), lateralMm(0),
           ultimoMovimentoMs(0) {
         odo.reiniciar(0, 0, 0);
     }
@@ -77,15 +84,22 @@ struct Bancada {
 
     void passo1ms() {
         t++;
-        if (!rodasTravadas) {
-            encEsq += velocidadeDoPwm(ponte.esq) / 1000.0f / RODA_MM_POR_PULSO;
-            encDir += velocidadeDoPwm(ponte.dir) / 1000.0f / RODA_MM_POR_PULSO;
-        }
+        const float dEsq = (rodasTravadas || travaEsq) ? 0.0f : velocidadeDoPwm(ponte.esq) / 1000.0f;
+        const float dDir = rodasTravadas ? 0.0f : velocidadeDoPwm(ponte.dir) / 1000.0f;
+        encEsq += dEsq / RODA_MM_POR_PULSO;
+        encDir += dDir / RODA_MM_POR_PULSO;
+        rumoRealGraus += (dDir - dEsq) / BITOLA_MM * 57.29577951f;
+        lateralMm += (dEsq + dDir) / 2.0f * sinf(rumoRealGraus / 57.29577951f);
         if (ponte.esq != 0 || ponte.dir != 0) ultimoMovimentoMs = t;
         odo.atualizar((int32_t)encEsq, (int32_t)encDir, t);
         if (t % 33 == 0) {
-            tof.esq.registrar(40, t);
-            tof.dir.registrar(40, t);
+            if (paredesLaterais) {
+                tof.esq.registrar((uint16_t)(40.0f - lateralMm + 0.5f), t);
+                tof.dir.registrar((uint16_t)(40.0f + lateralMm + 0.5f), t);
+            } else {
+                tof.esq.registrar(TOF_LEITURA_INVALIDA_MM, t);
+                tof.dir.registrar(TOF_LEITURA_INVALIDA_MM, t);
+            }
             if (frontalFixoMm > 0) {
                 tof.frente.registrar(frontalFixoMm, t);
             } else if (paredeFrente) {
@@ -162,8 +176,9 @@ void test_meia_volta_sao_duas_curvas(void) {
     TEST_ASSERT_FLOAT_WITHIN(3.0f, -180.0f, b.odo.rumoGraus());
 }
 
-void test_curvas_seguidas_sao_relativas_sem_imu(void) {
-    // B5: cada curva parte do rumo nominal da orientação atual; sem isso a segunda mira 180.
+void test_curvas_seguidas_miram_a_grade_sem_imu(void) {
+    // B5: sem IMU, cada curva mira o rumo da grade (+-90 a partir do erro estimado); sem
+    // isso a segunda curva miraria 180.
     Bancada b;
     const Direcao ordem[4] = {DIR_LESTE, DIR_NORTE, DIR_OESTE, DIR_SUL};
     for (int i = 0; i < 4; i++) {
@@ -290,11 +305,72 @@ void test_abortar_freia_e_libera_para_novo_movimento(void) {
     TEST_ASSERT_TRUE(b.exec.ocioso());
     TEST_ASSERT_EQUAL(freios + 1, b.ponte.freios);
     TEST_ASSERT_EQUAL(MOV_OCIOSO, b.exec.atualizar(b.t));
-    // Uma curva nova depois do aborto é aceita e conclui (o ControleCurva é recriado).
-    const float antes = b.odo.rumoGraus();
+    // Uma curva nova depois do aborto é aceita e conclui (o ControleCurva é recriado). O
+    // aborto deixou o robô girado no meio da curva; a curva nova mira a grade (-90) a
+    // partir do erro estimado, então desfaz esse giro em vez de somá-lo.
+    TEST_ASSERT_TRUE(b.odo.rumoGraus() > 10.0f);
+    TEST_ASSERT_FLOAT_WITHIN(1.0f, b.odo.rumoGraus(), b.exec.erroRumoEstimadoGraus());
     TEST_ASSERT_TRUE(b.exec.iniciarGiro(GIRO_DIREITA, DIR_LESTE, b.t));
     TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
-    TEST_ASSERT_FLOAT_WITHIN(2.0f, -90.0f, b.odo.rumoGraus() - antes);
+    TEST_ASSERT_FLOAT_WITHIN(2.0f, -90.0f, b.rumoRealGraus);
+}
+
+// ---------------------------------------------------------------------------
+// Rumo estimado pelas paredes (seção 2.5 do desenho)
+// ---------------------------------------------------------------------------
+
+void test_avanco_com_duas_paredes_estima_o_rumo_real(void) {
+    // O robô começa girado 5 graus sem saber; as paredes revelam o erro.
+    Bancada b;
+    b.rumoRealGraus = 5.0f;
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, (b.exec.iniciarAvanco(0), b.rodar()));
+    TEST_ASSERT_FLOAT_WITHIN(1.0f, b.rumoRealGraus, b.exec.erroRumoEstimadoGraus());
+    TEST_ASSERT_TRUE(fabsf(b.exec.ultimaCorrecaoParedesGraus()) > 2.0f);  // veio das paredes
+}
+
+void test_curva_corrige_o_erro_de_rumo_herdado(void) {
+    Bancada b;
+    b.rumoRealGraus = 6.0f;
+    b.exec.iniciarAvanco(0);
+    b.rodar();
+    TEST_ASSERT_TRUE(b.exec.iniciarGiro(GIRO_DIREITA, DIR_LESTE, b.t));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
+    // Girou menos de 90 para terminar alinhado à grade: o rumo real fica perto de -90.
+    TEST_ASSERT_FLOAT_WITHIN(1.5f, -90.0f, b.rumoRealGraus);
+}
+
+void test_trecho_sem_paredes_volta_ao_rumo_da_grade(void) {
+    Bancada b;
+    b.rumoRealGraus = 6.0f;
+    b.exec.iniciarAvanco(0);
+    b.rodar();  // o erro é estimado pelas paredes
+    b.paredesLaterais = false;
+    const float lateralAntes = b.lateralMm;
+    b.exec.iniciarAvanco(b.t);
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
+    // Sem paredes, a reta volta ao rumo da grade em vez de manter o erro herdado.
+    TEST_ASSERT_FLOAT_WITHIN(1.5f, 0.0f, b.rumoRealGraus);
+    TEST_ASSERT_TRUE(fabsf(b.lateralMm - lateralAntes) < 10.0f);
+}
+
+void test_sem_paredes_o_rumo_segue_so_os_encoders(void) {
+    Bancada b;
+    b.paredesLaterais = false;
+    b.exec.iniciarAvanco(0);
+    b.rodar();
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, b.exec.ultimaCorrecaoParedesGraus());
+    TEST_ASSERT_FLOAT_WITHIN(0.5f, b.odo.rumoGraus(), b.exec.erroRumoEstimadoGraus());
+}
+
+void test_reiniciar_zera_o_rumo_estimado(void) {
+    Bancada b;
+    b.rumoRealGraus = 5.0f;
+    b.exec.iniciarAvanco(0);
+    b.rodar();
+    TEST_ASSERT_TRUE(fabsf(b.exec.erroRumoEstimadoGraus()) > 2.0f);
+    b.exec.reiniciar();  // largada: robô alinhado à grade
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, b.exec.erroRumoEstimadoGraus());
+    TEST_ASSERT_TRUE(b.exec.ocioso());
 }
 
 int main(void) {
@@ -305,7 +381,7 @@ int main(void) {
     RUN_TEST(test_giro_a_esquerda_conclui_em_90_graus);
     RUN_TEST(test_giro_a_direita_conclui_em_menos_90_graus);
     RUN_TEST(test_meia_volta_sao_duas_curvas);
-    RUN_TEST(test_curvas_seguidas_sao_relativas_sem_imu);
+    RUN_TEST(test_curvas_seguidas_miram_a_grade_sem_imu);
     RUN_TEST(test_fim_do_giro_freia_e_espera_200_ms);
     RUN_TEST(test_curva_com_rodas_travadas_falha_por_tempo);
     // Avanço
@@ -318,5 +394,11 @@ int main(void) {
     RUN_TEST(test_trinco_fechado_por_fora_encerra_com_tracao_cortada);
     RUN_TEST(test_pedidos_recusados_so_devolvem_false);
     RUN_TEST(test_abortar_freia_e_libera_para_novo_movimento);
+    // Rumo estimado pelas paredes
+    RUN_TEST(test_avanco_com_duas_paredes_estima_o_rumo_real);
+    RUN_TEST(test_curva_corrige_o_erro_de_rumo_herdado);
+    RUN_TEST(test_trecho_sem_paredes_volta_ao_rumo_da_grade);
+    RUN_TEST(test_sem_paredes_o_rumo_segue_so_os_encoders);
+    RUN_TEST(test_reiniciar_zera_o_rumo_estimado);
     return UNITY_END();
 }

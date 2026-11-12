@@ -54,6 +54,10 @@ public:
 
     virtual bool ocioso() const = 0;
 
+    // Largada ou nova tentativa: o robô está parado e alinhado à grade. Quem estima o rumo
+    // (ExecutorMovimentoRobo) zera a estimativa; os demais não precisam fazer nada.
+    virtual void reiniciar() {}
+
     // Motivo da última falha entregue por atualizar(); FALHA_NENHUMA depois de um
     // movimento concluído.
     virtual MotivoFalhaMovimento motivoUltimaFalha() const = 0;
