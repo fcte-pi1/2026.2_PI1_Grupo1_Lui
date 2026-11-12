@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <unity.h>
 #include "../../src/movimento/ExecutorMovimentoRobo.h"
+#include "../../src/seguranca/MonitorTravamento.h"
 
 // Testes do ExecutorMovimentoRobo (docs/firmware/integracao-loop.md, seção 3.5) sobre uma
 // bancada simulada: os encoders contam a partir do PWM aplicado na ponte (o inverso do
@@ -373,6 +374,54 @@ void test_reiniciar_zera_o_rumo_estimado(void) {
     TEST_ASSERT_TRUE(b.exec.ocioso());
 }
 
+// ---------------------------------------------------------------------------
+// Roda presa: o avanço termina pela roda que andou menos
+// ---------------------------------------------------------------------------
+
+void test_avanco_com_uma_roda_presa_nao_conclui_pela_outra(void) {
+    // A roda esquerda prende com 80 % da célula andados; a direita continua.
+    Bancada b;
+    b.paredesLaterais = false;
+    const int32_t alvo = b.exec.parametros().alvoAvancoPulsos;
+    b.exec.iniciarAvanco(0);
+    ResultadoMovimento r = MOV_EM_ANDAMENTO;
+    bool mediaConcluiria = false;
+    while (b.t < 6000 && r != MOV_FALHOU && r != MOV_CONCLUIDO) {
+        if (!b.travaEsq && b.odo.encEsq() >= alvo * 8 / 10) b.travaEsq = true;
+        b.passo1ms();
+        if ((b.odo.encEsq() + b.odo.encDir()) / 2 >= alvo) mediaConcluiria = true;
+        if (b.t % 10 == 0) r = b.exec.atualizar(b.t);
+    }
+    TEST_ASSERT_TRUE(b.travaEsq);
+    TEST_ASSERT_TRUE(mediaConcluiria);  // pelo critério antigo, o avanço teria concluído
+    TEST_ASSERT_EQUAL(MOV_FALHOU, r);
+    TEST_ASSERT_EQUAL(FALHA_TEMPO, b.exec.motivoUltimaFalha());
+    TEST_ASSERT_TRUE(b.exec.progressoAvancoPulsos() < alvo);
+}
+
+void test_roda_presa_e_cortada_pelo_monitor_em_ate_1200_ms(void) {
+    Bancada b;
+    MonitorTravamento monitor(b.motores, b.odo);
+    b.exec.iniciarAvanco(0);
+    uint32_t presaMs = 0;
+    ResultadoMovimento r = MOV_EM_ANDAMENTO;
+    while (b.t < 5000 && r != MOV_FALHOU && r != MOV_CONCLUIDO) {
+        if (b.t == 300) {
+            b.travaEsq = true;  // a roda esquerda prende no meio do avanço
+            presaMs = b.t;
+        }
+        b.passo1ms();
+        if (b.t % PERIODO_SEGURANCA_MS == 0) monitor.verificar(b.t);
+        if (b.t % 10 == 0) r = b.exec.atualizar(b.t);
+    }
+    TEST_ASSERT_TRUE(monitor.travado());
+    TEST_ASSERT_EQUAL(RODA_ESQUERDA, monitor.rodaTravada());
+    TEST_ASSERT_TRUE(monitor.instanteCorteMs() - presaMs <= LIMITE_CORTE_TRAVAMENTO_MS);
+    TEST_ASSERT_EQUAL(MOV_FALHOU, r);
+    TEST_ASSERT_EQUAL(FALHA_TRACAO_CORTADA, b.exec.motivoUltimaFalha());
+    TEST_ASSERT_TRUE(b.motores.bloqueado());
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_parametros_padrao_partem_do_hw_firm);
@@ -400,5 +449,8 @@ int main(void) {
     RUN_TEST(test_trecho_sem_paredes_volta_ao_rumo_da_grade);
     RUN_TEST(test_sem_paredes_o_rumo_segue_so_os_encoders);
     RUN_TEST(test_reiniciar_zera_o_rumo_estimado);
+    // Roda presa
+    RUN_TEST(test_avanco_com_uma_roda_presa_nao_conclui_pela_outra);
+    RUN_TEST(test_roda_presa_e_cortada_pelo_monitor_em_ate_1200_ms);
     return UNITY_END();
 }

@@ -41,7 +41,9 @@
 // Avanço de uma célula:
 //  - ControleReta com as distâncias laterais, rodado só quando chega amostra nova de um dos
 //    sensores laterais (R11); entre amostras vale o último comando.
-//  - Termina pela odometria (média das rodas >= alvo em pulsos) ou pelo encosto frontal (parede à frente a DIST_ENCOSTO_FRONTAL_MM, depois de metade
+//  - Termina pela odometria quando a roda que andou MENOS atinge o alvo em pulsos (com uma
+//    roda presa o avanço não conclui pela outra, e o monitor de travamento corta a tração),
+//    ou pelo encosto frontal (parede à frente a DIST_ENCOSTO_FRONTAL_MM, depois de metade
 //    do avanço).
 //  - Emergência: frontal <= DIST_MINIMA_SEGURA_MM antes de 60 % do avanço ->
 //    FALHA_EMERGENCIA_FRONTAL. Tempo acima do limite -> FALHA_TEMPO.
@@ -54,7 +56,7 @@
 // ParadaObjetivo), o movimento acaba na hora com FALHA_TRACAO_CORTADA, sem novo comando.
 
 struct ParametrosExecutor {
-    int32_t alvoAvancoPulsos;       // pulsos de cada roda (média) para avançar uma célula
+    int32_t alvoAvancoPulsos;       // pulsos da roda mais lenta para avançar uma célula
     uint32_t tempoLimiteAvancoMs;   // desiste do avanço depois disso
     uint32_t tempoLimiteCurvaMs;    // desiste de cada curva de 90 graus depois disso
     uint32_t tempoFreioMs;          // freio e assentamento no fim de cada movimento
@@ -197,9 +199,11 @@ public:
     // Correção aplicada pelas paredes no último avanço (0 se o trecho não bastou).
     float ultimaCorrecaoParedesGraus() const { return correcaoParedesGraus_; }
 
-    // Para log e testes: pulsos médios andados no avanço atual (ou no último).
+    // Pulsos da roda que andou menos no avanço atual (ou no último).
     int32_t progressoAvancoPulsos() const {
-        return ((odometria_.encEsq() - encEsq0_) + (odometria_.encDir() - encDir0_)) / 2;
+        const int32_t esq = odometria_.encEsq() - encEsq0_;
+        const int32_t dir = odometria_.encDir() - encDir0_;
+        return esq < dir ? esq : dir;
     }
     const ParametrosExecutor& parametros() const { return p_; }
 
