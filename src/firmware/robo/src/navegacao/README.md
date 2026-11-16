@@ -124,3 +124,36 @@ Para ver as métricas dos cenários: `pio test -d src/firmware/robo -e native -f
 ## 12. Considerações finais
 
 A solução entrega decisão determinística, separada da execução física, com memória estática pequena e testável sem hardware. Os resultados em simulação mostram término correto nas três geometrias e em labirintos com becos, ciclos e destino inacessível, sem movimentos inválidos. A comprovação do tempo de prova e da autonomia em pista depende da integração com o hardware.
+
+## 13. Rota mais curta após a exploração (HU-15)
+
+A HU-15 (issue #54, RF-SFT09 e RF-SFT02, prioridade Should have) calcula a menor rota até o objetivo sobre o mapa já descoberto, para a tentativa rápida. A execução física da corrida (HU-16) não faz parte deste módulo.
+
+**Arquivo.** `navegacao/RotaMaisCurta.h`, com testes em `test/test_rota/test_rota.cpp`.
+
+**Algoritmo.** BFS a partir da origem. Todos os avanços custam uma célula, então a primeira chegada ao destino já é por um caminho de menor número de células, que é o critério oficial da HU-15. Dijkstra e A* produziriam o mesmo resultado com mais código e memória. O Flood Fill a partir do destino equivale à BFS, mas guarda o campo de distâncias inteiro, o que a HU-15 não exige. Custo: O(V) em tempo, com V ≤ 48, e dois vetores de 48 B na pilha, sem alocação dinâmica.
+
+**Somente o conhecido.** O grafo contém apenas passagens confirmadas (`ladoConhecido` e sem `temParede`). Uma célula nunca visitada só tem conhecido o lado por onde foi vista, então a rota não atravessa região desconhecida. Os vizinhos são expandidos em ordem fixa (norte, sul, leste, oeste), o que torna o resultado determinístico.
+
+**Interface.**
+
+| Elemento | Descrição |
+| --- | --- |
+| `RotaMaisCurta::calcular(mapa, lOrigem, cOrigem, lDestino, cDestino, rota)` | Rota entre duas células. |
+| `RotaMaisCurta::calcularParaObjetivo(mapa, rota)` | De A1 ao destino oficial da geometria (D4, D8 ou D12), igual ao do `Navegador`. |
+| `ResultadoRota` | `ROTA_OK`, `ROTA_INEXISTENTE` (destino inalcançável com o mapa conhecido) ou `ROTA_ENTRADA_INVALIDA` (célula fora da geometria). |
+| `Rota` | Origem, `numPassos` e `passos[]` com direções absolutas (capacidade `ROTA_MAX_PASSOS` = 47, o máximo do 12x4). `numPassos` é o número de deslocamentos; a rota tem `numPassos + 1` células. |
+| `Rota::celula(i, l, c)` | Célula após `i` passos. |
+| `Rota::giroDoPasso(i, orientacaoInicial)` | `Giro` a executar antes do passo `i`, no mesmo tipo usado pelo `ExecutorMovimento`. |
+
+Origem igual ao destino devolve `ROTA_OK` com zero passos. Em qualquer erro, a rota devolvida fica vazia. O cálculo não altera o mapa.
+
+**Consumo pela HU-16.** Depois da exploração (`NAV_CHEGOU`), chamar `calcularParaObjetivo(mapa, rota)` uma única vez e, a cada passo `i`, executar `giroDoPasso(i, orientacao)` seguido de um avanço de uma célula. O robô deve estar em A1; a orientação inicial é a atual do `Navegador`. Se o retorno for diferente de `ROTA_OK`, não há speed run possível com o mapa conhecido.
+
+**Testes (21 casos em `test_rota`).** Cobrem caminho único, dois caminhos de comprimentos diferentes, rotas mínimas múltiplas, parede bloqueando, lados desconhecidos, destino inalcançável, origem igual ao destino, mapa com obstáculos, limites, as três geometrias, capacidade máxima (47 passos), determinismo, imutabilidade do mapa e auxiliares da rota. A optimalidade é verificada contra um oráculo independente (relaxamento repetido de distâncias) em 450 mapas pseudoaleatórios (150 por geometria, com lados desconhecidos): 103 com rota, todas de comprimento igual ao do oráculo e válidas passo a passo, e 347 sem rota, em concordância com o oráculo. Quatro testes de integração exploram o labirinto com o `Navegador`, calculam a rota sobre o mapa descoberto e a percorrem no simulador sem movimento inválido. `sizeof(Rota)` = 50 B.
+
+**Limitações.**
+
+- O módulo ainda não é chamado pelo `CicloProva`; a largada direto em `SPEED_RUN` pertence à HU-16.
+- A rota é a de menor número de células, não a de menor tempo: curvas custam mais que retas, e a otimização por tempo ou curvas contínuas está fora do escopo (HU-17).
+- Depois de uma exploração que termina ao chegar, só são conhecidas as células e os lados observados. A rota é a mínima do mapa conhecido, e pode ser maior que a mínima do labirinto real se houver um atalho não observado.
