@@ -1,0 +1,45 @@
+{
+  "medido_em": "09/11/2026, 12:55:46",
+  "navegador": "Chromium 156.0.8078.4",
+  "banco": "MySQL (armazena.sql)",
+  "corridas": 500,
+  "maior_ms": 474,
+  "medicoes": [
+    {
+      "filtro": "Geometria 8x4",
+      "requisicao": "GET /api/corridas?geometria=8x4",
+      "status": 200,
+      "registros": 167,
+      "ttfb_ms": 38.327,
+      "resposta_ms": 40.997,
+      "tela_ms": 474
+    },
+    {
+      "filtro": "8x4 a partir de 01/10/2026",
+      "requisicao": "GET /api/corridas?geometria=8x4&data_inicio=2026-10-01",
+      "status": 200,
+      "registros": 88,
+      "ttfb_ms": 28.589000000000002,
+      "resposta_ms": 30.365,
+      "tela_ms": 116
+    },
+    {
+      "filtro": "8x4 de 01/10 a 15/10/2026",
+      "requisicao": "GET /api/corridas?geometria=8x4&data_inicio=2026-10-01&data_fim=2026-10-15",
+      "status": 200,
+      "registros": 40,
+      "ttfb_ms": 116.21000000000001,
+      "resposta_ms": 118.429,
+      "tela_ms": 194
+    },
+    {
+      "filtro": "Sem filtro (Limpar)",
+      "requisicao": "GET /api/corridas",
+      "status": 200,
+      "registros": 500,
+      "ttfb_ms": 106.149,
+      "resposta_ms": 109.434,
+      "tela_ms": 444
+    }
+  ]
+}
