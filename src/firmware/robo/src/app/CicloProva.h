@@ -97,6 +97,7 @@ public:
         int32_t esq, dir;
         d_.encoders.ler(esq, dir);
         d_.odometria.reiniciar(esq, dir, agoraMs);
+        d_.executor.reiniciar();  // robô alinhado à grade: rumo estimado volta a 0
         mudarEstado(AGUARDANDO);
     }
 
@@ -266,6 +267,7 @@ private:
         int32_t esq, dir;
         d_.encoders.ler(esq, dir);
         d_.odometria.reiniciar(esq, dir, agoraMs);
+        d_.executor.reiniciar();  // robô alinhado à grade: rumo estimado volta a 0
         classificador_.reiniciar();
         causaUltimaFalha_ = FALHA_NENHUMA;
         mudarEstado(MAPEANDO);
@@ -434,6 +436,7 @@ private:
         int32_t esq, dir;
         d_.encoders.ler(esq, dir);
         d_.odometria.reiniciar(esq, dir, agoraMs);
+        d_.executor.reiniciar();  // robô alinhado à grade: rumo estimado volta a 0
         causaUltimaFalha_ = FALHA_NENHUMA;
         mudarEstado(AGUARDANDO);
         registrar("Nova tentativa: AGUARDANDO.");

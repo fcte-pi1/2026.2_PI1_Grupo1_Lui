@@ -98,10 +98,14 @@ Leitura integral de `src/firmware/robo` (fonte e testes), `src/firmware/lib/tele
 
 | Onde a IMU era usada | O que acontece sem ela | Mitigação no desenho |
 |:---|:---|:---|
-| `ControleReta` em `MODO_RUMO` (sem parede em um dos lados) | O rumo vem da diferença dos encoders desde `iniciar()`; derrapagem vira erro de rumo. | A reta é de uma célula (180 mm) e `iniciar()` é chamado em toda célula com o robô parado e, quando há paredes, centrado. O erro não acumula entre células. |
-| `ControleCurva` (medida do giro e alvo absoluto) | Giro só por encoders; o alvo absoluto não existe (B5). | Curva relativa com `ressincronizar(rumoNominal)` antes de cada curva; `discrepanciaGraus` fica 0 na telemetria de depuração. |
-| Critério de ±3° do RF-SFT01 | Não há como medir o ângulo absoluto a bordo. | Realinhamento passivo pelas paredes: o controle de reta com duas paredes corrige o rumo na célula seguinte; com parede frontal, o avanço termina a uma distância fixa dela ("encosto frontal"), o que zera o erro longitudinal da odometria. A medição do ±3° fica para a bancada com câmera (CT-02). |
-| `IFontePulsos`/odometria do doc 4.4 ("encoders e IMU") | Só encoders. | A `Odometria` pura expõe deslocamento por roda, velocidade e rumo odométrico; se uma IMU aparecer, entra como `IFonteRumo` opcional sem mudar o restante. |
+| `ControleReta` em `MODO_RUMO` (sem parede em um dos lados) | Sem referência absoluta, a reta mantém o rumo com que começou, inclusive o erro herdado da curva ou da célula anterior. | Rumo estimado pelas paredes (abaixo): a reta recebe o erro em relação à grade na entrada da IMU e volta ao rumo da grade. |
+| `ControleCurva` (medida do giro e alvo absoluto) | Uma curva medida só pelos encoders gira 90° a partir do rumo atual e preserva o erro herdado (B5). | A curva recebe o rumo estimado na entrada da IMU, é ressincronizada em 0 e mira ±90°: corrige o erro herdado em vez de somá-lo. |
+| Critério de ±3° do RF-SFT01 | Não há como medir o ângulo absoluto a bordo. | Rumo estimado pelas paredes; com parede frontal, o avanço termina a uma distância fixa dela ("encosto frontal"), o que zera o erro longitudinal da odometria. A medição do ±3° fica para a bancada com câmera (CT-02 e passo 8 da seção 6). |
+| `IFontePulsos`/odometria do doc 4.4 ("encoders e IMU") | Só encoders. | A `Odometria` pura expõe deslocamento por roda, velocidade e rumo odométrico; se uma IMU aparecer, o yaw dela substitui o rumo estimado na mesma entrada, sem mudar o restante. |
+
+**O erro de rumo acumula sem correção (achado do robô virtual, etapa 6).** A versão anterior desta seção supunha que o erro não acumulava entre células, porque a reta é curta e recomeça a cada célula. O robô virtual mostrou o contrário: com os controles recebendo só os encoders, cada curva preservava o erro herdado e os trechos com parede de um lado só mantinham esse erro. Na pista 12x4 dos slides, o rumo chegou a 12° e o robô saiu 30 mm do centro, encostou numa parede e travou, mesmo num modelo sem atraso nem ruído; com 2 % de diferença entre os motores, falhou em todas as variações.
+
+**Rumo estimado pelas paredes (correção).** O executor (`ExecutorMovimentoRobo`) guarda o erro de rumo do robô em relação à grade. Durante cada movimento, acompanha o erro pelo giro medido nos encoders. Num avanço com as duas paredes laterais, a diferença entre as leituras (esquerda - direita) varia -2 × sen(erro) por milímetro andado: a inclinação por mínimos quadrados, numa segunda passada sem as amostras a mais de 4 mm da reta (postes de lados abertos), dá o erro médio do trecho, que corrige a estimativa no fim do avanço. O erro entra nos controles de reta e de curva como se fosse o yaw de uma IMU (`imuValido = true`), sem mudar as classes `ControleReta` e `ControleCurva`. Na largada, com o robô alinhado, a estimativa volta a 0. A validação física fica no passo 8 do roteiro da seção 6.
 
 ### 2.6 Drivers do `hw/firm` frente às interfaces da lógica
 
@@ -270,15 +274,15 @@ Um pedido recusado por `iniciarGiro()` ou `iniciarAvanco()` (movimento em andame
 
 **Giro** (`GIRO_DIREITA`, `GIRO_ESQUERDA`, `GIRO_MEIA_VOLTA` como duas curvas seguidas no mesmo sentido):
 
-1. `controleCurva.ressincronizar(rumoNominal(orientacaoAtual))` e `iniciar(sentido, rumoNominal, encEsq, encDir, agora)` (B5).
-2. A cada tick: `atualizar()` com `imuValido = false` e as contagens; converte as duas velocidades em PWM; `CURVA_CONCLUIDA` → `MOV_CONCLUIDO`; `CURVA_FALHOU` (3 s) → freio e `MOV_FALHOU`.
+1. `controleCurva.ressincronizar(0)` e `iniciar(sentido, erroRumo, encEsq, encDir, agora)`: a curva mira o rumo da grade, ±90°, a partir do erro de rumo estimado (B5 e seção 2.5).
+2. A cada tick: `atualizar()` com o rumo estimado no yaw e `imuValido = true`; converte as duas velocidades em PWM; `CURVA_CONCLUIDA` → `MOV_CONCLUIDO`; `CURVA_FALHOU` (2 s) → freio e `MOV_FALHOU`.
 3. Assentamento de 100 ms já está no `ControleCurva`.
 
 **Avanço de uma célula**:
 
 1. `controleReta.iniciar(0, encEsq, encDir, agora)`; alvo em pulsos = `CELULA_MM / RODA_MM_POR_PULSO` (645 pulsos a 360 por volta).
 2. A cada tick com amostra nova dos laterais: `atualizar()` → velocidades → PWM. Entre amostras, mantém o último comando.
-3. Término por odometria (média das duas rodas ≥ alvo) ou por **encosto frontal**: se há parede à frente e a distância frontal ≤ `DIST_ENCOSTO_FRONTAL_MM` (valor inicial 45 mm, a calibrar: é a distância sensor-parede com o robô centrado na célula), termina ali, o que corrige o erro longitudinal acumulado.
+3. Término por odometria (a roda que andou **menos** ≥ alvo; com a média, uma roda presa deixava a outra concluir o avanço, achado do robô virtual) ou por **encosto frontal**: se há parede à frente e a distância frontal ≤ `DIST_ENCOSTO_FRONTAL_MM` (valor inicial 45 mm, a calibrar: é a distância sensor-parede com o robô centrado na célula), termina ali, o que corrige o erro longitudinal acumulado.
 4. Emergência: distância frontal ≤ `DIST_MINIMA_SEGURA_MM` (30 mm) antes de atingir 60 % do alvo, ou tempo acima de `TEMPO_LIMITE_AVANCO_MS` (3 s) → freio, `MOV_FALHOU` com motivo `FALHA_EMERGENCIA_FRONTAL` ou `FALHA_TEMPO`.
 5. Freio ativo, 200 ms de assentamento (o do `hw/firm`) e roda livre antes de `MOV_CONCLUIDO`, para as leituras de parede da célula nova serem feitas com o robô parado.
 
@@ -395,6 +399,11 @@ Decisões tomadas na implementação, dentro do desenho acima:
 - **Telemetria.** Em `AGUARDANDO` o pacote publica A1 virado para o leste, também depois de uma nova tentativa. Um pacote que não passa em `telemetriaValidar()` não é enviado e vai para o log.
 - **Tempo de tick.** O `main.cpp` imprime a cada 5 s quantos ticks rodaram e o maior tick em µs, para o relatório 7.5.
 
+Correções vindas do robô virtual (etapa 6), feitas na branch `fix/149-rumo-paredes` porque a etapa 5 já estava na `main`:
+
+- **Rumo estimado pelas paredes.** Descrito na seção 2.5. A interface `ExecutorMovimentoNaoBloqueante` ganha `reiniciar()`, com implementação padrão vazia, que o `CicloProva` chama na largada e na nova tentativa para zerar a estimativa.
+- **Fim do avanço pela roda mais lenta.** Com a média, uma roda presa deixava a outra concluir o avanço: o navegador contava uma célula que o robô não andou, e o monitor de travamento só cortava no movimento seguinte. Com a roda mais lenta, o avanço não conclui, a tração continua e o monitor corta em até 1,2 s (teste `test_roda_presa_e_cortada_pelo_monitor_em_ate_1200_ms`). No robô virtual, com a roda esquerda presa, o robô gira sobre ela e o sensor frontal encontra a parede lateral: o avanço termina antes por emergência frontal, e o corte vem 1 s depois de a tração voltar no movimento seguinte. Em nenhum momento a tração fica mais de 1,2 s ligada sem pulso.
+
 Se qualquer etapa revelar algo que mude este desenho (por exemplo, a contagem dos encoders ser 4x diferente, ou o robô ter IMU), o trabalho para e o documento é revisto antes de seguir.
 
 ---
@@ -426,6 +435,6 @@ Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apo
 5. **Rampa de PWM** (modo de calibração acionado pela serial): medir mm/s em função do PWM com rodas no ar e definir `PWM_MINIMO` e `PWM_POR_MM_S`. Até este passo, nenhum movimento passa do PWM 90 do `hw/firm` (`PWM_MAXIMO_MOVIMENTO`); só depois da rampa o teto pode subir, com a inclinação refeita a partir das medidas.
 6. **Travamento no ar:** largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".
 7. **No chão, corredor reto:** uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).
-8. **Curvas:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02).
+8. **Curvas e rumo estimado:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02). Validar o rumo estimado pelas paredes (seção 2.5): (a) largar o robô girado de propósito cerca de 5° num corredor com as duas paredes, mandar avançar uma célula e virar; com a câmera de cima, o rumo depois da curva deve ficar a no máximo 3° da grade; (b) depois de uma célula com as duas paredes, avançar uma célula com parede de um lado só e medir o desvio lateral na saída (meta: menos de 10 mm); (c) repetir (a) com o robô girado 5° para o outro lado. Se a correção errar o sinal ou exagerar, conferir `ENCODER_*_INVERTIDO` e as posições dos ToF laterais antes de mexer no executor.
 9. **Pista 4x4 completa** com o painel ao vivo (CT-05, CT-06, CT-07, CT-09): anotar tempo, deslocamentos, retornos e giros reportados na serial e comparar com a simulação.
 10. **Registrar** os valores finais das constantes e as divergências entre o robô virtual e o real (tarefa da issue #149).
