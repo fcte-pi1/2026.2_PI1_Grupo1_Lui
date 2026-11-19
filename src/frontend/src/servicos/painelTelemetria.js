@@ -1,5 +1,5 @@
 import { aplicarPacote, criarEstadoInicial } from './labirinto';
-import { rotuloStatus, rotuloModo, compararTemposSpeedRun } from './formatacao';
+import { rotuloStatus } from './formatacao';
 
 // Estado do painel alimentado pelo WebSocket de telemetria: o pacote mais recente
 // (indicadores da HU-11 e HU-19), o mapa acumulado da corrida atual (HU-10) e o
@@ -36,23 +36,6 @@ export function iniciaNovaCorrida(anterior, pacote) {
     return pacote.timestamp_ms < anterior.timestamp_ms;
 }
 
-function encontrarExploracaoAnterior(historico, idCorrida, labirinto) {
-    for (let i = historico.length - 1; i >= 0; i--) {
-        const item = historico[i];
-        if (
-            item.id < idCorrida &&
-            item.labirinto === labirinto &&
-            item.modo === 'EXPLORACAO' &&
-            item.status === 'CONCLUIDO' &&
-            typeof item.tempo_total_ms === 'number' &&
-            item.tempo_total_ms > 0
-        ) {
-            return item;
-        }
-    }
-    return null;
-}
-
 // Registra ou atualiza a corrida encerrada no histórico da sessão (HU-19 e HU-16).
 function atualizarHistoricoSessao(historico = [], idCorrida, pacote, modoCorrida = 'EXPLORACAO') {
     if (!ehStatusTerminal(pacote.status)) {
@@ -60,12 +43,6 @@ function atualizarHistoricoSessao(historico = [], idCorrida, pacote, modoCorrida
     }
 
     const modo = modoCorrida === 'SPEED_RUN' ? 'SPEED_RUN' : 'EXPLORACAO';
-    const exploracaoAnterior =
-        modo === 'SPEED_RUN' ? encontrarExploracaoAnterior(historico, idCorrida, pacote.labirinto) : null;
-    const comparacao = exploracaoAnterior
-        ? compararTemposSpeedRun(exploracaoAnterior.tempo_total_ms, pacote.timestamp_ms)
-        : null;
-
     const registro = {
         id: idCorrida,
         tentativa: idCorrida,
@@ -73,18 +50,10 @@ function atualizarHistoricoSessao(historico = [], idCorrida, pacote, modoCorrida
         labirinto: pacote.labirinto,
         geometria: pacote.labirinto,
         modo,
-        rotuloModo: rotuloModo(modo),
         status: pacote.status,
         resultado: rotuloStatus(pacote.status),
         timestamp_ms: pacote.timestamp_ms,
         tempo_total_ms: pacote.timestamp_ms,
-        ...(comparacao
-            ? {
-                  tempo_exploracao_ms: comparacao.tempoExploracaoMs,
-                  reducao_pct: comparacao.reducaoPct,
-                  comparacao,
-              }
-            : {}),
     };
 
     const idxExistente = historico.findIndex((item) => item.id === idCorrida);

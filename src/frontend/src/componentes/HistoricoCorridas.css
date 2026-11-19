@@ -172,6 +172,10 @@
     color: #276749;
 }
 
+.comparacao-speed-run-badge.meta-nao-atingida {
+    color: #9b2c2c;
+}
+
 .historico-tabela-vazia {
     text-align: center;
     padding: 32px;

@@ -304,6 +304,10 @@ body {
     color: #276749;
 }
 
+.historico-comparacao-speed-run.meta-nao-atingida {
+    color: #9b2c2c;
+}
+
 /* Remover os estilos escuros antigos conflituosos */
 .indicadores-container {
     background-color: transparent;

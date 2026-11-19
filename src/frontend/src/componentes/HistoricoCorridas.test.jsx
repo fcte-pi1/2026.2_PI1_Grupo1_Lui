@@ -50,7 +50,44 @@ describe('componentes/HistoricoCorridas.jsx', () => {
             expect(html).toContain('00:14 · Concluído');
             expect(html).toContain('Tentativa 2 · Speed Run');
             expect(html).toContain('00:10 · Concluído');
+            expect(html).toContain('historico-comparacao-speed-run meta-atingida');
             expect(html).toContain('-29% vs. Exploração (00:14)');
+        });
+
+        it('deve exibir "+10%" com classe meta-nao-atingida quando Speed Run for mais lento e omitir comparação se travar no modo compacto', () => {
+            const corridas = [
+                {
+                    id: 1,
+                    nome: 'Tentativa 1',
+                    labirinto: '4x4',
+                    modo: 'EXPLORACAO',
+                    status: 'CONCLUIDO',
+                    resultado: 'Concluído',
+                    tempo_total_ms: 10000,
+                },
+                {
+                    id: 2,
+                    nome: 'Tentativa 2',
+                    labirinto: '4x4',
+                    modo: 'SPEED_RUN',
+                    status: 'CONCLUIDO',
+                    resultado: 'Concluído',
+                    tempo_total_ms: 11000,
+                },
+                {
+                    id: 3,
+                    nome: 'Tentativa 3',
+                    labirinto: '4x4',
+                    modo: 'SPEED_RUN',
+                    status: 'TRAVADO',
+                    resultado: 'Travado',
+                    tempo_total_ms: 3000,
+                },
+            ];
+            const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={corridas} modo="compacto" />);
+            expect(html).toContain('historico-comparacao-speed-run meta-nao-atingida');
+            expect(html).toContain('+10% vs. Exploração (00:10)');
+            expect(html).not.toContain('-70%');
         });
     });
 
@@ -245,7 +282,54 @@ describe('componentes/HistoricoCorridas.jsx', () => {
             expect(html).toContain('Speed Run');
             expect(html).toContain('Exploração');
             expect(html).toContain('00:20');
+            expect(html).toContain('comparacao-speed-run-badge meta-atingida');
             expect(html).toContain('(-33% vs. 00:30)');
+        });
+
+        it('deve exibir sinal positivo com classe meta-nao-atingida quando Speed Run for mais lento e não comparar quando TRAVADO na tabela', () => {
+            const corridas = [
+                {
+                    id: 3,
+                    labirinto: '4x4',
+                    geometria: '4x4',
+                    status: 'TRAVADO',
+                    modo: 'SPEED_RUN',
+                    tentativa: 3,
+                    iniciada_em: '2026-10-25T14:40:00Z',
+                    tempo_total_ms: 3000,
+                    velocidade_media: 20.0,
+                    celulas_visitadas: 5,
+                },
+                {
+                    id: 2,
+                    labirinto: '4x4',
+                    geometria: '4x4',
+                    status: 'CONCLUIDO',
+                    modo: 'SPEED_RUN',
+                    tentativa: 2,
+                    iniciada_em: '2026-10-25T14:35:00Z',
+                    tempo_total_ms: 11000,
+                    velocidade_media: 16.0,
+                    celulas_visitadas: 10,
+                },
+                {
+                    id: 1,
+                    labirinto: '4x4',
+                    geometria: '4x4',
+                    status: 'CONCLUIDO',
+                    modo: 'EXPLORACAO',
+                    tentativa: 1,
+                    iniciada_em: '2026-10-25T14:30:00Z',
+                    tempo_total_ms: 10000,
+                    velocidade_media: 18.0,
+                    celulas_visitadas: 14,
+                },
+            ];
+
+            const html = ReactDOMServer.renderToString(<HistoricoCorridas corridas={corridas} />);
+            expect(html).toContain('comparacao-speed-run-badge meta-nao-atingida');
+            expect(html).toContain('(+10% vs. 00:10)');
+            expect(html).not.toContain('-70%');
         });
     });
 });

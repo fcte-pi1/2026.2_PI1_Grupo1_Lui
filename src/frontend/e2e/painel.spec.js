@@ -208,16 +208,16 @@ test('CT-13 (HU-16): cenário speed_run executa exploração seguida de Speed Ru
     // Histórico da sessão e tabela geral registram os modos e a redução >= 20% (RF-SFT09).
     await expect(page.getByTestId('historico-item-0')).toContainText('Exploração');
     await expect(page.getByTestId('historico-item-1')).toContainText('Speed Run');
-    await expect(page.getByTestId('comparacao-speed-run')).toContainText('-29% vs. Exploração (00:14)');
+    await expect(page.getByTestId('comparacao-speed-run')).toContainText('-51% vs. Exploração (00:14)');
 
     const tabela = page.getByTestId('tabela-historico');
     await expect.poll(async () => {
         await page.getByRole('button', { name: 'Atualizar histórico' }).click();
         return tabela.textContent();
-    }, { timeout: 10_000, intervals: [200] }).toContain('(-29% vs. 00:14)');
+    }, { timeout: 10_000, intervals: [200] }).toContain('(-51% vs. 00:14)');
     await expect(tabela).toContainText('Exploração');
     await expect(tabela).toContainText('Speed Run');
-    await expect(page.getByTestId('comparacao-tabela-speed-run')).toContainText('(-29% vs. 00:14)');
+    await expect(page.getByTestId('comparacao-tabela-speed-run')).toContainText('(-51% vs. 00:14)');
 
     await evidencia('ct13-speed-run-comparacao');
 });

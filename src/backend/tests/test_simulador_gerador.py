@@ -138,7 +138,10 @@ def test_todas_as_mensagens_sao_validas_e_coerentes(labirinto, cenario):
         (ca, la), (cb, lb) = posicao(anterior), posicao(atual)
         assert abs(ca - cb) + abs(la - lb) <= 1  # no máximo uma célula por mensagem
         if (ca, la) != (cb, lb):
-            assert atual.timestamp_ms - anterior.timestamp_ms == 1000
+            if anterior.status == "SPEED_RUN" or atual.status == "SPEED_RUN":
+                assert 0 < atual.timestamp_ms - anterior.timestamp_ms <= INTERVALO_MS
+            else:
+                assert atual.timestamp_ms - anterior.timestamp_ms == 1000
             direcao = Direcao[atual.orientacao]
             assert not pista.tem_parede(la, ca, direcao)  # só por passagens reais
 
@@ -243,6 +246,17 @@ def test_speed_run_executa_exploracao_seguida_de_rota_otima_mais_rapida(labirint
     tempo_speed_run = finais[-1].timestamp_ms
     assert tempo_speed_run <= tempo_exploracao * 0.8
     assert finais[-1].velocidade_media > exploracao[-1].velocidade_media
+
+
+def test_speed_run_na_pista_aberta_tambem_reduz_tempo_em_pelo_menos_20_por_cento():
+    pista = pista_toda_alcancavel()
+    exploracao = mensagens(gerar_corrida(pista, "completa"))
+    msgs = mensagens(gerar_corrida(pista, "speed_run"))
+
+    rapida = msgs[len(exploracao) :]
+    assert rapida[-1].status == "CONCLUIDO"
+    assert rapida[-1].timestamp_ms <= exploracao[-1].timestamp_ms * 0.8
+    assert rapida[-1].velocidade_media > exploracao[-1].velocidade_media
 
 
 def test_pista_toda_alcancavel_tambem_gera_corrida_completa():

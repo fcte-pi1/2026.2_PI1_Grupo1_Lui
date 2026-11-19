@@ -203,7 +203,7 @@ describe('painelTelemetria.js', () => {
             expect(proximaCorrida.historico[0].status).toBe('TRAVADO');
         });
 
-        it('registra exploração seguida de speed run no histórico comparando os tempos (HU-16)', () => {
+        it('registra exploração seguida de speed run no histórico com modo e tempo_total_ms (HU-16)', () => {
             const speedRun = [
                 {
                     ...completa[0],
@@ -233,7 +233,6 @@ describe('painelTelemetria.js', () => {
             expect(estado.historico[0]).toMatchObject({
                 id: 1,
                 modo: 'EXPLORACAO',
-                rotuloModo: 'Exploração',
                 status: 'CONCLUIDO',
                 resultado: 'Concluído',
                 tempo_total_ms: 14000,
@@ -241,14 +240,43 @@ describe('painelTelemetria.js', () => {
             expect(estado.historico[1]).toMatchObject({
                 id: 2,
                 modo: 'SPEED_RUN',
-                rotuloModo: 'Speed Run',
                 status: 'CONCLUIDO',
                 resultado: 'Concluído',
                 tempo_total_ms: 10000,
-                tempo_exploracao_ms: 14000,
-                reducao_pct: 29,
             });
-            expect(estado.historico[1].comparacao.metaAtingida).toBe(true);
+            expect(estado.historico[1]).not.toHaveProperty('comparacao');
+            expect(estado.historico[1]).not.toHaveProperty('rotuloModo');
+        });
+
+        it('registra speed run travado com modo SPEED_RUN e status TRAVADO', () => {
+            const speedRunTravado = [
+                {
+                    ...completa[0],
+                    status: 'AGUARDANDO',
+                    timestamp_ms: 0,
+                    posicao: { coluna: 'A', linha: 1 },
+                },
+                {
+                    ...completa[3],
+                    status: 'SPEED_RUN',
+                    timestamp_ms: 1500,
+                    posicao: { coluna: 'C', linha: 2 },
+                },
+                {
+                    ...completa[3],
+                    status: 'TRAVADO',
+                    timestamp_ms: 3000,
+                    posicao: { coluna: 'C', linha: 2 },
+                },
+            ];
+
+            const estado = aplicarTodos(emSequencia(completa, speedRunTravado));
+            expect(estado.historico[1]).toMatchObject({
+                id: 2,
+                modo: 'SPEED_RUN',
+                status: 'TRAVADO',
+                tempo_total_ms: 3000,
+            });
         });
     });
 });

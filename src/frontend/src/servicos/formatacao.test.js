@@ -4,6 +4,8 @@ import {
     rotuloStatus,
     rotuloModo,
     compararTemposSpeedRun,
+    formatarComparacao,
+    compararComExploracaoAnterior,
     bateriaBaixa,
     estiloStatus,
     LIMITE_PROVA_MS,
@@ -75,8 +77,8 @@ describe('formatacao.js', () => {
     describe('rotuloModo', () => {
         it('deve mapear SPEED_RUN para Speed Run e demais valores para Exploração', () => {
             expect(rotuloModo('SPEED_RUN')).toBe('Speed Run');
-            expect(rotuloModo('Speed Run')).toBe('Speed Run');
             expect(rotuloModo('EXPLORACAO')).toBe('Exploração');
+            expect(rotuloModo('Speed Run')).toBe('Exploração');
             expect(rotuloModo('Exploração')).toBe('Exploração');
             expect(rotuloModo(null)).toBe('Exploração');
         });
@@ -102,12 +104,59 @@ describe('formatacao.js', () => {
             expect(comp.metaAtingida).toBe(false);
         });
 
+        it('deve calcular reducaoPct negativo quando o speed run for mais lento', () => {
+            const comp = compararTemposSpeedRun(10000, 11000);
+            expect(comp.reducaoPct).toBe(-10);
+            expect(comp.metaAtingida).toBe(false);
+        });
+
         it('deve retornar null para tempos inválidos ou não positivos', () => {
             expect(compararTemposSpeedRun(0, 10000)).toBeNull();
             expect(compararTemposSpeedRun(-100, 10000)).toBeNull();
             expect(compararTemposSpeedRun(14000, -1)).toBeNull();
             expect(compararTemposSpeedRun(null, 10000)).toBeNull();
             expect(compararTemposSpeedRun(14000, '10000')).toBeNull();
+        });
+    });
+
+    describe('formatarComparacao', () => {
+        it('deve prefixar ganho com "-" e perda com "+"', () => {
+            expect(formatarComparacao({ reducaoPct: 29 })).toBe('-29%');
+            expect(formatarComparacao({ reducaoPct: -10 })).toBe('+10%');
+            expect(formatarComparacao({ reducaoPct: 0 })).toBe('0%');
+            expect(formatarComparacao(null)).toBe('');
+        });
+    });
+
+    describe('compararComExploracaoAnterior', () => {
+        it('deve ordenar por id e comparar speed run concluído com a última exploração concluída da mesma geometria', () => {
+            const corridasDesordenadas = [
+                { id: 4, labirinto: '4x4', modo: 'SPEED_RUN', status: 'CONCLUIDO', tempo_total_ms: 11000 },
+                { id: 2, labirinto: '8x4', modo: 'SPEED_RUN', status: 'CONCLUIDO', tempo_total_ms: 15000 },
+                { id: 1, labirinto: '4x4', modo: 'EXPLORACAO', status: 'CONCLUIDO', tempo_total_ms: 10000 },
+                { id: 3, labirinto: '4x4', modo: 'EXPLORACAO', status: 'TRAVADO', tempo_total_ms: 4000 },
+            ];
+
+            const comparacoes = compararComExploracaoAnterior(corridasDesordenadas);
+            expect(comparacoes.has(2)).toBe(false); // 8x4 sem exploração anterior
+            expect(comparacoes.has(3)).toBe(false);
+            expect(comparacoes.get(4)).toMatchObject({
+                tempoExploracaoMs: 10000,
+                tempoSpeedRunMs: 11000,
+                reducaoPct: -10,
+                metaAtingida: false,
+            });
+        });
+
+        it('não deve comparar speed run interrompido ou travado', () => {
+            const corridas = [
+                { id: 1, labirinto: '4x4', modo: 'EXPLORACAO', status: 'CONCLUIDO', tempo_total_ms: 14000 },
+                { id: 2, labirinto: '4x4', modo: 'SPEED_RUN', status: 'TRAVADO', tempo_total_ms: 3000 },
+                { id: 3, labirinto: '4x4', modo: 'SPEED_RUN', status: 'INTERROMPIDA', tempo_total_ms: 2000 },
+            ];
+
+            const comparacoes = compararComExploracaoAnterior(corridas);
+            expect(comparacoes.size).toBe(0);
         });
     });
 });

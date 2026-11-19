@@ -35,11 +35,14 @@ export function estiloStatus(status) {
     return "normal";
 }
 
+const STATUS_CONCLUIDO = new Set(['CONCLUIDO', 'SUCESSO', 'CONCLUÍDO']);
+
+export function ehCorridaConcluida(status) {
+    return STATUS_CONCLUIDO.has(String(status || '').toUpperCase());
+}
+
 export function rotuloModo(modo) {
-    if (modo === "SPEED_RUN" || modo === "Speed Run") {
-        return "Speed Run";
-    }
-    return "Exploração";
+    return modo === "SPEED_RUN" ? "Speed Run" : "Exploração";
 }
 
 export function compararTemposSpeedRun(tempoExploracaoMs, tempoSpeedRunMs) {
@@ -62,4 +65,61 @@ export function compararTemposSpeedRun(tempoExploracaoMs, tempoSpeedRunMs) {
         tempoSpeedRunFormatado: formatarTempo(tempoSpeedRunMs),
         metaAtingida: reducaoPct >= 20,
     };
+}
+
+export function formatarComparacao(comp) {
+    if (!comp || typeof comp.reducaoPct !== 'number' || Number.isNaN(comp.reducaoPct)) {
+        return '';
+    }
+    if (comp.reducaoPct > 0) {
+        return `-${comp.reducaoPct}%`;
+    }
+    if (comp.reducaoPct < 0) {
+        return `+${Math.abs(comp.reducaoPct)}%`;
+    }
+    return '0%';
+}
+
+export function compararComExploracaoAnterior(corridas) {
+    const mapa = new Map();
+    if (!Array.isArray(corridas) || corridas.length === 0) return mapa;
+
+    const ordenadas = corridas
+        .map((corrida, idx) => ({ corrida, idx }))
+        .filter(({ corrida }) => Boolean(corrida))
+        .sort((a, b) => {
+            const idA = Number(a.corrida.id);
+            const idB = Number(b.corrida.id);
+            if (!Number.isNaN(idA) && !Number.isNaN(idB)) {
+                return idA - idB || a.idx - b.idx;
+            }
+            return a.idx - b.idx;
+        });
+
+    const ultimaExploracaoPorGeometria = new Map();
+
+    for (const { corrida: c, idx } of ordenadas) {
+        const chave = c.id ?? idx;
+        const geo = c.labirinto || c.geometria || c.grid || '4x4';
+        const modo = rotuloModo(c.modo);
+        const tempoMs = typeof c.tempo_total_ms === 'number' ? c.tempo_total_ms : c.timestamp_ms;
+
+        if (!ehCorridaConcluida(c.status || c.resultado) || typeof tempoMs !== 'number' || tempoMs <= 0) {
+            continue;
+        }
+
+        if (modo === 'Exploração') {
+            ultimaExploracaoPorGeometria.set(geo, tempoMs);
+        } else if (modo === 'Speed Run') {
+            const tempoExp = ultimaExploracaoPorGeometria.get(geo);
+            if (typeof tempoExp === 'number' && tempoExp > 0) {
+                const comp = compararTemposSpeedRun(tempoExp, tempoMs);
+                if (comp) {
+                    mapa.set(chave, comp);
+                }
+            }
+        }
+    }
+
+    return mapa;
 }

@@ -4,7 +4,8 @@ Cada pacote é montado nas unidades do pacote binário de 18 bytes (índices, mm
 e bitmask) e convertido com as mesmas regras de TelemetriaJson.h: mesma ordem de
 campos, seq e rssi primeiro, e números decimais sem parte fracionária escritos como
 inteiros (o ArduinoJson grava 35.0 como 35). Uma mensagem por célula percorrida,
-com timestamp_ms avançando 1000 ms por mensagem (1 Hz).
+com timestamp_ms avançando 1000 ms por mensagem na exploração (1 Hz) e de forma
+proporcional à velocidade da manobra no speed_run.
 
 Cenários:
   completa       termina em CONCLUIDO na chegada
@@ -53,8 +54,9 @@ _DESCARGA_MV_POR_S = 2
 # Uma célula de 18 cm por segundo, mais devagar quando há curva ou meia-volta
 # (exploração de 15 a 30 cm/s, doc 4.3). No speed run o robô percorre a rota
 # ótima em velocidade maior (HU-16).
+_CELULA_MM = 180
 _VELOCIDADE_MM_S = {RETA: 180, CURVA: 140, MEIA_VOLTA: 100}
-_VELOCIDADE_SPEED_RUN_MM_S = {RETA: 260, CURVA: 200, MEIA_VOLTA: 140}
+_VELOCIDADE_SPEED_RUN_MM_S = {RETA: 280, CURVA: 240, MEIA_VOLTA: 160}
 
 
 @dataclass(frozen=True)
@@ -208,14 +210,14 @@ def gerar_corrida(
         posicao = estado_inicial
         tempo_ms = 0
         for indice, passo in enumerate(passos_speed_run, start=1):
-            tempo_ms = indice * INTERVALO_MS
+            velocidade = (
+                _VELOCIDADE_SPEED_RUN_MM_S[passo.manobra] + sorteio.randint(-8, 8)
+            )
+            tempo_ms += round(_CELULA_MM * 1000 / velocidade)
             posicao = (passo.linha, passo.coluna, passo.orientacao, passo.paredes)
             if indice == len(passos_speed_run):
                 emitir(tempo_ms, "CONCLUIDO", posicao, 0, desafio=True)
             else:
-                velocidade = (
-                    _VELOCIDADE_SPEED_RUN_MM_S[passo.manobra] + sorteio.randint(-8, 8)
-                )
                 velocidades.append(velocidade)
                 emitir(tempo_ms, "SPEED_RUN", posicao, velocidade)
 

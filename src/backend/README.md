@@ -166,7 +166,7 @@ O simulador emula o robô explorando uma pista e gera, a cada célula percorrida
 | `completa` | `CONCLUIDO` na chegada, com `desafio_cumprido` verdadeiro |
 | `travado` | `TRAVADO` no meio do percurso, com velocidade atual 0 |
 | `perda_conexao` | Perde 4 pacotes seguidos no meio do percurso e depois termina em `CONCLUIDO`: o robô não depende do rádio e segue navegando durante a perda |
-| `speed_run` | Executa a exploração completa (`MAPEANDO` até `CONCLUIDO`) seguida do percurso pela rota ótima descoberta em velocidade maior (`SPEED_RUN` até `CONCLUIDO`), com tempo ao menos 20% menor que o da exploração (HU-16 / RF-SFT09) |
+| `speed_run` | Executa a exploração completa (`MAPEANDO` até `CONCLUIDO`) seguida do percurso pela rota ótima descoberta em velocidade maior (`SPEED_RUN` até `CONCLUIDO`), com cronômetro avançando conforme a velocidade de cada manobra e tempo ao menos 20% menor que o da exploração (HU-16 / RF-SFT09) |
 
 Em `CONCLUIDO` e `TRAVADO` a última mensagem se repete duas vezes com o cronômetro congelado, como o robô real continua transmitindo depois de parar.
 

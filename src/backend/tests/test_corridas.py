@@ -384,3 +384,23 @@ def test_cenario_speed_run_persiste_exploracao_e_speed_run_com_tempo_menor(url_b
 
         assert [leitura["status"] for leitura in leituras[:-1]] == ["SPEED_RUN"] * (len(leituras) - 1)
         assert leituras[-1]["status"] == "CONCLUIDO"
+
+
+def test_speed_run_travado_preserva_modo_speed_run(url_banco):
+    from app.servicos.corridas import ServicoCorridas
+
+    mensagens = pacotes("speed_run")
+    inicio_sr = next(i for i, m in enumerate(mensagens) if m.status == "SPEED_RUN")
+    travado = mensagens[inicio_sr].model_copy(
+        update={"status": "TRAVADO", "timestamp_ms": 3000, "velocidade_atual": 0}
+    )
+
+    app = criar_app(database_url=url_banco)
+    with TestClient(app) as cliente:
+        servico = ServicoCorridas(app.state.sessoes)
+        servico.processar(mensagens[inicio_sr])
+        servico.processar(travado)
+        corridas = cliente.get("/api/corridas").json()
+        assert len(corridas) == 1
+        assert corridas[0]["modo"] == "SPEED_RUN"
+        assert corridas[0]["status"] == "TRAVADO"
