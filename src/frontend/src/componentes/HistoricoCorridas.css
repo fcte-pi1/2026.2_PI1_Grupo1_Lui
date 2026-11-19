@@ -166,6 +166,16 @@
     background-color: #bee3f8;
 }
 
+.comparacao-speed-run-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #276749;
+}
+
+.comparacao-speed-run-badge.meta-nao-atingida {
+    color: #9b2c2c;
+}
+
 .historico-tabela-vazia {
     text-align: center;
     padding: 32px;
