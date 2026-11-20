@@ -48,12 +48,12 @@ void test_pinos_da_pinagem_da_eletronica(void) {
 }
 
 void test_constantes_fisicas(void) {
-    TEST_ASSERT_EQUAL_FLOAT(22.0f, RODA_DIAMETRO_MM);
+    TEST_ASSERT_EQUAL_FLOAT(26.0f, RODA_DIAMETRO_MM);
     TEST_ASSERT_EQUAL_UINT16(360, ENCODER_PULSOS_POR_VOLTA);
-    TEST_ASSERT_EQUAL_FLOAT(80.0f, BITOLA_MM);
-    // Uma volta da roda (360 pulsos) percorre a circunferência, pi x 32 = 100,53 mm.
-    TEST_ASSERT_FLOAT_WITHIN(0.01f, 69.12f, RODA_MM_POR_PULSO * ENCODER_PULSOS_POR_VOLTA);
-    TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.1920f, RODA_MM_POR_PULSO);
+    TEST_ASSERT_EQUAL_FLOAT(110.0f, BITOLA_MM);
+    // Uma volta da roda (360 pulsos) percorre a circunferência, pi x 26 = 81,68 mm.
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 81.68f, RODA_MM_POR_PULSO * ENCODER_PULSOS_POR_VOLTA);
+    TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.2269f, RODA_MM_POR_PULSO);
 }
 
 void test_celula_do_regulamento(void) {
@@ -65,9 +65,11 @@ void test_celula_do_regulamento(void) {
 void test_pwm_da_ponte_h(void) {
     TEST_ASSERT_EQUAL_UINT8((1u << PONTE_PWM_BITS) - 1, PWM_MAXIMO);
     TEST_ASSERT_TRUE(PWM_MINIMO > 0);
-    TEST_ASSERT_TRUE(PWM_MINIMO < PWM_MAXIMO_MOVIMENTO);
+    TEST_ASSERT_TRUE(PWM_MINIMO < PWM_BASE_MOVIMENTO);
+    TEST_ASSERT_TRUE(PWM_BASE_MOVIMENTO < PWM_MAXIMO_MOVIMENTO);
     TEST_ASSERT_TRUE(PWM_MAXIMO_MOVIMENTO <= PWM_MAXIMO);
-    TEST_ASSERT_EQUAL_UINT8(90, PWM_MAXIMO_MOVIMENTO);  // PWM dos testes do hw/firm, até a rampa
+    TEST_ASSERT_EQUAL_UINT8(90, PWM_BASE_MOVIMENTO);
+    TEST_ASSERT_EQUAL_UINT8(130, PWM_MAXIMO_MOVIMENTO);
     TEST_ASSERT_TRUE(PWM_POR_MM_S > 0.0f);
     TEST_ASSERT_EQUAL_UINT32(20000, PONTE_PWM_FREQ_HZ);
 }
@@ -101,15 +103,16 @@ void test_limiar_de_parede(void) {
 }
 
 void test_distancias_frontais_do_avanco(void) {
-    TEST_ASSERT_EQUAL_UINT16(30, DIST_MINIMA_SEGURA_MM);  // limite de colisão do hw/firm
-    TEST_ASSERT_EQUAL_UINT16(45, DIST_ENCOSTO_FRONTAL_MM);
+    TEST_ASSERT_EQUAL_UINT16(15, DIST_MINIMA_SEGURA_MM);
+    TEST_ASSERT_EQUAL_UINT16(24, DIST_ENCOSTO_FRONTAL_MM);
     // O encosto acontece antes do limite de colisão, e ambos abaixo do limiar de parede.
+    TEST_ASSERT_TRUE(TOF_DIST_MIN_VALIDA_MM < DIST_MINIMA_SEGURA_MM);
     TEST_ASSERT_TRUE(DIST_MINIMA_SEGURA_MM < DIST_ENCOSTO_FRONTAL_MM);
     TEST_ASSERT_TRUE(DIST_ENCOSTO_FRONTAL_MM < LIMIAR_PAREDE_MM - HISTERESE_PAREDE_MM);
 }
 
 void test_led_de_estado(void) {
-    TEST_ASSERT_EQUAL(LED_WS2812B, TIPO_LED_ESTADO);  // provisório (R5)
+    TEST_ASSERT_EQUAL(LED_COMUM, TIPO_LED_ESTADO);  // confirmado pela pinagem oficial do hw/firm
 }
 
 int main(void) {

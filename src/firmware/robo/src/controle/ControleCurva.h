@@ -63,14 +63,17 @@ enum EstadoControleCurva : uint8_t {
 };
 
 struct ParametrosControleCurva {
-    float kpGiro;             // mm/s de velocidade de roda por grau de erro
-    float velocidadeMinMmS;   // piso da velocidade de cada roda enquanto gira
-    float velocidadeMaxMmS;   // teto da velocidade de cada roda
-    float toleranciaGraus;    // |erro| <= isso para dar a curva como feita (menor que os 3 do RF-SFT01)
-    uint32_t assentamentoMs;  // tempo parado dentro da tolerancia antes de concluir
-    uint32_t tempoLimiteMs;   // desiste da curva depois disso
-    float mmPorPulso;         // odometria: deslocamento de uma roda por pulso de encoder
-    float bitolaMm;           // distancia entre os centros das rodas
+    float kpGiro;                 // mm/s de velocidade de roda por grau de erro
+    float velocidadeMinMmS;       // piso da velocidade de cada roda enquanto gira
+    float velocidadeMaxMmS;       // teto da velocidade de cada roda
+    float toleranciaGraus;        // |erro| <= isso para dar a curva como feita (menor que os 3 do RF-SFT01)
+    uint32_t assentamentoMs;      // tempo parado dentro da tolerancia antes de concluir
+    uint32_t tempoLimiteMs;       // desiste da curva depois disso
+    float mmPorPulso;             // odometria: deslocamento de uma roda por pulso de encoder
+    float bitolaMm;               // distancia entre os centros das rodas
+    float kpSyncRodas;            // mm/s de ajuste por mm de diferenca de arco entre as rodas (0 = desliga)
+    bool permitirReversao;        // false: corta ao cruzar alvo/antecipacao sem inverter sentido (evita oscilacao sem IMU)
+    float antecipacaoFreioGraus;  // corta a tracao faltando este angulo (quando !permitirReversao)
 };
 
 struct EntradaControleCurva {
@@ -100,8 +103,11 @@ public:
         p.toleranciaGraus = 1.0f;
         p.assentamentoMs = 100;
         p.tempoLimiteMs = 3000;
-        p.mmPorPulso = RODA_MM_POR_PULSO;  // hardware/Pinos.h: roda de 32 mm e 360 pulsos por volta
-        p.bitolaMm = BITOLA_MM;            // hardware/Pinos.h: 80 mm
+        p.mmPorPulso = RODA_MM_POR_PULSO;
+        p.bitolaMm = BITOLA_MM;
+        p.kpSyncRodas = 0.0f;            // 0 = compatível com testes legados; executor usa 1.5
+        p.permitirReversao = true;       // executor desliga sem IMU para evitar oscilacao/stall
+        p.antecipacaoFreioGraus = 0.0f;  // executor usa CURVA_ANTECIPACAO_FREIO_GRAUS
         return p;
     }
 
@@ -167,6 +173,19 @@ public:
 
         if ((uint32_t)(e.agoraMs - inicioMs_) > p_.tempoLimiteMs) {
             estado_ = CURVA_FALHOU;  // nao conclui: quem chamou nao pode confirmar o giro
+        } else if (!p_.permitirReversao) {
+            // Modo unidirecional (sem IMU): corta a tracao ao atingir o alvo menos a
+            // antecipacao de inercia, sem inverter sentido (evita oscilacao e travamento).
+            const float faltaNoSentido = (sentido_ == SENTIDO_ESQUERDA) ? erro_ : -erro_;
+            const float limiarCorte = p_.antecipacaoFreioGraus > p_.toleranciaGraus
+                                          ? p_.antecipacaoFreioGraus
+                                          : p_.toleranciaGraus;
+            if (faltaNoSentido <= limiarCorte) {
+                estado_ = CURVA_CONCLUIDA;
+            } else {
+                aplicarVelocidadesGiro(e, (sentido_ == SENTIDO_ESQUERDA) ? 1.0f : -1.0f,
+                                       faltaNoSentido, s.velEsqMmS, s.velDirMmS);
+            }
         } else if (fabsf(erro_) <= p_.toleranciaGraus) {
             if (!assentando_) {
                 assentando_ = true;
@@ -177,14 +196,8 @@ public:
             }
         } else {
             assentando_ = false;
-            float v = p_.kpGiro * fabsf(erro_);
-            if (v < p_.velocidadeMinMmS) v = p_.velocidadeMinMmS;
-            if (v > p_.velocidadeMaxMmS) v = p_.velocidadeMaxMmS;
-            // erro > 0: falta girar para a esquerda (roda esquerda para tras, direita para
-            // frente). erro < 0: o inverso, o que tambem corrige uma ultrapassagem.
             const float sinal = (erro_ > 0.0f) ? 1.0f : -1.0f;
-            s.velEsqMmS = -sinal * v;
-            s.velDirMmS = sinal * v;
+            aplicarVelocidadesGiro(e, sinal, fabsf(erro_), s.velEsqMmS, s.velDirMmS);
         }
         s.estado = estado_;
         return s;
@@ -198,6 +211,32 @@ public:
     }
 
 private:
+    // Calcula velocidades das rodas no giro com sincronismo opcional entre arcos (evita
+    // translacao lateral quando uma roda tem mais atrito que a outra).
+    void aplicarVelocidadesGiro(const EntradaControleCurva& e, float sinal, float erroAbsGraus,
+                                float& velEsqMmS, float& velDirMmS) const {
+        float v = p_.kpGiro * erroAbsGraus;
+        if (v < p_.velocidadeMinMmS) v = p_.velocidadeMinMmS;
+        if (v > p_.velocidadeMaxMmS) v = p_.velocidadeMaxMmS;
+
+        float vEsqMag = v;
+        float vDirMag = v;
+        if (p_.kpSyncRodas > 0.0f) {
+            const float arcEsq = -sinal * (float)(e.encEsq - encEsq0_) * p_.mmPorPulso;
+            const float arcDir = sinal * (float)(e.encDir - encDir0_) * p_.mmPorPulso;
+            const float erroSyncMm = arcEsq - arcDir;  // >0: roda esquerda girou mais
+            float ajuste = p_.kpSyncRodas * erroSyncMm;
+            const float maxAjuste = 0.30f * v;
+            if (ajuste > maxAjuste) ajuste = maxAjuste;
+            if (ajuste < -maxAjuste) ajuste = -maxAjuste;
+            vEsqMag = v - ajuste;
+            vDirMag = v + ajuste;
+            if (vEsqMag < p_.velocidadeMinMmS) vEsqMag = p_.velocidadeMinMmS;
+            if (vDirMag < p_.velocidadeMinMmS) vDirMag = p_.velocidadeMinMmS;
+        }
+        velEsqMmS = -sinal * vEsqMag;
+        velDirMmS = sinal * vDirMag;
+    }
     // Giro desde iniciar() pelos encoders (roda direita a frente = giro a esquerda = positivo).
     float giroPorEncoders(const EntradaControleCurva& e) const {
         const float dEsq = (float)(e.encEsq - encEsq0_) * p_.mmPorPulso;

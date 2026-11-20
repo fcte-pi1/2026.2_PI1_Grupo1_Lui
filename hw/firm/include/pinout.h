@@ -51,12 +51,12 @@
 #define PIN_ENC2_A       35  // Canal A (Amarelo) - Entrada pura, sem pull-up
 #define PIN_ENC2_B        2  // Canal B (Verde)   - GPIO 2 (com pull-up interno)
 
-// Parâmetros Físicos dos Motores e Rodas
+// Parâmetros Físicos dos Motores e Rodas (CAD origin/docs/mec + fotogrametria + docs/7.1)
 #define ENCODER_TICKS_PER_REV  360    // 12 CPR * 30:1 de redução = 360 pulsos/volta
-#define WHEEL_DIAMETER_MM      22.0f  // Diâmetro externo da roda em mm (conforme doc 4.1)
-#define WHEEL_CIRCUMFERENCE_MM 69.1150384f  // pi * 22 mm = ~69.12 mm
-#define TRACK_WIDTH_MM         80.0f  // Distância entre as rodas (bitola) em mm
-#define CELL_SIZE_MM           168.0f // Comprimento da célula oficial do labirinto (mm)
+#define WHEEL_DIAMETER_MM      26.0f  // Diâmetro externo estimado com O-ring (cubo 18 mm + pneu; conferir com régua)
+#define WHEEL_CIRCUMFERENCE_MM 81.68140899f // pi * 26 mm = ~81.68 mm
+#define TRACK_WIDTH_MM         110.0f // Distância centro-a-centro das rodas (externas ao chassi de 82.4 mm)
+#define CELL_SIZE_MM           180.0f // Passo centro-a-centro da célula (168 mm vão livre + 12 mm parede)
 
 // ==============================================================================
 // 3. SENSORES DE DISTÂNCIA VL53L0X (TIME-OF-FLIGHT I2C + XSHUT)
@@ -82,7 +82,7 @@
 
 // Limiares de Parede do Labirinto (mm)
 #define DIST_PAREDE_DETECTADA_MM 110 // Abaixo de 110 mm indica presença de parede
-#define DIST_MINIMA_SEGURA_MM     30 // Limite crítico de colisão
+#define DIST_MINIMA_SEGURA_MM     15 // Limite crítico de colisão (ToF frontal a 65.6 mm do eixo -> centro = 18.4 mm)
 #define DIST_MAXIMA_UTIL_MM      180 // Limite útil dentro da célula do labirinto (168x168 mm)
 
 // ==============================================================================

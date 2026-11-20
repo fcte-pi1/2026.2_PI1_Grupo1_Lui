@@ -516,6 +516,34 @@ void test_sem_ganho_a_curva_nao_conclui(void) {
     TEST_ASSERT_EQUAL(CURVA_FALHOU, executarCurva(ctl, r, c, SENTIDO_ESQUERDA, p.mmPorPulso, p.bitolaMm));
 }
 
+void test_sincronismo_de_rodas_freia_a_roda_adiantada_no_giro(void) {
+    ParametrosControleCurva p = ControleCurva::parametrosPadrao();
+    p.kpSyncRodas = 1.5f;
+    ControleCurva c(p);
+    c.iniciar(SENTIDO_ESQUERDA, 0.0f, 0, 0, 0);
+    EntradaControleCurva e = leitura(0.0f, 20);
+    e.imuValido = false;
+    e.encEsq = -150;  // esquerda andou mais para tras
+    e.encDir = 50;    // direita andou menos para frente
+    const SaidaControleCurva s = c.atualizar(e);
+    TEST_ASSERT_EQUAL(CURVA_GIRANDO, s.estado);
+    TEST_ASSERT_TRUE(fabsf(s.velEsqMmS) < fabsf(s.velDirMmS));  // reduz a esquerda e acelera a direita
+}
+
+void test_modo_sem_reversao_conclui_sem_oscilar_ao_atingir_alvo(void) {
+    ParametrosControleCurva p = ControleCurva::parametrosPadrao();
+    p.permitirReversao = false;
+    p.antecipacaoFreioGraus = 2.0f;
+    ControleCurva c(p);
+    c.iniciar(SENTIDO_DIREITA, 0.0f, 0, 0, 0);
+    SaidaControleCurva s = c.atualizar(leitura(-87.0f, 50));
+    TEST_ASSERT_EQUAL(CURVA_GIRANDO, s.estado);
+    s = c.atualizar(leitura(-88.5f, 60));  // faltam 1.5 graus <= 2.0 de antecipacao
+    TEST_ASSERT_EQUAL(CURVA_CONCLUIDA, s.estado);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velEsqMmS);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, s.velDirMmS);
+}
+
 int main(void) {
     UNITY_BEGIN();
     // Sentido e velocidades
@@ -557,5 +585,8 @@ int main(void) {
     RUN_TEST(test_funciona_com_leituras_a_20_hz);
     RUN_TEST(test_sem_imu_os_encoders_fecham_a_curva_dentro_de_3_graus);
     RUN_TEST(test_sem_ganho_a_curva_nao_conclui);
+    // Sincronismo de rodas e corte sem reversao
+    RUN_TEST(test_sincronismo_de_rodas_freia_a_roda_adiantada_no_giro);
+    RUN_TEST(test_modo_sem_reversao_conclui_sem_oscilar_ao_atingir_alvo);
     return UNITY_END();
 }

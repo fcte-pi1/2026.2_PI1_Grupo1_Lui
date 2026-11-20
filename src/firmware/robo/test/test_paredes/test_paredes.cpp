@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <unity.h>
 #include "../../src/sensores/ClassificadorParedes.h"
+#include "../../src/sensores/FiltroToF.h"
 #include "../../src/sensores/LeituraToF.h"
 
 // Testes da leitura não bloqueante dos ToF (achado B10) e do classificador de paredes
@@ -201,6 +202,32 @@ void test_limiar_fica_entre_parede_lateral_e_corredor_aberto(void) {
     TEST_ASSERT_TRUE(LIMIAR_PAREDE_MM < VAO_CORREDOR_MM);
 }
 
+void test_filtro_tof_aplica_offset_e_classifica_status_vl53(void) {
+    // Status interno 11 (0x58 = 11 << 3): medição válida, desconta offset.
+    TEST_ASSERT_EQUAL_UINT16(45, classificarLeituraVL53(11u << 3, 65, 20));
+    TEST_ASSERT_EQUAL_UINT16(1, classificarLeituraVL53(11u << 3, 10, 20));  // satura em 1 mm
+    // Status 7/8 (sinal fraco em corredor aberto) -> sem alvo (8190).
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, classificarLeituraVL53(7u << 3, 250, 20));
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, classificarLeituraVL53(8u << 3, 250, 20));
+    // Status 4/5 (min range fail / encostado na parede) -> distância mínima, nunca aberto!
+    TEST_ASSERT_EQUAL_UINT16(TOF_DIST_MIN_VALIDA_MM, classificarLeituraVL53(4u << 3, 5, 0));
+    // Status 1..3 (falha de hardware) -> 0 (erro).
+    TEST_ASSERT_EQUAL_UINT16(0, classificarLeituraVL53(2u << 3, 100, 0));
+}
+
+void test_filtro_mediana_rejeita_pico_isolado_e_reinicia_apos_sem_alvo(void) {
+    FiltroMedianaToF f;
+    TEST_ASSERT_EQUAL_UINT16(40, f.atualizar(40));
+    TEST_ASSERT_EQUAL_UINT16(41, f.atualizar(42));
+    // Pico isolado de 180 mm não contamina a mediana de [40, 42, 180] = 42.
+    TEST_ASSERT_EQUAL_UINT16(42, f.atualizar(180));
+    // Três leituras seguidas sem alvo limpam o histórico.
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, f.atualizar(TOF_LEITURA_INVALIDA_MM));
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, f.atualizar(TOF_LEITURA_INVALIDA_MM));
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, f.atualizar(TOF_LEITURA_INVALIDA_MM));
+    TEST_ASSERT_EQUAL_UINT16(95, f.atualizar(95));  // volta sem resíduo antigo
+}
+
 int main(void) {
     UNITY_BEGIN();
     // LeituraToF
@@ -222,5 +249,8 @@ int main(void) {
     RUN_TEST(test_amostra_montada_a_partir_das_leituras);
     RUN_TEST(test_classificador_implementa_sensores_paredes);
     RUN_TEST(test_limiar_fica_entre_parede_lateral_e_corredor_aberto);
+    // FiltroToF
+    RUN_TEST(test_filtro_tof_aplica_offset_e_classifica_status_vl53);
+    RUN_TEST(test_filtro_mediana_rejeita_pico_isolado_e_reinicia_apos_sem_alvo);
     return UNITY_END();
 }

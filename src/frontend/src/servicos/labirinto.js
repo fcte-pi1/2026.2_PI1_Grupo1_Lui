@@ -153,39 +153,45 @@ export function aplicarPacote(estado, pacote) {
 
     const celulaAtual = cellsClonadas.find(c => c.x === x && c.y === y);
 
-    // Registra paredes da célula atual e na vizinha correspondente
+    // Registra ou corrige paredes da célula atual e da vizinha correspondente.
+    // Lados do perímetro externo permanecem sempre fechados; lados internos podem ser
+    // reabertos caso o robô revisite a célula e corrija uma leitura falsa anterior.
     if (celulaAtual && pacote.paredes) {
         const { norte, sul, leste, oeste } = pacote.paredes;
 
-        if (norte) {
-            celulaAtual.walls.top = true;
+        if (norte !== undefined) {
+            const temNorte = y === 0 ? true : Boolean(norte);
+            celulaAtual.walls.top = temNorte;
             if (y > 0) {
                 const vizinhaNorte = cellsClonadas.find(c => c.x === x && c.y === y - 1);
-                if (vizinhaNorte) vizinhaNorte.walls.bottom = true;
+                if (vizinhaNorte) vizinhaNorte.walls.bottom = temNorte;
             }
         }
 
-        if (sul) {
-            celulaAtual.walls.bottom = true;
+        if (sul !== undefined) {
+            const temSul = y + 1 >= linhas ? true : Boolean(sul);
+            celulaAtual.walls.bottom = temSul;
             if (y + 1 < linhas) {
                 const vizinhaSul = cellsClonadas.find(c => c.x === x && c.y === y + 1);
-                if (vizinhaSul) vizinhaSul.walls.top = true;
+                if (vizinhaSul) vizinhaSul.walls.top = temSul;
             }
         }
 
-        if (leste) {
-            celulaAtual.walls.right = true;
+        if (leste !== undefined) {
+            const temLeste = x + 1 >= 4 ? true : Boolean(leste);
+            celulaAtual.walls.right = temLeste;
             if (x + 1 < 4) {
                 const vizinhaLeste = cellsClonadas.find(c => c.x === x + 1 && c.y === y);
-                if (vizinhaLeste) vizinhaLeste.walls.left = true;
+                if (vizinhaLeste) vizinhaLeste.walls.left = temLeste;
             }
         }
 
-        if (oeste) {
-            celulaAtual.walls.left = true;
+        if (oeste !== undefined) {
+            const temOeste = x === 0 ? true : Boolean(oeste);
+            celulaAtual.walls.left = temOeste;
             if (x > 0) {
                 const vizinhaOeste = cellsClonadas.find(c => c.x === x - 1 && c.y === y);
-                if (vizinhaOeste) vizinhaOeste.walls.right = true;
+                if (vizinhaOeste) vizinhaOeste.walls.right = temOeste;
             }
         }
     }

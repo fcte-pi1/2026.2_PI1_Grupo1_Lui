@@ -89,17 +89,53 @@ void setup() {
     ciclo->iniciar((uint32_t)millis());
 
     Serial.println("Robo ligado. Estado: AGUARDANDO");
-    Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s (LED branco) e solte para largar.");
+    Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s e solte para largar.");
+    Serial.println("Comandos Serial/ESP-NOW: [s] parada de emergencia | [d] diagnostico rapido.");
+}
+
+static void imprimirDiagnostico() {
+    int32_t esq = 0, dir = 0;
+    encoders.ler(esq, dir);
+    const uint32_t agora = (uint32_t)millis();
+    Serial.printf("[DIAG] estado=%u pos=(L%u,C%u,ori=%u) ToF(E/F/D)=[%u/%u/%u mm] Enc(E/D)=[%ld/%ld] Bat=%u mV\n",
+                  (unsigned)ciclo->estado(),
+                  (unsigned)ciclo->navegador().linha(),
+                  (unsigned)ciclo->navegador().coluna(),
+                  (unsigned)ciclo->navegador().orientacao(),
+                  (unsigned)tof.esquerdo().distanciaMm(),
+                  (unsigned)tof.frontal().distanciaMm(),
+                  (unsigned)tof.direito().distanciaMm(),
+                  (long)esq, (long)dir,
+                  (unsigned)ciclo->ultimoPacote().bateria_mv);
+    (void)agora;
+}
+
+static void processarComando(char cmd) {
+    if (cmd == 's' || cmd == 'S' || cmd == ' ') {
+        ciclo->paradaEmergencia((uint32_t)millis());
+    } else if (cmd == 'd' || cmd == 'D') {
+        imprimirDiagnostico();
+    }
 }
 
 void loop() {
     const uint32_t inicioUs = micros();
-    ciclo->tick((uint32_t)millis());  // R10: millis() convertido para uint32_t
+    const uint32_t agora = (uint32_t)millis();
+
+    while (Serial.available()) {
+        processarComando((char)Serial.read());
+    }
+    char cmdRadio = 0;
+    while (radioTelemetriaLerComando(cmdRadio)) {
+        processarComando(cmdRadio);
+    }
+
+    ciclo->tick(agora);  // R10: millis() convertido para uint32_t
     const uint32_t duracaoUs = micros() - inicioUs;
     if (duracaoUs > tickMaximoUs) tickMaximoUs = duracaoUs;
     ticks++;
 
-    if (temporizadorMedicao.vencido((uint32_t)millis())) {
+    if (temporizadorMedicao.vencido(agora)) {
         Serial.printf("[tick] %lu ticks em 5 s, maior tick %lu us\n",
                       (unsigned long)ticks, (unsigned long)tickMaximoUs);
         ticks = 0;

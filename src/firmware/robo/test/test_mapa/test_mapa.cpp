@@ -399,6 +399,17 @@ void test_percurso_simulado_reproduz_a_pista_4x4(void) {
     }
 }
 
+void test_passagem_ja_percorrida_nao_e_fechada_por_leitura_ruidosa(void) {
+    Mapa mapa;
+    TEST_ASSERT_TRUE(mapa.registrarMovimento(0, 0, DIR_LESTE));
+    TEST_ASSERT_TRUE(mapa.foiPercorrida(0, 0, DIR_LESTE));
+    TEST_ASSERT_TRUE(mapa.foiPercorrida(0, 1, DIR_OESTE));
+    // Leitura falsa de parede ao retornar não pode fechar a passagem física.
+    TEST_ASSERT_TRUE(mapa.registrarParede(0, 1, DIR_OESTE));
+    TEST_ASSERT_FALSE(mapa.temParede(0, 1, DIR_OESTE));
+    TEST_ASSERT_FALSE(mapa.temParede(0, 0, DIR_LESTE));
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_mapa_default_geometry);
@@ -424,6 +435,7 @@ int main(void) {
     RUN_TEST(test_exemplo_da_tabela_da_secao_5_1);
     RUN_TEST(test_pista_do_teste_e_valida);
     RUN_TEST(test_percurso_simulado_reproduz_a_pista_4x4);
+    RUN_TEST(test_passagem_ja_percorrida_nao_e_fechada_por_leitura_ruidosa);
     return UNITY_END();
 }
 

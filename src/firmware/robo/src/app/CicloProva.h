@@ -61,8 +61,9 @@ class CicloProva {
 public:
     static const uint32_t PERIODO_CONTROLE_MS = 10;
     static const uint32_t PERIODO_LED_MS = 50;   // 3.4 pede 100 ms; 50 ms deixa as piscadas de 150 ms regulares
-    static const uint32_t ESPERA_LEITURA_PAREDES_MS = 150;  // 3.7: sem leitura válida, falha
-    static const uint32_t FREIO_TERMINAL_MS = 300;         // 3.3: freio e depois roda livre
+    static const uint32_t ESPERA_LEITURA_PAREDES_MS = 250;  // 3.7: comporta >= 2 amostras a 30 Hz
+    static const uint32_t AMOSTRAS_PAREDE_CELULA = 2;       // descarta a 1ª amostra (pode ter sido integrada freando)
+    static const uint32_t FREIO_TERMINAL_MS = 300;          // 3.3: freio e depois roda livre
 
     explicit CicloProva(const DependenciasProva& d)
         : d_(d),
@@ -79,6 +80,9 @@ public:
           subfase_(SUBFASE_LENDO_PAREDES),
           giroPendente_(GIRO_NENHUM),
           inicioLeituraMs_(0),
+          amostrasEsqInicio_(0),
+          amostrasFrenteInicio_(0),
+          amostrasDirInicio_(0),
           terminalDesdeMs_(0),
           rodasSoltas_(false),
           causaUltimaFalha_(FALHA_NENHUMA),
@@ -141,6 +145,16 @@ public:
         }
     }
 
+    // Parada de emergência remota (via Serial ou comando 's' ESP-NOW do Gateway).
+    void paradaEmergencia(uint32_t agoraMs) {
+        agoraMs_ = agoraMs;
+        cortar(agoraMs);
+        registrar("Parada de emergencia remota.");
+        if (estado_ == MAPEANDO || estado_ == SPEED_RUN) {
+            entrarTerminal(TRAVADO, agoraMs);
+        }
+    }
+
     // --- Consultas (log, autoteste e testes) ---
     EstadoRobo estado() const { return estado_; }
     SubfaseMapeamento subfase() const { return subfase_; }
@@ -200,6 +214,7 @@ private:
         terminalDesdeMs_ = agoraMs;
         rodasSoltas_ = false;
         mudarEstado(e);
+        enviarTelemetria(agoraMs);  // notifica o painel imediatamente sem esperar 1 s
     }
 
     // ------------------------------------------------------------------ segurança
@@ -280,16 +295,23 @@ private:
     void comecarLeitura(uint32_t agoraMs) {
         subfase_ = SUBFASE_LENDO_PAREDES;
         inicioLeituraMs_ = agoraMs;
+        amostrasEsqInicio_ = d_.tof.esquerdo().amostras();
+        amostrasFrenteInicio_ = d_.tof.frontal().amostras();
+        amostrasDirInicio_ = d_.tof.direito().amostras();
     }
 
-    // Os três sensores têm amostra feita depois de o robô parar nesta célula.
+    // Os três sensores têm ao menos AMOSTRAS_PAREDE_CELULA amostras novas depois de o robô
+    // parar nesta célula (evita ler uma medição integrada durante a frenagem).
     bool amostrasDaCelula() {
-        return amostraDepois(d_.tof.esquerdo()) && amostraDepois(d_.tof.frontal()) &&
-               amostraDepois(d_.tof.direito());
+        return amostrasNovas(d_.tof.esquerdo(), amostrasEsqInicio_) &&
+               amostrasNovas(d_.tof.frontal(), amostrasFrenteInicio_) &&
+               amostrasNovas(d_.tof.direito(), amostrasDirInicio_);
     }
 
-    bool amostraDepois(const LeituraToF& l) const {
-        return l.temAmostra() && (int32_t)(l.instanteMs() - inicioLeituraMs_) >= 0;
+    bool amostrasNovas(const LeituraToF& l, uint32_t base) const {
+        return l.temAmostra() &&
+               (uint32_t)(l.amostras() - base) >= AMOSTRAS_PAREDE_CELULA &&
+               (int32_t)(l.instanteMs() - inicioLeituraMs_) >= 0;
     }
 
     void tratarMapeando(uint32_t agoraMs, bool tickControle) {
@@ -313,6 +335,9 @@ private:
             bool frente, esquerda, direita;
             if (classificador_.lerParedes(frente, esquerda, direita)) {
                 navegador_.observar(frente, esquerda, direita);
+                // Publica imediatamente as paredes desta célula para o painel nunca perder
+                // células atravessadas mais rápido que o período de 1 Hz.
+                enviarTelemetria(agoraMs);
                 decidir(agoraMs);
                 return;
             }
@@ -458,7 +483,9 @@ private:
         p.labirinto_id = (uint8_t)mapa_.getGeometria();
         p.status_id = (uint8_t)estado_;
         p.desafio_cumprido = parada_.desafioCumprido() ? 1 : 0;
-        const uint16_t mv = lerBateria();
+        // Só aciona o ADC da bateria com o robô parado (executor ocioso) para não pausar
+        // a interrupção do encoder esquerdo (GPIO 36) durante curvas ou retas.
+        const uint16_t mv = (bateriaMv_ == 0 || d_.executor.ocioso()) ? lerBateria() : bateriaMv_;
         p.bateria_mv = mv;
         p.bateria_pct = porcentagemBateria(mv);
         p.velocidade_atual = saturarInt16(d_.odometria.velocidadeMmS());
@@ -508,6 +535,9 @@ private:
     SubfaseMapeamento subfase_;
     Giro giroPendente_;
     uint32_t inicioLeituraMs_;
+    uint32_t amostrasEsqInicio_;
+    uint32_t amostrasFrenteInicio_;
+    uint32_t amostrasDirInicio_;
     uint32_t terminalDesdeMs_;
     bool rodasSoltas_;
     MotivoFalhaMovimento causaUltimaFalha_;

@@ -234,6 +234,42 @@ describe('servicos/labirinto.js', () => {
             expect(a1.walls.bottom).toBe(true);
         });
 
+        it('deve remover parede interna falsa quando revisitada, preservando o perímetro', () => {
+            const estado0 = criarEstadoInicial('4x4');
+            const comParedeFalsa = aplicarPacote(estado0, {
+                labirinto: '4x4',
+                posicao: { coluna: 'B', linha: 2 },
+                orientacao: 'LESTE',
+                paredes: { norte: true, sul: false, leste: true, oeste: false },
+                status: 'MAPEANDO'
+            });
+            expect(comParedeFalsa.cells.find(c => c.x === 1 && c.y === 1).walls.right).toBe(true);
+            expect(comParedeFalsa.cells.find(c => c.x === 2 && c.y === 1).walls.left).toBe(true);
+
+            // Revisitou B2 e corrigiu leste=false: parede interna some dos dois lados.
+            const corrigido = aplicarPacote(comParedeFalsa, {
+                labirinto: '4x4',
+                posicao: { coluna: 'B', linha: 2 },
+                orientacao: 'LESTE',
+                paredes: { norte: true, sul: false, leste: false, oeste: false },
+                status: 'MAPEANDO'
+            });
+            expect(corrigido.cells.find(c => c.x === 1 && c.y === 1).walls.right).toBe(false);
+            expect(corrigido.cells.find(c => c.x === 2 && c.y === 1).walls.left).toBe(false);
+
+            // Mesmo se um pacote informar norte=false em A1, o perímetro externo nunca abre.
+            const borda = aplicarPacote(corrigido, {
+                labirinto: '4x4',
+                posicao: { coluna: 'A', linha: 1 },
+                orientacao: 'LESTE',
+                paredes: { norte: false, sul: false, leste: false, oeste: false },
+                status: 'MAPEANDO'
+            });
+            const a1 = borda.cells.find(c => c.x === 0 && c.y === 0);
+            expect(a1.walls.top).toBe(true);
+            expect(a1.walls.left).toBe(true);
+        });
+
         it('deve ser exportado também pelo alias acumularPacote', () => {
             expect(acumularPacote).toBe(aplicarPacote);
         });

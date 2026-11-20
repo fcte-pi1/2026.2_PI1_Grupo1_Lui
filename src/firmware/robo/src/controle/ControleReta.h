@@ -38,21 +38,25 @@
 //  - Os valores padrão são ponto de partida e devem ser ajustados no robô (CT-01).
 
 struct ParametrosControleReta {
-    float velocidadeBaseMmS;  // velocidade de avanço nas duas rodas com erro zero
-    float kpParede;           // mm/s de correção por mm de erro lateral
-    float kdParede;           // mm/s de correção por mm/s de variação do erro lateral
-    float filtroDerivada;     // peso da amostra nova na derivada, de 0 (congela) a 1 (sem filtro)
-    float kpRumo;             // mm/s de correção por grau de erro de rumo
-    float limiteGiroMmS;      // saturação da correção, para cada roda
-    float distMinParedeMm;    // abaixo disso (ou negativa) a leitura é inválida; baixo de propósito:
-                              // colado na parede a referência não pode sumir
-    float distMaxParedeMm;    // acima disso considera-se que não há parede
-    float mmPorPulso;         // odometria: deslocamento de uma roda por pulso de encoder
-    float bitolaMm;           // distância entre os centros das rodas
+    float velocidadeBaseMmS;     // velocidade de avanço nas duas rodas com erro zero
+    float kpParede;              // mm/s de correção por mm de erro lateral
+    float kdParede;              // mm/s de correção por mm/s de variação do erro lateral
+    float filtroDerivada;        // peso da amostra nova na derivada, de 0 (congela) a 1 (sem filtro)
+    float kpRumo;                // mm/s de correção por grau de erro de rumo
+    float limiteGiroMmS;         // saturação da correção, para cada roda
+    float distMinParedeMm;       // abaixo disso (ou negativa) a leitura é inválida; baixo de propósito:
+                                 // colado na parede a referência não pode sumir
+    float distMaxParedeMm;       // acima disso considera-se que não há parede
+    float mmPorPulso;            // odometria: deslocamento de uma roda por pulso de encoder
+    float bitolaMm;              // distância entre os centros das rodas
+    bool usarMonoparede;         // true: com apenas 1 parede lateral, centraliza pela referência
+    float refParedeLateralMm;    // distância nominal à parede quando centrado (piso inicial)
+    float pesoAprendizadoRef;    // peso EMA ao aprender a referência com duas paredes (0..1)
+    float saltoMaxParedeMm;      // salto consecutivo acima disso (quina/borda) é ignorado (0 = desliga)
 };
 
 enum ModoControleReta : uint8_t {
-    MODO_PAREDES,  // referência: paredes laterais
+    MODO_PAREDES,  // referência: paredes laterais (duas ou monoparede habilitada)
     MODO_RUMO      // referência: rumo do início da reta (IMU ou encoders)
 };
 
@@ -86,17 +90,36 @@ public:
         p.limiteGiroMmS = 60.0f;
         p.distMinParedeMm = 1.0f;
         p.distMaxParedeMm = 100.0f;
-        p.mmPorPulso = RODA_MM_POR_PULSO;  // hardware/Pinos.h: roda de 32 mm e 360 pulsos por volta
-        p.bitolaMm = BITOLA_MM;            // hardware/Pinos.h: 80 mm
+        p.mmPorPulso = RODA_MM_POR_PULSO;
+        p.bitolaMm = BITOLA_MM;
+        p.usarMonoparede = false;  // compatível com testes legados; o executor do robô ativa
+        p.refParedeLateralMm = DIST_IDEAL_PAREDE_LATERAL_MM;
+        p.pesoAprendizadoRef = 0.15f;
+        p.saltoMaxParedeMm = 0.0f;  // 0 = desliga; o executor ativa (18 mm) contra quinas
         return p;
     }
 
-    explicit ControleReta(const ParametrosControleReta& p = parametrosPadrao()) : p_(p) {
+    explicit ControleReta(const ParametrosControleReta& p = parametrosPadrao())
+        : p_(p), refEsqAprendida_(-1.0f), refDirAprendida_(-1.0f) {
         iniciar(0.0f, 0, 0, 0);
     }
 
+    // Esquece a referência de corredor aprendida em corridas anteriores (chamar na largada).
+    void limparReferenciaAprendida() {
+        refEsqAprendida_ = -1.0f;
+        refDirAprendida_ = -1.0f;
+    }
+
+    float referenciaEsqMm() const {
+        return refEsqAprendida_ > 0.0f ? refEsqAprendida_ : p_.refParedeLateralMm;
+    }
+
+    float referenciaDirMm() const {
+        return refDirAprendida_ > 0.0f ? refDirAprendida_ : p_.refParedeLateralMm;
+    }
+
     // Começa uma reta: guarda o rumo e as contagens dos encoders como referência. Deve
-    // ser chamado com o robô alinhado ao corredor.
+    // ser chamado com o robô alinhado ao corredor. Mantém a referência lateral aprendida.
     void iniciar(float yawGraus, int32_t encEsq, int32_t encDir, uint32_t agoraMs) {
         rumoImuGraus_ = yawGraus;
         encEsq0_ = encEsq;
@@ -105,11 +128,16 @@ public:
         temAmostra_ = false;
         derivadaFiltrada_ = 0.0f;
         erroAnterior_ = 0.0f;
+        ultimoRegime_ = REGIME_RUMO;
+        temUltimaEsq_ = false;
+        temUltimaDir_ = false;
+        ultimaEsqMm_ = 0.0f;
+        ultimaDirMm_ = 0.0f;
     }
 
     SaidaControleReta atualizar(const EntradaControleReta& e) {
-        const bool esq = paredeValida(e.distEsqMm);
-        const bool dir = paredeValida(e.distDirMm);
+        const bool esq = filtrarLateral(e.distEsqMm, temUltimaEsq_, ultimaEsqMm_);
+        const bool dir = filtrarLateral(e.distDirMm, temUltimaDir_, ultimaDirMm_);
 
         SaidaControleReta s;
         float giro;  // positivo = virar para a esquerda (roda direita mais rápida)
@@ -118,6 +146,25 @@ public:
             s.modo = MODO_PAREDES;
             s.erroLateralMm = e.distEsqMm - e.distDirMm;
             s.erroRumoGraus = 0.0f;
+            if (ultimoRegime_ != REGIME_DUAS) temAmostra_ = false;
+            ultimoRegime_ = REGIME_DUAS;
+            aprenderReferencias(e.distEsqMm, e.distDirMm, s.erroLateralMm);
+            giro = p_.kpParede * s.erroLateralMm + p_.kdParede * derivada(s.erroLateralMm, e.agoraMs);
+        } else if (p_.usarMonoparede && esq) {
+            // Modo monoparede esquerda: escala x2 para equivaler a (distEsq - distDir).
+            s.modo = MODO_PAREDES;
+            s.erroLateralMm = 2.0f * (e.distEsqMm - referenciaEsqMm());
+            s.erroRumoGraus = 0.0f;
+            if (ultimoRegime_ != REGIME_ESQ) temAmostra_ = false;
+            ultimoRegime_ = REGIME_ESQ;
+            giro = p_.kpParede * s.erroLateralMm + p_.kdParede * derivada(s.erroLateralMm, e.agoraMs);
+        } else if (p_.usarMonoparede && dir) {
+            // Modo monoparede direita: mais perto da parede direita -> erro positivo -> vira à esquerda.
+            s.modo = MODO_PAREDES;
+            s.erroLateralMm = 2.0f * (referenciaDirMm() - e.distDirMm);
+            s.erroRumoGraus = 0.0f;
+            if (ultimoRegime_ != REGIME_DIR) temAmostra_ = false;
+            ultimoRegime_ = REGIME_DIR;
             giro = p_.kpParede * s.erroLateralMm + p_.kdParede * derivada(s.erroLateralMm, e.agoraMs);
         } else {
             s.modo = MODO_RUMO;
@@ -125,6 +172,7 @@ public:
             s.erroRumoGraus = erroDeRumo(e);
             giro = -p_.kpRumo * s.erroRumoGraus;
             temAmostra_ = false;  // a próxima volta às paredes não herda derivada antiga
+            ultimoRegime_ = REGIME_RUMO;
         }
         ultimoMs_ = e.agoraMs;
 
@@ -177,6 +225,37 @@ private:
         return ((dDir - dEsq) / p_.bitolaMm) * RAD_PARA_GRAUS;
     }
 
+    enum RegimeLateral : uint8_t { REGIME_RUMO, REGIME_DUAS, REGIME_ESQ, REGIME_DIR };
+
+    // Valida a parede lateral e rejeita saltos bruscos (quinas/bordas de abertura) quando
+    // saltoMaxParedeMm > 0, exigindo continuidade antes de usar a amostra no controle.
+    bool filtrarLateral(float distMm, bool& temUltima, float& ultimaMm) const {
+        if (!paredeValida(distMm)) {
+            temUltima = false;
+            return false;
+        }
+        if (p_.saltoMaxParedeMm <= 0.0f) {
+            ultimaMm = distMm;
+            temUltima = true;
+            return true;
+        }
+        const bool ok = temUltima && fabsf(distMm - ultimaMm) <= p_.saltoMaxParedeMm;
+        ultimaMm = distMm;
+        temUltima = true;
+        return ok;
+    }
+
+    // Aprende a distância de cada parede quando o robô está aproximadamente centrado
+    // entre duas paredes (|erro| <= 8 mm), sem contaminar por leitura em uma parede só.
+    void aprenderReferencias(float distEsqMm, float distDirMm, float erroMm) {
+        if (p_.pesoAprendizadoRef <= 0.0f || fabsf(erroMm) > 8.0f) return;
+        const float a = p_.pesoAprendizadoRef;
+        refEsqAprendida_ = (refEsqAprendida_ < 0.0f) ? distEsqMm
+                                                     : refEsqAprendida_ + a * (distEsqMm - refEsqAprendida_);
+        refDirAprendida_ = (refDirAprendida_ < 0.0f) ? distDirMm
+                                                     : refDirAprendida_ + a * (distDirMm - refDirAprendida_);
+    }
+
     static float limitarNaoNegativa(float v) { return v < 0.0f ? 0.0f : v; }
 
     static const uint32_t DT_MAX_MS = 250;  // acima disso a amostra anterior é velha demais
@@ -190,6 +269,13 @@ private:
     bool temAmostra_;
     float erroAnterior_;
     float derivadaFiltrada_;
+    RegimeLateral ultimoRegime_;
+    bool temUltimaEsq_;
+    bool temUltimaDir_;
+    float ultimaEsqMm_;
+    float ultimaDirMm_;
+    float refEsqAprendida_;
+    float refDirAprendida_;
 };
 
 #endif

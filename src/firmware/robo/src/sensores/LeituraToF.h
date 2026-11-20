@@ -28,6 +28,7 @@ public:
         instanteMs_ = 0;
         temAmostra_ = false;
         nova_ = false;
+        amostras_ = 0;
     }
 
     // Amostra recebida do sensor no instante agoraMs.
@@ -36,6 +37,7 @@ public:
         instanteMs_ = agoraMs;
         temAmostra_ = true;
         nova_ = true;
+        amostras_++;
     }
 
     // A última amostra é recente e traz uma distância dentro do alcance.
@@ -60,9 +62,9 @@ public:
 
     uint16_t distanciaMm() const { return distanciaMm_; }
 
-    // Instante da última amostra registrada. Serve para exigir uma amostra feita depois de
-    // o robô parar (o laço só classifica as paredes com amostras novas da célula).
+    // Instante da última amostra registrada e contador acumulado de amostras.
     uint32_t instanteMs() const { return instanteMs_; }
+    uint32_t amostras() const { return amostras_; }
     bool temAmostra() const { return temAmostra_; }
 
     // Distância no formato dos controles (EntradaControleReta): em mm, ou -1 se inválida.
@@ -81,6 +83,7 @@ private:
     uint32_t instanteMs_;
     bool temAmostra_;
     bool nova_;
+    uint32_t amostras_;
 };
 
 #endif

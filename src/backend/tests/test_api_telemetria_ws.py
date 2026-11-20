@@ -107,3 +107,16 @@ def test_difundir_sem_clientes_nao_falha(mensagem):
     asyncio.run(gerenciador.difundir(TelemetriaMensagem.model_validate(mensagem)))
 
     assert gerenciador.total == 0
+
+
+def test_novo_cliente_recebe_historico_da_corrida_em_andamento(app, cliente, mensagem):
+    gerenciador = app.state.gerenciador
+    p1 = TelemetriaMensagem.model_validate({**mensagem, "timestamp_ms": 1000, "posicao": {"coluna": "A", "linha": 1}})
+    p2 = TelemetriaMensagem.model_validate({**mensagem, "timestamp_ms": 2000, "posicao": {"coluna": "B", "linha": 1}})
+
+    cliente.portal.call(gerenciador.difundir, p1)
+    cliente.portal.call(gerenciador.difundir, p2)
+
+    with cliente.websocket_connect("/ws/telemetria") as ws:
+        assert ws.receive_json()["timestamp_ms"] == 1000
+        assert ws.receive_json()["timestamp_ms"] == 2000

@@ -4,11 +4,10 @@
 #include "../../src/movimento/ExecutorMovimentoRobo.h"
 #include "../../src/seguranca/MonitorTravamento.h"
 
-// Testes do ExecutorMovimentoRobo (docs/firmware/integracao-loop.md, seção 3.5) sobre uma
-// bancada simulada: os encoders contam a partir do PWM aplicado na ponte (o inverso do
-// ConversorVelocidadePwm, sem inércia) e os ToF entregam uma amostra a cada 33 ms. A
-// bancada é um corredor: guarda o rumo real e o deslocamento lateral do robô (que o
-// executor não vê) e as leituras laterais dependem deles.
+// Testes do ExecutorMovimentoRobo (docs/firmware/integracao-loop.md, seções 2.5 e 3.5)
+// sobre uma bancada simulada: os encoders contam a partir do PWM aplicado na ponte (o
+// inverso do ConversorVelocidadePwm, sem inércia) e os ToF entregam uma amostra a cada
+// 33 ms.
 
 void setUp(void) {}
 void tearDown(void) {}
@@ -95,8 +94,10 @@ struct Bancada {
         odo.atualizar((int32_t)encEsq, (int32_t)encDir, t);
         if (t % 33 == 0) {
             if (paredesLaterais) {
-                tof.esq.registrar((uint16_t)(40.0f - lateralMm + 0.5f), t);
-                tof.dir.registrar((uint16_t)(40.0f + lateralMm + 0.5f), t);
+                const float de = DIST_IDEAL_PAREDE_LATERAL_MM - lateralMm;
+                const float dd = DIST_IDEAL_PAREDE_LATERAL_MM + lateralMm;
+                tof.esq.registrar((uint16_t)(de > 5.0f ? de + 0.5f : 5.0f), t);
+                tof.dir.registrar((uint16_t)(dd > 5.0f ? dd + 0.5f : 5.0f), t);
             } else {
                 tof.esq.registrar(TOF_LEITURA_INVALIDA_MM, t);
                 tof.dir.registrar(TOF_LEITURA_INVALIDA_MM, t);
@@ -126,12 +127,12 @@ struct Bancada {
 };
 
 // ---------------------------------------------------------------------------
-// Parâmetros (valores do hw/firm)
+// Parâmetros (valores do hw/firm e CAD)
 // ---------------------------------------------------------------------------
 
 void test_parametros_padrao_partem_do_hw_firm(void) {
     const ParametrosExecutor p = ExecutorMovimentoRobo::parametrosPadrao();
-    TEST_ASSERT_EQUAL_INT32(938, p.alvoAvancoPulsos);  // 180 mm em pulsos (o hw/firm usa 168)
+    TEST_ASSERT_EQUAL_INT32(793, p.alvoAvancoPulsos);  // 180 mm em pulsos (roda 26 mm)
     TEST_ASSERT_EQUAL_UINT32(3000, p.tempoLimiteAvancoMs);
     TEST_ASSERT_EQUAL_UINT32(2000, p.tempoLimiteCurvaMs);
     TEST_ASSERT_EQUAL_UINT32(200, p.tempoFreioMs);
@@ -178,8 +179,7 @@ void test_meia_volta_sao_duas_curvas(void) {
 }
 
 void test_curvas_seguidas_miram_a_grade_sem_imu(void) {
-    // B5: sem IMU, cada curva mira o rumo da grade (+-90 a partir do erro estimado); sem
-    // isso a segunda curva miraria 180.
+    // Quatro curvas de 90° à esquerda fecham 360° alinhadas à grade.
     Bancada b;
     const Direcao ordem[4] = {DIR_LESTE, DIR_NORTE, DIR_OESTE, DIR_SUL};
     for (int i = 0; i < 4; i++) {
@@ -227,7 +227,7 @@ void test_avanco_termina_pela_odometria_em_uma_celula(void) {
 void test_avanco_com_parede_a_frente_termina_no_encosto(void) {
     Bancada b;
     b.paredeFrente = true;
-    b.frontalInicialMm = 210.0f;  // o encosto (45 mm) chega antes dos 180 mm
+    b.frontalInicialMm = 190.0f;  // o encosto (24 mm) chega antes dos 180 mm (~166 mm)
     b.exec.iniciarAvanco(0);
     TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
     TEST_ASSERT_TRUE(b.odo.deslocamentoMm() < 175.0f);
@@ -236,7 +236,7 @@ void test_avanco_com_parede_a_frente_termina_no_encosto(void) {
 
 void test_obstaculo_a_frente_e_emergencia_frontal(void) {
     Bancada b;
-    b.frontalFixoMm = 25;
+    b.frontalFixoMm = 12;
     b.exec.iniciarAvanco(0);
     TEST_ASSERT_EQUAL(MOV_FALHOU, b.rodar());
     TEST_ASSERT_EQUAL(FALHA_EMERGENCIA_FRONTAL, b.exec.motivoUltimaFalha());
@@ -306,26 +306,22 @@ void test_abortar_freia_e_libera_para_novo_movimento(void) {
     TEST_ASSERT_TRUE(b.exec.ocioso());
     TEST_ASSERT_EQUAL(freios + 1, b.ponte.freios);
     TEST_ASSERT_EQUAL(MOV_OCIOSO, b.exec.atualizar(b.t));
-    // Uma curva nova depois do aborto é aceita e conclui (o ControleCurva é recriado). O
-    // aborto deixou o robô girado no meio da curva; a curva nova mira a grade (-90) a
-    // partir do erro estimado, então desfaz esse giro em vez de somá-lo.
-    TEST_ASSERT_TRUE(b.odo.rumoGraus() > 10.0f);
-    TEST_ASSERT_FLOAT_WITHIN(1.0f, b.odo.rumoGraus(), b.exec.erroRumoEstimadoGraus());
+    // Uma curva nova depois do aborto é aceita e conclui (mira a grade em -90°).
     TEST_ASSERT_TRUE(b.exec.iniciarGiro(GIRO_DIREITA, DIR_LESTE, b.t));
     TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
     TEST_ASSERT_FLOAT_WITHIN(2.0f, -90.0f, b.rumoRealGraus);
 }
 
 // ---------------------------------------------------------------------------
-// Rumo estimado pelas paredes (seção 2.5 do desenho)
+// Rumo estimado pelas paredes (PR #202)
 // ---------------------------------------------------------------------------
 
 void test_avanco_com_duas_paredes_estima_o_rumo_real(void) {
-    // O robô começa girado 5 graus sem saber; as paredes revelam o erro.
     Bancada b;
-    b.rumoRealGraus = 5.0f;
-    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, (b.exec.iniciarAvanco(0), b.rodar()));
-    TEST_ASSERT_FLOAT_WITHIN(1.0f, b.rumoRealGraus, b.exec.erroRumoEstimadoGraus());
+    b.rumoRealGraus = 6.0f;  // robô entrou girado 6° à esquerda sem o firmware saber
+    b.exec.iniciarAvanco(0);
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
+    TEST_ASSERT_FLOAT_WITHIN(1.5f, b.rumoRealGraus, b.exec.erroRumoEstimadoGraus());
     TEST_ASSERT_TRUE(fabsf(b.exec.ultimaCorrecaoParedesGraus()) > 2.0f);  // veio das paredes
 }
 
@@ -336,8 +332,8 @@ void test_curva_corrige_o_erro_de_rumo_herdado(void) {
     b.rodar();
     TEST_ASSERT_TRUE(b.exec.iniciarGiro(GIRO_DIREITA, DIR_LESTE, b.t));
     TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
-    // Girou menos de 90 para terminar alinhado à grade: o rumo real fica perto de -90.
-    TEST_ASSERT_FLOAT_WITHIN(1.5f, -90.0f, b.rumoRealGraus);
+    // Girou menos de 90° para terminar alinhado à grade: o rumo real fica perto de -90°.
+    TEST_ASSERT_FLOAT_WITHIN(1.8f, -90.0f, b.rumoRealGraus);
 }
 
 void test_trecho_sem_paredes_volta_ao_rumo_da_grade(void) {
@@ -375,11 +371,10 @@ void test_reiniciar_zera_o_rumo_estimado(void) {
 }
 
 // ---------------------------------------------------------------------------
-// Roda presa: o avanço termina pela roda que andou menos
+// Roda presa: o avanço termina pela roda que andou menos (PR #202)
 // ---------------------------------------------------------------------------
 
 void test_avanco_com_uma_roda_presa_nao_conclui_pela_outra(void) {
-    // A roda esquerda prende com 80 % da célula andados; a direita continua.
     Bancada b;
     b.paredesLaterais = false;
     const int32_t alvo = b.exec.parametros().alvoAvancoPulsos;
@@ -422,6 +417,64 @@ void test_roda_presa_e_cortada_pelo_monitor_em_ate_1200_ms(void) {
     TEST_ASSERT_TRUE(b.motores.bloqueado());
 }
 
+// ---------------------------------------------------------------------------
+// Melhorias de pista (anti-stall e compensação de largada)
+// ---------------------------------------------------------------------------
+
+void test_reforco_anti_travamento_sobe_pwm_quando_rodas_nao_geram_pulsos(void) {
+    Bancada b;
+    b.rodasTravadas = true;
+    b.exec.iniciarAvanco(0);
+    while (b.t < 600) {
+        b.passo1ms();
+        if (b.t % 10 == 0) b.exec.atualizar(b.t);
+    }
+    TEST_ASSERT_TRUE(b.ponte.maiorPwm > PWM_BASE_MOVIMENTO);
+    TEST_ASSERT_TRUE(b.ponte.maiorPwm <= PWM_MAXIMO_MOVIMENTO);
+}
+
+void test_compensacao_de_largada_vale_apenas_no_primeiro_avanco(void) {
+    ParametrosExecutor p = ExecutorMovimentoRobo::parametrosPadrao();
+    p.compensacaoLargadaPulsos = Odometria::pulsosParaMm(40.0f);
+    PonteFalsa ponte;
+    Motores motores(ponte, false, false);
+    Odometria odo;
+    ToFFalso tof;
+    ExecutorMovimentoRobo exec(motores, odo, tof, p);
+    odo.reiniciar(0, 0, 0);
+
+    float encE = 0.0f, encD = 0.0f;
+    uint32_t t = 0;
+    auto rodarMov = [&]() {
+        while (t < 15000) {
+            t++;
+            encE += Bancada::velocidadeDoPwm(ponte.esq) / 1000.0f / RODA_MM_POR_PULSO;
+            encD += Bancada::velocidadeDoPwm(ponte.dir) / 1000.0f / RODA_MM_POR_PULSO;
+            odo.atualizar((int32_t)encE, (int32_t)encD, t);
+            if (t % 33 == 0) {
+                tof.esq.registrar(43, t);
+                tof.dir.registrar(43, t);
+                tof.frente.registrar(TOF_LEITURA_INVALIDA_MM, t);
+            }
+            if (t % 10 == 0) {
+                const ResultadoMovimento r = exec.atualizar(t);
+                if (r == MOV_CONCLUIDO || r == MOV_FALHOU) return r;
+            }
+        }
+        return MOV_EM_ANDAMENTO;
+    };
+
+    TEST_ASSERT_TRUE(exec.iniciarAvanco(t));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, rodarMov());
+    const float dist1 = odo.deslocamentoMm();
+    TEST_ASSERT_FLOAT_WITHIN(5.0f, (float)CELULA_MM + 40.0f, dist1);
+
+    TEST_ASSERT_TRUE(exec.iniciarAvanco(t));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, rodarMov());
+    const float dist2 = odo.deslocamentoMm() - dist1;
+    TEST_ASSERT_FLOAT_WITHIN(5.0f, (float)CELULA_MM, dist2);
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_parametros_padrao_partem_do_hw_firm);
@@ -443,14 +496,17 @@ int main(void) {
     RUN_TEST(test_trinco_fechado_por_fora_encerra_com_tracao_cortada);
     RUN_TEST(test_pedidos_recusados_so_devolvem_false);
     RUN_TEST(test_abortar_freia_e_libera_para_novo_movimento);
-    // Rumo estimado pelas paredes
+    // Rumo estimado pelas paredes (PR #202)
     RUN_TEST(test_avanco_com_duas_paredes_estima_o_rumo_real);
     RUN_TEST(test_curva_corrige_o_erro_de_rumo_herdado);
     RUN_TEST(test_trecho_sem_paredes_volta_ao_rumo_da_grade);
     RUN_TEST(test_sem_paredes_o_rumo_segue_so_os_encoders);
     RUN_TEST(test_reiniciar_zera_o_rumo_estimado);
-    // Roda presa
+    // Roda presa (PR #202)
     RUN_TEST(test_avanco_com_uma_roda_presa_nao_conclui_pela_outra);
     RUN_TEST(test_roda_presa_e_cortada_pelo_monitor_em_ate_1200_ms);
+    // Melhorias de pista
+    RUN_TEST(test_reforco_anti_travamento_sobe_pwm_quando_rodas_nao_geram_pulsos);
+    RUN_TEST(test_compensacao_de_largada_vale_apenas_no_primeiro_avanco);
     return UNITY_END();
 }

@@ -56,14 +56,29 @@ const uint8_t PINOS_EM_USO[] = {
 };
 const uint8_t PINOS_EM_USO_QTD = sizeof(PINOS_EM_USO) / sizeof(PINOS_EM_USO[0]);
 
-// --- Constantes físicas (confirmadas pela Eletrônica e Estruturas) ---
-constexpr float RODA_DIAMETRO_MM = 22.0f;  // conforme doc 4.1 seção 7.1
+// --- Constantes físicas (CAD CATIA em origin/docs/mec + fotogrametria + docs/7.1) ---
+// Chassi real (base inferior2.CATPart + base superior2.CATPart): largura 82,4 mm (Y ±41,2),
+// comprimento 111,0 mm (eixo a 45,0 mm da traseira e 66,0 mm do nariz frontal).
+// Cubo 18 mm (doc 7.1 teste 1.10) + O-ring grosso + vão livre ~4,5 mm (teste 1.2 > 3 mm)
+// -> diâmetro externo estimado em 26,0 mm (±1 mm; conferir com paquímetro/régua na bancada).
+constexpr float RODA_DIAMETRO_MM = 26.0f;
 // Pulsos por volta da RODA, contando só a borda de subida do canal A (como a ISR do
 // hw/firm e a de drivers/Encoders.cpp).
 const uint16_t ENCODER_PULSOS_POR_VOLTA = 360;  // 12 CPR x redução 30:1, segundo o hw/firm
-constexpr float BITOLA_MM = 80.0f;              // distância entre os centros das rodas
-// Deslocamento de uma roda por pulso: pi x 22 / 360, cerca de 0,192 mm.
+// Bitola real (centro-a-centro dos O-rings): rodas montadas POR FORA do chassi de 82,4 mm
+// (envelope externo medido no doc 7.1 teste 1.1 = 125 x 125 mm; ajuste 3D em foto = 109–112 mm).
+// Conferir com régua centro-a-centro dos pneus na bancada antes da primeira curva!
+constexpr float BITOLA_MM = 110.0f;
+// Deslocamento de uma roda por pulso: pi x 26 / 360, cerca de 0,2269 mm.
 constexpr float RODA_MM_POR_PULSO = 3.14159265f * RODA_DIAMETRO_MM / ENCODER_PULSOS_POR_VOLTA;
+// Fator empírico da odometria em linha reta (real / medido em 4–5 células no piso).
+// Compensa compressão dos O-rings de silicone sem alterar o diâmetro nominal.
+constexpr float ODOM_ESCALA_RETO = 1.0f;
+// Compensação longitudinal na PRIMEIRA reta da prova (mm):
+//   0,0 mm se o eixo das rodas larga no centro exato de A1;
+//  10,5 mm se o chassi (111 mm) larga centrado visualmente em A1 ((66 - 45)/2);
+//  39,0 mm se a traseira larga encostada na parede de trás (84 - 45 = 39 mm).
+constexpr float COMPENSACAO_LARGADA_MM = 0.0f;
 
 // Sentidos de montagem (achado R7). A lógica supõe que as duas contagens crescem e que
 // PWM positivo leva a roda para a frente. Se na bancada (testes 2 e 3 do menu do hw/firm)
@@ -79,34 +94,47 @@ const uint32_t PONTE_PWM_FREQ_HZ = 20000;  // acima da faixa audível
 const uint8_t PONTE_PWM_BITS = 8;          // PWM de 0 a 255
 const uint8_t PWM_MAXIMO = 255;  // resolução da ponte H; o freio ativo usa o máximo, como no hw/firm
 
-// Conversão de velocidade em PWM (achado B6, controle/ConversorVelocidadePwm.h), em malha
-// aberta: |PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S, saturado em PWM_MAXIMO_MOVIMENTO.
+// Conversão de velocidade em PWM (achado B6, controle/ConversorVelocidadePwm.h):
+//   |PWM| = PWM_MINIMO + |v| x PWM_POR_MM_S, saturado em PWM_MAXIMO_MOVIMENTO.
 // PWM_MINIMO vence a zona morta dos motores (10 a 15 % segundo o doc 4.3).
-//
-// Valores provisórios, partindo do hw/firm, que é o único código que já moveu o robô: os
-// avanços e curvas dele usam PWM 90 (cerca de 35 %), então nenhum movimento passa de 90 até
-// a rampa de PWM do roteiro de bancada (velocidade medida nos encoders em função do PWM,
-// rodas no ar). A inclinação põe a velocidade base da reta (150 mm/s, ControleReta) em
-// PWM 90: com o teto em 90, uma inclinação maior saturaria as duas rodas em toda a faixa
-// da reta e o controle perderia a correção lateral. Depois da rampa, substituir os três
-// valores pelos medidos.
+// PWM_BASE_MOVIMENTO (90) corresponde à velocidade base da reta (150 mm/s, como no
+// hw/firm), enquanto PWM_MAXIMO_MOVIMENTO (130) dá folga simétrica acima da base para
+// correção lateral, malha PI de velocidade e reforço anti-travamento na partida.
 const uint8_t PWM_MINIMO = 40;
-const uint8_t PWM_MAXIMO_MOVIMENTO = 90;
-constexpr float PWM_POR_MM_S = (float)(PWM_MAXIMO_MOVIMENTO - PWM_MINIMO) / 150.0f;  // cerca de 0,33
+const uint8_t PWM_BASE_MOVIMENTO = 90;
+const uint8_t PWM_MAXIMO_MOVIMENTO = 130;
+constexpr float PWM_POR_MM_S = (float)(PWM_BASE_MOVIMENTO - PWM_MINIMO) / 150.0f;  // cerca de 0,33
+
+// Rampas de aceleração/desaceleração e curva sem IMU (calibração de pista).
+const uint32_t TEMPO_RAMPA_PARTIDA_MS = 120;      // rampa suave de partida (como hw/firm)
+constexpr float DIST_DESACELERACAO_MM = 35.0f;    // começa a reduzir velocidade perto do alvo
+constexpr float VEL_MIN_APROXIMACAO_MM_S = 65.0f; // piso de velocidade na chegada da célula
+constexpr float CURVA_ANTECIPACAO_FREIO_GRAUS = 0.5f;  // compensação de inércia no giro sem IMU (calibrar no piso)
 
 // --- Labirinto (regulamento) ---
 // Passo entre centros de células: é o que o robô avança por célula e o que a velocidade
 // média usa. O vão livre do corredor é o passo menos a espessura da parede (12 mm) e serve
-// de referência para os limiares dos sensores de distância. O hw/firm usa 168 mm como
-// "célula"; aqui o avanço é de centro a centro (docs/firmware/integracao-loop.md, R2).
+// de referência para os limiares dos sensores de distância.
 constexpr uint16_t CELULA_MM = 180;
 constexpr uint16_t VAO_CORREDOR_MM = 168;
+// Distância nominal de cada sensor lateral à parede com o robô centrado no corredor de 168 mm:
+// suporte lateral em base superior2.CATPart em |Y| = 38,2 mm + 2,6 mm módulo GY-530 = 40,8 mm
+// -> 84,0 - 40,8 = 43,2 mm (~43 mm). Usada no modo monoparede até aprender com 2 paredes.
+constexpr float DIST_IDEAL_PAREDE_LATERAL_MM = 43.0f;
 
 // --- Sensores ToF VL53L0X ---
 // Endereços I2C atribuídos no boot pela sequência dos XSHUT, como no hw/firm.
 const uint8_t TOF_ENDERECO_ESQ = 0x30;
 const uint8_t TOF_ENDERECO_FRONTAL = 0x31;
 const uint8_t TOF_ENDERECO_DIR = 0x32;
+// Offset individual de calibração (mm que o sensor lê ACIMA da distância real).
+// ATENÇÃO (doc 7.3 seção 2.2): na bancada os 3 VL53L0X tinham bias bruto de ~+4 / +34 / +16 mm
+// a 60 mm! Conferir com o comando serial 'd' a 60 mm e preencher os offsets reais aqui.
+const int16_t TOF_OFFSET_ESQ_MM = 0;
+const int16_t TOF_OFFSET_FRONTAL_MM = 0;
+const int16_t TOF_OFFSET_DIR_MM = 0;
+const uint16_t TOF_DIST_MIN_VALIDA_MM = 10;   // permite leituras válidas perto do encosto frontal (15–24 mm)
+const uint16_t TOF_DIST_MAX_VALIDA_MM = 2000; // acima disso: sem alvo ao alcance
 const uint32_t TOF_I2C_HZ = 100000;          // 100 kHz, o do hw/firm (fiação com jumpers)
 const uint32_t TOF_ORCAMENTO_US = 33000;     // orçamento de medição: cerca de 30 Hz por sensor
 // A leitura não espera o sensor (achado B10): o driver consulta "amostra pronta" e, se um
@@ -122,14 +150,14 @@ const uint8_t TOF_I2C_TIMEOUT_MS = 5;
 const uint8_t TOF_ESPERA_APOS_ERRO_MS = 50;
 const uint16_t TOF_LEITURA_INVALIDA_MM = 8190;  // valor que o VL53L0X devolve sem alvo
 
-// Distâncias frontais do avanço de uma célula (seção 3.5 do desenho).
-// DIST_MINIMA_SEGURA_MM: limite de colisão do hw/firm; abaixo disso, antes de completar
-// 60 % do avanço, o executor freia e desiste (emergência frontal, que vira COLISAO).
-// DIST_ENCOSTO_FRONTAL_MM: com parede à frente, o avanço termina a esta distância dela,
-// o que zera o erro longitudinal da odometria. Valor inicial pela geometria (robô
-// centrado na célula), a calibrar na bancada com o robô parado no centro da célula.
-const uint16_t DIST_MINIMA_SEGURA_MM = 30;
-const uint16_t DIST_ENCOSTO_FRONTAL_MM = 45;
+// Distâncias frontais do avanço de uma célula (geometria real de base superior2.CATPart):
+// Face óptica do ToF frontal fica a +65,6 mm à frente do eixo (suporte +15,5 + 2,6 mm módulo).
+// Com o eixo no centro exato da célula (84,0 mm da parede), o frontal lê 84,0 - 65,6 = 18,4 mm.
+// Parar em DIST_ENCOSTO_FRONTAL_MM = 24 mm deixa o eixo 5,6 mm antes do centro com folga
+// equilibrada de giro (+18,3 mm frente / +17,4 mm trás) e dentro da faixa confiável do VL53L0X.
+// DIST_MINIMA_SEGURA_MM = 15 mm evita falsos disparos de COLISAO ao aproximar de parede normal.
+const uint16_t DIST_MINIMA_SEGURA_MM = 15;
+const uint16_t DIST_ENCOSTO_FRONTAL_MM = 24;
 
 // Classificação de parede (achado R3, sensores/ClassificadorParedes.h). Com o robô
 // centrado, a parede lateral fica a cerca de 40 mm do sensor e a ausência de parede mostra
@@ -139,15 +167,13 @@ const uint16_t DIST_ENCOSTO_FRONTAL_MM = 45;
 const uint16_t LIMIAR_PAREDE_MM = 110;
 const uint16_t HISTERESE_PAREDE_MM = 5;
 
-// --- LED de estado (achado R5) ---
-// O firmware do robô usa um WS2812B; o hw/firm trata o GPIO 14 como LED comum. Confirmar
-// com a Eletrônica qual está montado e ajustar aqui: drivers/SinalizacaoLed.cpp escolhe a
-// variante (cores no WS2812B, padrões de piscada no LED comum).
+// --- LED de estado (achado R5, confirmado pela pinagem oficial do hw/firm) ---
+// No hardware montado (hw/firm), o GPIO 14 aciona um LED comum com padrões de piscada.
 enum TipoLedEstado : uint8_t {
     LED_WS2812B,
     LED_COMUM
 };
-const TipoLedEstado TIPO_LED_ESTADO = LED_WS2812B;
+const TipoLedEstado TIPO_LED_ESTADO = LED_COMUM;
 
 // Divisor de tensão da bateria (resistor em série com a bateria e resistor para o GND,
 // com o ponto médio em PINO_BATERIA_ADC). Valores do firmware que roda no robô: módulo

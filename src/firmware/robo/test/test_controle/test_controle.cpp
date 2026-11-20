@@ -480,6 +480,41 @@ void test_sem_controle_o_desvio_passa_de_15_mm(void) {
     TEST_ASSERT_TRUE(simular(c).desvioMaxMm > DESVIO_MAXIMO_MM);
 }
 
+void test_monoparede_centraliza_e_aprende_referencia_do_corredor(void) {
+    ParametrosControleReta p = ControleReta::parametrosPadrao();
+    p.usarMonoparede = true;
+    p.refParedeLateralMm = 41.0f;
+    p.pesoAprendizadoRef = 0.5f;
+    ControleReta c(p);
+    // Com duas paredes a 35 mm cada, aprende referência ~35 mm.
+    c.atualizar(leitura(35.0f, 35.0f, 0));
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 35.0f, c.referenciaEsqMm());
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 35.0f, c.referenciaDirMm());
+    // Só parede esquerda a 45 mm (robô 10 mm à direita): erro +20 mm -> vira à esquerda.
+    const SaidaControleReta sEsq = c.atualizar(leitura(45.0f, 250.0f, 50));
+    TEST_ASSERT_EQUAL(MODO_PAREDES, sEsq.modo);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 20.0f, sEsq.erroLateralMm);
+    TEST_ASSERT_TRUE(sEsq.velDirMmS > sEsq.velEsqMmS);
+    // Só parede direita a 25 mm (robô 10 mm à direita): erro +20 mm -> vira à esquerda.
+    const SaidaControleReta sDir = c.atualizar(leitura(250.0f, 25.0f, 100));
+    TEST_ASSERT_EQUAL(MODO_PAREDES, sDir.modo);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 20.0f, sDir.erroLateralMm);
+    TEST_ASSERT_TRUE(sDir.velDirMmS > sDir.velEsqMmS);
+}
+
+void test_rejeicao_de_salto_ignora_pico_de_quina_de_parede(void) {
+    ParametrosControleReta p = ControleReta::parametrosPadrao();
+    p.usarMonoparede = true;
+    p.saltoMaxParedeMm = 18.0f;
+    ControleReta c(p);
+    c.atualizar(leitura(40.0f, 40.0f, 0));    // 1ª amostra: ancora histórico
+    c.atualizar(leitura(40.0f, 40.0f, 33));   // 2ª amostra estável -> MODO_PAREDES
+    // Pico súbito de 40 -> 80 mm na esquerda (quina): lado esquerdo ignorado neste ciclo.
+    const SaidaControleReta s = c.atualizar(leitura(80.0f, 40.0f, 66));
+    TEST_ASSERT_EQUAL(MODO_PAREDES, s.modo);  // usa só a parede direita estável
+    TEST_ASSERT_FLOAT_WITHIN(0.5f, 0.0f, s.erroLateralMm);
+}
+
 int main(void) {
     UNITY_BEGIN();
     // Modo paredes
@@ -516,5 +551,8 @@ int main(void) {
     RUN_TEST(test_trecho_sem_parede_lateral_mantem_o_rumo_pelo_imu);
     RUN_TEST(test_trecho_sem_parede_com_imu_invalido_usa_os_encoders);
     RUN_TEST(test_sem_controle_o_desvio_passa_de_15_mm);
+    // Monoparede e rejeição de quina
+    RUN_TEST(test_monoparede_centraliza_e_aprende_referencia_do_corredor);
+    RUN_TEST(test_rejeicao_de_salto_ignora_pico_de_quina_de_parede);
     return UNITY_END();
 }

@@ -22,9 +22,9 @@ async def monitor():
     uri = os.getenv("WS_URI", "ws://localhost:8000/ws/telemetria")
     print(f"[*] Conectando ao WebSocket de telemetria em {uri}...")
     print(f"[*] Salvando cópia de todos os pacotes em: {LOG_FILE}\n")
-    print("=" * 80)
-    print("  HORA     | STATUS     | BAT (%) | VEL (mm/s) | PAREDES (F/E/D) | POS  | RSSI")
-    print("=" * 80)
+    print("=" * 84)
+    print("  HORA     | STATUS     | BAT (%) | VEL (mm/s) | PAREDES (N/S/L/O) | POS  | RSSI")
+    print("=" * 84)
 
     reconnect_delay = 2.0
     while True:
@@ -51,10 +51,11 @@ async def monitor():
                         pos_str = f"{col}{lin}".ljust(4)
 
                         paredes = data.get("paredes", {})
-                        pf = "SIM" if paredes.get("norte") else "---"
-                        pe = "SIM" if paredes.get("oeste") else "---"
-                        pd = "SIM" if paredes.get("leste") else "---"
-                        paredes_str = f"F:{pf} E:{pe} D:{pd}"
+                        pn = "N" if paredes.get("norte") else "-"
+                        ps = "S" if paredes.get("sul") else "-"
+                        pl = "L" if paredes.get("leste") else "-"
+                        po = "O" if paredes.get("oeste") else "-"
+                        paredes_str = f"[{pn}{ps}{pl}{po}]"
 
                         print(f"[{agora}] | {st} | {bat_pct:3d}% ({bat_v:.2f}V) | {vel_atual:4d} (med {vel_med:4d}) | {paredes_str} | {pos_str} | {rssi} dBm")
                     except Exception as e:

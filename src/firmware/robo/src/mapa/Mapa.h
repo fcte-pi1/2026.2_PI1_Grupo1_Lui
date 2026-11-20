@@ -24,6 +24,7 @@ private:
     // foi observado e aparece como sem parede em getParedes().
     uint8_t paredes[LINHAS_MAX][COLUNAS_MAX];
     uint8_t conhecidas[LINHAS_MAX][COLUNAS_MAX];
+    uint8_t percorridas[LINHAS_MAX][COLUNAS_MAX];
     bool visitadas[LINHAS_MAX][COLUNAS_MAX];
 
 public:
@@ -61,6 +62,7 @@ public:
             for (uint8_t c = 0; c < COLUNAS_MAX; c++) {
                 paredes[l][c] = 0;
                 conhecidas[l][c] = 0;
+                percorridas[l][c] = 0;
                 visitadas[l][c] = false;
             }
         }
@@ -131,8 +133,15 @@ public:
         uint8_t linhaDestino, colunaDestino;
         if (!vizinha(linha, coluna, direcao, linhaDestino, colunaDestino)) return false;
         registrarLado(linha, coluna, direcao, false);
+        percorridas[linha][coluna] |= mascaraParede(direcao);
+        percorridas[linhaDestino][colunaDestino] |= mascaraParede(direcaoOposta(direcao));
         visitadas[linhaDestino][colunaDestino] = true;
         return true;
+    }
+
+    bool foiPercorrida(uint8_t linha, uint8_t coluna, Direcao direcao) const {
+        return dentroDosLimites(linha, coluna) &&
+               (percorridas[linha][coluna] & mascaraParede(direcao)) != 0;
     }
 
     // Paredes da célula no formato do campo 'paredes' do contrato de dados (bits 0 a 3),
@@ -158,11 +167,13 @@ public:
 
 private:
     // Grava o lado na célula e, se houver vizinha, o lado oposto nela. Nas bordas não
-    // há vizinha: o perímetro já é parede, então só passagem é recusada.
+    // há vizinha: o perímetro já é parede, então só passagem é recusada. Uma passagem já
+    // percorrida fisicamente pelo robô nunca é fechada por uma leitura ruidosa de parede.
     bool registrarLado(uint8_t linha, uint8_t coluna, Direcao direcao, bool parede) {
         if (!dentroDosLimites(linha, coluna)) return false;
         uint8_t linhaVizinha, colunaVizinha;
         if (!vizinha(linha, coluna, direcao, linhaVizinha, colunaVizinha)) return parede;
+        if (parede && (percorridas[linha][coluna] & mascaraParede(direcao)) != 0) return true;
         gravarLado(linha, coluna, direcao, parede);
         gravarLado(linhaVizinha, colunaVizinha, direcaoOposta(direcao), parede);
         return true;

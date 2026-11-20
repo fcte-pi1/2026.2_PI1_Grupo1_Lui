@@ -521,6 +521,34 @@ void test_reinicio_depois_de_concluir_permite_nova_prova(void) {
     TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 120000));
 }
 
+void test_parada_de_emergencia_remota_corta_tracao_e_vai_para_travado(void) {
+    Robo r(4, EXEC_PARADO);
+    r.sim.abrirTudo();
+    r.segurarESoltar();
+    TEST_ASSERT_EQUAL(MAPEANDO, r.ciclo.estado());
+    r.avancar(100);
+    r.ciclo.paradaEmergencia(r.t);
+    TEST_ASSERT_EQUAL(TRAVADO, r.ciclo.estado());
+    TEST_ASSERT_TRUE(r.motores.bloqueado());
+    TEST_ASSERT_TRUE(r.ciclo.cronometro().congelado());
+    TEST_ASSERT_EQUAL_UINT8(TRAVADO, r.radio.ultimo.status_id);
+}
+
+void test_bateria_nao_pausa_encoder_durante_movimento_em_andamento(void) {
+    Robo r(4, EXEC_PARADO);
+    r.sim.abrirTudo();
+    r.segurarESoltar();
+    // Avança até entrar em movimento (executor ocupado).
+    r.avancar(120);
+    TEST_ASSERT_FALSE(r.executor().ocioso());
+    const int leiturasAntes = r.bat.leituras;
+    const int pausasAntes = r.enc.pausas;
+    r.avancar(2500);  // 2 ciclos de telemetria enquanto em movimento
+    TEST_ASSERT_EQUAL(leiturasAntes, r.bat.leituras);
+    TEST_ASSERT_EQUAL(pausasAntes, r.enc.pausas);
+    TEST_ASSERT_EQUAL_UINT16(7800, r.radio.ultimo.bateria_mv);  // mantém último valor válido
+}
+
 int main(void) {
     UNITY_BEGIN();
     // AGUARDANDO, telemetria e botão
@@ -544,5 +572,8 @@ int main(void) {
     // Terminais e nova tentativa
     RUN_TEST(test_terminal_freia_e_solta_as_rodas_depois_de_300_ms);
     RUN_TEST(test_reinicio_depois_de_concluir_permite_nova_prova);
+    // Emergência remota e proteção do encoder na leitura de bateria
+    RUN_TEST(test_parada_de_emergencia_remota_corta_tracao_e_vai_para_travado);
+    RUN_TEST(test_bateria_nao_pausa_encoder_durante_movimento_em_andamento);
     return UNITY_END();
 }
