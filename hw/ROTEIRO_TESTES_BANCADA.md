@@ -22,7 +22,7 @@ Como a roda vista nas fotos iniciais era provisória, **meça o carrinho com as 
 
 | # | Medição física (régua/paquímetro) | Constante em `Pinos.h` | Valor de referência (CAD + estimativa) | Valor medido |
 |---:|---|---|---|---:|
-| **0.1** | **Diâmetro externo da roda com pneu/O-ring** (no chão, levemente pressionada) | `RODA_DIAMETRO_MM` | `22,0` (projeto final) ou `26,0 mm` (pneu grosso) | `_____ mm` |
+| **0.1** | **Diâmetro externo da roda com pneu/O-ring** (no chão, levemente pressionada) | `RODA_DIAMETRO_MM` | `22,0` (projeto final) ou `26,0 mm` (pneu grosso) | `22,0 mm` |
 | **0.2** | **Bitola (centro-a-centro dos pneus)** | `BITOLA_MM` | `~105 a 112 mm` (chassi PETG = `82,4 mm`, rodas por fora) | `_____ mm` |
 | **0.3** | **Largura total externa** (ponto mais externo de uma roda até a outra) | Envelope $\le 165\text{ mm}$ | $\le 125\text{ mm}$ (folga lateral $\ge 21,5\text{ mm}$/lado no corredor de `168 mm`) | `_____ mm` |
 | **0.4** | **Distância do eixo das rodas até a face do ToF frontal** ($X_{\text{tof}}$) | `DIST_ENCOSTO_FRONTAL_MM` | CAD = `65,6 mm` $\rightarrow$ no centro da célula: $84 - X_{\text{tof}}$ (usar `+5 mm` de margem: `~24 mm`) | `_____ mm` |
@@ -184,7 +184,7 @@ Antes de liberar para a avaliação oficial:
 ```cpp
 // Registro da calibração validada em bancada (copiar para src/firmware/robo/src/hardware/Pinos.h)
 // Data: ___/___/2026 | Responsáveis: ___________________________
-// RODA_DIAMETRO_MM             = ______f;
+// RODA_DIAMETRO_MM             = 22.0f;
 // BITOLA_MM                    = ______f;
 // ENCODER_PULSOS_POR_VOLTA     = ______;
 // ODOM_ESCALA_RETO             = ______f;

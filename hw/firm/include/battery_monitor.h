@@ -30,6 +30,16 @@ BatteryStatus_t battery_monitor_read(void);
  */
 uint8_t battery_voltage_to_percentage(float volts);
 
+/**
+ * @brief Define fator fino de calibracao em tempo de execucao (V_multimetro / V_lida).
+ */
+void battery_monitor_set_factor(float factor);
+
+/**
+ * @brief Retorna o fator fino de calibracao ativo.
+ */
+float battery_monitor_get_factor(void);
+
 #ifdef __cplusplus
 }
 #endif

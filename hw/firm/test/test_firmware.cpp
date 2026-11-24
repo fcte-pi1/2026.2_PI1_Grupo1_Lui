@@ -22,25 +22,30 @@ void test_pin_definitions() {
     assert(PIN_PWMB == 18);
 
     // Encoders
-    assert(PIN_ENC1_A == 36);
+    assert(PIN_ENC1_A == 34);
     assert(PIN_ENC1_B == 39);
     assert(PIN_ENC2_A == 35);
     assert(PIN_ENC2_B == 2); // Substituiu GPIO 4 para eliminar conflito!
 
-    // Sensores VL53L0X
+    // Sensores
     assert(PIN_I2C_SDA == 21);
     assert(PIN_I2C_SCL == 22);
-    assert(PIN_XSHUT_1 == 4);  // GPIO 4 dedicado ao Sensor 1
-    assert(PIN_XSHUT_2 == 16); // Sensor 2
-    assert(PIN_XSHUT_3 == 17); // Sensor 3
-
-    // Endereços I2C
+    assert(PIN_XSHUT_1 == 4);  // GPIO 4 dedicado ao Sensor Esquerdo
     assert(ADDR_VL53_S1 == 0x30);
-    assert(ADDR_VL53_S2 == 0x31);
+#if CAL_TEM_TOF_DIREITO
+    assert(PIN_XSHUT_3 == 17); // Sensor Direito
     assert(ADDR_VL53_S3 == 0x32);
+#endif
+#if CAL_USA_ULTRASSONICO_FRONTAL
+    assert(PIN_ULTRA_TRIG == 16);
+    assert(PIN_ULTRA_ECHO == 19);
+#else
+    assert(PIN_XSHUT_2 == 16);
+    assert(ADDR_VL53_S2 == 0x31);
+#endif
 
     // Bateria
-    assert(PIN_BATTERY_ADC == 34);
+    assert(PIN_BATTERY_ADC == 36);
 
     std::cout << "  -> Todos os pinos batem 100% com a nova pinagem homologada! [OK]" << std::endl;
 }
@@ -72,9 +77,10 @@ void test_encoder_odometry() {
     assert(std::fabs(dist_1 - WHEEL_CIRCUMFERENCE_MM) < 0.01f);
 
     // Passo padrão de célula de micromouse: CELL_SIZE_MM (180 mm)
-    // Com roda de 26mm: 180 / (81.6814 / 360) = ~793.3 ticks
     float ticks_per_cell = (CELL_SIZE_MM / WHEEL_CIRCUMFERENCE_MM) * ENCODER_TICKS_PER_REV;
-    assert(ticks_per_cell > 790.0f && ticks_per_cell < 797.0f);
+    float expected_ticks = (CELL_SIZE_MM / (3.14159265f * WHEEL_DIAMETER_MM)) * ENCODER_TICKS_PER_REV;
+    assert(std::fabs(ticks_per_cell - expected_ticks) < 0.01f);
+    assert(ticks_per_cell > 100.0f);
 
     std::cout << "  -> Resolucao linear do encoder: " << (WHEEL_CIRCUMFERENCE_MM / ENCODER_TICKS_PER_REV)
               << " mm/pulso. [OK]" << std::endl;
@@ -88,7 +94,13 @@ void test_wall_detection_thresholds() {
     assert(110 <= DIST_PAREDE_DETECTADA_MM);
     assert(!(115 <= DIST_PAREDE_DETECTADA_MM));
 
-    std::cout << "  -> Limiar de 110 mm validado para celulas de 168 mm! [OK]" << std::endl;
+    // Calculo de offset ToF: media bruta - distancia real (com arredondamento)
+    assert(vl53l0x_calcular_offset_mm(640, 10, 60) == 4);
+    assert(vl53l0x_calcular_offset_mm(940, 10, 60) == 34);
+    assert(vl53l0x_calcular_offset_mm(585, 10, 60) == -1);
+    assert(vl53l0x_calcular_offset_mm(0, 0, 60) == 0);
+
+    std::cout << "  -> Limiar de 110 mm e calculo de offset ToF validados! [OK]" << std::endl;
 }
 
 void test_espnow_telemetry_packet_contract() {

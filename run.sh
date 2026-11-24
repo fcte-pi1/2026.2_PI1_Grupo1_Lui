@@ -78,8 +78,15 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-# 3. VERIFICAÇÃO DO FRONTEND (NODE_MODULES)
+# 3. VERIFICAÇÃO DO FRONTEND (NODE / NPX / NODE_MODULES)
 # ------------------------------------------------------------------------------
+if ! command -v node >/dev/null 2>&1 || ! command -v npx >/dev/null 2>&1; then
+    echo "[ERRO] Node.js/npx não encontrados no sistema." >&2
+    echo "       Instale Node.js e npm antes de subir o painel web (ex. no Arch Linux):" >&2
+    echo "       sudo pacman -S nodejs npm" >&2
+    exit 1
+fi
+
 if [ ! -d "$SCRIPT_DIR/src/frontend/node_modules" ]; then
     echo "[*] Instalando dependências do frontend (npm install)..."
     (cd "$SCRIPT_DIR/src/frontend" && npm install --silent)

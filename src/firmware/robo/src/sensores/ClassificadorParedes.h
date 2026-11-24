@@ -65,6 +65,16 @@ public:
         dir_.atualizar(a.dirValida, a.dirMm, limiarMm_, histereseMm_);
     }
 
+    // Atualiza e lê apenas esquerda e frente (modo 2 ToFs).
+    bool lerParedesDuas(const AmostraParedes& a, bool& frente, bool& esquerda) {
+        esq_.atualizar(a.esqValida, a.esqMm, limiarMm_, histereseMm_);
+        frente_.atualizar(a.frenteValida, a.frenteMm, limiarMm_, histereseMm_);
+        if (!esq_.valida || !frente_.valida) return false;
+        frente = frente_.parede;
+        esquerda = esq_.parede;
+        return true;
+    }
+
     // --- SensoresParedes ---
     bool lerParedes(bool& frente, bool& esquerda, bool& direita) override {
         if (!esq_.valida || !frente_.valida || !dir_.valida) return false;

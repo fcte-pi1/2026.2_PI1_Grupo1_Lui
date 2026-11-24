@@ -49,6 +49,11 @@ void tb6612_stop(void);
  */
 void tb6612_set_standby(bool standby_active);
 
+/**
+ * @brief Configura inversão de sentido dos motores em software.
+ */
+void tb6612_set_inversion(bool invert_left, bool invert_right);
+
 #ifdef __cplusplus
 }
 #endif

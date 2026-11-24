@@ -132,7 +132,7 @@ struct Bancada {
 
 void test_parametros_padrao_partem_do_hw_firm(void) {
     const ParametrosExecutor p = ExecutorMovimentoRobo::parametrosPadrao();
-    TEST_ASSERT_EQUAL_INT32(793, p.alvoAvancoPulsos);  // 180 mm em pulsos (roda 26 mm)
+    TEST_ASSERT_EQUAL_INT32(Odometria::pulsosParaMm((float)CELULA_MM * ODOM_ESCALA_RETO), p.alvoAvancoPulsos);
     TEST_ASSERT_EQUAL_UINT32(3000, p.tempoLimiteAvancoMs);
     TEST_ASSERT_EQUAL_UINT32(2000, p.tempoLimiteCurvaMs);
     TEST_ASSERT_EQUAL_UINT32(200, p.tempoFreioMs);

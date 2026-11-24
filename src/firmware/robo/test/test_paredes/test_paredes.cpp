@@ -215,6 +215,18 @@ void test_filtro_tof_aplica_offset_e_classifica_status_vl53(void) {
     TEST_ASSERT_EQUAL_UINT16(0, classificarLeituraVL53(2u << 3, 100, 0));
 }
 
+void test_filtro_ultrassonico_converte_tempo_aplica_offset_e_trata_timeout(void) {
+    // 583 us ida-e-volta -> ~100 mm; com offset 10 mm -> 90 mm.
+    TEST_ASSERT_EQUAL_UINT16(100, classificarLeituraUltrassonico(583, 0));
+    TEST_ASSERT_EQUAL_UINT16(90, classificarLeituraUltrassonico(583, 10));
+    // Abaixo do alcance mínimo (20 mm) fixa em ULTRASSONICO_DIST_MIN_MM antes do offset.
+    TEST_ASSERT_EQUAL_UINT16(ULTRASSONICO_DIST_MIN_MM, classificarLeituraUltrassonico(60, 0));
+    // Sem eco / acima do timeout ou acima de 2000 mm -> sem alvo (8190).
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, classificarLeituraUltrassonico(0, 0));
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, classificarLeituraUltrassonico(ULTRASSONICO_TIMEOUT_US + 1, 0));
+    TEST_ASSERT_EQUAL_UINT16(TOF_LEITURA_INVALIDA_MM, classificarLeituraUltrassonico(15000, 0));
+}
+
 void test_filtro_mediana_rejeita_pico_isolado_e_reinicia_apos_sem_alvo(void) {
     FiltroMedianaToF f;
     TEST_ASSERT_EQUAL_UINT16(40, f.atualizar(40));
@@ -249,8 +261,9 @@ int main(void) {
     RUN_TEST(test_amostra_montada_a_partir_das_leituras);
     RUN_TEST(test_classificador_implementa_sensores_paredes);
     RUN_TEST(test_limiar_fica_entre_parede_lateral_e_corredor_aberto);
-    // FiltroToF
+    // FiltroToF e Ultrassonico
     RUN_TEST(test_filtro_tof_aplica_offset_e_classifica_status_vl53);
+    RUN_TEST(test_filtro_ultrassonico_converte_tempo_aplica_offset_e_trata_timeout);
     RUN_TEST(test_filtro_mediana_rejeita_pico_isolado_e_reinicia_apos_sem_alvo);
     return UNITY_END();
 }

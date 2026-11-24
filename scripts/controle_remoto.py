@@ -2,7 +2,7 @@
 """Controle Remoto de Bancada via ESP-NOW Gateway.
 
 Permite enviar comandos sem fio ao Micromouse pelo teclado (via porta serial do Gateway)
-e exibir a telemetria do robô ao vivo no terminal.
+e exibir a telemetria do robô ao vivo no terminal com verificação de status de conexão do rádio.
 
 Uso:
     python3 scripts/controle_remoto.py [/dev/ttyUSB0 ou COMx]
@@ -22,6 +22,10 @@ except ImportError:
     print("Instale com: pip install pyserial  (ou execute com src/backend/.venv/bin/python)")
     sys.exit(1)
 
+# Estado global da conexão do robô
+ultimo_sinal_robo = 0.0
+robo_online = False
+
 def encontrar_porta_serial():
     if len(sys.argv) > 1:
         return sys.argv[1]
@@ -40,7 +44,7 @@ def exibir_cabecalho(porta):
     print("\n" + "=" * 65)
     print("   MICROMOUSE PI1 2026.2 - CONTROLE REMOTO SEM FIO (ESP-NOW)    ")
     print("=" * 65)
-    print(f"Porta do Gateway: {porta} (115200 bps)")
+    print(f"Porta do Gateway USB: {porta} (115200 bps)")
     print("-" * 65)
     print("COMANDOS DE MOVIMENTO:")
     print("  [4] - Avançar 1 Célula (168 mm) com Controle PD")
@@ -57,15 +61,24 @@ def exibir_cabecalho(porta):
     print("-> Digite o comando e aperte ENTER (ou digite 's' para frear):\n")
 
 def thread_leitura_serial(ser, stop_event):
+    global ultimo_sinal_robo, robo_online
+    
     while not stop_event.is_set():
         try:
             linha = ser.readline().decode("utf-8", errors="ignore").strip()
             if not linha:
                 continue
             
+            agora = time.time()
+
             if linha.startswith("{"):
                 try:
                     data = json.loads(linha)
+                    ultimo_sinal_robo = agora
+                    if not robo_online:
+                        robo_online = True
+                        print(f"\r\033[1;32m[STATUS] ROBÔ ESP32 CONECTADO VIA RÁDIO!\033[0m\n> ", end="", flush=True)
+
                     st = data.get("status", "---")
                     bat_pct = data.get("bateria_pct", 0)
                     bat_v = data.get("bateria_volts", 0.0)
@@ -87,9 +100,29 @@ def thread_leitura_serial(ser, stop_event):
             elif linha.startswith("#"):
                 print(f"\r[GATEWAY] {linha}\n> ", end="", flush=True)
             else:
+                ultimo_sinal_robo = agora
+                if not robo_online:
+                    robo_online = True
+                    print(f"\r\033[1;32m[STATUS] ROBÔ ESP32 CONECTADO VIA RÁDIO!\033[0m\n> ", end="", flush=True)
                 print(f"\r[ROBO] {linha}\n> ", end="", flush=True)
         except Exception:
             break
+
+def thread_monitor_conexao(stop_event):
+    """Monitora perda de sinal do robô se passar mais de 4 segundos sem telemetria."""
+    global ultimo_sinal_robo, robo_online
+    
+    # Aguarda alguns segundos iniciais
+    time.sleep(3.0)
+    if not robo_online and not stop_event.is_set():
+        print(f"\r\033[1;33m[AVISO] Robô (ESP32) ainda não detectado. Ligue a chave da bateria LiPo!\033[0m\n> ", end="", flush=True)
+
+    while not stop_event.is_set():
+        time.sleep(2.0)
+        agora = time.time()
+        if robo_online and (agora - ultimo_sinal_robo > 4.0):
+            robo_online = False
+            print(f"\r\033[1;31m[ALERTA] Sinal do robô PERDIDO há mais de 4s! Verifique a bateria ou distância.\033[0m\n> ", end="", flush=True)
 
 def main():
     porta = encontrar_porta_serial()
@@ -103,10 +136,14 @@ def main():
         sys.exit(1)
 
     exibir_cabecalho(porta)
+    print("[*] Aguardando sinal de rádio ESP-NOW da ESP32 (robô)...")
 
     stop_event = threading.Event()
     leitor = threading.Thread(target=thread_leitura_serial, args=(ser, stop_event), daemon=True)
     leitor.start()
+
+    monitor = threading.Thread(target=thread_monitor_conexao, args=(stop_event,), daemon=True)
+    monitor.start()
 
     try:
         while True:

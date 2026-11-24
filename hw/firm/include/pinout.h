@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "CalibracaoRobo.h"
 
 /**
  * ==============================================================================
@@ -44,55 +45,78 @@
 // 2. ENCODERS EM QUADRATURA E CINEMÁTICA DO MICROMOUSE
 // ==============================================================================
 // Motor 1 (Esquerdo)
-#define PIN_ENC1_A       36  // Canal A (Amarelo) - Pino VP (Entrada pura, sem pull-up)
+#define PIN_ENC1_A       34  // Canal A (Amarelo) - Entrada pura, sem pull-up (trocado com bateria)
 #define PIN_ENC1_B       39  // Canal B (Verde)   - Pino VN (Entrada pura, sem pull-up)
 
 // Motor 2 (Direito)
 #define PIN_ENC2_A       35  // Canal A (Amarelo) - Entrada pura, sem pull-up
 #define PIN_ENC2_B        2  // Canal B (Verde)   - GPIO 2 (com pull-up interno)
 
-// Parâmetros Físicos dos Motores e Rodas (CAD origin/docs/mec + fotogrametria + docs/7.1)
-#define ENCODER_TICKS_PER_REV  360    // 12 CPR * 30:1 de redução = 360 pulsos/volta
-#define WHEEL_DIAMETER_MM      26.0f  // Diâmetro externo estimado com O-ring (cubo 18 mm + pneu; conferir com régua)
-#define WHEEL_CIRCUMFERENCE_MM 81.68140899f // pi * 26 mm = ~81.68 mm
-#define TRACK_WIDTH_MM         110.0f // Distância centro-a-centro das rodas (externas ao chassi de 82.4 mm)
-#define CELL_SIZE_MM           180.0f // Passo centro-a-centro da célula (168 mm vão livre + 12 mm parede)
+// Parâmetros Físicos e de Calibração (fonte única: src/firmware/lib/calibracao/src/CalibracaoRobo.h)
+#define ENCODER_TICKS_PER_REV  CAL_ENCODER_PULSOS_POR_VOLTA
+#define WHEEL_DIAMETER_MM      CAL_RODA_DIAMETRO_MM
+#define WHEEL_CIRCUMFERENCE_MM (3.14159265f * WHEEL_DIAMETER_MM)
+#define TRACK_WIDTH_MM         CAL_BITOLA_MM
+#define ODOM_ESCALA_RETO       CAL_ODOM_ESCALA_RETO
+#define CELL_SIZE_MM           ((float)CAL_CELULA_MM)
+#define PWM_BASE_MOVIMENTO     ((int16_t)CAL_PWM_BASE_MOVIMENTO)
+#define CURVA_ANTECIPACAO_FREIO_GRAUS CAL_CURVA_ANTECIPACAO_FREIO_GRAUS
+
+// Sentidos de montagem
+#define MOTOR_ESQ_INVERTIDO    CAL_MOTOR_ESQ_INVERTIDO
+#define MOTOR_DIR_INVERTIDO    CAL_MOTOR_DIR_INVERTIDO
+#define ENCODER_ESQ_INVERTIDO  CAL_ENCODER_ESQ_INVERTIDO
+#define ENCODER_DIR_INVERTIDO  CAL_ENCODER_DIR_INVERTIDO
 
 // ==============================================================================
-// 3. SENSORES DE DISTÂNCIA VL53L0X (TIME-OF-FLIGHT I2C + XSHUT)
+// 3. SENSORES DE DISTÂNCIA (CAL_MODO_SENSORES: 0=3xToF, 1=2xToF+US, 2=2xToF Esq+Fre)
 // ==============================================================================
-#define PIN_I2C_SDA      21  // Dados I2C compartilhado pelos 3 sensores
-#define PIN_I2C_SCL      22  // Relógio I2C compartilhado pelos 3 sensores
+#define PIN_I2C_SDA      21  // Dados I2C compartilhado pelos sensores VL53L0X
+#define PIN_I2C_SCL      22  // Relógio I2C compartilhado pelos sensores VL53L0X
 #define I2C_CLOCK_SPEED  100000 // 100 kHz (Estabilidade superior em fiação/jumpers)
 
 // Pinos de Habilitação Individual (XSHUT)
-#define PIN_XSHUT_1       4  // XSHUT Sensor 1 (Esquerdo / 90°)
-#define PIN_XSHUT_2      16  // XSHUT Sensor 2 (Frontal  / 0°)
-#define PIN_XSHUT_3      17  // XSHUT Sensor 3 (Direito  / 90°)
+#define PIN_XSHUT_1       4  // XSHUT Sensor Esquerdo (0x30)
+#define ADDR_VL53_S1     0x30
 
-// Endereços I2C Únicos Atribuídos no Boot
-#define ADDR_VL53_S1     0x30 // Endereço pós-boot do Sensor 1 (Esquerdo)
-#define ADDR_VL53_S2     0x31 // Endereço pós-boot do Sensor 2 (Frontal)
-#define ADDR_VL53_S3     0x32 // Endereço pós-boot do Sensor 3 (Direito)
+#if CAL_TEM_TOF_DIREITO
+#define PIN_XSHUT_3      17  // XSHUT Sensor Direito  (0x32)
+#define ADDR_VL53_S3     0x32
+#endif
 
-// Pino alternativo LIVRE caso haja um 4º sensor ToF instalado:
-// (LEMBRE-SE: NÃO utilize o pino 32 para o 4º sensor, pois ele é o BIN2 da ponte H!)
-#define PIN_XSHUT_4_EXTRA 14 // GPIO 14 é livre e ideal para 4º sensor se necessário
-#define ADDR_VL53_S4     0x33 // Endereço reservado para 4º sensor
+#if CAL_USA_ULTRASSONICO_FRONTAL
+// Sensor Ultrassônico Frontal (HC-SR04 / 3.3V-compatível)
+#define PIN_ULTRA_TRIG   16
+#define PIN_ULTRA_ECHO   19
+#define ULTRA_TIMEOUT_US 25000UL
+#define ULTRA_MIN_DIST_MM 20
+#define PIN_XSHUT_4_EXTRA 23
+#else
+#define PIN_XSHUT_2      16  // XSHUT Sensor Frontal (0x31)
+#define ADDR_VL53_S2     0x31
+#define PIN_XSHUT_4_EXTRA 14
+#endif
+#define ADDR_VL53_S4     0x33
 
-// Limiares de Parede do Labirinto (mm)
-#define DIST_PAREDE_DETECTADA_MM 110 // Abaixo de 110 mm indica presença de parede
-#define DIST_MINIMA_SEGURA_MM     15 // Limite crítico de colisão (ToF frontal a 65.6 mm do eixo -> centro = 18.4 mm)
-#define DIST_MAXIMA_UTIL_MM      180 // Limite útil dentro da célula do labirinto (168x168 mm)
+// Limiares e Offsets dos Sensores ToF (mm) — fonte única em CalibracaoRobo.h
+#define DIST_PAREDE_DETECTADA_MM    CAL_LIMIAR_PAREDE_MM
+#define DIST_MINIMA_SEGURA_MM       CAL_DIST_MINIMA_SEGURA_MM
+#define DIST_ENCOSTO_FRONTAL_MM     CAL_DIST_ENCOSTO_FRONTAL_MM
+#define DIST_IDEAL_PAREDE_LATERAL_MM CAL_DIST_IDEAL_PAREDE_LATERAL_MM
+#define DIST_MAXIMA_UTIL_MM         CAL_CELULA_MM
+#define TOF_OFFSET_ESQ_MM           CAL_TOF_OFFSET_ESQ_MM
+#define TOF_OFFSET_FRONTAL_MM       CAL_TOF_OFFSET_FRONTAL_MM
+#define TOF_OFFSET_DIR_MM           CAL_TOF_OFFSET_DIR_MM
 
 // ==============================================================================
 // 4. MONITORAMENTO DE BATERIA 2S (DIVISOR RESISTIVO)
 // ==============================================================================
-#define PIN_BATTERY_ADC  34  // Entrada Analógica ADC1_CH6
+#define PIN_BATTERY_ADC  36  // Entrada Analógica ADC1_CH0 (VP)
 // Se usar o Módulo Sensor de Tensão comercial (VCC < 25V, 30k / 7.5k): Fator = 5.0
 // Se usar resistores discretos 100k / 33k: Fator = (100+33)/33 = 4.03
 // Se usar resistores discretos 100k / 47k: Fator = (100+47)/47 = 3.127
-#define BATTERY_DIVIDER_RATIO 5.0f   // Fator do módulo sensor de tensão comercial (5:1)
+#define BATTERY_DIVIDER_RATIO ((float)(CAL_BATERIA_R_SERIE_OHM + CAL_BATERIA_R_GND_OHM) / (float)CAL_BATERIA_R_GND_OHM)
+#define BATTERY_CALIBRATION_FACTOR CAL_BATERIA_FATOR_AJUSTE
 #define BATTERY_ADC_VREF      3.3f   // Tensão de referência máxima do ESP32
 #define BATTERY_MIN_SAFE_V    6.6f   // 3.3V por célula (LiPo 2S descarregada)
 #define BATTERY_MAX_FULL_V    8.4f   // 4.2V por célula (LiPo 2S 100% carregada)

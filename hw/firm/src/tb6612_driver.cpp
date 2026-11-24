@@ -5,97 +5,72 @@
 #include <Arduino.h>
 #include <esp_arduino_version.h>
 
+static bool s_invert_left = false;
+static bool s_invert_right = false;
+
+static inline void apply_pwm_channel(uint8_t pin, uint8_t ledc_ch, uint8_t duty) {
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 3)
+    (void)ledc_ch;
+    ledcWrite(pin, duty);
+#else
+    (void)pin;
+    ledcWrite(ledc_ch, duty);
+#endif
+}
+
+static void apply_motor_channel(uint8_t in1, uint8_t in2, uint8_t pwm_pin, uint8_t ledc_ch,
+                                int16_t speed, bool invert) {
+    if (speed > 255) speed = 255;
+    if (speed < -255) speed = -255;
+    if (invert) speed = -speed;
+
+    if (speed > 0) {
+        digitalWrite(in1, HIGH);
+        digitalWrite(in2, LOW);
+        apply_pwm_channel(pwm_pin, ledc_ch, (uint8_t)speed);
+    } else if (speed < 0) {
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, HIGH);
+        apply_pwm_channel(pwm_pin, ledc_ch, (uint8_t)(-speed));
+    } else {
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, LOW);
+        apply_pwm_channel(pwm_pin, ledc_ch, 0);
+    }
+}
+
 void tb6612_init(void) {
-    // Configura os pinos de sentido como saída
     pinMode(PIN_AIN1, OUTPUT);
     pinMode(PIN_AIN2, OUTPUT);
     pinMode(PIN_BIN1, OUTPUT);
     pinMode(PIN_BIN2, OUTPUT);
     pinMode(PIN_STBY, OUTPUT);
 
-    // Inicializa os pinos de sentido em nível baixo (motores desligados)
     digitalWrite(PIN_AIN1, LOW);
     digitalWrite(PIN_AIN2, LOW);
     digitalWrite(PIN_BIN1, LOW);
     digitalWrite(PIN_BIN2, LOW);
-
-    // Habilita a ponte H no pino STBY (HIGH = Ativo)
     digitalWrite(PIN_STBY, HIGH);
 
-    // Configuração dos canais PWM do ESP32 (LEDC)
 #if defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 3)
     ledcAttach(PIN_PWMA, PWM_FREQ_HZ, PWM_RESOLUTION);
     ledcAttach(PIN_PWMB, PWM_FREQ_HZ, PWM_RESOLUTION);
-    ledcWrite(PIN_PWMA, 0);
-    ledcWrite(PIN_PWMB, 0);
 #else
     ledcSetup(LEDC_CH_PWMA, PWM_FREQ_HZ, PWM_RESOLUTION);
     ledcAttachPin(PIN_PWMA, LEDC_CH_PWMA);
     ledcSetup(LEDC_CH_PWMB, PWM_FREQ_HZ, PWM_RESOLUTION);
     ledcAttachPin(PIN_PWMB, LEDC_CH_PWMB);
-    ledcWrite(LEDC_CH_PWMA, 0);
-    ledcWrite(LEDC_CH_PWMB, 0);
 #endif
-}
-
-static inline void apply_pwm_left(uint8_t duty) {
-#if defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 3)
-    ledcWrite(PIN_PWMA, duty);
-#else
-    ledcWrite(LEDC_CH_PWMA, duty);
-#endif
-}
-
-static inline void apply_pwm_right(uint8_t duty) {
-#if defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 3)
-    ledcWrite(PIN_PWMB, duty);
-#else
-    ledcWrite(LEDC_CH_PWMB, duty);
-#endif
+    apply_pwm_channel(PIN_PWMA, LEDC_CH_PWMA, 0);
+    apply_pwm_channel(PIN_PWMB, LEDC_CH_PWMB, 0);
 }
 
 void tb6612_set_motor_left(int16_t speed) {
-    if (speed > 255) speed = 255;
-    if (speed < -255) speed = -255;
-
-    if (speed > 0) {
-        // Sentido Frente
-        digitalWrite(PIN_AIN1, HIGH);
-        digitalWrite(PIN_AIN2, LOW);
-        apply_pwm_left((uint8_t)speed);
-    } else if (speed < 0) {
-        // Sentido Ré
-        digitalWrite(PIN_AIN1, LOW);
-        digitalWrite(PIN_AIN2, HIGH);
-        apply_pwm_left((uint8_t)(-speed));
-    } else {
-        // Roda Livre
-        digitalWrite(PIN_AIN1, LOW);
-        digitalWrite(PIN_AIN2, LOW);
-        apply_pwm_left(0);
-    }
+    apply_motor_channel(PIN_AIN1, PIN_AIN2, PIN_PWMA, LEDC_CH_PWMA, speed, s_invert_left);
 }
 
 void tb6612_set_motor_right(int16_t speed) {
-    if (speed > 255) speed = 255;
-    if (speed < -255) speed = -255;
-
-    if (speed > 0) {
-        // Sentido Frente
-        digitalWrite(PIN_BIN1, HIGH);
-        digitalWrite(PIN_BIN2, LOW);
-        apply_pwm_right((uint8_t)speed);
-    } else if (speed < 0) {
-        // Sentido Ré
-        digitalWrite(PIN_BIN1, LOW);
-        digitalWrite(PIN_BIN2, HIGH);
-        apply_pwm_right((uint8_t)(-speed));
-    } else {
-        // Roda Livre
-        digitalWrite(PIN_BIN1, LOW);
-        digitalWrite(PIN_BIN2, LOW);
-        apply_pwm_right(0);
-    }
+    apply_motor_channel(PIN_BIN1, PIN_BIN2, PIN_PWMB, LEDC_CH_PWMB, speed, s_invert_right);
 }
 
 void tb6612_set_motors(int16_t speed_left, int16_t speed_right) {
@@ -104,43 +79,47 @@ void tb6612_set_motors(int16_t speed_left, int16_t speed_right) {
 }
 
 void tb6612_brake(void) {
-    // Frenagem ativa no TB6612FNG: IN1=HIGH e IN2=HIGH com PWM máximo
     digitalWrite(PIN_AIN1, HIGH);
     digitalWrite(PIN_AIN2, HIGH);
-    apply_pwm_left(255);
+    apply_pwm_channel(PIN_PWMA, LEDC_CH_PWMA, 255);
 
     digitalWrite(PIN_BIN1, HIGH);
     digitalWrite(PIN_BIN2, HIGH);
-    apply_pwm_right(255);
+    apply_pwm_channel(PIN_PWMB, LEDC_CH_PWMB, 255);
 }
 
 void tb6612_stop(void) {
-    // Roda livre: IN1=LOW e IN2=LOW com PWM zero
     digitalWrite(PIN_AIN1, LOW);
     digitalWrite(PIN_AIN2, LOW);
-    apply_pwm_left(0);
+    apply_pwm_channel(PIN_PWMA, LEDC_CH_PWMA, 0);
 
     digitalWrite(PIN_BIN1, LOW);
     digitalWrite(PIN_BIN2, LOW);
-    apply_pwm_right(0);
+    apply_pwm_channel(PIN_PWMB, LEDC_CH_PWMB, 0);
 }
 
 void tb6612_set_standby(bool standby_active) {
-    // LOW = Ponte H em Standby (desligada); HIGH = Ponte H em Operação Normal
     digitalWrite(PIN_STBY, standby_active ? LOW : HIGH);
 }
 
+void tb6612_set_inversion(bool invert_left, bool invert_right) {
+    s_invert_left = invert_left;
+    s_invert_right = invert_right;
+}
+
 #else
-// Stubs para compilação nativa em testes
 static int16_t s_speed_l = 0;
 static int16_t s_speed_r = 0;
 static bool s_standby = false;
+static bool s_invert_l = false;
+static bool s_invert_r = false;
 
 void tb6612_init(void) { s_speed_l = 0; s_speed_r = 0; s_standby = false; }
-void tb6612_set_motor_left(int16_t speed) { s_speed_l = speed; }
-void tb6612_set_motor_right(int16_t speed) { s_speed_r = speed; }
-void tb6612_set_motors(int16_t l, int16_t r) { s_speed_l = l; s_speed_r = r; }
+void tb6612_set_motor_left(int16_t speed) { s_speed_l = s_invert_l ? -speed : speed; }
+void tb6612_set_motor_right(int16_t speed) { s_speed_r = s_invert_r ? -speed : speed; }
+void tb6612_set_motors(int16_t l, int16_t r) { tb6612_set_motor_left(l); tb6612_set_motor_right(r); }
 void tb6612_brake(void) { s_speed_l = 0; s_speed_r = 0; }
 void tb6612_stop(void) { s_speed_l = 0; s_speed_r = 0; }
 void tb6612_set_standby(bool standby_active) { s_standby = standby_active; }
+void tb6612_set_inversion(bool invert_left, bool invert_right) { s_invert_l = invert_left; s_invert_r = invert_right; }
 #endif

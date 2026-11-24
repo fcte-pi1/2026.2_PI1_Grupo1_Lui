@@ -1,5 +1,6 @@
 #include "sensores/Bateria.h"
 #include <Arduino.h>
+#include <math.h>
 
 void Bateria::iniciar() {
     pinMode(PINO_ADC, INPUT);
@@ -14,5 +15,7 @@ uint16_t Bateria::lerMilivolts() {
     for (uint8_t i = 0; i < AMOSTRAS; i++) {
         soma += analogReadMilliVolts(PINO_ADC);
     }
-    return bateriaMvDoAdc((soma + AMOSTRAS / 2) / AMOSTRAS);
+    const uint32_t mvPino = (soma + AMOSTRAS / 2) / AMOSTRAS;
+    const uint32_t mvAjustado = (uint32_t)lroundf((float)mvPino * BATERIA_FATOR_AJUSTE);
+    return bateriaMvDoAdc(mvAjustado);
 }
