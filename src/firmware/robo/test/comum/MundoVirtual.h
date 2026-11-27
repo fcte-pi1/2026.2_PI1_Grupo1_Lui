@@ -166,7 +166,9 @@ public:
         esq_.registrar(medirSensor(0.0f, p_.sensorLateralMm, 90.0f), agoraMs);
         dir_.registrar(medirSensor(0.0f, -p_.sensorLateralMm, -90.0f), agoraMs);
         uint16_t frente = medirSensor(p_.sensorFrontalMm, 0.0f, 0.0f);
-        if (maoNaFrente && vEsq_ > 20.0f && vDir_ > 20.0f) frente = 25;  // obstáculo surge
+        if (maoNaFrente && vEsq_ > 20.0f && vDir_ > 20.0f) {
+            frente = DIST_MINIMA_SEGURA_MM > 2 ? (uint16_t)(DIST_MINIMA_SEGURA_MM - 2) : 1;  // obstáculo surge
+        }
         frente_.registrar(frente, agoraMs);
     }
     LeituraToF& esquerdo() override { return esq_; }

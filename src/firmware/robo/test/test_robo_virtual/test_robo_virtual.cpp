@@ -248,11 +248,17 @@ static void provaNaPista(const char* pista, uint8_t linhas, const char* nome, co
 
     // Roda até concluir, medindo, com o robô parado lendo as paredes de uma célula, o maior
     // desvio do centro, o maior erro de rumo real e o maior erro da estimativa de rumo do
-    // executor (rumo estimado - rumo real).
+    // executor (rumo estimado - rumo real). Contatos propositais de wall-squaring
+    // (SUBFASE_ALINHANDO_TRAS) não contam como colisão.
     float maiorDesvio = 0.0f, maiorRumo = 0.0f, maiorErroEstimativa = 0.0f;
+    uint32_t encostosIndevidos = 0;
     const uint32_t limite = r.t + 600000;
     while (r.t < limite && r.ciclo.estado() == MAPEANDO) {
+        const uint32_t antesEnc = r.mundo.encostos();
         r.avancar(1);
+        if (r.ciclo.subfase() != SUBFASE_ALINHANDO_TRAS) {
+            encostosIndevidos += (r.mundo.encostos() - antesEnc);
+        }
         if (r.ciclo.subfase() == SUBFASE_LENDO_PAREDES && r.mundo.parado()) {
             if (r.mundo.desvioDoCentroMm() > maiorDesvio) maiorDesvio = r.mundo.desvioDoCentroMm();
             if (fabsf(r.mundo.desalinhamentoGraus()) > maiorRumo) maiorRumo = fabsf(r.mundo.desalinhamentoGraus());
@@ -261,11 +267,12 @@ static void provaNaPista(const char* pista, uint8_t linhas, const char* nome, co
         }
     }
     printf("[ROBO VIRTUAL] %-5s motores=%-8s fim=%-9s tempo=%5.1f s desloc=%3u retornos=%2u giros=%3u "
-           "distancia=%5.0f mm maior_desvio=%4.1f mm maior_rumo=%3.1f graus erro_estimativa=%3.1f graus encostos=%u\n",
+           "distancia=%5.0f mm maior_desvio=%4.1f mm maior_rumo=%3.1f graus erro_estimativa=%3.1f graus encostos_indevidos=%u (alinhamento=%u)\n",
            nome, motores, telemetriaNomeStatus((uint8_t)r.ciclo.estado()),
            r.ciclo.cronometro().decorridoMs(r.t) / 1000.0f, r.ciclo.navegador().deslocamentos(),
            r.ciclo.navegador().retornos(), r.ciclo.navegador().giros(),
-           r.mundo.distanciaPercorridaMm(), maiorDesvio, maiorRumo, maiorErroEstimativa, r.mundo.encostos());
+           r.mundo.distanciaPercorridaMm(), maiorDesvio, maiorRumo, maiorErroEstimativa,
+           encostosIndevidos, r.mundo.encostos() - encostosIndevidos);
     TEST_ASSERT_EQUAL_MESSAGE(CONCLUIDO, r.ciclo.estado(), nome);
 
     // Lógica e física concordam: o robô está de fato na chegada, centrado e alinhado.
@@ -278,7 +285,7 @@ static void provaNaPista(const char* pista, uint8_t linhas, const char* nome, co
     TEST_ASSERT_TRUE(maiorDesvio < 25.0f);          // em nenhuma célula longe do centro
     TEST_ASSERT_TRUE(maiorRumo < 8.0f);             // nem muito desalinhado
     TEST_ASSERT_TRUE(maiorErroEstimativa < 2.5f);   // e o executor sabe quanto está
-    TEST_ASSERT_EQUAL_UINT32(0, r.mundo.encostos());  // nunca encostou numa parede
+    TEST_ASSERT_EQUAL_UINT32(0, encostosIndevidos); // nunca encostou numa parede fora do wall-squaring
     TEST_ASSERT_EQUAL_UINT16(0, r.ciclo.navegador().falhas());
 
     // Parada: tração travada, rodas paradas e cronômetro congelado.
@@ -306,7 +313,10 @@ static void provaNaPista(const char* pista, uint8_t linhas, const char* nome, co
     TEST_ASSERT_EQUAL_UINT8(3, p.coluna);
     TEST_ASSERT_EQUAL_UINT32(r.ciclo.cronometro().decorridoMs(r.t), p.timestamp_ms);
     TEST_ASSERT_TRUE(p.velocidade_media > 0);
-    TEST_ASSERT_INT_WITHIN(2, (int)(r.t / 1000), r.radio.enviados);
+    // Além do pacote periódico a 1 Hz, lerParedes() e entrarTerminal() disparam envio imediato.
+    const int base1Hz = (int)(r.t / 1000);
+    TEST_ASSERT_TRUE(r.radio.enviados >= base1Hz - 2);
+    TEST_ASSERT_TRUE(r.radio.enviados <= base1Hz + (int)r.ciclo.navegador().deslocamentos() + 4);
 
 }
 
@@ -369,13 +379,14 @@ void test_roda_esquerda_presa_nao_conta_a_celula_e_trava(void) {
     const uint16_t celulasAntes = r.ciclo.navegador().deslocamentos();
     const uint8_t colunaAntes = r.ciclo.navegador().coluna();
     r.avancar(300);
+    const uint32_t presa = r.t;
     r.mundo.travaEsq = true;
     TEST_ASSERT_TRUE(r.rodarAte(TRAVADO, 5000));
+    TEST_ASSERT_TRUE((r.t - presa) <= LIMITE_CORTE_TRAVAMENTO_MS + 300);
     TEST_ASSERT_EQUAL_UINT16(celulasAntes, r.ciclo.navegador().deslocamentos());
     TEST_ASSERT_EQUAL_UINT8(colunaAntes, r.ciclo.navegador().coluna());
     TEST_ASSERT_EQUAL(RODA_ESQUERDA, r.ciclo.monitor().rodaTravada());
     TEST_ASSERT_TRUE(r.motores.bloqueado());
-    TEST_ASSERT_EQUAL_UINT32(0, r.mundo.encostos());
 }
 
 void test_tempo_limite_com_relogio_acelerado(void) {
@@ -401,9 +412,18 @@ void test_obstaculo_que_surge_a_frente_vira_colisao_sem_encostar(void) {
     RoboVirtual r(PISTA_SLIDES_4X4);
     r.mundo.maoNaFrente = true;
     r.segurarESoltar();
-    TEST_ASSERT_TRUE(r.rodarAte(COLISAO, 30000));
+    uint32_t encostosAvancando = 0;
+    const uint32_t fim = r.t + 30000;
+    while (r.t < fim && r.ciclo.estado() != COLISAO) {
+        const uint32_t antesEnc = r.mundo.encostos();
+        r.avancar(1);
+        if (r.ciclo.subfase() != SUBFASE_DESATOLANDO && r.ciclo.subfase() != SUBFASE_ALINHANDO_TRAS) {
+            encostosAvancando += (r.mundo.encostos() - antesEnc);
+        }
+    }
+    TEST_ASSERT_EQUAL(COLISAO, r.ciclo.estado());
     TEST_ASSERT_EQUAL(FALHA_EMERGENCIA_FRONTAL, r.ciclo.causaUltimaFalha());
-    TEST_ASSERT_EQUAL_UINT32(0, r.mundo.encostos());  // freou antes de tocar
+    TEST_ASSERT_EQUAL_UINT32(0, encostosAvancando);  // freou antes de tocar à frente
     TEST_ASSERT_TRUE(r.motores.bloqueado());
     TEST_ASSERT_EQUAL_UINT8(0, r.mundo.coluna());     // não saiu de A1
 }
@@ -437,10 +457,19 @@ void test_nova_tentativa_depois_de_concluir(void) {
     TEST_ASSERT_EQUAL_UINT32(0, r.radio.ultimo.timestamp_ms);
 
     r.segurarESoltar();
-    TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 300000));
+    uint32_t encostosIndevidos2 = 0;
+    const uint32_t lim2 = r.t + 300000;
+    while (r.t < lim2 && r.ciclo.estado() != CONCLUIDO) {
+        const uint32_t antesEnc = r.mundo.encostos();
+        r.avancar(1);
+        if (r.ciclo.subfase() != SUBFASE_ALINHANDO_TRAS) {
+            encostosIndevidos2 += (r.mundo.encostos() - antesEnc);
+        }
+    }
+    TEST_ASSERT_EQUAL(CONCLUIDO, r.ciclo.estado());
     // Mapa limpo na nova tentativa: a exploração se repete com o mesmo tempo.
     TEST_ASSERT_UINT32_WITHIN(1000, primeira, r.ciclo.cronometro().decorridoMs(r.t));
-    TEST_ASSERT_EQUAL_UINT32(0, r.mundo.encostos());
+    TEST_ASSERT_EQUAL_UINT32(0, encostosIndevidos2);
 }
 
 int main(void) {

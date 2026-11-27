@@ -120,9 +120,9 @@ public:
     // monoparede com aprendizado dinâmico e rejeição de quina.
     static ParametrosControleReta parametrosReta() {
         ParametrosControleReta r = ControleReta::parametrosPadrao();
-        r.kpParede = 2.2f;
-        r.kdParede = 0.50f;
-        r.limiteGiroMmS = 85.0f;
+        r.kpParede = 1.4f;
+        r.kdParede = 0.45f;
+        r.limiteGiroMmS = 60.0f;
         r.distMaxParedeMm = (float)LIMIAR_PAREDE_MM;
         r.usarMonoparede = true;
         r.saltoMaxParedeMm = 18.0f;
