@@ -36,6 +36,7 @@ class PortaFalsa:
 
     def __init__(self, itens):
         self.itens = list(itens)
+        self.escritos = []
         self.fechada = False
 
     def readline(self):
@@ -45,6 +46,13 @@ class PortaFalsa:
         if isinstance(item, Exception):
             raise item
         return item
+
+    def write(self, dados):
+        self.escritos.append(dados)
+        return len(dados)
+
+    def flush(self):
+        pass
 
     def close(self):
         self.fechada = True
@@ -213,3 +221,20 @@ def _gateway_emulado(linhas):
                     return
 
     return Gateway
+
+
+def test_envia_comando_pela_porta_aberta_e_rejeita_quando_fechada():
+    porta = PortaFalsa([linha_valida(seq=1)])
+    fonte = FonteSerial("COM9", abrir=lambda: porta)
+
+    with pytest.raises(RuntimeError):
+        asyncio.run(fonte.enviar_comando("k"))
+
+    async def rodar():
+        async with contextlib.aclosing(fonte.mensagens()) as mensagens:
+            await mensagens.__anext__()
+            await fonte.enviar_comando("k")
+
+    asyncio.run(rodar())
+    assert porta.escritos == [b"k"]
+    assert porta.fechada

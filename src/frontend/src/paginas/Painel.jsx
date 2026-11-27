@@ -8,7 +8,7 @@ import AvisoConexaoRf from '../componentes/AvisoConexaoRf';
 import Labirinto from '../componentes/Labirinto';
 import { useTelemetria } from '../servicos/telemetriaWs';
 import { criarEstadoPainel, reduzirTelemetria } from '../servicos/painelTelemetria';
-import { listarCorridas } from '../servicos/corridasApi';
+import { listarCorridas, enviarLargadaRobo } from '../servicos/corridasApi';
 import '../indicadores.css';
 
 // Valores mostrados antes do primeiro pacote chegar. A bateria fica indefinida
@@ -30,12 +30,27 @@ export default function Painel() {
     const [historico, setHistorico] = useState(null);
     const [erroHistorico, setErroHistorico] = useState('');
     const [filtros, setFiltros] = useState({});
+    const [enviandoLargada, setEnviandoLargada] = useState(false);
+    const [feedbackLargada, setFeedbackLargada] = useState('');
 
     const carregarHistorico = useCallback((filtrosAtuais = filtros) => {
         listarCorridas(filtrosAtuais)
             .then(setHistorico)
             .catch((erro) => setErroHistorico(erro.message));
     }, [filtros]);
+
+    const acionarLargada = useCallback(async () => {
+        setEnviandoLargada(true);
+        setFeedbackLargada('');
+        try {
+            const resp = await enviarLargadaRobo();
+            setFeedbackLargada(resp.enviado ? 'Enviado' : 'Simulador');
+        } catch (erro) {
+            setFeedbackLargada(erro.message);
+        } finally {
+            setEnviandoLargada(false);
+        }
+    }, []);
 
     useEffect(() => {
         carregarHistorico(filtros);
@@ -48,15 +63,32 @@ export default function Painel() {
         <div className="painel-container">
             <header className="painel-header">
                 <h1>PAINEL - MICROMOUSE</h1>
-                <button type="button" onClick={() => carregarHistorico(filtros)}>
-                    Atualizar histórico
-                </button>
-                {/* Conexão do painel com o backend; a perda do rádio é o aviso abaixo (HU-09) */}
-                <div
-                    className={`status-conexao ${conectado ? 'conectado' : 'desconectado'}`}
-                    data-testid="status-conexao"
-                >
-                    <span className="dot"></span> {conectado ? 'CONECTADO' : 'DESCONECTADO'}
+                <div className="painel-header-acoes">
+                    <button
+                        type="button"
+                        className="btn-resolver"
+                        data-testid="btn-resolver"
+                        onClick={acionarLargada}
+                        disabled={!conectado || enviandoLargada}
+                        title={feedbackLargada || "Enviar comando 'k' para o robô iniciar o labirinto"}
+                    >
+                        {enviandoLargada ? 'Enviando...' : 'Resolver'}
+                    </button>
+                    {feedbackLargada && (
+                        <span className="feedback-resolver" role="status">
+                            {feedbackLargada}
+                        </span>
+                    )}
+                    <button type="button" onClick={() => carregarHistorico(filtros)}>
+                        Atualizar histórico
+                    </button>
+                    {/* Conexão do painel com o backend; a perda do rádio é o aviso abaixo (HU-09) */}
+                    <div
+                        className={`status-conexao ${conectado ? 'conectado' : 'desconectado'}`}
+                        data-testid="status-conexao"
+                    >
+                        <span className="dot"></span> {conectado ? 'CONECTADO' : 'DESCONECTADO'}
+                    </div>
                 </div>
             </header>
 

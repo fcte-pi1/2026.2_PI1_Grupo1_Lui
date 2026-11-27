@@ -687,6 +687,41 @@ void test_alinhamento_traseiro_e_acionado_apos_giro_com_parede_atras_e_desatolam
     TEST_ASSERT_EQUAL_UINT16(0, sim.movimentosInvalidos);
 }
 
+void test_largada_remota_inicia_prova_em_aguardando_e_ignora_em_outros_estados(void) {
+    Robo r(4, EXEC_SIMULADOR);
+    labirintoBecos4(r.sim);
+
+    // Em AGUARDANDO com bateria baixa, a largada remota é recusada.
+    r.bat.mv = 6500;
+    r.ciclo.largadaRemota(r.t);
+    TEST_ASSERT_EQUAL(AGUARDANDO, r.ciclo.estado());
+
+    // Com bateria válida, a largada remota inicia o mapeamento.
+    r.bat.mv = 7800;
+    r.ciclo.largadaRemota(r.t);
+    TEST_ASSERT_EQUAL(MAPEANDO, r.ciclo.estado());
+
+    // Novo comando remoto durante MAPEANDO é ignorado sem zerar a corrida.
+    r.avancar(100);
+    const uint32_t tempoAntes = r.ciclo.cronometro().decorridoMs(r.t);
+    r.ciclo.largadaRemota(r.t);
+    TEST_ASSERT_EQUAL(MAPEANDO, r.ciclo.estado());
+    TEST_ASSERT_EQUAL_UINT32(tempoAntes, r.ciclo.cronometro().decorridoMs(r.t));
+
+    // Completa a prova e garante que comando remoto em CONCLUIDO é ignorado.
+    while (r.t < 60000 && r.ciclo.estado() != CONCLUIDO) r.avancar(5);
+    TEST_ASSERT_EQUAL(CONCLUIDO, r.ciclo.estado());
+    r.ciclo.largadaRemota(r.t);
+    TEST_ASSERT_EQUAL(CONCLUIDO, r.ciclo.estado());
+
+    // Reinício remoto devolve ao estado AGUARDANDO e permite alternar geometria.
+    r.ciclo.reiniciarRemoto(r.t);
+    TEST_ASSERT_EQUAL(AGUARDANDO, r.ciclo.estado());
+    TEST_ASSERT_EQUAL(LAB_4X4, r.ciclo.mapa().getGeometria());
+    r.ciclo.alternarGeometria(r.t);
+    TEST_ASSERT_EQUAL(LAB_8X4, r.ciclo.mapa().getGeometria());
+}
+
 int main(void) {
     UNITY_BEGIN();
     // AGUARDANDO, telemetria e botão
@@ -715,5 +750,6 @@ int main(void) {
     RUN_TEST(test_bateria_nao_pausa_encoder_durante_movimento_em_andamento);
     RUN_TEST(test_espera_largada_aguarda_afastar_mao_antes_de_ler_paredes);
     RUN_TEST(test_alinhamento_traseiro_e_acionado_apos_giro_com_parede_atras_e_desatolamento_apos_falha);
+    RUN_TEST(test_largada_remota_inicia_prova_em_aguardando_e_ignora_em_outros_estados);
     return UNITY_END();
 }

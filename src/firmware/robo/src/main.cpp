@@ -90,7 +90,7 @@ void setup() {
 
     Serial.println("Robo ligado. Estado: AGUARDANDO");
     Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s e solte para largar (1,2 s p/ afastar a mao).");
-    Serial.println("Comandos Serial/ESP-NOW: [s] parada de emergencia | [d] diagnostico rapido.");
+    Serial.println("Comandos Serial/ESP-NOW: [k] largada | [s] parada de emergencia | [d] diagnostico rapido.");
 }
 
 static void imprimirDiagnostico() {
@@ -122,7 +122,9 @@ static void imprimirDiagnostico() {
 }
 
 static void processarComando(char cmd) {
-    if (cmd == 's' || cmd == 'S' || cmd == ' ') {
+    if (cmd == 'k' || cmd == 'K') {
+        ciclo->largadaRemota((uint32_t)millis());
+    } else if (cmd == 's' || cmd == 'S' || cmd == ' ') {
         ciclo->paradaEmergencia((uint32_t)millis());
     } else if (cmd == 'd' || cmd == 'D') {
         imprimirDiagnostico();

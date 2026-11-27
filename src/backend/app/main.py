@@ -19,7 +19,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import saude, telemetria_ws
+from app.api import comandos, saude, telemetria_ws
 from app.api import corridas as api_corridas
 from app.api.telemetria_ws import GerenciadorConexoes
 from app.banco import criar_banco, iniciar_esquema
@@ -63,12 +63,14 @@ def criar_app(
         title="Micromouse - Telemetria", version="0.1.0", lifespan=ciclo_de_vida
     )
     origens = [o.strip() for o in os.getenv("CORS_ORIGENS", "*").split(",") if o.strip()]
-    # A API é só de leitura e não usa cookies: basta liberar o GET.
-    app.add_middleware(CORSMiddleware, allow_origins=origens, allow_methods=["GET"])
+    # Não usa cookies; libera GET para leitura e POST para comandos do painel.
+    app.add_middleware(CORSMiddleware, allow_origins=origens, allow_methods=["GET", "POST"])
+    app.state.fonte = fonte
     app.state.gerenciador = gerenciador
     app.state.sessoes = sessoes
     app.state.engine = engine
     app.include_router(saude.router)
+    app.include_router(comandos.router)
     app.include_router(telemetria_ws.router)
     app.include_router(api_corridas.router)
     return app

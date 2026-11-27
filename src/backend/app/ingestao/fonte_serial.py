@@ -12,6 +12,7 @@ socket://localhost:7777, útil para testar o caminho serial sem o gateway.
 
 import asyncio
 import logging
+import threading
 from collections.abc import AsyncIterator, Awaitable, Callable
 from typing import Any
 
@@ -61,6 +62,23 @@ class FonteSerial:
         self._abrir = abrir or (lambda: serial.serial_for_url(porta, baud, timeout=1))
         self.espera_reconexao_s = espera_reconexao_s
         self._dormir = dormir
+        self._conexao: Any = None
+        self._trava_escrita = threading.Lock()
+
+    def _escrever_bytes(self, conexao: Any, dados: bytes) -> None:
+        with self._trava_escrita:
+            conexao.write(dados)
+            if hasattr(conexao, "flush"):
+                conexao.flush()
+
+    async def enviar_comando(self, comando: str) -> None:
+        """Envia um comando ASCII ao gateway pela porta serial já aberta."""
+        if not comando:
+            raise ValueError("comando vazio")
+        conexao = self._conexao
+        if conexao is None:
+            raise RuntimeError("Gateway serial não conectado.")
+        await asyncio.to_thread(self._escrever_bytes, conexao, comando.encode("ascii"))
 
     async def mensagens(self) -> AsyncIterator[TelemetriaMensagem]:
         while True:
@@ -73,6 +91,7 @@ class FonteSerial:
                 await self._dormir(self.espera_reconexao_s)
                 continue
 
+            self._conexao = conexao
             logger.info(
                 "lendo telemetria do gateway em %s a %s bps", self.porta, self.baud
             )
@@ -89,5 +108,6 @@ class FonteSerial:
                     "conexão com o gateway em %s perdida: %s", self.porta, erro
                 )
             finally:
+                self._conexao = None
                 conexao.close()
             await self._dormir(self.espera_reconexao_s)

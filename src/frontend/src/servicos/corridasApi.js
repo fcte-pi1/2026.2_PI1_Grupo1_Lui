@@ -68,4 +68,14 @@ export async function obterCorrida(corridaId, urlBase = baseApi()) {
     };
 }
 
+export async function enviarLargadaRobo(urlBase = baseApi()) {
+    const url = urlBase.split('?')[0].replace(/\/corridas$/, '/comandos/largada');
+    const resposta = await fetch(url, { method: 'POST' });
+    const dados = await resposta.json().catch(() => ({}));
+    if (!resposta.ok) {
+        throw new Error(dados.detail || `Falha ao enviar largada (${resposta.status})`);
+    }
+    return dados;
+}
+
 export { baseApi as urlApiCorridas };

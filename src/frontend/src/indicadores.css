@@ -167,6 +167,41 @@ body {
     text-transform: uppercase;
 }
 
+.painel-header-acoes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-resolver {
+    background: transparent;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-resolver:hover:not(:disabled) {
+    background-color: #edf2f7;
+    border-color: #a0aec0;
+    color: #2d3748;
+}
+
+.btn-resolver:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.feedback-resolver {
+    font-size: 0.75rem;
+    color: #718096;
+}
+
 .status-online,
 .status-conexao {
     display: flex;

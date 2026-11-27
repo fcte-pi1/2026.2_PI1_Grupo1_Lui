@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { listarCorridas, urlApiCorridas, construirUrlCorridas, obterCorrida } from './corridasApi';
+import { listarCorridas, urlApiCorridas, construirUrlCorridas, obterCorrida, enviarLargadaRobo } from './corridasApi';
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -59,6 +59,22 @@ describe('corridasApi', () => {
             iniciada_em: '2026-10-25T15:00:00Z',
             data: '2026-10-25T15:00:00Z',
             leituras: [],
+        });
+    });
+
+    it('envia comando de largada remota via POST', async () => {
+        const mockFetch = vi.fn().mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ enviado: true, comando: 'k' }),
+        });
+        vi.stubGlobal('fetch', mockFetch);
+
+        await expect(enviarLargadaRobo('http://localhost:8000/api/corridas')).resolves.toEqual({
+            enviado: true,
+            comando: 'k',
+        });
+        expect(mockFetch).toHaveBeenCalledWith('http://localhost:8000/api/comandos/largada', {
+            method: 'POST',
         });
     });
 });

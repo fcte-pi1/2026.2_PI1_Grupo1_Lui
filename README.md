@@ -98,6 +98,11 @@ Para gravar o **firmware oficial da prova autônoma** no ESP32 do robô:
 pio run -d src/firmware/robo -e esp32dev -t upload
 ```
 
+Para gravar o **firmware geral unificado** (junta o algoritmo da prova autônoma de `robo/` com o menu de testes de bancada no mesmo binário):
+```bash
+pio run -d src/firmware/geral -e esp32dev -t upload
+```
+
 ### 2. Passar o firmware do gateway para o ESP8266 (NodeMCU / D1 mini)
 ```bash
 # Conecte o ESP8266 no USB do computador e grave:
@@ -126,11 +131,11 @@ Com o **firmware de bancada** gravado no ESP32 do robô e o **ESP8266 gateway** 
    ```bash
    src/backend/.venv/bin/python scripts/teste_sensores_remoto.py /dev/ttyUSB0
    ```
-4. **Apenas monitorar a telemetria JSON** (quando o robô está com o firmware oficial `robo`):
+4. **Apenas monitorar a telemetria JSON** (quando o robô está com o firmware oficial `robo` ou `geral`):
    ```bash
    src/backend/.venv/bin/python scripts/monitor_telemetria.py /dev/ttyUSB0
    ```
-   *(Com o firmware oficial `robo` gravado, você também pode enviar `s` para parada de emergência ou `d` para diagnóstico rápido via Serial/ESP-NOW.)*
+   *(Com `robo` ou `geral` gravado, você pode enviar `k` para iniciar a resolução do labirinto — ou usar o botão **Resolver** no painel Web — além de `s` para parada de emergência e `d` para diagnóstico rápido via Serial/ESP-NOW.)*
 
 ![Calendário 2026/2](https://github.com/fcte-pi1/template/blob/main/docs/figs/Calendario.png?raw=true)
 

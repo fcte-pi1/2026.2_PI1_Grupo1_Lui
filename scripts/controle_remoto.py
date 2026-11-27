@@ -56,6 +56,7 @@ def exibir_cabecalho(porta):
     print("OUTROS MODOS:")
     print("  [1] - Leitura contínua dos ToF   | [3] - Encoders manual")
     print("  [9] - Diagnóstico da Bateria     | [g] - Alternar labirinto")
+    print("  [k] - Largada do robô (firmware oficial)")
     print("  [q] - Sair deste programa")
     print("=" * 65)
     print("-> Digite o comando e aperte ENTER (ou digite 's' para frear):\n")
@@ -167,6 +168,8 @@ def main():
                 print(">> [COMANDO ENVIADO] Curva 90° à Esquerda...")
             elif cmd == '7':
                 print(">> [COMANDO ENVIADO] Meia-volta 180°...")
+            elif cmd in ('k', 'K'):
+                print(">> [COMANDO ENVIADO] Largada remota (k)...")
             elif cmd in ('s', 'S', ' '):
                 print(">> [COMANDO ENVIADO] FREIO DE EMERGÊNCIA!")
     except KeyboardInterrupt:

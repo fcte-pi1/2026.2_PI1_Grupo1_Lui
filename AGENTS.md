@@ -6,6 +6,7 @@ Projeto **Micromouse — Grupo 1 (PI1 2026.2, FCTE/UnB)**.
 
 - `src/firmware/` — **Todos os firmwares ativos** (PlatformIO):
   - `src/firmware/robo/` — Firmware oficial de navegação e prova do robô (ESP32, `esp32dev` + testes `native` Unity).
+  - `src/firmware/geral/` — Firmware unificado (ESP32 `esp32dev`) que combina a prova autônoma de `robo/` (incluindo comando remoto `k`) com os testes/menu de bancada usando os mesmos drivers e `ExecutorMovimentoRobo`.
   - `src/firmware/gateway/` — Gateway receptor ESP-NOW -> Serial JSON (ESP8266/ESP32 + testes `native` Unity).
   - `src/firmware/bancada/` — Firmware interativo de comissionamento e testes de bancada via Serial (ESP32 `esp32dev`, ambientes isolados por componente `env:teste_*` em `src/testes_componentes/` + testes em `test/run_tests.sh`).
   - `src/firmware/diagnostico_tof/` — Firmware mínimo para diagnóstico e auto-scan I2C/XSHUT de 1 sensor VL53L0X avulso.
@@ -36,6 +37,7 @@ src/backend/.venv/bin/pio test -d src/firmware/gateway -e native
 
 # Build ESP32 dos firmwares
 src/backend/.venv/bin/pio run -d src/firmware/robo -e esp32dev
+src/backend/.venv/bin/pio run -d src/firmware/geral -e esp32dev
 src/backend/.venv/bin/pio run -d src/firmware/gateway -e esp32dev
 src/backend/.venv/bin/pio run -d src/firmware/bancada -e esp32dev
 src/backend/.venv/bin/pio run -d src/firmware/diagnostico_tof -e esp32dev

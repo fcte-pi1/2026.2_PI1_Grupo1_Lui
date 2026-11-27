@@ -142,6 +142,29 @@ public:
         }
     }
 
+    // Largada remota (via Serial ou comando 'k' ESP-NOW do Gateway).
+    // Só inicia a prova quando o robô está em AGUARDANDO.
+    void largadaRemota(uint32_t agoraMs) {
+        agoraMs_ = agoraMs;
+        if (estado_ != AGUARDANDO) return;
+        registrar("Largada remota recebida.");
+        darLargada(agoraMs);
+    }
+
+    // Alterna a geometria do labirinto (4x4 -> 8x4 -> 12x4) quando em AGUARDANDO.
+    void alternarGeometria(uint32_t agoraMs) {
+        agoraMs_ = agoraMs;
+        if (estado_ != AGUARDANDO) return;
+        proximaGeometria(agoraMs);
+    }
+
+    // Reinicia para AGUARDANDO a partir de um estado terminal.
+    void reiniciarRemoto(uint32_t agoraMs) {
+        agoraMs_ = agoraMs;
+        if (estado_ == AGUARDANDO || estado_ == MAPEANDO || estado_ == SPEED_RUN) return;
+        reiniciar(agoraMs);
+    }
+
     // Parada de emergência remota (via Serial ou comando 's' ESP-NOW do Gateway).
     void paradaEmergencia(uint32_t agoraMs) {
         agoraMs_ = agoraMs;
