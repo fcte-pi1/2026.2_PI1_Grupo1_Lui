@@ -57,6 +57,7 @@ public:
         Serial.println("=======================================================");
         Serial.println("PROVA AUTONOMA:");
         Serial.println("  [k] - Iniciar labirinto (ou segure o botao por 2s)");
+        Serial.println("  [f] - Armar Speed Run apos exploracao concluida");
         Serial.printf("  [g] - Alternar geometria (Atual: %s -> 4x4/8x4/12x4)\n", strGeo);
         Serial.println("  [r] - Reiniciar para AGUARDANDO apos fim/falha");
         Serial.println("TESTES DE BANCADA:");
@@ -214,6 +215,13 @@ public:
             case 'R':
                 abortar(agoraMs);
                 ciclo.reiniciarRemoto(agoraMs);
+                return true;
+            case 'f':
+            case 'F':
+                abortar(agoraMs);
+                if (!ciclo.prepararSpeedRun(agoraMs)) {
+                    Serial.println("[SPEED_RUN] Indisponivel: conclua uma exploracao primeiro.");
+                }
                 return true;
             case 'm':
             case 'M':

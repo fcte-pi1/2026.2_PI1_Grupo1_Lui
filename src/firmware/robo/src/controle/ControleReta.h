@@ -98,6 +98,7 @@ public:
     }
 
     float velocidadeBaseMmS() const { return p_.velocidadeBaseMmS; }
+    void definirVelocidadeBase(float velMmS) { p_.velocidadeBaseMmS = velMmS; }
 
     // Começa uma reta: guarda o rumo e as contagens dos encoders como referência. Deve
     // ser chamado com o robô alinhado ao corredor. Mantém a referência lateral aprendida.

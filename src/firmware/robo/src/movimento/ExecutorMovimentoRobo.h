@@ -62,6 +62,13 @@ struct ParametrosExecutor {
     float kpSyncRecuo;                // ganho de sincronismo entre encoders na ré
     int32_t alvoRecuoPulsos;          // distância nominal do recuo de desatolamento
     uint32_t tempoMaxRecuoMs;         // sempre < TEMPO_TRAVAMENTO_MS (1000 ms)
+    // Speed run e curvas contínuas (HU-16 / HU-17)
+    float velSpeedRunRetaMmS;         // velocidade de avanço em reta no speed run
+    float velSpeedRunCurvaCentroMmS;  // velocidade linear do centro durante arco de 90 graus
+    float raioCurvaContinuaMm;        // raio do arco de 90 graus dentro da célula (CELULA_MM / 2)
+    float kpCurvaContinua;            // ajuste diferencial (mm/s por grau) no arco contínuo
+    float antecipacaoCurvaContinuaGraus; // antecedência ao concluir arco contínuo
+    uint32_t tempoLimiteCurvaContinuaMs; // tempo limite da curva contínua
 };
 
 // Rumo nominal de cada orientação de grade, no referencial do yaw (anti-horário positivo,
@@ -113,6 +120,12 @@ public:
         p.kpSyncRecuo = 0.35f;
         p.alvoRecuoPulsos = Odometria::pulsosParaMm(30.0f);
         p.tempoMaxRecuoMs = 450;
+        p.velSpeedRunRetaMmS = 230.0f;
+        p.velSpeedRunCurvaCentroMmS = 150.0f;
+        p.raioCurvaContinuaMm = (float)CELULA_MM * 0.5f;
+        p.kpCurvaContinua = 2.5f;
+        p.antecipacaoCurvaContinuaGraus = 0.5f;
+        p.tempoLimiteCurvaContinuaMs = 2000;
         return p;
     }
 
@@ -155,6 +168,8 @@ public:
           encEsq0_(0), encDir0_(0), deslocamento0Mm_(0.0f),
           alvoAtualPulsos_(p.alvoAvancoPulsos), compensacaoExtraPulsos_(0),
           ultimoAvancoParcialPulsos_(0), primeiroAvanco_(true), aposGiro_(false),
+          velExploracaoRetaMmS_(reta_.velocidadeBaseMmS()),
+          semRampaInicio_(false), pararNoFim_(true),
           primeiroComando_(false), ultimoComandoAvancoMs_(0),
           ultimaVelDesejadaEsqMmS_(0.0f), ultimaVelDesejadaDirMmS_(0.0f),
           encEstavelEsq_(0), encEstavelDir_(0), ultimoMovTrasMs_(0),
@@ -190,27 +205,28 @@ public:
     }
 
     bool iniciarAvanco(uint32_t agoraMs) override {
-        if (fase_ != FASE_OCIOSO) return false;
+        return iniciarAvancoComPerfil(p_.alvoAvancoPulsos, velExploracaoRetaMmS_, false, true, agoraMs);
+    }
+
+    bool suportaPercursoContinuo() const override { return true; }
+
+    bool iniciarAvancoRapido(uint16_t distanciaMm, bool semRampaInicio,
+                             bool pararNoFim, uint32_t agoraMs) override {
+        const int32_t alvoBase = Odometria::pulsosParaMm((float)distanciaMm * ODOM_ESCALA_RETO);
+        return iniciarAvancoComPerfil(alvoBase, p_.velSpeedRunRetaMmS, semRampaInicio, pararNoFim, agoraMs);
+    }
+
+    bool iniciarCurvaContinua(Giro giro, Direcao, uint32_t agoraMs) override {
+        if (fase_ != FASE_OCIOSO || (giro != GIRO_ESQUERDA && giro != GIRO_DIREITA)) return false;
+        primeiroAvanco_ = false;
+        sentido_ = (giro == GIRO_ESQUERDA) ? SENTIDO_ESQUERDA : SENTIDO_DIREITA;
         encEsq0_ = odometria_.encEsq();
         encDir0_ = odometria_.encDir();
         deslocamento0Mm_ = odometria_.deslocamentoMm();
-        alvoAtualPulsos_ = p_.alvoAvancoPulsos +
-                           (primeiroAvanco_ ? p_.compensacaoLargadaPulsos : 0) +
-                           compensacaoExtraPulsos_;
-        compensacaoExtraPulsos_ = 0;
-        const int32_t minAlvo = p_.alvoAvancoPulsos / 3;
-        if (alvoAtualPulsos_ < minAlvo) alvoAtualPulsos_ = minAlvo > 1 ? minAlvo : 1;
-        ultimoAvancoParcialPulsos_ = 0;
         marcarInicioRumo();
-        zerarParedes();
-        reta_.iniciar(0.0f, encEsq0_, encDir0_, agoraMs);  // referência: o rumo da grade
-        reiniciarPiVelocidade(agoraMs);
+        reiniciarPiVelocidade(agoraMs, true);
         inicioMs_ = agoraMs;
-        primeiroComando_ = true;
-        ultimoComandoAvancoMs_ = agoraMs;
-        ultimaVelDesejadaEsqMmS_ = reta_.velocidadeBaseMmS();
-        ultimaVelDesejadaDirMmS_ = reta_.velocidadeBaseMmS();
-        fase_ = FASE_AVANCANDO;
+        fase_ = FASE_CURVA_CONTINUA;
         return true;
     }
 
@@ -253,6 +269,7 @@ public:
 
         switch (fase_) {
             case FASE_GIRANDO:        return atualizarGiro(agoraMs);
+            case FASE_CURVA_CONTINUA: return atualizarCurvaContinua(agoraMs);
             case FASE_AVANCANDO:      return atualizarAvanco(agoraMs);
             case FASE_ALINHANDO_TRAS: return atualizarAlinhamentoTras(agoraMs);
             case FASE_RECUANDO:       return atualizarRecuo(agoraMs);
@@ -289,6 +306,7 @@ private:
     enum Fase : uint8_t {
         FASE_OCIOSO,
         FASE_GIRANDO,
+        FASE_CURVA_CONTINUA,
         FASE_AVANCANDO,
         FASE_ALINHANDO_TRAS,
         FASE_RECUANDO,
@@ -406,13 +424,45 @@ private:
 
     // ------------------------------------------------------------------ velocidade / PWM
 
-    void reiniciarPiVelocidade(uint32_t agoraMs) {
+    void reiniciarPiVelocidade(uint32_t agoraMs, bool continuar = false) {
+        if (continuar && temPi_ && (uint32_t)(agoraMs - ultimoPiMs_) <= 250) {
+            return;
+        }
         intVelEsq_ = 0.0f;
         intVelDir_ = 0.0f;
         ultimoPiMs_ = agoraMs;
         encPiEsq_ = odometria_.encEsq();
         encPiDir_ = odometria_.encDir();
         temPi_ = false;
+    }
+
+    bool iniciarAvancoComPerfil(int32_t alvoBasePulsos, float velBaseMmS,
+                                bool semRampaInicio, bool pararNoFim, uint32_t agoraMs) {
+        if (fase_ != FASE_OCIOSO) return false;
+        encEsq0_ = odometria_.encEsq();
+        encDir0_ = odometria_.encDir();
+        deslocamento0Mm_ = odometria_.deslocamentoMm();
+        alvoAtualPulsos_ = alvoBasePulsos +
+                           (primeiroAvanco_ ? p_.compensacaoLargadaPulsos : 0) +
+                           compensacaoExtraPulsos_;
+        compensacaoExtraPulsos_ = 0;
+        const int32_t minAlvo = alvoBasePulsos / 3;
+        if (alvoAtualPulsos_ < minAlvo) alvoAtualPulsos_ = minAlvo > 1 ? minAlvo : 1;
+        ultimoAvancoParcialPulsos_ = 0;
+        semRampaInicio_ = semRampaInicio;
+        pararNoFim_ = pararNoFim;
+        marcarInicioRumo();
+        zerarParedes();
+        reta_.definirVelocidadeBase(velBaseMmS);
+        reta_.iniciar(0.0f, encEsq0_, encDir0_, agoraMs);  // referência: o rumo da grade
+        reiniciarPiVelocidade(agoraMs, semRampaInicio);
+        inicioMs_ = agoraMs;
+        primeiroComando_ = true;
+        ultimoComandoAvancoMs_ = agoraMs;
+        ultimaVelDesejadaEsqMmS_ = reta_.velocidadeBaseMmS();
+        ultimaVelDesejadaDirMmS_ = reta_.velocidadeBaseMmS();
+        fase_ = FASE_AVANCANDO;
+        return true;
     }
 
     void comecarCurva(uint32_t agoraMs) {
@@ -504,20 +554,20 @@ private:
     float fatorVelocidadeAvanco(int32_t progressoPulsos, uint32_t agoraMs,
                                 bool frontalValida, uint16_t distFrontalMm) const {
         float fator = 1.0f;
-        if (p_.tempoRampaPartidaMs > 0) {
+        if (!semRampaInicio_ && p_.tempoRampaPartidaMs > 0) {
             const uint32_t decorrido = (uint32_t)(agoraMs - inicioMs_);
             if (decorrido < p_.tempoRampaPartidaMs) {
                 const float rampa = 0.55f + 0.45f * ((float)decorrido / (float)p_.tempoRampaPartidaMs);
                 if (rampa < fator) fator = rampa;
             }
         }
-        if (aposGiro_ && p_.distPosCurvaMm > 0.0f && p_.fatorVelPosCurva > 0.0f) {
+        if (!semRampaInicio_ && aposGiro_ && p_.distPosCurvaMm > 0.0f && p_.fatorVelPosCurva > 0.0f) {
             const float andadoMm = (progressoPulsos > 0 ? (float)progressoPulsos : 0.0f) * RODA_MM_POR_PULSO;
             if (andadoMm < p_.distPosCurvaMm && p_.fatorVelPosCurva < fator) {
                 fator = p_.fatorVelPosCurva;
             }
         }
-        if (p_.distDesaceleracaoMm > 0.0f) {
+        if (pararNoFim_ && p_.distDesaceleracaoMm > 0.0f) {
             const float restanteOdomMm = (float)(alvoAtualPulsos_ - progressoPulsos) * RODA_MM_POR_PULSO;
             float restanteMm = restanteOdomMm;
             if (frontalValida && distFrontalMm > p_.distEncostoFrontalMm) {
@@ -586,6 +636,63 @@ private:
         return MOV_EM_ANDAMENTO;
     }
 
+    ResultadoMovimento atualizarCurvaContinua(uint32_t agoraMs) {
+        if ((uint32_t)(agoraMs - inicioMs_) > p_.tempoLimiteCurvaContinuaMs) {
+            erroRumoGraus_ = rumoAtual();
+            marcarInicioRumo();
+            return terminar(agoraMs, MOV_FALHOU, FALHA_TEMPO);
+        }
+
+        const LeituraToF& frontal = tof_.frontal();
+        if (frontal.valida(agoraMs) && frontal.distanciaMm() <= p_.distMinimaSeguraMm) {
+            erroRumoGraus_ = rumoAtual();
+            marcarInicioRumo();
+            return terminar(agoraMs, MOV_FALHOU, FALHA_EMERGENCIA_FRONTAL);
+        }
+
+        const float sinal = (sentido_ == SENTIDO_ESQUERDA) ? 1.0f : -1.0f;
+        const float dEsqMm = (float)(odometria_.encEsq() - encEsq0_) * RODA_MM_POR_PULSO;
+        const float dDirMm = (float)(odometria_.encDir() - encDir0_) * RODA_MM_POR_PULSO;
+        const float arcoCentroMm = (dEsqMm + dDirMm) * 0.5f;
+        const float alvoArcoMm = 1.57079633f * p_.raioCurvaContinuaMm;
+        const float giroRealGraus = rumoAtual() - erroRumo0_;
+        float alvoAnguloAbs = 90.0f - sinal * erroRumo0_;
+        if (alvoAnguloAbs < 65.0f) alvoAnguloAbs = 65.0f;
+        if (alvoAnguloAbs > 115.0f) alvoAnguloAbs = 115.0f;
+        const float progressoAngulo = sinal * giroRealGraus;
+
+        if (progressoAngulo >= alvoAnguloAbs - p_.antecipacaoCurvaContinuaGraus) {
+            erroRumoGraus_ = ControleCurva::normalizarGraus(rumoAtual() - sinal * 90.0f);
+            marcarInicioRumo();
+            aposGiro_ = false;
+            fase_ = FASE_OCIOSO;
+            motivo_ = FALHA_NENHUMA;
+            return MOV_CONCLUIDO;
+        }
+
+        float frac = alvoArcoMm > 0.0f ? (arcoCentroMm / alvoArcoMm) : 1.0f;
+        if (frac < 0.0f) frac = 0.0f;
+        if (frac > 1.0f) frac = 1.0f;
+        const float thetaIdeal = alvoAnguloAbs * frac;
+        const float erroAngulo = thetaIdeal - progressoAngulo;
+
+        const float vc = p_.velSpeedRunCurvaCentroMmS;
+        const float deltaVNom = vc * (BITOLA_MM * 0.5f) / p_.raioCurvaContinuaMm;
+        float deltaVCorr = p_.kpCurvaContinua * erroAngulo;
+        if (deltaVCorr > 35.0f) deltaVCorr = 35.0f;
+        if (deltaVCorr < -35.0f) deltaVCorr = -35.0f;
+
+        float vOut = vc + deltaVNom + deltaVCorr;
+        float vIn = vc - deltaVNom - deltaVCorr;
+        if (vIn < 35.0f) vIn = 35.0f;
+        if (vOut > 265.0f) vOut = 265.0f;
+
+        const float velEsq = (sentido_ == SENTIDO_ESQUERDA) ? vIn : vOut;
+        const float velDir = (sentido_ == SENTIDO_ESQUERDA) ? vOut : vIn;
+        comandar(velEsq, velDir, agoraMs);
+        return MOV_EM_ANDAMENTO;
+    }
+
     ResultadoMovimento terminarAvanco(uint32_t agoraMs, ResultadoMovimento resultado,
                                       MotivoFalhaMovimento motivo) {
         if (resultado == MOV_FALHOU) {
@@ -610,11 +717,23 @@ private:
             if (progresso < alvo * p_.fracaoEmergencia && distFrontal <= p_.distMinimaSeguraMm) {
                 return terminarAvanco(agoraMs, MOV_FALHOU, FALHA_EMERGENCIA_FRONTAL);
             }
-            if (progresso >= alvo * p_.fracaoMinimaEncosto && distFrontal <= p_.distEncostoFrontalMm) {
+            if (pararNoFim_ && progresso >= alvo * p_.fracaoMinimaEncosto &&
+                distFrontal <= p_.distEncostoFrontalMm) {
                 return terminarAvanco(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
             }
         }
-        if (progresso >= alvoAtualPulsos_) return terminarAvanco(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
+        if (progresso >= alvoAtualPulsos_) {
+            if (!pararNoFim_) {
+                fecharRumoDoAvanco();
+                marcarInicioRumo();
+                primeiroAvanco_ = false;
+                aposGiro_ = false;
+                fase_ = FASE_OCIOSO;
+                motivo_ = FALHA_NENHUMA;
+                return MOV_CONCLUIDO;
+            }
+            return terminarAvanco(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
+        }
         if ((uint32_t)(agoraMs - inicioMs_) > p_.tempoLimiteAvancoMs) {
             return terminarAvanco(agoraMs, MOV_FALHOU, FALHA_TEMPO);
         }
@@ -753,6 +872,9 @@ private:
     int32_t ultimoAvancoParcialPulsos_;
     bool primeiroAvanco_;
     bool aposGiro_;
+    float velExploracaoRetaMmS_;
+    bool semRampaInicio_;
+    bool pararNoFim_;
     bool primeiroComando_;
     uint32_t ultimoComandoAvancoMs_;
     float ultimaVelDesejadaEsqMmS_;

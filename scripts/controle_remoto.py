@@ -78,6 +78,7 @@ def exibir_cabecalho(porta: str) -> None:
           f"{Cor.VERMELHO}[s] / [ESPAÇO]{Cor.RESET} Freio de emergência")
     print(f"  {Cor.CIANO}[g]{Cor.RESET} Alternar pista (4x4/8x4/12x4) "
           f"{Cor.CIANO}[r]{Cor.RESET} Reiniciar após fim/falha")
+    print(f"  {Cor.CIANO}[f]{Cor.RESET} Armar Speed Run pós-exploração")
     print(f"  {Cor.AMARELO}[d]{Cor.RESET} Diagnóstico 1-linha           "
           f"{Cor.AMARELO}[i]{Cor.RESET} Análise de portas/I2C (USB)")
     print(f"  {Cor.AMARELO}[9]{Cor.RESET} Relatório de bateria          "
@@ -194,6 +195,8 @@ DESCRICOES_CMD = {
     "G": ("Alternar geometria (4x4 / 8x4 / 12x4)", Cor.CIANO),
     "r": ("Reinício remoto para AGUARDANDO", Cor.AMARELO),
     "R": ("Reinício remoto para AGUARDANDO", Cor.AMARELO),
+    "f": ("Armar Speed Run após exploração", Cor.CIANO),
+    "F": ("Armar Speed Run após exploração", Cor.CIANO),
     "4": ("Avançar 1 célula", Cor.AZUL),
     "5": ("Curva 90° à Direita", Cor.AZUL),
     "6": ("Curva 90° à Esquerda", Cor.AZUL),

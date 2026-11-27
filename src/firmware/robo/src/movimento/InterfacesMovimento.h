@@ -45,6 +45,29 @@ public:
     // nada, se já houver movimento em andamento.
     virtual bool iniciarAvanco(uint32_t agoraMs) = 0;
 
+    // Indica se o executor suporta percurso contínuo (avanços com distância arbitrária
+    // sem freio intermediário e curvas de 90 graus em arco contínuo para HU-16 / HU-17).
+    virtual bool suportaPercursoContinuo() const { return false; }
+
+    // Avanço de speed run com distância em mm e controle de rampa/parada nas pontas.
+    // Dublês baseados em célula única usam iniciarAvanco() normalmente.
+    virtual bool iniciarAvancoRapido(uint16_t distanciaMm, bool semRampaInicio,
+                                     bool pararNoFim, uint32_t agoraMs) {
+        (void)distanciaMm;
+        (void)semRampaInicio;
+        (void)pararNoFim;
+        return iniciarAvanco(agoraMs);
+    }
+
+    // Curva de 90 graus em movimento contínuo (arco circular sem parada total, HU-17).
+    // Retorna false se o executor não suportar curvas contínuas (fallback para giro parado).
+    virtual bool iniciarCurvaContinua(Giro giro, Direcao orientacaoAtual, uint32_t agoraMs) {
+        (void)giro;
+        (void)orientacaoAtual;
+        (void)agoraMs;
+        return false;
+    }
+
     // Avança o movimento em andamento. Depois de devolver MOV_CONCLUIDO ou MOV_FALHOU,
     // volta a MOV_OCIOSO na chamada seguinte, sem repetir o resultado.
     virtual ResultadoMovimento atualizar(uint32_t agoraMs) = 0;

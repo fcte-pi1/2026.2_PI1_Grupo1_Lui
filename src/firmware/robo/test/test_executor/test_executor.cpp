@@ -573,6 +573,61 @@ void test_recuo_desatolamento_recua_reto_e_ajusta_proximo_avanco(void) {
     TEST_ASSERT_FLOAT_WITHIN(6.0f, (float)CELULA_MM, b.odo.deslocamentoMm());
 }
 
+void test_avanco_rapido_sem_freio_conclui_mais_rapido_sem_parar(void) {
+    Bancada bExploracao;
+    TEST_ASSERT_TRUE(bExploracao.exec.iniciarAvanco(0));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, bExploracao.rodar());
+    const uint32_t tempoExploracao = bExploracao.t;
+
+    Bancada bRapido;
+    TEST_ASSERT_TRUE(bRapido.exec.iniciarAvancoRapido(CELULA_MM, true, false, 0));
+    const int freiosAntes = bRapido.ponte.freios;
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, bRapido.rodar());
+    const uint32_t tempoRapido = bRapido.t;
+
+    TEST_ASSERT_EQUAL(freiosAntes, bRapido.ponte.freios);  // não freia ao sair
+    TEST_ASSERT_TRUE(tempoRapido < tempoExploracao);
+    TEST_ASSERT_FLOAT_WITHIN(6.0f, (float)CELULA_MM, bRapido.odo.deslocamentoMm());
+}
+
+void test_curva_continua_sem_parada_e_300ms_mais_rapida_que_giro_parado(void) {
+    // Baseline: giro parado de 90° + avanço de 180 mm em exploração.
+    Bancada bParado;
+    bParado.paredesLaterais = false;
+    TEST_ASSERT_TRUE(bParado.exec.iniciarGiro(GIRO_DIREITA, DIR_LESTE, 0));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, bParado.rodar());
+    TEST_ASSERT_TRUE(bParado.exec.iniciarAvanco(bParado.t));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, bParado.rodar());
+    const uint32_t tempoParadoMs = bParado.t;
+
+    // Curva contínua (HU-17): arco de 90° dentro da célula sem parada total.
+    for (int i = 0; i < 2; i++) {
+        const Giro g = (i == 0) ? GIRO_DIREITA : GIRO_ESQUERDA;
+        Bancada bCont;
+        bCont.paredesLaterais = false;
+        TEST_ASSERT_TRUE(bCont.exec.iniciarCurvaContinua(g, DIR_LESTE, 0));
+
+        bool ambasRodasPositivasSempre = true;
+        ResultadoMovimento r = MOV_EM_ANDAMENTO;
+        while (bCont.t < 5000 && r == MOV_EM_ANDAMENTO) {
+            bCont.passo1ms();
+            if (bCont.t % 10 == 0) {
+                r = bCont.exec.atualizar(bCont.t);
+                if (r == MOV_EM_ANDAMENTO && (bCont.ponte.esq <= 0 || bCont.ponte.dir <= 0)) {
+                    ambasRodasPositivasSempre = false;
+                }
+            }
+        }
+        TEST_ASSERT_EQUAL(MOV_CONCLUIDO, r);
+        TEST_ASSERT_TRUE(ambasRodasPositivasSempre);  // sem parada ou reversão na curva
+        TEST_ASSERT_EQUAL(0, bCont.ponte.freios);     // sai em movimento sem frear
+        const float esperadoGraus = (g == GIRO_ESQUERDA) ? 90.0f : -90.0f;
+        TEST_ASSERT_FLOAT_WITHIN(3.0f, esperadoGraus, bCont.rumoRealGraus);
+        // Transição de célula com curva contínua é pelo menos 300 ms mais rápida que giro parado + avanço.
+        TEST_ASSERT_TRUE(bCont.t + 300 <= tempoParadoMs);
+    }
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_parametros_padrao_partem_do_hw_firm);
@@ -608,5 +663,7 @@ int main(void) {
     RUN_TEST(test_compensacao_de_largada_vale_apenas_no_primeiro_avanco);
     RUN_TEST(test_alinhamento_traseiro_encosta_zera_rumo_e_compensa_proximo_avanco);
     RUN_TEST(test_recuo_desatolamento_recua_reto_e_ajusta_proximo_avanco);
+    RUN_TEST(test_avanco_rapido_sem_freio_conclui_mais_rapido_sem_parar);
+    RUN_TEST(test_curva_continua_sem_parada_e_300ms_mais_rapida_que_giro_parado);
     return UNITY_END();
 }

@@ -722,6 +722,67 @@ void test_largada_remota_inicia_prova_em_aguardando_e_ignora_em_outros_estados(v
     TEST_ASSERT_EQUAL(LAB_8X4, r.ciclo.mapa().getGeometria());
 }
 
+void test_speed_run_discreto_apos_exploracao_publica_estado_e_conclui(void) {
+    Robo r(4, EXEC_SIMULADOR);
+    labirintoBecos4(r.sim);
+
+    // Antes de explorar, não há rota para speed run.
+    TEST_ASSERT_FALSE(r.ciclo.temRotaSpeedRun());
+    TEST_ASSERT_FALSE(r.ciclo.prepararSpeedRun(r.t));
+
+    // Exploração até CONCLUIDO calcula rota ótima.
+    r.segurarESoltar();
+    TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 120000));
+    TEST_ASSERT_TRUE(r.ciclo.temRotaSpeedRun());
+    TEST_ASSERT_EQUAL_UINT8(6, r.ciclo.rotaSpeedRun().numPassos);
+
+    // 2 toques curtos em CONCLUIDO armam o speed run preservando o mapa e voltando a AGUARDANDO.
+    r.sim.linhaReal = 0;
+    r.sim.colunaReal = 0;
+    r.sim.orientacaoReal = DIR_LESTE;
+    r.tocar(2);
+    TEST_ASSERT_EQUAL(AGUARDANDO, r.ciclo.estado());
+    TEST_ASSERT_TRUE(r.ciclo.speedRunArmado());
+    TEST_ASSERT_TRUE(r.ciclo.mapa().foiVisitada(3, 3));
+
+    // Largada entra em SPEED_RUN, emite telemetria SPEED_RUN e conclui em D4.
+    r.segurarESoltar();
+    TEST_ASSERT_EQUAL(SPEED_RUN, r.ciclo.estado());
+    bool viuPacoteSpeedRun = false;
+    const uint32_t lim = r.t + 120000;
+    while (r.t < lim && r.ciclo.estado() == SPEED_RUN) {
+        r.avancar(1);
+        if (r.radio.ultimo.status_id == SPEED_RUN) viuPacoteSpeedRun = true;
+    }
+    TEST_ASSERT_EQUAL(CONCLUIDO, r.ciclo.estado());
+    TEST_ASSERT_TRUE(viuPacoteSpeedRun);
+    TEST_ASSERT_EQUAL_UINT8(3, r.sim.linhaReal);
+    TEST_ASSERT_EQUAL_UINT8(3, r.sim.colunaReal);
+    TEST_ASSERT_EQUAL_UINT16(0, r.sim.movimentosInvalidos);
+    r.avancar(1000);
+    TEST_ASSERT_EQUAL_UINT8(CONCLUIDO, r.radio.ultimo.status_id);
+    TEST_ASSERT_EQUAL_UINT8(1, r.radio.ultimo.desafio_cumprido);
+}
+
+void test_speed_run_aceita_parada_emergencia_e_detecta_travamento(void) {
+    Robo r(4, EXEC_SIMULADOR);
+    labirintoBecos4(r.sim);
+    r.segurarESoltar();
+    TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 120000));
+
+    r.sim.linhaReal = 0;
+    r.sim.colunaReal = 0;
+    r.sim.orientacaoReal = DIR_LESTE;
+    TEST_ASSERT_TRUE(r.ciclo.prepararSpeedRun(r.t));
+    r.ciclo.largadaRemota(r.t);
+    TEST_ASSERT_EQUAL(SPEED_RUN, r.ciclo.estado());
+    r.avancar(50);
+    r.ciclo.paradaEmergencia(r.t);
+    TEST_ASSERT_EQUAL(TRAVADO, r.ciclo.estado());
+    TEST_ASSERT_TRUE(r.motores.bloqueado());
+    TEST_ASSERT_TRUE(r.ciclo.cronometro().congelado());
+}
+
 int main(void) {
     UNITY_BEGIN();
     // AGUARDANDO, telemetria e botão
@@ -751,5 +812,7 @@ int main(void) {
     RUN_TEST(test_espera_largada_aguarda_afastar_mao_antes_de_ler_paredes);
     RUN_TEST(test_alinhamento_traseiro_e_acionado_apos_giro_com_parede_atras_e_desatolamento_apos_falha);
     RUN_TEST(test_largada_remota_inicia_prova_em_aguardando_e_ignora_em_outros_estados);
+    RUN_TEST(test_speed_run_discreto_apos_exploracao_publica_estado_e_conclui);
+    RUN_TEST(test_speed_run_aceita_parada_emergencia_e_detecta_travamento);
     return UNITY_END();
 }

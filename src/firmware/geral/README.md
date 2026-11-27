@@ -13,8 +13,9 @@ src/backend/.venv/bin/pio run -d src/firmware/geral -e esp32dev -t upload
 ## Comandos (Serial 115200 bps ou ESP-NOW via Gateway / Site)
 
 - **Prova autônoma:**
-  - Botão físico (`GPIO 15`): 3 toques trocam a pista (`4x4`/`8x4`/`12x4`); segurar ≥ 2 s e soltar inicia a prova.
+  - Botão físico (`GPIO 15`): 3 toques trocam a pista (`4x4`/`8x4`/`12x4`); segurar ≥ 2 s e soltar inicia a prova; após concluir a exploração, 2 toques curtos armam o **Speed Run** (`SPEED_RUN` com curvas contínuas pela rota mais curta).
   - `k`: inicia o labirinto remotamente (usado também pelo botão **Resolver** no painel Web e por `scripts/controle_remoto.py`).
+  - `f`: arma o **Speed Run** mantendo o mapa conhecido e a rota calculada após a exploração (depois basta enviar `k` ou segurar o botão ≥ 2 s na largada).
   - `g`: alterna a geometria (`4x4` → `8x4` → `12x4`) quando em `AGUARDANDO`.
   - `r`: reinicia para `AGUARDANDO` após estado terminal (`CONCLUIDO`/`TRAVADO`/`COLISAO`/`TIMEOUT`).
   - `s` ou espaço: parada de emergência (freia e trava os motores em prova, ou cancela o teste ativo).

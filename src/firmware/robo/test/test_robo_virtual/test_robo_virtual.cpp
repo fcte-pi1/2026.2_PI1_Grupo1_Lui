@@ -472,6 +472,89 @@ void test_nova_tentativa_depois_de_concluir(void) {
     TEST_ASSERT_EQUAL_UINT32(0, encostosIndevidos2);
 }
 
+static void provaSpeedRunNaPista(const char* pista, uint8_t linhas, const char* nome,
+                                 float ganhoDir, const char* motores) {
+    RoboVirtual r(pista, mundoComMotores(ganhoDir));
+    r.avancar(1200);
+    r.escolherGeometria(linhas);
+    r.segurarESoltar();
+    TEST_ASSERT_EQUAL(MAPEANDO, r.ciclo.estado());
+    TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 600000));
+    const uint32_t tempoExpMs = r.ciclo.cronometro().decorridoMs(r.t);
+    TEST_ASSERT_TRUE(r.ciclo.temRotaSpeedRun());
+
+    // Equipe recoloca o robô em A1 e arma o Speed Run com 2 toques curtos.
+    r.mundo.posicionarNaLargada();
+    r.tocar(2);
+    TEST_ASSERT_EQUAL(AGUARDANDO, r.ciclo.estado());
+    TEST_ASSERT_TRUE(r.ciclo.speedRunArmado());
+    r.avancar(1000);
+    TEST_ASSERT_EQUAL_UINT8(AGUARDANDO, r.radio.ultimo.status_id);
+
+    r.segurarESoltar();
+    TEST_ASSERT_EQUAL(SPEED_RUN, r.ciclo.estado());
+
+    uint32_t encostosSpeedRun = 0;
+    bool viuTelemetriaSpeedRun = false;
+    bool curvaSemParar = true;
+    const uint32_t lim = r.t + 300000;
+    while (r.t < lim && r.ciclo.estado() == SPEED_RUN) {
+        const uint32_t antesEnc = r.mundo.encostos();
+        r.avancar(1);
+        encostosSpeedRun += (r.mundo.encostos() - antesEnc);
+        if (r.radio.ultimo.status_id == SPEED_RUN) viuTelemetriaSpeedRun = true;
+        if (r.ciclo.subfase() == SUBFASE_GIRANDO && (r.mundo.pwmEsq() <= 0 || r.mundo.pwmDir() <= 0)) {
+            curvaSemParar = false;
+        }
+    }
+
+    const uint32_t tempoSrMs = r.ciclo.cronometro().decorridoMs(r.t);
+    const float reducaoPct = 100.0f * (1.0f - (float)tempoSrMs / (float)tempoExpMs);
+    printf("[SPEED RUN] %-5s motores=%-8s fim=%-9s exp=%5.1f s sr=%5.1f s (-%4.1f%%) "
+           "passos=%2u encostos=%u\n",
+           nome, motores, telemetriaNomeStatus((uint8_t)r.ciclo.estado()),
+           tempoExpMs / 1000.0f, tempoSrMs / 1000.0f, reducaoPct,
+           r.ciclo.rotaSpeedRun().numPassos, encostosSpeedRun);
+
+    TEST_ASSERT_EQUAL_MESSAGE(CONCLUIDO, r.ciclo.estado(), nome);
+    TEST_ASSERT_TRUE(viuTelemetriaSpeedRun);
+    TEST_ASSERT_TRUE(curvaSemParar);
+    TEST_ASSERT_EQUAL_UINT32(0, encostosSpeedRun);
+    TEST_ASSERT_EQUAL_UINT8(linhas - 1, r.mundo.linha());
+    TEST_ASSERT_EQUAL_UINT8(3, r.mundo.coluna());
+    // HU-16: tempo do speed run pelo menos 20% menor que o da exploração.
+    TEST_ASSERT_TRUE(tempoSrMs * 100 <= tempoExpMs * 80);
+
+    r.avancar(1200);
+    TEST_ASSERT_EQUAL_UINT8(CONCLUIDO, r.radio.ultimo.status_id);
+    TEST_ASSERT_EQUAL_UINT8(1, r.radio.ultimo.desafio_cumprido);
+    TEST_ASSERT_EQUAL(0, r.radio.invalidos);
+}
+
+void test_speed_run_continuo_nas_tres_pistas_reduz_tempo_sem_encostar(void) {
+    provaSpeedRunNaPista(PISTA_SLIDES_4X4, 4, "4x4", 1.02f, "dir +2%");
+    provaSpeedRunNaPista(PISTA_SLIDES_8X4, 8, "8x4", 1.02f, "dir +2%");
+    provaSpeedRunNaPista(PISTA_SLIDES_12X4, 12, "12x4", 1.02f, "dir +2%");
+    provaSpeedRunNaPista(PISTA_SLIDES_4X4, 4, "4x4", 0.98f, "dir -2%");
+}
+
+void test_speed_run_corta_tracao_se_roda_travar(void) {
+    RoboVirtual r(PISTA_SLIDES_4X4);
+    r.segurarESoltar();
+    TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 300000));
+    r.mundo.posicionarNaLargada();
+    r.tocar(2);
+    r.segurarESoltar();
+    TEST_ASSERT_EQUAL(SPEED_RUN, r.ciclo.estado());
+    r.avancar(400);
+    const uint32_t presa = r.t;
+    r.mundo.travaEsq = true;
+    r.mundo.travaDir = true;
+    TEST_ASSERT_TRUE(r.rodarAte(TRAVADO, 3000));
+    TEST_ASSERT_TRUE((r.t - presa) <= LIMITE_CORTE_TRAVAMENTO_MS);
+    TEST_ASSERT_TRUE(r.motores.bloqueado());
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_pistas_dos_slides_sao_lidas_como_no_backend);
@@ -487,5 +570,7 @@ int main(void) {
     RUN_TEST(test_obstaculo_que_surge_a_frente_vira_colisao_sem_encostar);
     RUN_TEST(test_largada_recusada_com_bateria_baixa);
     RUN_TEST(test_nova_tentativa_depois_de_concluir);
+    RUN_TEST(test_speed_run_continuo_nas_tres_pistas_reduz_tempo_sem_encostar);
+    RUN_TEST(test_speed_run_corta_tracao_se_roda_travar);
     return UNITY_END();
 }

@@ -14,6 +14,7 @@
 #include "../mapa/Mapa.h"
 #include "../movimento/InterfacesMovimento.h"
 #include "../navegacao/Navegador.h"
+#include "../navegacao/RotaMaisCurta.h"
 #include "../navegacao/VelocidadeMedia.h"
 #include "../odometria/Odometria.h"
 #include "../parada/ParadaObjetivo.h"
@@ -83,7 +84,20 @@ public:
           agoraMs_(0),
           bateriaMv_(0),
           pacotesEnviados_(0),
-          pacotesInvalidos_(0) {
+          pacotesInvalidos_(0),
+          temRotaSpeedRun_(false),
+          speedRunArmado_(false),
+          emModoSpeedRun_(false),
+          speedRunContinuo_(false),
+          emCurvaSpeedRun_(false),
+          srEntradaFinal_(false),
+          passoSpeedRun_(0),
+          linhaSr_(0),
+          colunaSr_(0),
+          orientacaoSr_(DIR_LESTE),
+          deslocamentosSr_(0),
+          ultimoTempoExploracaoMs_(0),
+          ultimoTempoSpeedRunMs_(0) {
         memset(&ultimoPacote_, 0, sizeof(ultimoPacote_));
     }
 
@@ -122,6 +136,8 @@ public:
                 tratarMapeando(agoraMs, tickControle);
                 break;
             case SPEED_RUN:
+                tratarSpeedRun(agoraMs, tickControle);
+                break;
             case CONCLUIDO:
             case COLISAO:
             case TIMEOUT:
@@ -137,7 +153,7 @@ public:
         if (temporizadorLed_.vencido(agoraMs)) {
             const bool piscandoLargada =
                 (estado_ == AGUARDANDO && botao_.largadaArmada()) ||
-                (estado_ == MAPEANDO && subfase_ == SUBFASE_ESPERA_LARGADA);
+                ((estado_ == MAPEANDO || estado_ == SPEED_RUN) && subfase_ == SUBFASE_ESPERA_LARGADA);
             d_.led.atualizar(agoraMs, piscandoLargada);
         }
     }
@@ -165,6 +181,34 @@ public:
         reiniciar(agoraMs);
     }
 
+    // Arma o Speed Run mantendo o mapa conhecido e a rota calculada (HU-16).
+    // Pode ser chamado em AGUARDANDO ou em qualquer estado terminal com rota valida.
+    bool prepararSpeedRun(uint32_t agoraMs) {
+        agoraMs_ = agoraMs;
+        if (!temRotaSpeedRun_) return false;
+        if (estado_ == MAPEANDO || estado_ == SPEED_RUN) return false;
+        d_.executor.abortar();
+        cronometro_.zerar();
+        parada_.iniciarProva();
+        monitor_.iniciarProva();
+        d_.motores.liberar();
+        int32_t esq, dir;
+        d_.encoders.ler(esq, dir);
+        d_.odometria.reiniciar(esq, dir, agoraMs);
+        d_.executor.reiniciar();
+        causaUltimaFalha_ = FALHA_NENHUMA;
+        speedRunArmado_ = true;
+        emModoSpeedRun_ = false;
+        linhaSr_ = 0;
+        colunaSr_ = 0;
+        orientacaoSr_ = DIR_LESTE;
+        deslocamentosSr_ = 0;
+        mudarEstado(AGUARDANDO);
+        d_.led.piscar(corLed(0, 255, 255), 2, agoraMs);
+        registrar("Speed run armado: reposicione em A1 e de a largada.");
+        return true;
+    }
+
     // Parada de emergência remota (via Serial ou comando 's' ESP-NOW do Gateway).
     void paradaEmergencia(uint32_t agoraMs) {
         agoraMs_ = agoraMs;
@@ -187,6 +231,11 @@ public:
     uint32_t pacotesEnviados() const { return pacotesEnviados_; }
     uint32_t pacotesInvalidos() const { return pacotesInvalidos_; }
     MotivoFalhaMovimento causaUltimaFalha() const { return causaUltimaFalha_; }
+    bool temRotaSpeedRun() const { return temRotaSpeedRun_; }
+    bool speedRunArmado() const { return speedRunArmado_; }
+    const Rota& rotaSpeedRun() const { return rotaSpeedRun_; }
+    uint32_t ultimoTempoExploracaoMs() const { return ultimoTempoExploracaoMs_; }
+    uint32_t ultimoTempoSpeedRunMs() const { return ultimoTempoSpeedRunMs_; }
 
 private:
     class CongeladorCronometro : public ICronometro {
@@ -221,7 +270,8 @@ private:
     void cortar(uint32_t agoraMs) {
         d_.motores.parar();
         d_.executor.abortar();
-        if (estado_ == MAPEANDO && !cronometro_.emAndamento() && !cronometro_.congelado()) {
+        if ((estado_ == MAPEANDO || estado_ == SPEED_RUN) &&
+            !cronometro_.emAndamento() && !cronometro_.congelado()) {
             cronometro_.iniciar(agoraMs);
         }
         cronometro_.congelar(agoraMs);
@@ -237,7 +287,7 @@ private:
     // ------------------------------------------------------------------ segurança
 
     void verificarSeguranca(uint32_t agoraMs) {
-        if (estado_ != MAPEANDO) return;
+        if (estado_ != MAPEANDO && estado_ != SPEED_RUN) return;
         if (monitor_.verificar(agoraMs)) {
             d_.executor.abortar();
             registrar("Travamento: tracao cortada.");
@@ -256,6 +306,10 @@ private:
     void tratarAguardando(const EventoBotao& evento, uint32_t agoraMs) {
         if (evento.tipo == BOTAO_LARGADA) {
             darLargada(agoraMs);
+        } else if (evento.tipo == BOTAO_TOQUES && evento.toques == 2 && temRotaSpeedRun_) {
+            speedRunArmado_ = !speedRunArmado_;
+            d_.led.piscar(speedRunArmado_ ? corLed(0, 255, 255) : corLed(0, 255, 0), 2, agoraMs);
+            registrar(speedRunArmado_ ? "Modo SPEED_RUN selecionado." : "Modo EXPLORACAO selecionado.");
         } else if (evento.tipo == BOTAO_TOQUES && evento.toques == 3) {
             proximaGeometria(agoraMs);
         }
@@ -275,6 +329,9 @@ private:
             piscadas = 1;
         }
         mapa_.setGeometria(geo);
+        temRotaSpeedRun_ = false;
+        speedRunArmado_ = false;
+        emModoSpeedRun_ = false;
         d_.led.piscar(corLed(0, 255, 255), piscadas, agoraMs);
         registrar(geo == LAB_4X4 ? "Geometria 4x4." : geo == LAB_8X4 ? "Geometria 8x4." : "Geometria 12x4.");
     }
@@ -286,12 +343,16 @@ private:
             return;
         }
         const GeometriaLabirinto geo = mapa_.getGeometria();
-        mapa_.setGeometria(geo);
+        const bool iniciarSpeedRun = speedRunArmado_ && temRotaSpeedRun_;
+        if (!iniciarSpeedRun) {
+            mapa_.setGeometria(geo);
+            temRotaSpeedRun_ = false;
+        }
         parada_.configurarObjetivoPorGeometria(geo);
         parada_.iniciarProva();
         monitor_.iniciarProva();
         d_.motores.liberar();
-        navegador_.iniciar();
+        if (!iniciarSpeedRun) navegador_.iniciar();
         cronometro_.zerar();
         int32_t esq, dir;
         d_.encoders.ler(esq, dir);
@@ -299,6 +360,28 @@ private:
         d_.executor.reiniciar();
         classificador_.reiniciar();
         causaUltimaFalha_ = FALHA_NENHUMA;
+
+        if (iniciarSpeedRun) {
+            speedRunArmado_ = false;
+            emModoSpeedRun_ = true;
+            linhaSr_ = 0;
+            colunaSr_ = 0;
+            orientacaoSr_ = DIR_LESTE;
+            deslocamentosSr_ = 0;
+            mudarEstado(SPEED_RUN);
+            if (esperaLargadaMs_ > 0) {
+                inicioEsperaLargadaMs_ = agoraMs;
+                subfase_ = SUBFASE_ESPERA_LARGADA;
+                registrar("Speed run confirmado: afaste a mao dos sensores...");
+                return;
+            }
+            cronometro_.iniciar(agoraMs);
+            registrar("Largada: SPEED_RUN.");
+            iniciarPercursoSpeedRun(agoraMs);
+            return;
+        }
+
+        emModoSpeedRun_ = false;
         mudarEstado(MAPEANDO);
 
         if (esperaLargadaMs_ > 0) {
@@ -364,6 +447,11 @@ private:
         d_.odometria.reiniciar(esq, dir, agoraMs);
         d_.executor.reiniciar();
         cronometro_.iniciar(agoraMs);
+        if (estado_ == SPEED_RUN) {
+            registrar("Largada: SPEED_RUN.");
+            iniciarPercursoSpeedRun(agoraMs);
+            return;
+        }
         registrar("Largada: MAPEANDO.");
         comecarLeitura(agoraMs);
     }
@@ -447,6 +535,10 @@ private:
             navegador_.confirmarAvanco();
             parada_.atualizar(navegador_.linha(), navegador_.coluna());
             if (parada_.concluido()) {
+                ultimoTempoExploracaoMs_ = cronometro_.decorridoMs(agoraMs);
+                temRotaSpeedRun_ =
+                    (RotaMaisCurta::calcularParaObjetivo(mapa_, rotaSpeedRun_) == ROTA_OK &&
+                     rotaSpeedRun_.numPassos > 0);
                 registrar("Objetivo alcancado: CONCLUIDO.");
                 entrarTerminal(CONCLUIDO, agoraMs);
                 return;
@@ -510,12 +602,140 @@ private:
         entrarTerminal(TRAVADO, agoraMs);
     }
 
+    // ------------------------------------------------------------------ SPEED_RUN
+
+    void iniciarPercursoSpeedRun(uint32_t agoraMs) {
+        speedRunContinuo_ = d_.executor.suportaPercursoContinuo();
+        passoSpeedRun_ = 0;
+        emCurvaSpeedRun_ = false;
+        srEntradaFinal_ = false;
+        if (rotaSpeedRun_.numPassos == 0) {
+            cortar(agoraMs);
+            entrarTerminal(TRAVADO, agoraMs);
+            return;
+        }
+        enviarTelemetria(agoraMs);
+        if (speedRunContinuo_) {
+            const Giro g0 = rotaSpeedRun_.giroDoPasso(0, orientacaoSr_);
+            if (g0 != GIRO_NENHUM) {
+                emCurvaSpeedRun_ = true;
+                d_.executor.iniciarGiro(g0, orientacaoSr_, agoraMs);
+                subfase_ = SUBFASE_GIRANDO;
+            } else {
+                d_.executor.iniciarAvancoRapido(CELULA_MM / 2, false, false, agoraMs);
+                subfase_ = SUBFASE_AVANCANDO;
+            }
+        } else {
+            iniciarPassoDiscretoSpeedRun(agoraMs);
+        }
+    }
+
+    void iniciarPassoDiscretoSpeedRun(uint32_t agoraMs) {
+        const Giro g = rotaSpeedRun_.giroDoPasso(passoSpeedRun_, orientacaoSr_);
+        if (g != GIRO_NENHUM) {
+            emCurvaSpeedRun_ = true;
+            d_.executor.iniciarGiro(g, orientacaoSr_, agoraMs);
+            subfase_ = SUBFASE_GIRANDO;
+        } else {
+            emCurvaSpeedRun_ = false;
+            d_.executor.iniciarAvancoRapido(CELULA_MM, false, true, agoraMs);
+            subfase_ = SUBFASE_AVANCANDO;
+        }
+    }
+
+    void avancarPosicaoLogicaSpeedRun() {
+        orientacaoSr_ = rotaSpeedRun_.passos[passoSpeedRun_];
+        mapa_.vizinha(linhaSr_, colunaSr_, orientacaoSr_, linhaSr_, colunaSr_);
+        deslocamentosSr_++;
+        passoSpeedRun_++;
+    }
+
+    void tratarSpeedRun(uint32_t agoraMs, bool tickControle) {
+        if (subfase_ == SUBFASE_ESPERA_LARGADA) {
+            tratarEsperaLargada(agoraMs);
+            return;
+        }
+        if (!tickControle) return;
+
+        const ResultadoMovimento r = d_.executor.atualizar(agoraMs);
+        if (r == MOV_FALHOU) {
+            const MotivoFalhaMovimento motivo = d_.executor.motivoUltimaFalha();
+            causaUltimaFalha_ = motivo;
+            cortar(agoraMs);
+            registrar(motivo == FALHA_EMERGENCIA_FRONTAL ? "Emergencia frontal no speed run."
+                                                         : "Falha de movimento no speed run.");
+            entrarTerminal(motivo == FALHA_EMERGENCIA_FRONTAL ? COLISAO : TRAVADO, agoraMs);
+            return;
+        }
+        if (r != MOV_CONCLUIDO) return;
+
+        if (!speedRunContinuo_) {
+            if (emCurvaSpeedRun_) {
+                emCurvaSpeedRun_ = false;
+                orientacaoSr_ = rotaSpeedRun_.passos[passoSpeedRun_];
+                d_.executor.iniciarAvancoRapido(CELULA_MM, false, true, agoraMs);
+                subfase_ = SUBFASE_AVANCANDO;
+                return;
+            }
+            avancarPosicaoLogicaSpeedRun();
+            parada_.atualizar(linhaSr_, colunaSr_);
+            if (parada_.concluido() || passoSpeedRun_ >= rotaSpeedRun_.numPassos) {
+                ultimoTempoSpeedRunMs_ = cronometro_.decorridoMs(agoraMs);
+                registrar("Speed run concluido: CONCLUIDO.");
+                entrarTerminal(CONCLUIDO, agoraMs);
+                return;
+            }
+            iniciarPassoDiscretoSpeedRun(agoraMs);
+            return;
+        }
+
+        if (emCurvaSpeedRun_) {
+            emCurvaSpeedRun_ = false;
+            orientacaoSr_ = rotaSpeedRun_.passos[0];
+            d_.executor.iniciarAvancoRapido(CELULA_MM / 2, false, false, agoraMs);
+            subfase_ = SUBFASE_AVANCANDO;
+            return;
+        }
+
+        if (srEntradaFinal_) {
+            parada_.atualizar(linhaSr_, colunaSr_);
+            ultimoTempoSpeedRunMs_ = cronometro_.decorridoMs(agoraMs);
+            registrar("Speed run concluido: CONCLUIDO.");
+            entrarTerminal(CONCLUIDO, agoraMs);
+            return;
+        }
+
+        avancarPosicaoLogicaSpeedRun();
+        if (passoSpeedRun_ >= rotaSpeedRun_.numPassos) {
+            srEntradaFinal_ = true;
+            d_.executor.iniciarAvancoRapido(CELULA_MM / 2, true, true, agoraMs);
+            subfase_ = SUBFASE_AVANCANDO;
+            return;
+        }
+
+        const Giro g = rotaSpeedRun_.giroDoPasso(passoSpeedRun_, orientacaoSr_);
+        if (g == GIRO_NENHUM) {
+            d_.executor.iniciarAvancoRapido(CELULA_MM, true, false, agoraMs);
+            subfase_ = SUBFASE_AVANCANDO;
+        } else if (g == GIRO_ESQUERDA || g == GIRO_DIREITA) {
+            d_.executor.iniciarCurvaContinua(g, orientacaoSr_, agoraMs);
+            subfase_ = SUBFASE_GIRANDO;
+        } else {
+            d_.executor.iniciarGiro(g, orientacaoSr_, agoraMs);
+            subfase_ = SUBFASE_GIRANDO;
+        }
+    }
+
     // ------------------------------------------------------------------ terminais
 
     void tratarTerminal(const EventoBotao& evento, uint32_t agoraMs) {
         if (!rodasSoltas_ && (uint32_t)(agoraMs - terminalDesdeMs_) >= FREIO_TERMINAL_MS) {
             d_.motores.soltar();
             rodasSoltas_ = true;
+        }
+        if (evento.tipo == BOTAO_TOQUES && evento.toques == 2 && temRotaSpeedRun_) {
+            prepararSpeedRun(agoraMs);
+            return;
         }
         if (evento.tipo == BOTAO_LARGADA) reiniciar(agoraMs);
     }
@@ -532,6 +752,9 @@ private:
         d_.odometria.reiniciar(esq, dir, agoraMs);
         d_.executor.reiniciar();
         causaUltimaFalha_ = FALHA_NENHUMA;
+        temRotaSpeedRun_ = false;
+        speedRunArmado_ = false;
+        emModoSpeedRun_ = false;
         mudarEstado(AGUARDANDO);
         registrar("Nova tentativa: AGUARDANDO.");
     }
@@ -555,12 +778,18 @@ private:
         p.bateria_mv = mv;
         p.bateria_pct = porcentagemBateria(mv);
         p.velocidade_atual = saturarInt16(d_.odometria.velocidadeMmS());
-        p.velocidade_media = velocidadeMediaMmS(navegador_.deslocamentos(), p.timestamp_ms);
+        p.velocidade_media = velocidadeMediaMmS(
+            emModoSpeedRun_ ? deslocamentosSr_ : navegador_.deslocamentos(), p.timestamp_ms);
         if (estado_ == AGUARDANDO) {
             p.linha = 0;
             p.coluna = 0;
             p.orientacao = (uint8_t)DIR_LESTE;
             p.paredes = mapa_.getParedes(0, 0);
+        } else if (emModoSpeedRun_) {
+            p.linha = linhaSr_;
+            p.coluna = colunaSr_;
+            p.orientacao = (uint8_t)orientacaoSr_;
+            p.paredes = mapa_.getParedes(linhaSr_, colunaSr_);
         } else {
             navegador_.preencherPosicao(p);
         }
@@ -611,6 +840,21 @@ private:
     TelemetriaPacket ultimoPacote_;
     uint32_t pacotesEnviados_;
     uint32_t pacotesInvalidos_;
+    // Speed run (HU-16 / HU-17)
+    Rota rotaSpeedRun_;
+    bool temRotaSpeedRun_;
+    bool speedRunArmado_;
+    bool emModoSpeedRun_;
+    bool speedRunContinuo_;
+    bool emCurvaSpeedRun_;
+    bool srEntradaFinal_;
+    uint8_t passoSpeedRun_;
+    uint8_t linhaSr_;
+    uint8_t colunaSr_;
+    Direcao orientacaoSr_;
+    uint16_t deslocamentosSr_;
+    uint32_t ultimoTempoExploracaoMs_;
+    uint32_t ultimoTempoSpeedRunMs_;
 };
 
 #endif
