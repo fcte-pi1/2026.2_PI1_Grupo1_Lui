@@ -1,0 +1,449 @@
+.painel-diagnostico {
+    margin-top: 24px;
+    background: linear-gradient(160deg, #0f172a 0%, #162033 100%);
+    color: #e2e8f0;
+    border-radius: 12px;
+    border: 1px solid #293548;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.16);
+    padding: 18px 20px;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.diag-topo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #293548;
+}
+
+.diag-titulo-grupo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.diag-titulo-grupo h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: 0.01em;
+}
+
+.diag-titulo-grupo p {
+    margin: 2px 0 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.diag-pulso {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #22d3ee;
+    box-shadow: 0 0 10px #22d3ee;
+}
+
+.diag-pulso.critico {
+    background-color: #f43f5e;
+    box-shadow: 0 0 12px #f43f5e;
+}
+
+.diag-saude-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.saude-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    background-color: rgba(148, 163, 184, 0.12);
+    color: #cbd5e1;
+}
+
+.saude-pill.nivel-ok {
+    background-color: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #6ee7b7;
+}
+
+.saude-pill.nivel-alerta {
+    background-color: rgba(245, 158, 11, 0.16);
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #fcd34d;
+}
+
+.saude-pill.nivel-critico {
+    background-color: rgba(244, 63, 94, 0.18);
+    border-color: rgba(244, 63, 94, 0.5);
+    color: #fda4af;
+}
+
+.parede-on {
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+.parede-off {
+    color: #475569;
+}
+
+.diag-barra-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.diag-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.diag-svg {
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+.diag-portas-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(56, 189, 248, 0.14);
+    color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.diag-portas-btn:hover,
+.diag-portas-btn.ativo {
+    background-color: #38bdf8;
+    border-color: #38bdf8;
+    color: #0f172a;
+}
+
+.diag-portas-painel {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: rgba(15, 23, 42, 0.65);
+    border: 1px solid #293548;
+}
+
+.diag-portas-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+}
+
+.diag-portas-aviso code {
+    background-color: rgba(148, 163, 184, 0.18);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: #7dd3fc;
+}
+
+.diag-portas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+}
+
+.porta-card {
+    background-color: rgba(30, 41, 59, 0.8);
+    border: 1px solid #334155;
+    border-left: 3px solid #64748b;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+}
+
+.porta-card.nivel-ok { border-left-color: #10b981; }
+.porta-card.nivel-alerta { border-left-color: #f59e0b; }
+.porta-card.nivel-critico { border-left-color: #f43f5e; }
+
+.porta-card-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    color: #f8fafc;
+}
+
+.porta-status {
+    font-weight: 700;
+    font-size: 0.72rem;
+}
+
+.porta-status.nivel-ok { color: #6ee7b7; }
+.porta-status.nivel-alerta { color: #fcd34d; }
+.porta-status.nivel-critico { color: #fda4af; }
+.porta-status.nivel-neutro { color: #94a3b8; }
+
+.porta-pinos {
+    margin-top: 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #cbd5e1;
+}
+
+.porta-meta {
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+}
+
+.diag-filtro-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(30, 41, 59, 0.9);
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.diag-filtro-btn:hover {
+    border-color: #64748b;
+    color: #f8fafc;
+}
+
+.diag-filtro-btn.ativo {
+    background-color: #38bdf8;
+    border-color: #38bdf8;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.diag-contador {
+    opacity: 0.8;
+    margin-left: 2px;
+}
+
+.diag-acoes-direita {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.diag-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    cursor: pointer;
+}
+
+.diag-limpar-btn {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.76rem;
+    cursor: pointer;
+}
+
+.diag-limpar-btn:hover {
+    border-color: #94a3b8;
+    color: #ffffff;
+}
+
+.diag-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 290px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.diag-vazio {
+    padding: 18px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    background-color: rgba(15, 23, 42, 0.55);
+    border-radius: 8px;
+    border: 1px dashed #334155;
+}
+
+.diag-item {
+    background-color: rgba(30, 41, 59, 0.72);
+    border: 1px solid #293548;
+    border-left: 4px solid #38bdf8;
+    border-radius: 8px;
+    padding: 10px 12px;
+    overflow-wrap: anywhere;
+}
+
+.diag-item.nivel-ok {
+    border-left-color: #10b981;
+}
+
+.diag-item.nivel-alerta {
+    border-left-color: #f59e0b;
+    background-color: rgba(120, 53, 15, 0.22);
+}
+
+.diag-item.nivel-critico {
+    border-left-color: #f43f5e;
+    background-color: rgba(136, 19, 55, 0.24);
+}
+
+.diag-item-cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+}
+
+.diag-hora {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.diag-badge-nivel {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+}
+
+.diag-badge-nivel.nivel-ok {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+}
+
+.diag-badge-nivel.nivel-info {
+    background-color: rgba(56, 189, 248, 0.2);
+    color: #7dd3fc;
+}
+
+.diag-badge-nivel.nivel-alerta {
+    background-color: rgba(245, 158, 11, 0.25);
+    color: #fcd34d;
+}
+
+.diag-badge-nivel.nivel-critico {
+    background-color: rgba(244, 63, 94, 0.25);
+    color: #fda4af;
+}
+
+.diag-badge-dominio {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.diag-badge-dominio.secundario {
+    opacity: 0.88;
+}
+
+.dom-software {
+    background-color: rgba(129, 140, 248, 0.18);
+    border-color: rgba(129, 140, 248, 0.4);
+    color: #c7d2fe;
+}
+
+.dom-eletronica {
+    background-color: rgba(245, 158, 11, 0.18);
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #fde68a;
+}
+
+.dom-energia {
+    background-color: rgba(236, 72, 153, 0.18);
+    border-color: rgba(236, 72, 153, 0.45);
+    color: #f9a8d4;
+}
+
+.dom-mecanica {
+    background-color: rgba(16, 185, 129, 0.18);
+    border-color: rgba(16, 185, 129, 0.45);
+    color: #6ee7b7;
+}
+
+.dom-radio {
+    background-color: rgba(6, 182, 212, 0.18);
+    border-color: rgba(6, 182, 212, 0.45);
+    color: #67e8f9;
+}
+
+.diag-item-titulo {
+    color: #f8fafc;
+    font-size: 0.88rem;
+}
+
+.diag-item-detalhe {
+    margin: 5px 0 0;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+}
+
+.diag-hint-box {
+    margin-top: 7px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    background-color: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: #fef3c7;
+    font-size: 0.79rem;
+    line-height: 1.4;
+}
+
+.diag-hint-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    color: #fbbf24;
+}
+
+@media (max-width: 767px) {
+    .painel-diagnostico {
+        margin-top: 16px;
+        padding: 14px;
+    }
+}

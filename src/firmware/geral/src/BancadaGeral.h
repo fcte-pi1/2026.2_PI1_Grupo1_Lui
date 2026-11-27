@@ -385,11 +385,71 @@ private:
     }
 
     void executarAnaliseI2C() {
-        Serial.println("[TESTE i] Escaneando XSHUT individuais (Esq/Fre/Dir)...");
+        Serial.println("\n[HW] === ANALISE DE PORTAS ESP32, SENSORES E CONEXOES ===");
         Wire.end();
         ponte_.standby(true);
+
+        struct PinoInfo { uint8_t gpio; const char* funcao; bool i2c; };
+        const PinoInfo pinosIO[] = {
+            {PINO_PONTE_PWMA, "PWMA (Motor Esq)", false},
+            {PINO_PONTE_AIN1, "AIN1 (Motor Esq)", false},
+            {PINO_PONTE_AIN2, "AIN2 (Motor Esq)", false},
+            {PINO_PONTE_STBY, "STBY (Ponte H)", false},
+            {PINO_PONTE_BIN1, "BIN1 (Motor Dir)", false},
+            {PINO_PONTE_BIN2, "BIN2 (Motor Dir)", false},
+            {PINO_PONTE_PWMB, "PWMB (Motor Dir)", false},
+            {PINO_ENCODER_DIR_B, "ENC_DIR_B (Boot)", false},
+            {PINO_I2C_SDA, "I2C SDA", true},
+            {PINO_I2C_SCL, "I2C SCL", true},
+            {PINO_TOF_XSHUT_ESQ, "XSHUT ToF Esq", false},
+            {PINO_TOF_XSHUT_FRONTAL, "XSHUT ToF Frontal", false},
+            {PINO_TOF_XSHUT_DIR, "XSHUT ToF Dir", false},
+            {PINO_BOTAO, "Botao Largada", false},
+            {PINO_LED_ESTADO, "LED Estado", false},
+        };
+        for (size_t i = 0; i < sizeof(pinosIO) / sizeof(pinosIO[0]); i++) {
+            const uint8_t p = pinosIO[i].gpio;
+            pinMode(p, INPUT_PULLUP);
+            delayMicroseconds(150);
+            const int pu = digitalRead(p);
+            pinMode(p, INPUT_PULLDOWN);
+            delayMicroseconds(150);
+            const int pd = digitalRead(p);
+            const char* st = (pu == 1 && pd == 0) ? "OK" :
+                             (pu == 1 && pd == 1 && pinosIO[i].i2c) ? "OK (pull-up I2C)" :
+                             (pu == 0 && pd == 0) ? "PRESO_LOW" :
+                             (pu == 1 && pd == 1) ? "PRESO_HIGH" : "INSTAVEL";
+            Serial.printf("[HW] GPIO %2u (%-18s): PU=%d PD=%d -> %s\n",
+                          (unsigned)p, pinosIO[i].funcao, pu, pd, st);
+        }
+
+        const PinoInfo pinosIn[] = {
+            {PINO_ENCODER_ESQ_A, "ENC_ESQ_A", false},
+            {PINO_ENCODER_ESQ_B, "ENC_ESQ_B", false},
+            {PINO_ENCODER_DIR_A, "ENC_DIR_A", false},
+            {PINO_BATERIA_ADC,   "BAT_ADC (Divisor)", false},
+        };
+        for (size_t i = 0; i < sizeof(pinosIn) / sizeof(pinosIn[0]); i++) {
+            const uint8_t p = pinosIn[i].gpio;
+            pinMode(p, INPUT);
+            delayMicroseconds(100);
+            const int dig = digitalRead(p);
+            const int mv = analogReadMilliVolts(p);
+            Serial.printf("[HW] GPIO %2u (%-18s): dig=%d | adc=%d mV -> %s\n",
+                          (unsigned)p, pinosIn[i].funcao, dig, mv,
+                          (p == PINO_BATERIA_ADC && mv < 1000) ? "BAIXA/SEM_BAT" : "OK");
+        }
+
+        // Restaura drivers antes de testar o barramento I2C e XSHUT.
+        pinMode(PINO_BOTAO, INPUT_PULLUP);
+        ponte_.iniciar();
+        encoders_.iniciar();
+        led_.iniciar();
+        bateria_.iniciar();
+
         const uint8_t xshuts[3] = {PINO_TOF_XSHUT_ESQ, PINO_TOF_XSHUT_FRONTAL, PINO_TOF_XSHUT_DIR};
-        const char* nomes[3] = {"Esq(GPIO4)", "Fre(GPIO16)", "Dir(GPIO17)"};
+        const uint8_t enderecos[3] = {TOF_ENDERECO_ESQ, TOF_ENDERECO_FRONTAL, TOF_ENDERECO_DIR};
+        const char* nomes[3] = {"ToF Esq (GPIO4)", "ToF Frt (GPIO16)", "ToF Dir (GPIO17)"};
         Wire.begin(PINO_I2C_SDA, PINO_I2C_SCL, TOF_I2C_HZ);
         for (uint8_t idx = 0; idx < 3; idx++) {
             for (uint8_t j = 0; j < 3; j++) {
@@ -397,15 +457,30 @@ private:
                 digitalWrite(xshuts[j], (j == idx) ? HIGH : LOW);
             }
             delay(20);
+            Wire.beginTransmission(0x29);
+            const bool ack = (Wire.endTransmission() == 0);
             VL53L0X probe;
             probe.setBus(&Wire);
             probe.setTimeout(200);
-            const bool ok = probe.init();
-            Serial.printf("  * %s: init=%s\n", nomes[idx], ok ? "OK" : "FALHA");
+            const bool ok = ack && probe.init();
+            const uint16_t mm = ok ? probe.readRangeSingleMillimeters() : 0;
+            Serial.printf("[HW] %-17s: ACK_0x29=%d | init=%s | leitura=%u mm -> %s\n",
+                          nomes[idx], ack ? 1 : 0, ok ? "OK" : "FALHA", (unsigned)mm,
+                          ok ? "SAUDAVEL" : "FALHA");
         }
-        ponte_.standby(false);
         const bool todosOk = tof_.iniciar();
-        Serial.printf("[TESTE i] ToF reinicializados: %s\n", todosOk ? "3/3 OK" : "PARCIAL/FALHA");
+        for (uint8_t idx = 0; idx < 3; idx++) {
+            Wire.beginTransmission(enderecos[idx]);
+            const bool ativo = (Wire.endTransmission() == 0);
+            Serial.printf("[HW] I2C Endereco 0x%02X (%-17s): %s\n",
+                          (unsigned)enderecos[idx], nomes[idx], ativo ? "OK" : "SEM_RESPOSTA");
+        }
+        const uint16_t mvBat = lerBateriaSegura();
+        Serial.printf("[HW] Bateria (GPIO 36) : %u mV (%.2f V, %u%%) -> %s\n",
+                      (unsigned)mvBat, mvBat / 1000.0, (unsigned)porcentagemBateria(mvBat),
+                      bateriaPermiteLargada(mvBat) ? "SAUDAVEL" : "ABAIXO_MINIMO");
+        Serial.printf("[HW] Radio ESP-NOW (Ch1): %s | ToF 3/3=%s\n",
+                      radioPronto_ ? "SAUDAVEL" : "FALHA", todosOk ? "OK" : "PARCIAL");
     }
 
     void enviarTelemetriaBancada(const CicloProva& ciclo, uint32_t agoraMs) {
