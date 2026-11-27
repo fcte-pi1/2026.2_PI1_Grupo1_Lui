@@ -84,12 +84,12 @@ void setup() {
     DependenciasProva d = {botao,    encoders,  tof,      bateria,
                            led,      motores,   odometria, executor,
                            radioPronto ? &radio : nullptr, &registro};
-    static CicloProva instancia(d);
+    static CicloProva instancia(d, CicloProva::ESPERA_LARGADA_HARDWARE_MS);
     ciclo = &instancia;
     ciclo->iniciar((uint32_t)millis());
 
     Serial.println("Robo ligado. Estado: AGUARDANDO");
-    Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s e solte para largar.");
+    Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s e solte para largar (1,2 s p/ afastar a mao).");
     Serial.println("Comandos Serial/ESP-NOW: [s] parada de emergencia | [d] diagnostico rapido.");
 }
 
@@ -97,16 +97,27 @@ static void imprimirDiagnostico() {
     int32_t esq = 0, dir = 0;
     encoders.ler(esq, dir);
     const uint32_t agora = (uint32_t)millis();
-    Serial.printf("[DIAG] estado=%u pos=(L%u,C%u,ori=%u) ToF(E/F/D)=[%u/%u/%u mm] Enc(E/D)=[%ld/%ld] Bat=%u mV\n",
+    uint16_t mv = ciclo->ultimoPacote().bateria_mv;
+    if (mv == 0 && ciclo->estado() == AGUARDANDO) {
+        encoders.pausarEsquerdo();
+        mv = bateria.lerMilivolts();
+        encoders.retomarEsquerdo();
+    }
+    Serial.printf("[DIAG] estado=%u sub=%u pos=(L%u,C%u,ori=%u) ToF(E/F/D)=[%u/%u/%u mm ok=%d%d%d] Enc(E/D)=[%ld/%ld] Bat=%u mV rumoEst=%.1f deg\n",
                   (unsigned)ciclo->estado(),
+                  (unsigned)ciclo->subfase(),
                   (unsigned)ciclo->navegador().linha(),
                   (unsigned)ciclo->navegador().coluna(),
                   (unsigned)ciclo->navegador().orientacao(),
                   (unsigned)tof.esquerdo().distanciaMm(),
                   (unsigned)tof.frontal().distanciaMm(),
                   (unsigned)tof.direito().distanciaMm(),
+                  tof.esquerdoIniciado() ? 1 : 0,
+                  tof.frontalIniciado() ? 1 : 0,
+                  tof.direitoIniciado() ? 1 : 0,
                   (long)esq, (long)dir,
-                  (unsigned)ciclo->ultimoPacote().bateria_mv);
+                  (unsigned)mv,
+                  executor.erroRumoEstimadoGraus());
     (void)agora;
 }
 

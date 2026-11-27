@@ -16,36 +16,14 @@
 // Executor de movimento do robô, sem bloqueio e sem dependência do Arduino
 // (docs/firmware/integracao-loop.md, seções 2.5 e 3.5, achados B3, B5, B7 e R11).
 //
-// Implementa ExecutorMovimentoNaoBloqueante sobre ControleCurva, ControleReta, Odometria,
-// ConversorVelocidadePwm e Motores. O laço chama atualizar() a cada tick de controle
-// (10 ms); cada chamada faz uma volta de controle e devolve MOV_EM_ANDAMENTO até o fim.
-//
-// Rumo estimado pelas paredes (PR #202, seção 2.5; achado do robô virtual):
-//  - Sem IMU física, o executor guarda o erro de rumo do robô em relação à grade (positivo
-//    = girado para a esquerda) e o acompanha durante o movimento pelo giro dos encoders.
-//  - Num avanço com as duas paredes laterais, a diferença (esquerda - direita) varia
-//    -2 x sen(erro) por mm andado. A inclinação por mínimos quadrados dá o erro médio do
-//    trecho e corrige a estimativa ao fim do avanço.
-//  - O erro entra nos controles como yaw de IMU (imuValido = true): sem paredes a reta
-//    volta para o rumo da grade (0), e a curva mira +-90 corrigindo o erro herdado.
-//  - Na largada (reiniciar()), o erro volta a 0, a referência monoparede é limpa e a
-//    compensação longitudinal de largada é rearmada.
-//
-// Giro (90 graus para cada lado; meia-volta = duas curvas seguidas para a direita):
-//  - Sincronização entre arcos das rodas (kpSyncRodas) + corte unidirecional sem reversão.
-//  - O ControleCurva é recriado a cada curva (uma curva abortada não deixa resto).
-//  - CURVA_CONCLUIDA -> freio; CURVA_FALHOU (tempo) -> freio e FALHA_TEMPO.
-//
-// Avanço de uma célula:
-//  - ControleReta com monoparede, aprendizado dinâmico e rejeição de salto de quina, rodado
-//    só quando chega amostra nova dos sensores laterais (R11).
-//  - Rampa suave de partida, desaceleração final (odometria ou parede frontal), malha PI de
-//    velocidade por roda e reforço anti-travamento contra atrito estático.
-//  - Termina pela odometria quando a roda que andou MENOS atinge o alvo em pulsos (PR #202:
-//    com uma roda presa o avanço não conclui pela outra e o MonitorTravamento corta a tração)
-//    ou pelo encosto frontal (parede à frente a DIST_ENCOSTO_FRONTAL_MM após 50 % do avanço).
-//  - Emergência: frontal <= DIST_MINIMA_SEGURA_MM antes de 60 % do avanço ->
-//    FALHA_EMERGENCIA_FRONTAL. Tempo acima do limite -> FALHA_TEMPO.
+// Inclui:
+//  - Rumo estimado pelas paredes (mínimos quadrados sobre esq - dir) para operar sem IMU;
+//  - Giro no próprio eixo com piso de velocidade firme acima da zona morta e meia-volta contínua;
+//  - Wall-squaring (iniciarAlinhamentoTraseiro): ré curta em malha aberta contra parede traseira
+//    conhecida para zerar o erro angular acumulado e compensar o deslocamento longitudinal;
+//  - Recuo de desatolamento (iniciarRecuoDesatolamento): ré reta sincronizada por encoders para
+//    desencostar de quina/obstáculo antes da nova tentativa;
+//  - Saída suave pós-curva e fallback de comando se os sensores laterais atrasarem.
 
 struct ParametrosExecutor {
     int32_t alvoAvancoPulsos;         // pulsos da roda mais lenta para avançar uma célula
@@ -62,15 +40,28 @@ struct ParametrosExecutor {
     uint16_t saltoMaximoMm;           // variação entre amostras acima disso = amostra descartada
     uint8_t amostrasMinimas;          // amostras com as duas paredes para corrigir o rumo
     float trechoMinimoMm;             // extensão mínima do trecho com as duas paredes
-    // Rampas, malha fechada de velocidade e anti-travamento
+    // Rampas, saída pós-curva, malha fechada de velocidade e anti-travamento
     uint32_t tempoRampaPartidaMs;     // rampa suave de aceleração na partida (0 = desliga)
     float distDesaceleracaoMm;        // distância final de desaceleração suave (0 = desliga)
     float velMinAproximacaoMmS;       // velocidade mínima na desaceleração da reta
+    float distPosCurvaMm;             // trecho inicial mais suave logo após sair de uma curva
+    float fatorVelPosCurva;           // fator de velocidade no trecho pós-curva (0..1)
     float kpVelPwm;                   // ganho P do trim de velocidade por roda (PWM por mm/s)
     float kiVelPwm;                   // ganho I do trim de velocidade por roda (PWM por mm/s·s)
     uint32_t ajudaStallInicioMs;      // sem pulsos por este tempo -> sobe PWM de arranque
     uint32_t ajudaStallRampaMs;       // duração da rampa até o reforço máximo
     uint8_t ajudaStallMaxPwm;         // reforço máximo de PWM contra atrito estático
+    // Wall-squaring (alinhamento traseiro) e recuo de desatolamento
+    int16_t pwmAlinhamentoTras;       // PWM de ré em malha aberta para encostar na parede de trás
+    uint32_t tempoMinAlinhamentoTrasMs;
+    uint32_t janelaParadaAlinhamentoMs;
+    uint32_t tempoMaxAlinhamentoTrasMs; // sempre < TEMPO_TRAVAMENTO_MS (1000 ms)
+    int32_t maxPulsosAlinhamentoTras;
+    int32_t maxCompensacaoTrasPulsos;
+    int16_t pwmRecuoDesatolar;        // PWM base do recuo reto de desatolamento
+    float kpSyncRecuo;                // ganho de sincronismo entre encoders na ré
+    int32_t alvoRecuoPulsos;          // distância nominal do recuo de desatolamento
+    uint32_t tempoMaxRecuoMs;         // sempre < TEMPO_TRAVAMENTO_MS (1000 ms)
 };
 
 // Rumo nominal de cada orientação de grade, no referencial do yaw (anti-horário positivo,
@@ -105,28 +96,47 @@ public:
         p.tempoRampaPartidaMs = TEMPO_RAMPA_PARTIDA_MS;
         p.distDesaceleracaoMm = DIST_DESACELERACAO_MM;
         p.velMinAproximacaoMmS = VEL_MIN_APROXIMACAO_MM_S;
+        p.distPosCurvaMm = 55.0f;
+        p.fatorVelPosCurva = 0.80f;
         p.kpVelPwm = 0.08f;
         p.kiVelPwm = 0.25f;
         p.ajudaStallInicioMs = 150;
         p.ajudaStallRampaMs = 550;
         p.ajudaStallMaxPwm = 40;
+        p.pwmAlinhamentoTras = (int16_t)(PWM_BASE_MOVIMENTO > 15 ? PWM_BASE_MOVIMENTO - 15 : PWM_MINIMO);
+        p.tempoMinAlinhamentoTrasMs = 140;
+        p.janelaParadaAlinhamentoMs = 80;
+        p.tempoMaxAlinhamentoTrasMs = 400;
+        p.maxPulsosAlinhamentoTras = Odometria::pulsosParaMm(55.0f);
+        p.maxCompensacaoTrasPulsos = Odometria::pulsosParaMm(45.0f);
+        p.pwmRecuoDesatolar = (int16_t)(PWM_BASE_MOVIMENTO > 10 ? PWM_BASE_MOVIMENTO - 10 : PWM_MINIMO);
+        p.kpSyncRecuo = 0.35f;
+        p.alvoRecuoPulsos = Odometria::pulsosParaMm(30.0f);
+        p.tempoMaxRecuoMs = 450;
         return p;
     }
 
-    // O controle de reta usa o mesmo limiar de parede do ClassificadorParedes (R3),
-    // ativa o modo monoparede (com aprendizado dinâmico) e rejeita saltos de quina.
+    // Controle de reta com autoridade lateral reforçada, banda morta contra micro-oscilação,
+    // monoparede com aprendizado dinâmico e rejeição de quina.
     static ParametrosControleReta parametrosReta() {
         ParametrosControleReta r = ControleReta::parametrosPadrao();
+        r.kpParede = 2.2f;
+        r.kdParede = 0.50f;
+        r.limiteGiroMmS = 85.0f;
         r.distMaxParedeMm = (float)LIMIAR_PAREDE_MM;
         r.usarMonoparede = true;
         r.saltoMaxParedeMm = 18.0f;
+        r.bandaMortaMm = 1.5f;
         return r;
     }
 
-    // Sem IMU física: sincroniza as duas rodas durante o giro (evita translação lateral) e
-    // desliga reversão de sentido perto de 90 graus (evita oscilação e falso travamento).
+    // Sem IMU física: piso de velocidade firme acima da zona morta dos motores N20 no chão,
+    // sincronismo entre os arcos das duas rodas e corte unidirecional sem reversão.
     static ParametrosControleCurva parametrosCurva(const ParametrosExecutor& p) {
         ParametrosControleCurva c = ControleCurva::parametrosPadrao();
+        c.kpGiro = 3.5f;
+        c.velocidadeMinMmS = 55.0f;
+        c.velocidadeMaxMmS = 150.0f;
         c.tempoLimiteMs = p.tempoLimiteCurvaMs;
         c.kpSyncRodas = 1.5f;
         c.permitirReversao = false;
@@ -143,13 +153,16 @@ public:
           reta_(parametrosReta()), curva_(parametrosCurva_), fase_(FASE_OCIOSO),
           sentido_(SENTIDO_ESQUERDA), curvasRestantes_(0), inicioMs_(0),
           encEsq0_(0), encDir0_(0), deslocamento0Mm_(0.0f),
-          alvoAtualPulsos_(p.alvoAvancoPulsos), primeiroAvanco_(true),
-          primeiroComando_(false), freioDesdeMs_(0),
-          resultadoPendente_(MOV_OCIOSO), motivoPendente_(FALHA_NENHUMA),
-          motivo_(FALHA_NENHUMA), erroRumoGraus_(0.0f), odoRumo0_(0.0f),
-          erroRumo0_(0.0f), correcaoParedesGraus_(0.0f),
-          intVelEsq_(0.0f), intVelDir_(0.0f), ultimoPiMs_(0),
-          encPiEsq_(0), encPiDir_(0), temPi_(false) {
+          alvoAtualPulsos_(p.alvoAvancoPulsos), compensacaoExtraPulsos_(0),
+          ultimoAvancoParcialPulsos_(0), primeiroAvanco_(true), aposGiro_(false),
+          primeiroComando_(false), ultimoComandoAvancoMs_(0),
+          ultimaVelDesejadaEsqMmS_(0.0f), ultimaVelDesejadaDirMmS_(0.0f),
+          encEstavelEsq_(0), encEstavelDir_(0), ultimoMovTrasMs_(0),
+          freioDesdeMs_(0), resultadoPendente_(MOV_OCIOSO),
+          motivoPendente_(FALHA_NENHUMA), motivo_(FALHA_NENHUMA),
+          erroRumoGraus_(0.0f), odoRumo0_(0.0f), erroRumo0_(0.0f),
+          correcaoParedesGraus_(0.0f), intVelEsq_(0.0f), intVelDir_(0.0f),
+          ultimoPiMs_(0), encPiEsq_(0), encPiDir_(0), temPi_(false) {
         zerarParedes();
     }
 
@@ -160,11 +173,14 @@ public:
         correcaoParedesGraus_ = 0.0f;
         reta_.limparReferenciaAprendida();
         primeiroAvanco_ = true;
+        aposGiro_ = false;
+        compensacaoExtraPulsos_ = 0;
+        ultimoAvancoParcialPulsos_ = 0;
     }
 
-    // orientacaoAtual não é usada: o executor trabalha com o erro em relação à grade.
     bool iniciarGiro(Giro giro, Direcao, uint32_t agoraMs) override {
         if (fase_ != FASE_OCIOSO || giro == GIRO_NENHUM) return false;
+        primeiroAvanco_ = false;  // ao girar em A1, a traseira deixa de estar no encosto de largada
         sentido_ = (giro == GIRO_ESQUERDA) ? SENTIDO_ESQUERDA : SENTIDO_DIREITA;
         curvasRestantes_ = (giro == GIRO_MEIA_VOLTA) ? 2 : 1;
         reiniciarPiVelocidade(agoraMs);
@@ -178,22 +194,57 @@ public:
         encEsq0_ = odometria_.encEsq();
         encDir0_ = odometria_.encDir();
         deslocamento0Mm_ = odometria_.deslocamentoMm();
-        alvoAtualPulsos_ = p_.alvoAvancoPulsos + (primeiroAvanco_ ? p_.compensacaoLargadaPulsos : 0);
-        if (alvoAtualPulsos_ < 1) alvoAtualPulsos_ = p_.alvoAvancoPulsos;
+        alvoAtualPulsos_ = p_.alvoAvancoPulsos +
+                           (primeiroAvanco_ ? p_.compensacaoLargadaPulsos : 0) +
+                           compensacaoExtraPulsos_;
+        compensacaoExtraPulsos_ = 0;
+        const int32_t minAlvo = p_.alvoAvancoPulsos / 3;
+        if (alvoAtualPulsos_ < minAlvo) alvoAtualPulsos_ = minAlvo > 1 ? minAlvo : 1;
+        ultimoAvancoParcialPulsos_ = 0;
         marcarInicioRumo();
         zerarParedes();
         reta_.iniciar(0.0f, encEsq0_, encDir0_, agoraMs);  // referência: o rumo da grade
         reiniciarPiVelocidade(agoraMs);
         inicioMs_ = agoraMs;
         primeiroComando_ = true;
+        ultimoComandoAvancoMs_ = agoraMs;
+        ultimaVelDesejadaEsqMmS_ = reta_.velocidadeBaseMmS();
+        ultimaVelDesejadaDirMmS_ = reta_.velocidadeBaseMmS();
         fase_ = FASE_AVANCANDO;
+        return true;
+    }
+
+    bool iniciarAlinhamentoTraseiro(uint32_t agoraMs) override {
+        if (fase_ != FASE_OCIOSO) return false;
+        primeiroAvanco_ = false;
+        encEsq0_ = odometria_.encEsq();
+        encDir0_ = odometria_.encDir();
+        encEstavelEsq_ = encEsq0_;
+        encEstavelDir_ = encDir0_;
+        ultimoMovTrasMs_ = agoraMs;
+        marcarInicioRumo();
+        inicioMs_ = agoraMs;
+        fase_ = FASE_ALINHANDO_TRAS;
+        return true;
+    }
+
+    bool iniciarRecuoDesatolamento(uint32_t agoraMs) override {
+        if (fase_ != FASE_OCIOSO) return false;
+        encEsq0_ = odometria_.encEsq();
+        encDir0_ = odometria_.encDir();
+        encEstavelEsq_ = encEsq0_;
+        encEstavelDir_ = encDir0_;
+        ultimoMovTrasMs_ = agoraMs;
+        marcarInicioRumo();
+        inicioMs_ = agoraMs;
+        fase_ = FASE_RECUANDO;
         return true;
     }
 
     ResultadoMovimento atualizar(uint32_t agoraMs) override {
         if (fase_ == FASE_OCIOSO) return MOV_OCIOSO;
 
-        if ((fase_ == FASE_GIRANDO || fase_ == FASE_AVANCANDO) && motores_.bloqueado()) {
+        if (fase_ != FASE_FREANDO && motores_.bloqueado()) {
             erroRumoGraus_ = rumoAtual();
             fase_ = FASE_OCIOSO;  // corte de segurança por fora: nenhum comando novo
             motivo_ = FALHA_TRACAO_CORTADA;
@@ -201,10 +252,12 @@ public:
         }
 
         switch (fase_) {
-            case FASE_GIRANDO:   return atualizarGiro(agoraMs);
-            case FASE_AVANCANDO: return atualizarAvanco(agoraMs);
-            case FASE_FREANDO:   return atualizarFreio(agoraMs);
-            case FASE_OCIOSO:    break;
+            case FASE_GIRANDO:        return atualizarGiro(agoraMs);
+            case FASE_AVANCANDO:      return atualizarAvanco(agoraMs);
+            case FASE_ALINHANDO_TRAS: return atualizarAlinhamentoTras(agoraMs);
+            case FASE_RECUANDO:       return atualizarRecuo(agoraMs);
+            case FASE_FREANDO:        return atualizarFreio(agoraMs);
+            case FASE_OCIOSO:         break;
         }
         return MOV_OCIOSO;
     }
@@ -220,9 +273,7 @@ public:
     bool ocioso() const override { return fase_ == FASE_OCIOSO; }
     MotivoFalhaMovimento motivoUltimaFalha() const override { return motivo_; }
 
-    // Erro de rumo estimado em relação à grade, em graus (positivo = girado à esquerda).
     float erroRumoEstimadoGraus() const { return fase_ == FASE_OCIOSO ? erroRumoGraus_ : rumoAtual(); }
-    // Correção aplicada pelas paredes no último avanço (0 se o trecho não bastou).
     float ultimaCorrecaoParedesGraus() const { return correcaoParedesGraus_; }
 
     // Pulsos da roda que andou menos no avanço atual (ou no último).
@@ -231,11 +282,20 @@ public:
         const int32_t dir = odometria_.encDir() - encDir0_;
         return esq < dir ? esq : dir;
     }
+    int32_t compensacaoExtraPendentePulsos() const { return compensacaoExtraPulsos_; }
     const ParametrosExecutor& parametros() const { return p_; }
 
 private:
-    enum Fase : uint8_t { FASE_OCIOSO, FASE_GIRANDO, FASE_AVANCANDO, FASE_FREANDO };
+    enum Fase : uint8_t {
+        FASE_OCIOSO,
+        FASE_GIRANDO,
+        FASE_AVANCANDO,
+        FASE_ALINHANDO_TRAS,
+        FASE_RECUANDO,
+        FASE_FREANDO
+    };
     static constexpr float RAD_PARA_GRAUS = 57.29577951f;
+    static const uint32_t INTERVALO_FALLBACK_COMANDO_MS = 50;
 
     // ------------------------------------------------------------------ rumo estimado
 
@@ -244,7 +304,6 @@ private:
         erroRumo0_ = erroRumoGraus_;
     }
 
-    // Erro de rumo agora: o do início do movimento mais o giro medido pelos encoders.
     float rumoAtual() const {
         return ControleCurva::normalizarGraus(erroRumo0_ + (odometria_.rumoGraus() - odoRumo0_));
     }
@@ -252,21 +311,41 @@ private:
     void zerarParedes() {
         nParedes_ = 0;
         ultimaEsq_ = ultimaDir_ = 0;
+        candEsq_ = candDir_ = 0;
         temUltimaLateral_ = false;
+        emSaltoLateral_ = false;
     }
 
-    // Uma amostra nova dos laterais durante o avanço.
     void amostrarParedes(const LeituraToF& esq, const LeituraToF& dir, uint32_t agoraMs) {
         const bool validas = esq.valida(agoraMs) && dir.valida(agoraMs);
         const uint16_t de = esq.distanciaMm(), dd = dir.distanciaMm();
-        const bool saltou = temUltimaLateral_ &&
-                            (diferenca(de, ultimaEsq_) > p_.saltoMaximoMm ||
-                             diferenca(dd, ultimaDir_) > p_.saltoMaximoMm);
-        ultimaEsq_ = de;
-        ultimaDir_ = dd;
-        temUltimaLateral_ = validas;
-        // Só com as duas paredes, e sem saltos (poste, fim de parede, leitura espúria).
-        if (!validas || saltou || de > p_.limiarParedeMm || dd > p_.limiarParedeMm) return;
+        if (!validas || de > p_.limiarParedeMm || dd > p_.limiarParedeMm) {
+            temUltimaLateral_ = false;
+            emSaltoLateral_ = false;
+            return;
+        }
+        if (!temUltimaLateral_) {
+            ultimaEsq_ = de;
+            ultimaDir_ = dd;
+            temUltimaLateral_ = true;
+            emSaltoLateral_ = false;
+        } else if (diferenca(de, ultimaEsq_) <= p_.saltoMaximoMm &&
+                   diferenca(dd, ultimaDir_) <= p_.saltoMaximoMm) {
+            ultimaEsq_ = de;
+            ultimaDir_ = dd;
+            emSaltoLateral_ = false;
+        } else if (emSaltoLateral_ &&
+                   diferenca(de, candEsq_) <= p_.saltoMaximoMm &&
+                   diferenca(dd, candDir_) <= p_.saltoMaximoMm) {
+            ultimaEsq_ = de;
+            ultimaDir_ = dd;
+            emSaltoLateral_ = false;
+        } else {
+            candEsq_ = de;
+            candDir_ = dd;
+            emSaltoLateral_ = true;
+            return;
+        }
 
         if (nParedes_ >= MAX_AMOSTRAS_PAREDES) return;
         amostraS_[nParedes_] = odometria_.deslocamentoMm() - deslocamento0Mm_;
@@ -275,7 +354,6 @@ private:
         nParedes_++;
     }
 
-    // Ajuste por mínimos quadrados de (esq - dir) por s nas amostras marcadas.
     bool ajustar(const bool* usar, float& inclinacao, float& intercepto, float& rumoMedio) const {
         float n = 0, somaS = 0, somaE = 0, somaSS = 0, somaSE = 0, somaRumo = 0;
         float sMin = 0, sMax = 0;
@@ -302,7 +380,6 @@ private:
         return true;
     }
 
-    // Fim do avanço: o erro é o dos encoders, corrigido pela média medida nas paredes.
     void fecharRumoDoAvanco() {
         const float rumoFim = rumoAtual();
         correcaoParedesGraus_ = 0.0f;
@@ -325,6 +402,7 @@ private:
     }
 
     static uint16_t diferenca(uint16_t a, uint16_t b) { return a > b ? (uint16_t)(a - b) : (uint16_t)(b - a); }
+    static int32_t modulo32(int32_t v) { return v < 0 ? -v : v; }
 
     // ------------------------------------------------------------------ velocidade / PWM
 
@@ -337,7 +415,6 @@ private:
         temPi_ = false;
     }
 
-    // A curva parte do erro estimado e mira a grade (+-90): corrige o erro herdado.
     void comecarCurva(uint32_t agoraMs) {
         marcarInicioRumo();
         curva_ = ControleCurva(parametrosCurva_);
@@ -346,8 +423,6 @@ private:
         inicioMs_ = agoraMs;
     }
 
-    // Reforço escalonado de PWM quando uma roda comandada fica sem pulsos (vence atrito
-    // estático no chão antes de o MonitorTravamento disparar em 1,0 s).
     int16_t reforcoStall(uint32_t ultimoPulsoMs, uint32_t agoraMs) const {
         if (p_.ajudaStallMaxPwm == 0 || p_.ajudaStallInicioMs == 0) return 0;
         const uint32_t semPulso = (uint32_t)(agoraMs - ultimoPulsoMs);
@@ -398,7 +473,6 @@ private:
         return (int16_t)(sinal * mag);
     }
 
-    // Converte e aplica com malha fechada de velocidade + reforço anti-travamento.
     void comandar(float velEsqMmS, float velDirMmS, uint32_t agoraMs) {
         const int32_t eEsq = odometria_.encEsq();
         const int32_t eDir = odometria_.encDir();
@@ -427,8 +501,6 @@ private:
         }
     }
 
-    // Fator de rampa de aceleração (partida) e desaceleração suave (chegada na célula
-    // ou aproximação de parede à frente), preservando a proporção de correção lateral.
     float fatorVelocidadeAvanco(int32_t progressoPulsos, uint32_t agoraMs,
                                 bool frontalValida, uint16_t distFrontalMm) const {
         float fator = 1.0f;
@@ -439,6 +511,12 @@ private:
                 if (rampa < fator) fator = rampa;
             }
         }
+        if (aposGiro_ && p_.distPosCurvaMm > 0.0f && p_.fatorVelPosCurva > 0.0f) {
+            const float andadoMm = (progressoPulsos > 0 ? (float)progressoPulsos : 0.0f) * RODA_MM_POR_PULSO;
+            if (andadoMm < p_.distPosCurvaMm && p_.fatorVelPosCurva < fator) {
+                fator = p_.fatorVelPosCurva;
+            }
+        }
         if (p_.distDesaceleracaoMm > 0.0f) {
             const float restanteOdomMm = (float)(alvoAtualPulsos_ - progressoPulsos) * RODA_MM_POR_PULSO;
             float restanteMm = restanteOdomMm;
@@ -447,7 +525,7 @@ private:
                 if (restanteParedeMm < restanteMm) restanteMm = restanteParedeMm;
             }
             if (restanteMm < p_.distDesaceleracaoMm) {
-                const float base = ControleReta::parametrosPadrao().velocidadeBaseMmS;
+                const float base = reta_.velocidadeBaseMmS();
                 const float piso = base > 0.0f ? (p_.velMinAproximacaoMmS / base) : 0.45f;
                 const float frac = restanteMm <= 0.0f ? 0.0f : (restanteMm / p_.distDesaceleracaoMm);
                 const float desacel = piso + (1.0f - piso) * frac;
@@ -463,6 +541,7 @@ private:
                                 MotivoFalhaMovimento motivo) {
         if (fase_ == FASE_AVANCANDO && resultado == MOV_CONCLUIDO) {
             primeiroAvanco_ = false;
+            aposGiro_ = false;
         }
         motores_.frear();
         freioDesdeMs_ = agoraMs;
@@ -475,27 +554,30 @@ private:
     ResultadoMovimento atualizarGiro(uint32_t agoraMs) {
         EntradaControleCurva e;
         e.yawGraus = rumoAtual();
-        e.imuValido = true;  // rumo estimado (encoders + paredes) na entrada da IMU
+        e.imuValido = true;
         e.encEsq = odometria_.encEsq();
         e.encDir = odometria_.encDir();
         e.agoraMs = agoraMs;
         const SaidaControleCurva s = curva_.atualizar(e);
 
         if (s.estado == CURVA_CONCLUIDA) {
-            // A grade girou 90 graus: o erro passa a ser em relação à nova direção.
             erroRumoGraus_ = ControleCurva::normalizarGraus(
                 rumoAtual() - (sentido_ == SENTIDO_ESQUERDA ? 90.0f : -90.0f));
-            if (--curvasRestantes_ > 0) {  // segunda metade da meia-volta
-                reiniciarPiVelocidade(agoraMs);
+            if (--curvasRestantes_ > 0) {
+                // Segunda metade da meia-volta: segue girando sem tranco de freio no meio.
                 comecarCurva(agoraMs);
-                motores_.frear();
+                EntradaControleCurva e2 = e;
+                e2.yawGraus = rumoAtual();
+                const SaidaControleCurva s2 = curva_.atualizar(e2);
+                comandar(s2.velEsqMmS, s2.velDirMmS, agoraMs);
                 return MOV_EM_ANDAMENTO;
             }
+            aposGiro_ = true;
             marcarInicioRumo();
             return terminar(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
         }
         if (s.estado == CURVA_FALHOU) {
-            erroRumoGraus_ = rumoAtual();  // a grade não girou
+            erroRumoGraus_ = rumoAtual();
             marcarInicioRumo();
             return terminar(agoraMs, MOV_FALHOU, FALHA_TEMPO);
         }
@@ -506,6 +588,12 @@ private:
 
     ResultadoMovimento terminarAvanco(uint32_t agoraMs, ResultadoMovimento resultado,
                                       MotivoFalhaMovimento motivo) {
+        if (resultado == MOV_FALHOU) {
+            const int32_t dE = odometria_.encEsq() - encEsq0_;
+            const int32_t dD = odometria_.encDir() - encDir0_;
+            const int32_t media = ((dE > 0 ? dE : 0) + (dD > 0 ? dD : 0)) / 2;
+            ultimoAvancoParcialPulsos_ = media;
+        }
         fecharRumoDoAvanco();
         marcarInicioRumo();
         return terminar(agoraMs, resultado, motivo);
@@ -523,7 +611,7 @@ private:
                 return terminarAvanco(agoraMs, MOV_FALHOU, FALHA_EMERGENCIA_FRONTAL);
             }
             if (progresso >= alvo * p_.fracaoMinimaEncosto && distFrontal <= p_.distEncostoFrontalMm) {
-                return terminarAvanco(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);  // encosto frontal
+                return terminarAvanco(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
             }
         }
         if (progresso >= alvoAtualPulsos_) return terminarAvanco(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
@@ -533,30 +621,113 @@ private:
 
         LeituraToF& esq = tof_.esquerdo();
         LeituraToF& dir = tof_.direito();
-        if (primeiroComando_ || esq.nova() || dir.nova()) {
-            if (!primeiroComando_) amostrarParedes(esq, dir, agoraMs);
-            esq.consumir();
-            dir.consumir();
-            primeiroComando_ = false;
-            EntradaControleReta e;
-            e.distEsqMm = esq.distanciaParaControle(agoraMs);
-            e.distDirMm = dir.distanciaParaControle(agoraMs);
-            e.yawGraus = rumoAtual();
-            e.imuValido = true;  // rumo estimado (encoders + paredes) na entrada da IMU
-            e.encEsq = odometria_.encEsq();
-            e.encDir = odometria_.encDir();
-            e.agoraMs = agoraMs;
-            const SaidaControleReta s = reta_.atualizar(e);
+        const bool novaAmostra = esq.nova() || dir.nova();
+        const bool fallbackTempo = !primeiroComando_ &&
+                                   (uint32_t)(agoraMs - ultimoComandoAvancoMs_) >= INTERVALO_FALLBACK_COMANDO_MS;
+        if (primeiroComando_ || novaAmostra || fallbackTempo) {
+            if (primeiroComando_ || novaAmostra) {
+                if (!primeiroComando_) amostrarParedes(esq, dir, agoraMs);
+                esq.consumir();
+                dir.consumir();
+                primeiroComando_ = false;
+                EntradaControleReta e;
+                e.distEsqMm = esq.distanciaParaControle(agoraMs);
+                e.distDirMm = dir.distanciaParaControle(agoraMs);
+                e.yawGraus = rumoAtual();
+                e.imuValido = true;
+                e.encEsq = odometria_.encEsq();
+                e.encDir = odometria_.encDir();
+                e.agoraMs = agoraMs;
+                const SaidaControleReta s = reta_.atualizar(e);
+                ultimaVelDesejadaEsqMmS_ = s.velEsqMmS;
+                ultimaVelDesejadaDirMmS_ = s.velDirMmS;
+            }
+            ultimoComandoAvancoMs_ = agoraMs;
             const float fator = fatorVelocidadeAvanco(progresso, agoraMs, frontalValida, distFrontal);
-            comandar(s.velEsqMmS * fator, s.velDirMmS * fator, agoraMs);
+            comandar(ultimaVelDesejadaEsqMmS_ * fator, ultimaVelDesejadaDirMmS_ * fator, agoraMs);
         }
+        return MOV_EM_ANDAMENTO;
+    }
+
+    // Wall-squaring: recua em malha aberta sem KP_SYNC para encostar a traseira na parede
+    // conhecida atrás do robô, zerando o erro angular acumulado.
+    ResultadoMovimento atualizarAlinhamentoTras(uint32_t agoraMs) {
+        const int32_t eEsq = odometria_.encEsq();
+        const int32_t eDir = odometria_.encDir();
+        if (modulo32(eEsq - encEstavelEsq_) > 1 || modulo32(eDir - encEstavelDir_) > 1) {
+            encEstavelEsq_ = eEsq;
+            encEstavelDir_ = eDir;
+            ultimoMovTrasMs_ = agoraMs;
+        }
+        const int32_t dEsq = encEsq0_ - eEsq;
+        const int32_t dDir = encDir0_ - eDir;
+        const int32_t mediaRecuo = ((dEsq > 0 ? dEsq : 0) + (dDir > 0 ? dDir : 0)) / 2;
+        const uint32_t decorrido = (uint32_t)(agoraMs - inicioMs_);
+        const bool encostou = decorrido >= p_.tempoMinAlinhamentoTrasMs &&
+                              (uint32_t)(agoraMs - ultimoMovTrasMs_) >= p_.janelaParadaAlinhamentoMs;
+
+        if (encostou || mediaRecuo >= p_.maxPulsosAlinhamentoTras || decorrido >= p_.tempoMaxAlinhamentoTrasMs) {
+            erroRumoGraus_ = encostou ? 0.0f : rumoAtual();
+            marcarInicioRumo();
+            int32_t comp = mediaRecuo;
+            if (comp > p_.maxCompensacaoTrasPulsos) comp = p_.maxCompensacaoTrasPulsos;
+            if (comp > 0) compensacaoExtraPulsos_ = comp;
+            return terminar(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
+        }
+
+        motores_.comandar((int16_t)-p_.pwmAlinhamentoTras, (int16_t)-p_.pwmAlinhamentoTras);
+        return MOV_EM_ANDAMENTO;
+    }
+
+    // Recuo reto sincronizado por encoders para desencostar após falha de avanço.
+    ResultadoMovimento atualizarRecuo(uint32_t agoraMs) {
+        const int32_t eEsq = odometria_.encEsq();
+        const int32_t eDir = odometria_.encDir();
+        if (modulo32(eEsq - encEstavelEsq_) > 1 || modulo32(eDir - encEstavelDir_) > 1) {
+            encEstavelEsq_ = eEsq;
+            encEstavelDir_ = eDir;
+            ultimoMovTrasMs_ = agoraMs;
+        }
+        const int32_t dEsq = encEsq0_ - eEsq;
+        const int32_t dDir = encDir0_ - eDir;
+        const int32_t recEsq = dEsq > 0 ? dEsq : 0;
+        const int32_t recDir = dDir > 0 ? dDir : 0;
+        const int32_t mediaRecuo = (recEsq + recDir) / 2;
+        const uint32_t decorrido = (uint32_t)(agoraMs - inicioMs_);
+        const bool bloqueadoAtras = decorrido >= p_.tempoMinAlinhamentoTrasMs &&
+                                    (uint32_t)(agoraMs - ultimoMovTrasMs_) >= p_.janelaParadaAlinhamentoMs;
+
+        if (mediaRecuo >= p_.alvoRecuoPulsos || bloqueadoAtras || decorrido >= p_.tempoMaxRecuoMs) {
+            // Deslocamento líquido em relação à origem da célula antes da falha:
+            // se recuou mais do que tinha avançado, soma a falta; se ainda ficou adiante, subtrai.
+            int32_t comp = mediaRecuo - ultimoAvancoParcialPulsos_;
+            const int32_t minComp = -(p_.alvoAvancoPulsos / 2);
+            if (comp < minComp) comp = minComp;
+            if (comp > p_.maxCompensacaoTrasPulsos) comp = p_.maxCompensacaoTrasPulsos;
+            compensacaoExtraPulsos_ = comp;
+            ultimoAvancoParcialPulsos_ = 0;
+            erroRumoGraus_ = rumoAtual();
+            marcarInicioRumo();
+            return terminar(agoraMs, MOV_CONCLUIDO, FALHA_NENHUMA);
+        }
+
+        int16_t corr = (int16_t)((float)(recEsq - recDir) * p_.kpSyncRecuo);
+        if (corr > 20) corr = 20;
+        if (corr < -20) corr = -20;
+        int16_t pwmE = (int16_t)(p_.pwmRecuoDesatolar - corr);
+        int16_t pwmD = (int16_t)(p_.pwmRecuoDesatolar + corr);
+        if (pwmE < (int16_t)PWM_MINIMO) pwmE = (int16_t)PWM_MINIMO;
+        if (pwmD < (int16_t)PWM_MINIMO) pwmD = (int16_t)PWM_MINIMO;
+        if (pwmE > (int16_t)PWM_MAXIMO_MOVIMENTO) pwmE = (int16_t)PWM_MAXIMO_MOVIMENTO;
+        if (pwmD > (int16_t)PWM_MAXIMO_MOVIMENTO) pwmD = (int16_t)PWM_MAXIMO_MOVIMENTO;
+        motores_.comandar((int16_t)-pwmE, (int16_t)-pwmD);
         return MOV_EM_ANDAMENTO;
     }
 
     ResultadoMovimento atualizarFreio(uint32_t agoraMs) {
         if ((uint32_t)(agoraMs - freioDesdeMs_) < p_.tempoFreioMs) return MOV_EM_ANDAMENTO;
-        motores_.soltar();  // roda livre depois do freio, como no hw/firm
-        erroRumoGraus_ = rumoAtual();  // inclui o que o robô girou durante o freio
+        motores_.soltar();
+        erroRumoGraus_ = rumoAtual();
         marcarInicioRumo();
         fase_ = FASE_OCIOSO;
         motivo_ = motivoPendente_;
@@ -578,8 +749,16 @@ private:
     int32_t encEsq0_, encDir0_;
     float deslocamento0Mm_;
     int32_t alvoAtualPulsos_;
+    int32_t compensacaoExtraPulsos_;
+    int32_t ultimoAvancoParcialPulsos_;
     bool primeiroAvanco_;
+    bool aposGiro_;
     bool primeiroComando_;
+    uint32_t ultimoComandoAvancoMs_;
+    float ultimaVelDesejadaEsqMmS_;
+    float ultimaVelDesejadaDirMmS_;
+    int32_t encEstavelEsq_, encEstavelDir_;
+    uint32_t ultimoMovTrasMs_;
     uint32_t freioDesdeMs_;
     ResultadoMovimento resultadoPendente_;
     MotivoFalhaMovimento motivoPendente_;
@@ -588,14 +767,16 @@ private:
     float erroRumoGraus_;
     float odoRumo0_, erroRumo0_;
     float correcaoParedesGraus_;
-    static const uint16_t MAX_AMOSTRAS_PAREDES = 64;  // ~30 por célula a 30 Hz
+    static const uint16_t MAX_AMOSTRAS_PAREDES = 64;
     static constexpr float RESIDUO_MAXIMO_MM = 4.0f;
     uint16_t nParedes_;
     float amostraS_[MAX_AMOSTRAS_PAREDES];
     float amostraE_[MAX_AMOSTRAS_PAREDES];
     float amostraRumo_[MAX_AMOSTRAS_PAREDES];
     uint16_t ultimaEsq_, ultimaDir_;
+    uint16_t candEsq_, candDir_;
     bool temUltimaLateral_;
+    bool emSaltoLateral_;
     // Malha fechada de velocidade por roda
     float intVelEsq_, intVelDir_;
     uint32_t ultimoPiMs_;

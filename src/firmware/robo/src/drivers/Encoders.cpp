@@ -28,7 +28,7 @@ static void IRAM_ATTR aoPulsoDir() {
 }
 
 void Encoders::iniciar() {
-    // GPIO 36, 39 e 35 só funcionam como entrada e não têm pull-up interno.
+    // GPIO 34, 39 e 35 só funcionam como entrada e não têm pull-up interno.
     pinMode(PINO_ENCODER_ESQ_A, INPUT);
     pinMode(PINO_ENCODER_ESQ_B, INPUT);
     pinMode(PINO_ENCODER_DIR_A, INPUT);
@@ -67,8 +67,8 @@ void Encoders::zerar() {
     portEXIT_CRITICAL(&travaContagens);
 }
 
-// Só a interrupção do canal A esquerdo (GPIO 36): é ela que conta pulsos falsos quando o
-// ADC1 liga. Desligar pelo ESP-IDF é mais rápido que detachInterrupt()/attachInterrupt().
+// Pausa a interrupção do canal A esquerdo (GPIO 34; canal B em GPIO 39 compartilha o bloco
+// sensível à errata do ADC1 em GPIO 36). Desligar pelo ESP-IDF é mais rápido que detachInterrupt().
 void Encoders::pausarEsquerdo() {
     gpio_intr_disable((gpio_num_t)PINO_ENCODER_ESQ_A);
 }

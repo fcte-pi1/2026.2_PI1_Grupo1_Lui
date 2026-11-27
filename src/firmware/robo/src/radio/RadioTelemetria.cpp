@@ -11,17 +11,21 @@
 static const uint8_t ENDERECO_BROADCAST[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 // Fila SPSC mínima para comandos recebidos do Gateway via ESP-NOW (callback Wi-Fi -> loop).
-static const uint8_t TAM_FILA_CMD = 8;
+static const uint8_t TAM_FILA_CMD = 16;
 static volatile char filaCmd[TAM_FILA_CMD];
 static volatile uint8_t cmdEscrita = 0;
 static volatile uint8_t cmdLeitura = 0;
 
 static void enfileirarComando(const uint8_t* dados, int tamanho) {
-    if (tamanho != 1 || dados == nullptr) return;
-    const uint8_t prox = (uint8_t)((cmdEscrita + 1) % TAM_FILA_CMD);
-    if (prox == cmdLeitura) return;
-    filaCmd[cmdEscrita] = (char)dados[0];
-    cmdEscrita = prox;
+    if (tamanho <= 0 || dados == nullptr) return;
+    for (int i = 0; i < tamanho; i++) {
+        const char c = (char)dados[i];
+        if (c == '\r' || c == '\n') continue;
+        const uint8_t prox = (uint8_t)((cmdEscrita + 1) % TAM_FILA_CMD);
+        if (prox == cmdLeitura) break;
+        filaCmd[cmdEscrita] = c;
+        cmdEscrita = prox;
+    }
 }
 
 #if defined(ESP_ARDUINO_VERSION_MAJOR) && (ESP_ARDUINO_VERSION_MAJOR >= 3)

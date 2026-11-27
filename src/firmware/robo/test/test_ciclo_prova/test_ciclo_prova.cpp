@@ -550,6 +550,143 @@ void test_bateria_nao_pausa_encoder_durante_movimento_em_andamento(void) {
     TEST_ASSERT_EQUAL_UINT16(7800, r.radio.ultimo.bateria_mv);  // mantém último valor válido
 }
 
+// Executor espião que delega a SimuladorLabirinto e registra alinhamento traseiro e desatolamento.
+struct ExecutorEspiao : ExecutorMovimentoNaoBloqueante {
+    SimuladorLabirinto& sim;
+    int alinhamentosTras;
+    int recuosDesatolar;
+    int falhasAvancoRestantes;
+    bool ocupado;
+    bool falharAtual;
+    uint32_t inicioMs;
+
+    explicit ExecutorEspiao(SimuladorLabirinto& s)
+        : sim(s), alinhamentosTras(0), recuosDesatolar(0), falhasAvancoRestantes(0),
+          ocupado(false), falharAtual(false), inicioMs(0) {}
+
+    bool iniciarGiro(Giro g, Direcao, uint32_t agoraMs) override {
+        if (ocupado || g == GIRO_NENHUM) return false;
+        sim.girar(g);
+        ocupado = true;
+        falharAtual = false;
+        inicioMs = agoraMs;
+        return true;
+    }
+    bool iniciarAvanco(uint32_t agoraMs) override {
+        if (ocupado) return false;
+        ocupado = true;
+        inicioMs = agoraMs;
+        if (falhasAvancoRestantes > 0) {
+            falhasAvancoRestantes--;
+            falharAtual = true;
+            return true;
+        }
+        falharAtual = !sim.avancarCelula();
+        return true;
+    }
+    bool iniciarAlinhamentoTraseiro(uint32_t agoraMs) override {
+        if (ocupado) return false;
+        alinhamentosTras++;
+        ocupado = true;
+        falharAtual = false;
+        inicioMs = agoraMs;
+        return true;
+    }
+    bool iniciarRecuoDesatolamento(uint32_t agoraMs) override {
+        if (ocupado) return false;
+        recuosDesatolar++;
+        ocupado = true;
+        falharAtual = false;
+        inicioMs = agoraMs;
+        return true;
+    }
+    ResultadoMovimento atualizar(uint32_t agoraMs) override {
+        if (!ocupado) return MOV_OCIOSO;
+        if ((uint32_t)(agoraMs - inicioMs) < 10) return MOV_EM_ANDAMENTO;
+        ocupado = false;
+        return falharAtual ? MOV_FALHOU : MOV_CONCLUIDO;
+    }
+    void abortar() override { ocupado = false; }
+    bool ocioso() const override { return !ocupado; }
+    MotivoFalhaMovimento motivoUltimaFalha() const override {
+        return FALHA_EMERGENCIA_FRONTAL;
+    }
+};
+
+void test_espera_largada_aguarda_afastar_mao_antes_de_ler_paredes(void) {
+    SimuladorLabirinto sim(4);
+    labirintoBecos4(sim);
+    PonteFalsa ponte;
+    Motores motores(ponte, false, false);
+    Odometria odo;
+    EncodersFalsos enc;
+    ToFDoSimulador tof(sim);
+    BateriaFalsa bat(enc);
+    LedFalso led;
+    RadioFalso radio;
+    BotaoFalso botao;
+    ExecutorTemporizado exec(sim, 5);
+    CicloProva ciclo(DependenciasProva{botao, enc, tof, bat, led, motores, odo, exec, &radio, nullptr},
+                     CicloProva::ESPERA_LARGADA_HARDWARE_MS);
+    uint32_t t = 0;
+    ciclo.iniciar(0);
+
+    botao.apertado = true;
+    for (int i = 0; i < 2100; i++) ciclo.tick(++t);
+    botao.apertado = false;
+    for (int i = 0; i < 60; i++) ciclo.tick(++t);
+
+    TEST_ASSERT_EQUAL(MAPEANDO, ciclo.estado());
+    TEST_ASSERT_EQUAL(SUBFASE_ESPERA_LARGADA, ciclo.subfase());
+    TEST_ASSERT_EQUAL_UINT32(0, ciclo.cronometro().decorridoMs(t));
+
+    // Simula a mão bloqueando o sensor frontal nos primeiros 800 ms pós-soltura:
+    // sem a espera de largada, A1 seria lida com parede falsa à frente e ficaria inalcançável!
+    tof.mudo = true;
+    for (int i = 0; i < 800; i++) {
+        ++t;
+        tof.esq.registrar(40, t);
+        tof.dir.registrar(40, t);
+        tof.frente.registrar(20, t);  // mão na frente do robô!
+        ciclo.tick(t);
+    }
+    TEST_ASSERT_EQUAL(SUBFASE_ESPERA_LARGADA, ciclo.subfase());
+    tof.mudo = false;  // mão afastada antes de fechar 1200 ms
+
+    while (t < 120000 && ciclo.estado() != CONCLUIDO) ciclo.tick(++t);
+    TEST_ASSERT_EQUAL(CONCLUIDO, ciclo.estado());
+    TEST_ASSERT_EQUAL_UINT16(0, sim.movimentosInvalidos);
+}
+
+void test_alinhamento_traseiro_e_acionado_apos_giro_com_parede_atras_e_desatolamento_apos_falha(void) {
+    SimuladorLabirinto sim(4);
+    labirintoBecos4(sim);
+    PonteFalsa ponte;
+    Motores motores(ponte, false, false);
+    Odometria odo;
+    EncodersFalsos enc;
+    ToFDoSimulador tof(sim);
+    BateriaFalsa bat(enc);
+    LedFalso led;
+    BotaoFalso botao;
+    ExecutorEspiao espiao(sim);
+    espiao.falhasAvancoRestantes = 1;  // força 1 falha de avanço recuperável no 1º movimento
+    CicloProva ciclo(DependenciasProva{botao, enc, tof, bat, led, motores, odo, espiao, nullptr, nullptr});
+    uint32_t t = 0;
+    ciclo.iniciar(0);
+
+    botao.apertado = true;
+    for (int i = 0; i < 2100; i++) ciclo.tick(++t);
+    botao.apertado = false;
+    for (int i = 0; i < 60; i++) ciclo.tick(++t);
+
+    while (t < 120000 && ciclo.estado() != CONCLUIDO) ciclo.tick(++t);
+    TEST_ASSERT_EQUAL(CONCLUIDO, ciclo.estado());
+    TEST_ASSERT_EQUAL(1, espiao.recuosDesatolar);
+    TEST_ASSERT_TRUE(espiao.alinhamentosTras >= 1);
+    TEST_ASSERT_EQUAL_UINT16(0, sim.movimentosInvalidos);
+}
+
 int main(void) {
     UNITY_BEGIN();
     // AGUARDANDO, telemetria e botão
@@ -573,8 +710,10 @@ int main(void) {
     // Terminais e nova tentativa
     RUN_TEST(test_terminal_freia_e_solta_as_rodas_depois_de_300_ms);
     RUN_TEST(test_reinicio_depois_de_concluir_permite_nova_prova);
-    // Emergência remota e proteção do encoder na leitura de bateria
+    // Emergência remota, proteção do encoder, espera de largada, wall-squaring e desatolamento
     RUN_TEST(test_parada_de_emergencia_remota_corta_tracao_e_vai_para_travado);
     RUN_TEST(test_bateria_nao_pausa_encoder_durante_movimento_em_andamento);
+    RUN_TEST(test_espera_largada_aguarda_afastar_mao_antes_de_ler_paredes);
+    RUN_TEST(test_alinhamento_traseiro_e_acionado_apos_giro_com_parede_atras_e_desatolamento_apos_falha);
     return UNITY_END();
 }

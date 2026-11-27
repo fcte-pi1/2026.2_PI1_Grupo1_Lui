@@ -507,12 +507,37 @@ void test_rejeicao_de_salto_ignora_pico_de_quina_de_parede(void) {
     p.usarMonoparede = true;
     p.saltoMaxParedeMm = 18.0f;
     ControleReta c(p);
-    c.atualizar(leitura(40.0f, 40.0f, 0));    // 1ª amostra: ancora histórico
-    c.atualizar(leitura(40.0f, 40.0f, 33));   // 2ª amostra estável -> MODO_PAREDES
+    // 1ª amostra válida já entra em MODO_PAREDES sem atraso de ancoragem.
+    const SaidaControleReta s1 = c.atualizar(leitura(40.0f, 40.0f, 0));
+    TEST_ASSERT_EQUAL(MODO_PAREDES, s1.modo);
+    c.atualizar(leitura(40.0f, 40.0f, 33));
     // Pico súbito de 40 -> 80 mm na esquerda (quina): lado esquerdo ignorado neste ciclo.
     const SaidaControleReta s = c.atualizar(leitura(80.0f, 40.0f, 66));
     TEST_ASSERT_EQUAL(MODO_PAREDES, s.modo);  // usa só a parede direita estável
     TEST_ASSERT_FLOAT_WITHIN(0.5f, 0.0f, s.erroLateralMm);
+    // Retorno imediato a 40 mm na amostra seguinte é aceito (o pico não contaminou ultimaMm).
+    const SaidaControleReta sVolta = c.atualizar(leitura(45.0f, 40.0f, 99));
+    TEST_ASSERT_EQUAL(MODO_PAREDES, sVolta.modo);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 5.0f, sVolta.erroLateralMm);
+    // Se um novo patamar se confirmar por duas amostras seguidas (80 -> 80), passa a ser aceito.
+    c.atualizar(leitura(80.0f, 40.0f, 132));
+    const SaidaControleReta sNovoPatamar = c.atualizar(leitura(80.0f, 40.0f, 165));
+    TEST_ASSERT_EQUAL(MODO_PAREDES, sNovoPatamar.modo);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 40.0f, sNovoPatamar.erroLateralMm);
+}
+
+void test_banda_morta_zera_pequeno_erro_lateral_sem_oscilar(void) {
+    ParametrosControleReta p = ControleReta::parametrosPadrao();
+    p.bandaMortaMm = 1.5f;
+    ControleReta c(p);
+    const SaidaControleReta dentro = c.atualizar(leitura(43.6f, 42.4f, 0));  // erro = 1,2 mm
+    TEST_ASSERT_EQUAL(MODO_PAREDES, dentro.modo);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 1.2f, dentro.erroLateralMm);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, p.velocidadeBaseMmS, dentro.velEsqMmS);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, dentro.velEsqMmS, dentro.velDirMmS);
+
+    const SaidaControleReta fora = c.atualizar(leitura(46.0f, 42.0f, 33));  // erro = 4,0 mm
+    TEST_ASSERT_TRUE(fora.velDirMmS > fora.velEsqMmS);
 }
 
 int main(void) {
@@ -551,8 +576,9 @@ int main(void) {
     RUN_TEST(test_trecho_sem_parede_lateral_mantem_o_rumo_pelo_imu);
     RUN_TEST(test_trecho_sem_parede_com_imu_invalido_usa_os_encoders);
     RUN_TEST(test_sem_controle_o_desvio_passa_de_15_mm);
-    // Monoparede e rejeição de quina
+    // Monoparede, rejeição de quina e banda morta
     RUN_TEST(test_monoparede_centraliza_e_aprende_referencia_do_corredor);
     RUN_TEST(test_rejeicao_de_salto_ignora_pico_de_quina_de_parede);
+    RUN_TEST(test_banda_morta_zera_pequeno_erro_lateral_sem_oscilar);
     return UNITY_END();
 }

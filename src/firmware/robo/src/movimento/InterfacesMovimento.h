@@ -58,6 +58,20 @@ public:
     // (ExecutorMovimentoRobo) zera a estimativa; os demais não precisam fazer nada.
     virtual void reiniciar() {}
 
+    // Alinha o chassi de ré contra parede traseira conhecida após curva (wall-squaring).
+    // Dublês/simuladores sem física de ré devolvem false e o laço segue normalmente.
+    virtual bool iniciarAlinhamentoTraseiro(uint32_t agoraMs) {
+        (void)agoraMs;
+        return false;
+    }
+
+    // Recua um trecho curto reto após falha de avanço para desencostar de quina/parede.
+    // Dublês/simuladores devolvem false e o laço segue para nova leitura.
+    virtual bool iniciarRecuoDesatolamento(uint32_t agoraMs) {
+        (void)agoraMs;
+        return false;
+    }
+
     // Motivo da última falha entregue por atualizar(); FALHA_NENHUMA depois de um
     // movimento concluído.
     virtual MotivoFalhaMovimento motivoUltimaFalha() const = 0;

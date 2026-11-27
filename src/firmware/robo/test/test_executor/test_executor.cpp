@@ -361,12 +361,23 @@ void test_sem_paredes_o_rumo_segue_so_os_encoders(void) {
 
 void test_reiniciar_zera_o_rumo_estimado(void) {
     Bancada b;
-    b.rumoRealGraus = 5.0f;
+    b.rumoRealGraus = 6.0f;
     b.exec.iniciarAvanco(0);
     b.rodar();
-    TEST_ASSERT_TRUE(fabsf(b.exec.erroRumoEstimadoGraus()) > 2.0f);
+    TEST_ASSERT_TRUE(fabsf(b.exec.ultimaCorrecaoParedesGraus()) > 2.0f);
+    // Inicia um giro parcial e aborta para deixar também erroRumoEstimadoGraus elevado.
+    b.exec.iniciarGiro(GIRO_ESQUERDA, DIR_LESTE, b.t);
+    const uint32_t t0 = b.t;
+    while (b.t - t0 < 150) {
+        b.passo1ms();
+        if (b.t % 10 == 0) b.exec.atualizar(b.t);
+    }
+    b.exec.abortar();
+    TEST_ASSERT_TRUE(fabsf(b.exec.erroRumoEstimadoGraus()) > 5.0f);
+
     b.exec.reiniciar();  // largada: robô alinhado à grade
     TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, b.exec.erroRumoEstimadoGraus());
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, 0.0f, b.exec.ultimaCorrecaoParedesGraus());
     TEST_ASSERT_TRUE(b.exec.ocioso());
 }
 
@@ -475,6 +486,93 @@ void test_compensacao_de_largada_vale_apenas_no_primeiro_avanco(void) {
     TEST_ASSERT_FLOAT_WITHIN(5.0f, (float)CELULA_MM, dist2);
 }
 
+void test_alinhamento_traseiro_encosta_zera_rumo_e_compensa_proximo_avanco(void) {
+    PonteFalsa ponte;
+    Motores motores(ponte, false, false);
+    Odometria odo;
+    ToFFalso tof;
+    ExecutorMovimentoRobo exec(motores, odo, tof);
+    odo.reiniciar(0, 0, 0);
+
+    // Robô começa ~20 mm adiante da parede traseira e desalinhado +6° (canto esquerdo mais perto).
+    const float meiaDiff6GrausMm = 0.5f * BITOLA_MM * (6.0f / 57.29577951f);
+    const float encostoEsqMm = -20.0f + meiaDiff6GrausMm;
+    const float encostoDirMm = -20.0f - meiaDiff6GrausMm;
+    float posEsqMm = 0.0f, posDirMm = 0.0f;
+    float rumoReal = 6.0f;
+    uint32_t t = 0;
+
+    auto passo = [&](bool comParedeTras) {
+        t++;
+        float dE = Bancada::velocidadeDoPwm(ponte.esq) / 1000.0f;
+        float dD = Bancada::velocidadeDoPwm(ponte.dir) / 1000.0f;
+        if (comParedeTras && posEsqMm + dE < encostoEsqMm) dE = encostoEsqMm - posEsqMm;
+        if (comParedeTras && posDirMm + dD < encostoDirMm) dD = encostoDirMm - posDirMm;
+        posEsqMm += dE;
+        posDirMm += dD;
+        rumoReal += (dD - dE) / BITOLA_MM * 57.29577951f;
+        odo.atualizar(Odometria::pulsosParaMm(posEsqMm), Odometria::pulsosParaMm(posDirMm), t);
+        if (t % 33 == 0) {
+            tof.esq.registrar(43, t);
+            tof.dir.registrar(43, t);
+            tof.frente.registrar(TOF_LEITURA_INVALIDA_MM, t);
+        }
+    };
+
+    TEST_ASSERT_TRUE(exec.iniciarAlinhamentoTraseiro(t));
+    ResultadoMovimento r = MOV_EM_ANDAMENTO;
+    while (t < 2000 && r == MOV_EM_ANDAMENTO) {
+        passo(true);
+        if (t % 10 == 0) r = exec.atualizar(t);
+    }
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, r);
+    TEST_ASSERT_TRUE(t < TEMPO_TRAVAMENTO_MS);  // conclui com folga antes do corte de stall
+    TEST_ASSERT_FLOAT_WITHIN(1.5f, 0.0f, rumoReal);
+    TEST_ASSERT_FLOAT_WITHIN(0.01f, 0.0f, exec.erroRumoEstimadoGraus());
+    TEST_ASSERT_TRUE(exec.compensacaoExtraPendentePulsos() > 0);
+
+    // O avanço seguinte soma os ~20 mm recuados e termina em +180 mm a partir da origem (0 mm).
+    TEST_ASSERT_TRUE(exec.iniciarAvanco(t));
+    r = MOV_EM_ANDAMENTO;
+    while (t < 8000 && r == MOV_EM_ANDAMENTO) {
+        passo(false);
+        if (t % 10 == 0) r = exec.atualizar(t);
+    }
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, r);
+    const float centroFinalMm = (posEsqMm + posDirMm) / 2.0f;
+    TEST_ASSERT_FLOAT_WITHIN(5.0f, (float)CELULA_MM, centroFinalMm);
+}
+
+void test_recuo_desatolamento_recua_reto_e_ajusta_proximo_avanco(void) {
+    Bancada b;
+    // Avança ~40 mm e encontra obstáculo frontal súbito (< 15 mm).
+    b.exec.iniciarAvanco(0);
+    ResultadoMovimento r = MOV_EM_ANDAMENTO;
+    while (b.t < 4000 && r == MOV_EM_ANDAMENTO) {
+        if (b.odo.deslocamentoMm() >= 40.0f) b.frontalFixoMm = 12;
+        b.passo1ms();
+        if (b.t % 10 == 0) r = b.exec.atualizar(b.t);
+    }
+    TEST_ASSERT_EQUAL(MOV_FALHOU, r);
+    TEST_ASSERT_EQUAL(FALHA_EMERGENCIA_FRONTAL, b.exec.motivoUltimaFalha());
+    const float posAntesRecuo = b.odo.deslocamentoMm();
+    TEST_ASSERT_TRUE(posAntesRecuo >= 35.0f);
+
+    // Recua ~30 mm em linha reta para desencostar.
+    b.frontalFixoMm = 0;
+    const uint32_t tRecuo0 = b.t;
+    TEST_ASSERT_TRUE(b.exec.iniciarRecuoDesatolamento(b.t));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
+    TEST_ASSERT_TRUE(b.t - tRecuo0 < TEMPO_TRAVAMENTO_MS);
+    const float recuadoMm = posAntesRecuo - b.odo.deslocamentoMm();
+    TEST_ASSERT_FLOAT_WITHIN(6.0f, 30.0f, recuadoMm);
+
+    // Na nova tentativa de avanço, desconta o deslocamento líquido restante e fecha 180 mm totais.
+    TEST_ASSERT_TRUE(b.exec.iniciarAvanco(b.t));
+    TEST_ASSERT_EQUAL(MOV_CONCLUIDO, b.rodar());
+    TEST_ASSERT_FLOAT_WITHIN(6.0f, (float)CELULA_MM, b.odo.deslocamentoMm());
+}
+
 int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_parametros_padrao_partem_do_hw_firm);
@@ -508,5 +606,7 @@ int main(void) {
     // Melhorias de pista
     RUN_TEST(test_reforco_anti_travamento_sobe_pwm_quando_rodas_nao_geram_pulsos);
     RUN_TEST(test_compensacao_de_largada_vale_apenas_no_primeiro_avanco);
+    RUN_TEST(test_alinhamento_traseiro_encosta_zera_rumo_e_compensa_proximo_avanco);
+    RUN_TEST(test_recuo_desatolamento_recua_reto_e_ajusta_proximo_avanco);
     return UNITY_END();
 }

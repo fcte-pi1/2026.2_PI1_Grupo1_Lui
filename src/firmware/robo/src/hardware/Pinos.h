@@ -66,8 +66,8 @@ const uint32_t TOF_ORCAMENTO_US = 33000;      // orcamento de medicao: cerca de 
 const uint16_t TOF_VALIDADE_MS = 100;
 const uint16_t TOF_TIMEOUT_BIBLIOTECA_MS = 20;
 const uint8_t TOF_PERIODO_CONSULTA_MS = 5;
-const uint8_t TOF_I2C_TIMEOUT_MS = 5;
-const uint8_t TOF_ESPERA_APOS_ERRO_MS = 50;
+const uint8_t TOF_I2C_TIMEOUT_MS = 15;
+const uint8_t TOF_ESPERA_APOS_ERRO_MS = 100;
 const uint16_t TOF_LEITURA_INVALIDA_MM = 8190;  // valor que o VL53L0X devolve sem alvo
 
 // Distancias frontais do avanco de uma celula:
