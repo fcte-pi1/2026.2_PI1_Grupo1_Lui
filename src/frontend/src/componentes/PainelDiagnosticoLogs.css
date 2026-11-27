@@ -1,13 +1,72 @@
 .painel-diagnostico {
-    margin-top: 24px;
-    background: linear-gradient(160deg, #0f172a 0%, #162033 100%);
-    color: #e2e8f0;
-    border-radius: 12px;
-    border: 1px solid #293548;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.16);
-    padding: 18px 20px;
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    color: #2d3748;
     box-sizing: border-box;
     max-width: 100%;
+    overflow: hidden;
+}
+
+.diag-conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 transparent;
+}
+
+.diag-secao {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.diag-secao.com-divisor {
+    border-top: 1px solid #edf2f7;
+    padding-top: 10px;
+}
+
+.diag-secao-topo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+.diag-secao-titulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #4a5568;
+}
+
+.diag-secao-meta {
+    font-size: 0.71rem;
+    color: #718096;
+}
+
+.diag-secao-meta code {
+    background-color: #edf2f7;
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: #2b6cb0;
 }
 
 .diag-topo {
@@ -15,105 +74,116 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 12px 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #293548;
+    gap: 8px 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #edf2f7;
 }
 
 .diag-titulo-grupo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     min-width: 0;
 }
 
-.diag-titulo-grupo h2 {
+.diag-titulo-grupo .cabecalho {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #f8fafc;
-    letter-spacing: 0.01em;
-}
-
-.diag-titulo-grupo p {
-    margin: 2px 0 0;
-    font-size: 0.8rem;
-    color: #94a3b8;
 }
 
 .diag-pulso {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
-    background-color: #22d3ee;
-    box-shadow: 0 0 10px #22d3ee;
+    background-color: #00bcd4;
 }
 
 .diag-pulso.critico {
-    background-color: #f43f5e;
-    box-shadow: 0 0 12px #f43f5e;
+    background-color: #e53e3e;
 }
 
 .diag-saude-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .saude-pill {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
+    gap: 4px;
+    padding: 3px 8px;
     border-radius: 999px;
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 600;
-    border: 1px solid transparent;
-    background-color: rgba(148, 163, 184, 0.12);
-    color: #cbd5e1;
+    border: 1px solid #e2e8f0;
+    background-color: #f7fafc;
+    color: #4a5568;
 }
 
 .saude-pill.nivel-ok {
-    background-color: rgba(16, 185, 129, 0.14);
-    border-color: rgba(16, 185, 129, 0.4);
-    color: #6ee7b7;
+    background-color: #f0fff4;
+    border-color: #c6f6d5;
+    color: #276749;
 }
 
 .saude-pill.nivel-alerta {
-    background-color: rgba(245, 158, 11, 0.16);
-    border-color: rgba(245, 158, 11, 0.45);
-    color: #fcd34d;
+    background-color: #fffbeb;
+    border-color: #fde68a;
+    color: #975a16;
 }
 
 .saude-pill.nivel-critico {
-    background-color: rgba(244, 63, 94, 0.18);
-    border-color: rgba(244, 63, 94, 0.5);
-    color: #fda4af;
+    background-color: #fff5f5;
+    border-color: #feb2b2;
+    color: #9b2c2c;
 }
 
 .parede-on {
-    color: #38bdf8;
+    color: #2b6cb0;
     font-weight: 700;
 }
 
 .parede-off {
-    color: #475569;
+    color: #cbd5e0;
 }
 
-.diag-barra-filtros {
+.diag-abas {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    margin: 12px 0;
+    gap: 6px;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 8px;
 }
 
-.diag-filtros {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+.diag-aba-btn {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background-color: #f7fafc;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    padding: 3px 9px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.diag-aba-btn:hover {
+    background-color: #edf2f7;
+    color: #2d3748;
+}
+
+.diag-aba-btn.ativo {
+    background-color: #ebf8ff;
+    border-color: #90cdf4;
+    color: #2b6cb0;
 }
 
 .diag-svg {
@@ -121,94 +191,355 @@
     vertical-align: middle;
 }
 
-.diag-portas-btn {
+.diag-barra-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.diag-filtros {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 3px;
+    width: 100%;
+}
+
+.diag-filtros .diag-svg {
+    width: 10px;
+    height: 10px;
+}
+
+.diag-filtro-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background-color: rgba(56, 189, 248, 0.14);
-    color: #7dd3fc;
-    border: 1px solid rgba(56, 189, 248, 0.4);
+    justify-content: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    gap: 3px;
+    background-color: #f7fafc;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
     border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 0.78rem;
-    font-weight: 600;
+    padding: 2px 5px;
+    font-size: 0.66rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
-.diag-portas-btn:hover,
-.diag-portas-btn.ativo {
-    background-color: #38bdf8;
-    border-color: #38bdf8;
-    color: #0f172a;
+.diag-filtro-btn:hover {
+    background-color: #edf2f7;
+    color: #2d3748;
 }
 
-.diag-portas-painel {
-    margin-top: 12px;
-    padding: 12px;
-    border-radius: 8px;
-    background-color: rgba(15, 23, 42, 0.65);
-    border: 1px solid #293548;
+.diag-filtro-btn.ativo {
+    background-color: #2b6cb0;
+    border-color: #2b6cb0;
+    color: #ffffff;
+    font-weight: 600;
 }
 
-.diag-portas-aviso {
+.diag-contador {
+    opacity: 0.8;
+    font-size: 0.64rem;
+}
+
+.diag-acoes-direita {
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 0.78rem;
-    color: #cbd5e1;
-    margin-bottom: 10px;
-}
-
-.diag-portas-aviso code {
-    background-color: rgba(148, 163, 184, 0.18);
-    padding: 1px 5px;
-    border-radius: 4px;
-    color: #7dd3fc;
-}
-
-.diag-portas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: center;
     gap: 8px;
 }
 
-.porta-card {
-    background-color: rgba(30, 41, 59, 0.8);
-    border: 1px solid #334155;
-    border-left: 3px solid #64748b;
+.diag-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.75rem;
+    color: #4a5568;
+    cursor: pointer;
+}
+
+.diag-limpar-btn {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e0;
+    color: #4a5568;
     border-radius: 6px;
-    padding: 8px 10px;
-    font-size: 0.76rem;
+    padding: 3px 9px;
+    font-size: 0.74rem;
+    cursor: pointer;
+}
+
+.diag-limpar-btn:hover {
+    background-color: #edf2f7;
+    color: #2d3748;
+}
+
+.diag-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 98px;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 transparent;
+    padding-right: 4px;
+}
+
+.diag-lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.diag-lista::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
+    border-radius: 999px;
+}
+
+[data-testid="card-webhook-stream"] {
+    flex: 1 1 0;
+    min-height: 0;
+}
+
+[data-testid="card-webhook-stream"] .diag-lista {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: none;
+}
+
+.diag-vazio {
+    padding: 10px 4px;
+    text-align: center;
+    color: #718096;
+    font-size: 0.78rem;
+}
+
+.diag-item {
+    border-left: 3px solid #00bcd4;
+    border-bottom: 1px solid #edf2f7;
+    padding: 6px 10px;
     overflow-wrap: anywhere;
 }
 
-.porta-card.nivel-ok { border-left-color: #10b981; }
-.porta-card.nivel-alerta { border-left-color: #f59e0b; }
-.porta-card.nivel-critico { border-left-color: #f43f5e; }
+.diag-item:last-child {
+    border-bottom: none;
+}
+
+.diag-item.nivel-ok {
+    border-left-color: #48bb78;
+}
+
+.diag-item.nivel-alerta {
+    border-left-color: #ed8936;
+}
+
+.diag-item.nivel-critico {
+    border-left-color: #e53e3e;
+}
+
+.diag-item-cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px 7px;
+}
+
+.diag-hora {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    color: #718096;
+}
+
+.diag-badge-nivel {
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+}
+
+.diag-badge-nivel.nivel-ok {
+    background-color: #c6f6d5;
+    color: #22543d;
+}
+
+.diag-badge-nivel.nivel-info {
+    background-color: #bee3f8;
+    color: #2a4365;
+}
+
+.diag-badge-nivel.nivel-alerta {
+    background-color: #feebc8;
+    color: #7b341e;
+}
+
+.diag-badge-nivel.nivel-critico {
+    background-color: #fed7d7;
+    color: #822727;
+}
+
+.diag-badge-dominio {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.diag-badge-dominio.secundario {
+    opacity: 0.9;
+}
+
+.dom-software {
+    background-color: #ebf4ff;
+    border-color: #c3dafe;
+    color: #3c366b;
+}
+
+.dom-eletronica {
+    background-color: #fefcbf;
+    border-color: #f6e05e;
+    color: #744210;
+}
+
+.dom-energia {
+    background-color: #fff5f7;
+    border-color: #fed7e2;
+    color: #702459;
+}
+
+.dom-mecanica {
+    background-color: #e6fffa;
+    border-color: #b2f5ea;
+    color: #234e52;
+}
+
+.dom-radio {
+    background-color: #e0f7fa;
+    border-color: #b2ebf2;
+    color: #006064;
+}
+
+.diag-item-titulo {
+    color: #1a202c;
+    font-size: 0.83rem;
+}
+
+.diag-item-detalhe {
+    margin: 4px 0 0;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+
+.diag-hint-linha {
+    margin: 4px 0 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: #744210;
+}
+
+.diag-hint-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    color: #c05621;
+}
+
+/* Aba Webhook */
+.webhook-cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.74rem;
+    color: #718096;
+}
+
+.webhook-cabecalho code {
+    background-color: #edf2f7;
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #2b6cb0;
+}
+
+.webhook-item {
+    border-left: 3px solid #cbd5e0;
+    border-bottom: 1px solid #edf2f7;
+    padding: 6px 10px;
+}
+
+.webhook-item:last-child {
+    border-bottom: none;
+}
+
+.webhook-item-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    font-size: 0.73rem;
+    color: #4a5568;
+}
+
+.webhook-json {
+    margin: 4px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.71rem;
+    color: #2d3748;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* Portas ESP32 minimalista */
+.diag-portas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    gap: 6px 12px;
+}
+
+.porta-linha {
+    border-left: 3px solid #cbd5e0;
+    border-bottom: 1px solid #edf2f7;
+    padding: 5px 8px;
+    font-size: 0.73rem;
+    overflow-wrap: anywhere;
+}
+
+.porta-linha.nivel-ok { border-left-color: #48bb78; }
+.porta-linha.nivel-alerta { border-left-color: #ed8936; }
+.porta-linha.nivel-critico { border-left-color: #e53e3e; }
 
 .porta-card-topo {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 6px;
-    color: #f8fafc;
+    color: #1a202c;
 }
 
 .porta-status {
     font-weight: 700;
-    font-size: 0.72rem;
+    font-size: 0.71rem;
 }
 
-.porta-status.nivel-ok { color: #6ee7b7; }
-.porta-status.nivel-alerta { color: #fcd34d; }
-.porta-status.nivel-critico { color: #fda4af; }
-.porta-status.nivel-neutro { color: #94a3b8; }
+.porta-status.nivel-ok { color: #276749; }
+.porta-status.nivel-alerta { color: #975a16; }
+.porta-status.nivel-critico { color: #9b2c2c; }
+.porta-status.nivel-neutro { color: #718096; }
 
 .porta-pinos {
     margin-top: 4px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    color: #cbd5e1;
+    color: #4a5568;
+    font-size: 0.72rem;
 }
 
 .porta-meta {
@@ -217,233 +548,32 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 4px;
-    color: #94a3b8;
-    font-size: 0.72rem;
-}
-
-.diag-filtro-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background-color: rgba(30, 41, 59, 0.9);
-    color: #cbd5e1;
-    border: 1px solid #334155;
-    border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 0.76rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-.diag-filtro-btn:hover {
-    border-color: #64748b;
-    color: #f8fafc;
-}
-
-.diag-filtro-btn.ativo {
-    background-color: #38bdf8;
-    border-color: #38bdf8;
-    color: #0f172a;
-    font-weight: 700;
-}
-
-.diag-contador {
-    opacity: 0.8;
-    margin-left: 2px;
-}
-
-.diag-acoes-direita {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.diag-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.78rem;
-    color: #cbd5e1;
-    cursor: pointer;
-}
-
-.diag-limpar-btn {
-    background: transparent;
-    border: 1px solid #475569;
-    color: #cbd5e1;
-    border-radius: 6px;
-    padding: 3px 10px;
-    font-size: 0.76rem;
-    cursor: pointer;
-}
-
-.diag-limpar-btn:hover {
-    border-color: #94a3b8;
-    color: #ffffff;
-}
-
-.diag-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: 290px;
-    overflow-y: auto;
-    padding-right: 4px;
-}
-
-.diag-vazio {
-    padding: 18px;
-    text-align: center;
-    color: #94a3b8;
-    font-size: 0.85rem;
-    background-color: rgba(15, 23, 42, 0.55);
-    border-radius: 8px;
-    border: 1px dashed #334155;
-}
-
-.diag-item {
-    background-color: rgba(30, 41, 59, 0.72);
-    border: 1px solid #293548;
-    border-left: 4px solid #38bdf8;
-    border-radius: 8px;
-    padding: 10px 12px;
-    overflow-wrap: anywhere;
-}
-
-.diag-item.nivel-ok {
-    border-left-color: #10b981;
-}
-
-.diag-item.nivel-alerta {
-    border-left-color: #f59e0b;
-    background-color: rgba(120, 53, 15, 0.22);
-}
-
-.diag-item.nivel-critico {
-    border-left-color: #f43f5e;
-    background-color: rgba(136, 19, 55, 0.24);
-}
-
-.diag-item-cabecalho {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px 8px;
-}
-
-.diag-hora {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.75rem;
-    color: #94a3b8;
-}
-
-.diag-badge-nivel {
-    font-size: 0.68rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-    letter-spacing: 0.04em;
-}
-
-.diag-badge-nivel.nivel-ok {
-    background-color: rgba(16, 185, 129, 0.2);
-    color: #6ee7b7;
-}
-
-.diag-badge-nivel.nivel-info {
-    background-color: rgba(56, 189, 248, 0.2);
-    color: #7dd3fc;
-}
-
-.diag-badge-nivel.nivel-alerta {
-    background-color: rgba(245, 158, 11, 0.25);
-    color: #fcd34d;
-}
-
-.diag-badge-nivel.nivel-critico {
-    background-color: rgba(244, 63, 94, 0.25);
-    color: #fda4af;
-}
-
-.diag-badge-dominio {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid transparent;
-}
-
-.diag-badge-dominio.secundario {
-    opacity: 0.88;
-}
-
-.dom-software {
-    background-color: rgba(129, 140, 248, 0.18);
-    border-color: rgba(129, 140, 248, 0.4);
-    color: #c7d2fe;
-}
-
-.dom-eletronica {
-    background-color: rgba(245, 158, 11, 0.18);
-    border-color: rgba(245, 158, 11, 0.45);
-    color: #fde68a;
-}
-
-.dom-energia {
-    background-color: rgba(236, 72, 153, 0.18);
-    border-color: rgba(236, 72, 153, 0.45);
-    color: #f9a8d4;
-}
-
-.dom-mecanica {
-    background-color: rgba(16, 185, 129, 0.18);
-    border-color: rgba(16, 185, 129, 0.45);
-    color: #6ee7b7;
-}
-
-.dom-radio {
-    background-color: rgba(6, 182, 212, 0.18);
-    border-color: rgba(6, 182, 212, 0.45);
-    color: #67e8f9;
-}
-
-.diag-item-titulo {
-    color: #f8fafc;
-    font-size: 0.88rem;
-}
-
-.diag-item-detalhe {
-    margin: 5px 0 0;
-    font-size: 0.82rem;
-    color: #cbd5e1;
-}
-
-.diag-hint-box {
-    margin-top: 7px;
-    padding: 7px 10px;
-    border-radius: 6px;
-    background-color: rgba(15, 23, 42, 0.72);
-    border: 1px solid rgba(251, 191, 36, 0.35);
-    color: #fef3c7;
-    font-size: 0.79rem;
-    line-height: 1.4;
-}
-
-.diag-hint-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 700;
-    color: #fbbf24;
+    color: #718096;
+    font-size: 0.71rem;
 }
 
 @media (max-width: 767px) {
     .painel-diagnostico {
-        margin-top: 16px;
+        flex: none;
+        overflow: visible;
         padding: 14px;
+    }
+
+    .diag-conteudo,
+    [data-testid="card-webhook-stream"],
+    [data-testid="card-webhook-stream"] .diag-lista {
+        flex: none;
+        overflow-y: visible;
+    }
+
+    [data-testid="card-webhook-stream"] .diag-lista {
+        max-height: 260px;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .diag-filtros {
+        flex-wrap: wrap;
     }
 }

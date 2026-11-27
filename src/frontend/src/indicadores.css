@@ -174,25 +174,25 @@ body {
     gap: 10px;
 }
 
-.btn-resolver {
-    background: transparent;
+.btn-header-discreto {
+    background-color: #ffffff;
     color: #4a5568;
     border: 1px solid #cbd5e0;
     border-radius: 6px;
-    padding: 3px 9px;
-    font-size: 0.78rem;
+    padding: 5px 11px;
+    font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.btn-resolver:hover:not(:disabled) {
+.btn-header-discreto:hover:not(:disabled) {
     background-color: #edf2f7;
     border-color: #a0aec0;
     color: #2d3748;
 }
 
-.btn-resolver:disabled {
+.btn-header-discreto:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -270,6 +270,11 @@ body {
     flex-direction: column;
     gap: 16px;
     min-width: 320px;
+}
+
+.indicadores-coluna > .indicador.status,
+.indicadores-coluna > .indicador.bateria {
+    flex: 0 0 auto;
 }
 
 /* Ajustando os cards de indicador para o tema claro */

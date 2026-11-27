@@ -1,6 +1,4 @@
 import React, { useEffect, useReducer, useState, useCallback, useRef } from 'react';
-import IndicadorTempo from '../componentes/IndicadorTempo';
-import IndicadorVelocidade from '../componentes/IndicadorVelocidade';
 import IndicadorBateria from '../componentes/IndicadorBateria';
 import IndicadorStatus from '../componentes/IndicadorStatus';
 import HistoricoCorridas from '../componentes/HistoricoCorridas';
@@ -22,9 +20,6 @@ import '../indicadores.css';
 // Valores mostrados antes do primeiro pacote chegar. A bateria fica indefinida
 // para não disparar o alerta de nível crítico sem dado nenhum.
 const SEM_DADOS = {
-    timestamp_ms: 0,
-    velocidade_atual: 0,
-    velocidade_media: 0,
     bateria_pct: undefined,
     bateria_volts: undefined,
     status: null,
@@ -35,6 +30,9 @@ export default function Painel() {
     // o mapa da corrida atual e recomeça quando começa uma corrida nova.
     const [estado, aplicar] = useReducer(reduzirTelemetria, undefined, criarEstadoPainel);
     const [logsDiag, setLogsDiag] = useState([]);
+    const [eventosWebhook, setEventosWebhook] = useState([]);
+    const [alturaMapaDesktop, setAlturaMapaDesktop] = useState(null);
+    const dashboardRef = useRef(null);
     const diagRef = useRef({
         seqId: 0,
         ultimoStatus: null,
@@ -57,8 +55,19 @@ export default function Painel() {
         setLogsDiag((atual) => [...validos.reverse(), ...atual].slice(0, 60));
     }, []);
 
+    const registrarWebhook = useCallback((direcao, origem, dados) => {
+        setEventosWebhook((atual) => [{
+            id: proximoIdLog(),
+            hora: formatarTempoRelogio(),
+            direcao,
+            origem,
+            payload: typeof dados === 'string' ? dados : JSON.stringify(dados),
+        }, ...atual].slice(0, 30));
+    }, [proximoIdLog]);
+
     const aoReceberPacote = useCallback((pacote) => {
         aplicar(pacote);
+        registrarWebhook('RX', '/ws/telemetria', pacote);
         const ctx = diagRef.current;
         const gerados = [];
 
@@ -91,7 +100,7 @@ export default function Painel() {
         }
 
         adicionarLogs(gerados);
-    }, [adicionarLogs, proximoIdLog]);
+    }, [adicionarLogs, proximoIdLog, registrarWebhook]);
 
     const { conectado, rf } = useTelemetria({ aoReceber: aoReceberPacote });
     const [historico, setHistorico] = useState(null);
@@ -172,6 +181,7 @@ export default function Painel() {
         setFeedbackLargada('');
         try {
             const resp = await enviarLargadaRobo();
+            registrarWebhook('TX', 'POST /api/comandos/largada', resp);
             setFeedbackLargada(resp.enviado ? 'Enviado' : 'Simulador');
             adicionarLogs([diagnosticarAcaoResolver({
                 sucesso: true,
@@ -179,6 +189,7 @@ export default function Painel() {
                 detalhe: resp.detalhe,
             }, proximoIdLog())]);
         } catch (erro) {
+            registrarWebhook('TX', 'POST /api/comandos/largada (ERRO)', { erro: erro.message });
             setFeedbackLargada(erro.message);
             adicionarLogs([diagnosticarAcaoResolver({
                 sucesso: false,
@@ -187,7 +198,7 @@ export default function Painel() {
         } finally {
             setEnviandoLargada(false);
         }
-    }, [adicionarLogs, proximoIdLog]);
+    }, [adicionarLogs, proximoIdLog, registrarWebhook]);
 
     useEffect(() => {
         carregarHistorico(filtros);
@@ -196,6 +207,30 @@ export default function Painel() {
     const pacote = estado.pacote ?? SEM_DADOS;
     const { mapa } = estado;
 
+    useEffect(() => {
+        const container = dashboardRef.current;
+        const mapaEl = container?.querySelector('[data-testid="labirinto-container"]');
+        if (!mapaEl || typeof ResizeObserver === 'undefined') return undefined;
+
+        const atualizarAltura = () => {
+            if (window.innerWidth < 768) {
+                setAlturaMapaDesktop(null);
+                return;
+            }
+            const h = Math.round(mapaEl.getBoundingClientRect().height);
+            setAlturaMapaDesktop(h > 0 ? h : null);
+        };
+
+        atualizarAltura();
+        const observador = new ResizeObserver(atualizarAltura);
+        observador.observe(mapaEl);
+        window.addEventListener('resize', atualizarAltura);
+        return () => {
+            observador.disconnect();
+            window.removeEventListener('resize', atualizarAltura);
+        };
+    }, [mapa.linhas]);
+
     return (
         <div className="painel-container">
             <header className="painel-header">
@@ -203,7 +238,7 @@ export default function Painel() {
                 <div className="painel-header-acoes">
                     <button
                         type="button"
-                        className="btn-resolver"
+                        className="btn-header-discreto"
                         data-testid="btn-resolver"
                         onClick={acionarLargada}
                         disabled={!conectado || enviandoLargada}
@@ -216,7 +251,11 @@ export default function Painel() {
                             {feedbackLargada}
                         </span>
                     )}
-                    <button type="button" onClick={() => carregarHistorico(filtros)}>
+                    <button
+                        type="button"
+                        className="btn-header-discreto"
+                        onClick={() => carregarHistorico(filtros)}
+                    >
                         Atualizar histórico
                     </button>
                     {/* Conexão do painel com o backend; a perda do rádio é o aviso abaixo (HU-09) */}
@@ -233,7 +272,7 @@ export default function Painel() {
                 da corrida não muda: o robô não depende do rádio e segue navegando. */}
             <AvisoConexaoRf perdida={rf.perdida} segundosSemPacote={rf.segundosSemPacote} />
 
-            <div className="dashboard-layout">
+            <div className="dashboard-layout" ref={dashboardRef}>
                 {/* Lado Esquerdo: Mapeamento Dinâmico do Labirinto */}
                 <Labirinto
                     linhas={mapa.linhas}
@@ -243,27 +282,27 @@ export default function Painel() {
                     trajeto={mapa.trajeto}
                 />
 
-                {/* Lado Direito: Indicadores de Telemetria */}
-                <div className="indicadores-coluna">
+                {/* Lado Direito: Indicadores e Monitor/Webhook com altura sincronizada ao mapa */}
+                <div
+                    className="indicadores-coluna"
+                    style={alturaMapaDesktop ? { height: `${alturaMapaDesktop}px` } : undefined}
+                >
                     <IndicadorStatus status={pacote.status} tentativa={estado.corrida || null} />
-                    <IndicadorTempo timestampMs={pacote.timestamp_ms} />
-                    <IndicadorVelocidade atual={pacote.velocidade_atual} media={pacote.velocidade_media} />
                     <IndicadorBateria porcentagem={pacote.bateria_pct} volts={pacote.bateria_volts} />
 
-                    {/* Histórico da sessão, registrando corridas encerradas inclusive por TRAVADO (HU-19) */}
-                    <HistoricoCorridas corridas={estado.historico} modo="compacto" />
+                    {/* Card lateral com 2 abas: Diagnóstico + Portas e Webhook */}
+                    <PainelDiagnosticoLogs
+                        logs={logsDiag}
+                        eventosWebhook={eventosWebhook}
+                        pacote={estado.pacote}
+                        conectado={conectado}
+                        rfPerdida={rf.perdida}
+                        aoLimpar={() => setLogsDiag([])}
+                        aoLimparWebhook={() => setEventosWebhook([])}
+                    />
                     {erroHistorico && <small role="status">Histórico indisponível: {erroHistorico}</small>}
                 </div>
             </div>
-
-            {/* Console visual de logs e dicas de diagnóstico (Software/Eletrônica/Energia/Mecânica) */}
-            <PainelDiagnosticoLogs
-                logs={logsDiag}
-                pacote={estado.pacote}
-                conectado={conectado}
-                rfPerdida={rf.perdida}
-                aoLimpar={() => setLogsDiag([])}
-            />
 
             {/* Histórico geral com filtros e replay (HU-13/HU-14) em largura total, abaixo
                 do mapa e dos indicadores: na coluna da direita a tabela e o mapa do

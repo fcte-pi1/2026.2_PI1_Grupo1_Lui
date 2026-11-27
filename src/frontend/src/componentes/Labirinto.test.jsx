@@ -7,7 +7,7 @@ describe('componentes/Labirinto.jsx', () => {
     it('sem dados, deve exibir só a grade com o perímetro e sem robô/rastro', () => {
         const html = ReactDOMServer.renderToString(<Labirinto linhas={4} />);
         expect(html).toContain('MAPEAMENTO EM TEMPO REAL - GRID 4x4');
-        expect(html).toContain('Grid de 4x4');
+        expect(html).not.toContain('Escaneando perímetro interno');
         expect(html).toContain('START');
         expect(html).toContain('FINISH');
         // Deve conter 16 celulas

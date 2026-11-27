@@ -61,7 +61,6 @@ export default function Labirinto({
             <div className="labirinto-header">
                 <div className="header-textos">
                     <h2>{`MAPEAMENTO EM TEMPO REAL - GRID ${linhas}x4`}</h2>
-                    <p>{`Grid de ${linhas}x4 • Escaneando perímetro interno`}</p>
                 </div>
                 <div className="legendas">
                     <span className="legenda-start"><span className="box-start"></span> START</span>

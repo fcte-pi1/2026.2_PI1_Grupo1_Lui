@@ -7,10 +7,8 @@ export const MAPA = '.dashboard-layout > [data-testid="labirinto-container"]';
 export const COMPONENTES = {
     'mapa ao vivo': MAPA,
     status: '[data-testid="indicador-status"]',
-    tempo: '[data-testid="indicador-tempo"]',
-    velocidade: '[data-testid="indicador-velocidade"]',
     bateria: '[data-testid="indicador-bateria"]',
-    'histórico da sessão': '[data-testid="historico-corridas"]',
+    'monitor e webhook': '[data-testid="painel-diagnostico"]',
     'histórico geral': '[data-testid="historico-geral"]',
     'replay da corrida': '[data-testid="replay-corrida"]',
 };

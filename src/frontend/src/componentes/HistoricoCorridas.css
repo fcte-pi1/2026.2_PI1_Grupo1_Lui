@@ -4,7 +4,7 @@
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    padding: 24px;
+    padding: 18px 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     font-family: 'Inter', sans-serif;
     color: #2d3748;
@@ -15,15 +15,17 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #edf2f7;
 }
 
 .historico-titulo {
-    font-size: 1.1rem;
+    font-size: 0.92rem;
     font-weight: 700;
-    color: #1a202c;
-    letter-spacing: 0.5px;
+    color: #718096;
+    letter-spacing: 0.06em;
     margin: 0;
     text-transform: uppercase;
 }
@@ -32,16 +34,16 @@
 .historico-filtros {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
 .filtro-grupo {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    color: #4a5568;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #718096;
     font-weight: 500;
 }
 
@@ -51,10 +53,10 @@
 
 .filtro-select,
 .filtro-input {
-    border: 1px solid #cbd5e0;
+    border: 1px solid #e2e8f0;
     border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 0.875rem;
+    padding: 4px 8px;
+    font-size: 0.78rem;
     color: #2d3748;
     background-color: #f7fafc;
     outline: none;
@@ -93,24 +95,24 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: 0.875rem;
+    font-size: 0.82rem;
     text-align: left;
 }
 
 .tabela-historico th {
-    background-color: #f7fafc;
+    background-color: transparent;
     color: #718096;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 12px 14px;
-    border-bottom: 2px solid #e2e8f0;
+    letter-spacing: 0.05em;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
     white-space: nowrap;
 }
 
 .tabela-historico td {
-    padding: 14px;
+    padding: 9px 10px;
     border-bottom: 1px solid #edf2f7;
     color: #2d3748;
     white-space: nowrap;
@@ -139,15 +141,15 @@
     color: #2b6cb0;
 }
 
-/* Badges de Status (conforme protótipo: verde para sucesso, vermelho para falhas/colisão) */
+/* Badges de Status minimalistas */
 .status-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
     font-weight: 600;
-    font-size: 0.8rem;
-    padding: 4px 8px;
-    border-radius: 4px;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 999px;
     text-transform: uppercase;
 }
 
