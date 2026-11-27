@@ -351,12 +351,12 @@ Entram em `Pinos.h` (constantes físicas, sem Arduino), com o `test_pinos` confe
 
 **Nível 1, unitário no nativo (cada PR).** Todos os módulos puros novos ganham `test_*` próprios: `Odometria` (mm, velocidade, último pulso por roda, rumo), `ClassificadorParedes` (limiar, histerese, inválidos), `ConversorVelocidadePwm` (zona morta, saturação, sinal), `ExecutorMovimentoRobo` com motores e ToF falsos (giro conclui pelos encoders, avanço termina por odometria e por encosto, emergência frontal, limite de tempo, trinco), `CicloProva` com todas as dependências falsas (largada, geometria, timeout, bateria, reinício). As mudanças de interface do B1 e do R1 atualizam `test_curva` e `test_travamento`.
 
-**Nível 2, robô virtual no nativo (etapa 6).** `test/test_robo_virtual/` compila o `CicloProva` com drivers falsos e relógio falso avançando 1 ms por tick:
+**Nível 2, robô virtual no nativo (etapa 6).** `test/test_robo_virtual/` roda o firmware do robô, o mesmo do `main.cpp` (`CicloProva`, `ExecutorMovimentoRobo`, `Motores`, `Odometria`), tick a tick com relógio de 1 ms sobre um mundo físico simulado. Só o botão, a bateria, o LED e o rádio são dublês.
 
-- `MundoVirtual` sobre o `SimuladorLabirinto` (movido para `test/comum/`): guarda a posição real do robô dentro da célula (progresso em mm e ângulo em graus), gera pulsos de encoder a partir do PWM comandado (com um modelo simples PWM → mm/s, incluindo zona morta), devolve distâncias ToF a partir das paredes verdadeiras e da posição na célula, e bloqueia as rodas quando o robô encosta em uma parede (para o cenário de travamento).
-- As três pistas dos slides são as mesmas de `src/backend/app/simulador/pistas.txt`: o teste traz um leitor do mesmo formato de texto, com as três pistas copiadas em um cabeçalho, para a prova no nativo ser fiel à pista do painel.
-- Casos: largada por botão (segurar 2 s e soltar, geometria por toque triplo), navegação até `CONCLUIDO` em D4, D8 e D12, motores parados e cronômetro congelado após a chegada, `desafio_cumprido` e todos os campos preenchidos e válidos em cada pacote de 1 Hz, corte em até 1 200 ms com `TRAVADO` quando as rodas são bloqueadas, `TIMEOUT` aos 10 min com o relógio acelerado, `COLISAO` com uma parede inesperada à frente, recusa de largada com bateria baixa, e reinício para nova tentativa.
-- Envio ao painel: a `FonteSerial` do backend aceita URLs do pyserial como `socket://localhost:7777`. O robô virtual, em um ambiente `native_virtual` (ou um teste com variável de ambiente), roda em tempo real e escreve as linhas JSON geradas pelo `GatewayBridge` (a mesma conversão do gateway) em um servidor TCP local. Isso não exige mudança no backend nem no frontend; a decisão de implementar como servidor TCP no próprio binário ou como um utilitário Python em `src/firmware/robo/tools` fica para a etapa 6, conforme o que ficar mais simples no Windows.
+- **`MundoVirtual`** (`test/comum/MundoVirtual.h`) faz o papel do hardware: implementa a ponte H, os encoders e os ToF. Paredes de 12 mm e postes de 12 × 12 mm sobre as paredes verdadeiras do `SimuladorLabirinto`; rodas com zona morta (PWM 35), inclinação do conversor, ganho por motor e atraso de primeira ordem (25 ms acionada, 10 ms no freio, 80 ms livre); cinemática diferencial com a bitola de `Pinos.h`; encoders contando a rotação real; ToF por raio até a primeira superfície, com ruído de ±2 mm e 8190 sem alvo; contato do corpo (círculo de 50 mm) com parede trava as rodas. As posições dos sensores dão 40 mm nas laterais e 45 mm à frente com o robô no centro da célula, os valores que o desenho supõe. Por padrão o motor direito é 2 % mais rápido.
+- **Pistas.** As três pistas dos slides foram copiadas sem mudança de `src/backend/app/simulador/pistas.txt` para `test/comum/PistasSlides.h`, e `test/comum/LeitorPistas.h` lê o mesmo formato do leitor do backend. O teste confere a largada em A1 aberta só para o leste, a chegada alcançável e as 7 e 8 células fechadas do 8x4 e do 12x4.
+- **Casos.** Largada pelo botão com a geometria por toque triplo; chegada em D4, D8 e D12 com o motor direito 2 % mais rápido, 2 % mais lento e igual; em cada prova, o robô chega centrado e alinhado, nunca encosta, não tem falhas, o mapa coincide com as paredes verdadeiras, a tração fica travada, o cronômetro congela e todos os pacotes de 1 Hz são válidos. Também: as duas rodas presas cortam a tração em até 1,2 s; uma roda presa não conta a célula e termina em `TRAVADO`; `TIMEOUT` com o relógio saltando 10 min com o robô parado lendo as paredes (nenhuma pista leva 10 min); `COLISAO` com um obstáculo que surge à frente sempre que o robô anda (um obstáculo fixo seria lido como parede e contornado); largada recusada com bateria baixa; nova tentativa depois de concluir.
+- **Envio ao painel.** Com a variável `ROBO_VIRTUAL_SAIDA` apontando para uma pasta, as três provas gravam as linhas JSON que o gateway geraria (mesmo `GatewayBridge`). O utilitário `tools/painel_virtual.py`, só com a biblioteca padrão do Python, serve essas linhas por TCP uma por segundo, no lugar do gateway; o backend lê com `TELEMETRIA_FONTE=serial` e `SERIAL_PORTA=socket://localhost:7777`, sem mudança no backend nem no frontend. Foi a opção mais simples no Windows: o teste continua determinístico e rápido, e só o envio acontece em tempo real. As linhas das três pistas passam pelo `interpretar_linha` da `FonteSerial` do backend sem nenhuma rejeição.
 
 **Nível 3, bancada e pista (seção 6).** Testes do menu do `hw/firm` para calibrar as constantes, depois o firmware integrado em etapas: uma célula, uma curva, corredor de três células (CT-01), curvas seguidas (CT-02), pista 4x4 completa (CT-05 e CT-06) com o painel (CT-07 e CT-09), travamento provocado (CT-15).
 
@@ -399,6 +399,24 @@ Decisões tomadas na implementação, dentro do desenho acima:
 - **Telemetria.** Em `AGUARDANDO` o pacote publica A1 virado para o leste, também depois de uma nova tentativa. Um pacote que não passa em `telemetriaValidar()` não é enviado e vai para o log.
 - **Tempo de tick.** O `main.cpp` imprime a cada 5 s quantos ticks rodaram e o maior tick em µs, para o relatório 7.5.
 
+### 4.3 Registro da etapa 6 (robô virtual)
+
+O robô virtual encontrou dois problemas no executor, corrigidos antes de a etapa 6 seguir (abaixo). Depois das correções, as nove provas (três pistas e três combinações de motores) concluem. Valores medidos com o robô parado em cada célula, antes de ler as paredes:
+
+| Pista | Motores | Tempo | Deslocamentos | Retornos | Giros | Maior desvio do centro | Maior erro de rumo | Maior erro da estimativa |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|
+| 4x4 | direito +2 % | 38,3 s | 18 | 4 | 11 | 10,7 mm | 4,0° | 1,0° |
+| 8x4 | direito +2 % | 30,6 s | 16 | 3 | 7 | 11,5 mm | 6,6° | 0,6° |
+| 12x4 | direito +2 % | 58,6 s | 30 | 5 | 16 | 14,9 mm | 4,5° | 1,3° |
+| 4x4 | direito -2 % | 39,0 s | 18 | 4 | 11 | 7,8 mm | 2,8° | 1,3° |
+| 8x4 | direito -2 % | 31,2 s | 16 | 3 | 7 | 12,2 mm | 3,6° | 0,8° |
+| 12x4 | direito -2 % | 59,7 s | 30 | 5 | 16 | 16,4 mm | 1,8° | 0,9° |
+| 4x4 | iguais | 38,5 s | 18 | 4 | 11 | 11,3 mm | 2,1° | 0,8° |
+| 8x4 | iguais | 30,8 s | 16 | 3 | 7 | 6,9 mm | 3,9° | 0,6° |
+| 12x4 | iguais | 59,2 s | 30 | 5 | 16 | 14,7 mm | 3,6° | 0,8° |
+
+O erro de rumo numa parada pode passar de 3°, porque o controle de reta deixa o robô girado ao terminar um avanço com paredes; como a estimativa acerta esse erro com até 1,3°, a curva ou a reta seguinte corrige. Antes da correção, a 12x4 chegava a 12° sem que o executor soubesse, e o robô encostava. Os tempos são da exploração com o PWM limitado a 90; servem de referência para o passo 9 do roteiro, não de previsão do tempo no robô.
+
 Correções vindas do robô virtual (etapa 6), feitas na branch `fix/149-rumo-paredes` porque a etapa 5 já estava na `main`:
 
 - **Rumo estimado pelas paredes.** Descrito na seção 2.5. A interface `ExecutorMovimentoNaoBloqueante` ganha `reiniciar()`, com implementação padrão vazia, que o `CicloProva` chama na largada e na nova tentativa para zerar a estimativa.
@@ -426,7 +444,7 @@ Itens fora do escopo do Software, para levar à Eletrônica e ao responsável pe
 
 ## 6. Roteiro preliminar do primeiro dia de bancada
 
-Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apoio (rodas no ar) até o passo 6, bateria carregada, monitor serial a 115200 bps e câmera ligada (a issue pede registro).
+Refinado ao fim da etapa 6 com o que o robô virtual mostrou (rumo estimado no passo 8, tempos de referência no passo 9). Tudo com o robô sobre um apoio (rodas no ar) até o passo 6, bateria carregada, monitor serial a 115200 bps e câmera ligada (a issue pede registro).
 
 1. **Pulsos por volta da roda, antes de qualquer movimento.** Com o `hw/firm` gravado (o que já está no robô), teste 3 do menu: girar cada roda exatamente uma volta na mão, três vezes, e anotar os pulsos. Esse número define `ENCODER_PULSOS_POR_VOLTA` (B4); se não for 360, nenhum teste de movimento faz sentido antes de corrigir a constante. Aproveitar para conferir o sinal: a contagem deve crescer girando a roda no sentido de avanço.
 2. **Demais medições com o `hw/firm`:** teste 9 (bateria: anotar a tensão lida e a do multímetro), teste 1 (ToF: leituras com a mão a 5, 10 e 20 cm de cada sensor; anotar leitura sem obstáculo), teste 2 (sentido de cada motor).
@@ -436,5 +454,5 @@ Versão inicial, a ser refinada ao fim da etapa 6. Tudo com o robô sobre um apo
 6. **Travamento no ar:** largada com as rodas livres e depois segurar uma roda; o corte deve vir em até 1,2 s e o painel mostrar "Travado".
 7. **No chão, corredor reto:** uma célula (deve parar a 180 mm, ou encostado à parede frontal na distância configurada); três células seguidas (CT-01, desvio lateral menor que 15 mm).
 8. **Curvas e rumo estimado:** 90° direita, 90° esquerda e 180° isoladas; ajustar `BITOLA_MM` até o giro bater; quatro curvas seguidas para medir o acúmulo (CT-02). Validar o rumo estimado pelas paredes (seção 2.5): (a) largar o robô girado de propósito cerca de 5° num corredor com as duas paredes, mandar avançar uma célula e virar; com a câmera de cima, o rumo depois da curva deve ficar a no máximo 3° da grade; (b) depois de uma célula com as duas paredes, avançar uma célula com parede de um lado só e medir o desvio lateral na saída (meta: menos de 10 mm); (c) repetir (a) com o robô girado 5° para o outro lado. Se a correção errar o sinal ou exagerar, conferir `ENCODER_*_INVERTIDO` e as posições dos ToF laterais antes de mexer no executor.
-9. **Pista 4x4 completa** com o painel ao vivo (CT-05, CT-06, CT-07, CT-09): anotar tempo, deslocamentos, retornos e giros reportados na serial e comparar com a simulação.
-10. **Registrar** os valores finais das constantes e as divergências entre o robô virtual e o real (tarefa da issue #149).
+9. **Pista 4x4 completa** com o painel ao vivo (CT-05, CT-06, CT-07, CT-09): anotar tempo, deslocamentos, retornos e giros reportados na serial e comparar com o robô virtual na mesma pista (seção 4.3: na 4x4 dos slides, 18 deslocamentos, 4 retornos e 11 giros). Números de movimentos diferentes indicam leitura de parede errada; confira as distâncias laterais e frontal paradas no centro de uma célula (40 mm e 45 mm no modelo). Antes de levar o robô, o painel pode ser ensaiado com a prova virtual: `tools/painel_virtual.py` (seção 3.10).
+10. **Registrar** os valores finais das constantes e as divergências entre o robô virtual e o real (tarefa da issue #149). Se a bancada medir uma zona morta, uma diferença entre motores ou posições de sensores diferentes das do modelo, atualizar `MundoVirtual::parametrosPadrao()` e rodar o robô virtual de novo antes da prova.
