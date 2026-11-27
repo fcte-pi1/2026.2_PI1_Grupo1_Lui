@@ -69,10 +69,68 @@ A organização e a correta utilização do repositório serão consideradas na 
 ### Fluxo de Trabalho
 1. **Clone o repositório:** Após obter acesso (via convite no e-mail ou notificação), abra o terminal e clone o projeto:
    ```bash
-   git clone [https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui.git](https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui.git)
+   git clone https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui.git
+   ```
 
+---
 
+## 🛠️ Gravação dos Firmwares (ESP32 e ESP8266) e Controle Remoto
 
+> **Pré-requisito:** ter o PlatformIO instalado (`pio`) ou usar o ambiente virtual do projeto (`src/backend/.venv/bin/pio` no Linux/macOS ou `src\backend\.venv\Scripts\pio.exe` no Windows). Feche o Monitor Serial antes de gravar ou rodar os scripts Python na mesma porta USB.
+
+### 1. Passar o firmware de bancada para o ESP32 (robô)
+```bash
+# Firmware completo de bancada (menu interativo + comandos sem fio ESP-NOW)
+pio run -d src/firmware/bancada -e esp32dev -t upload
+
+# (Opcional) Abrir monitor serial USB direto no ESP32 (115200 bps)
+pio device monitor -d src/firmware/bancada -b 115200
+
+# (Opcional) Gravar testes isolados por componente
+pio run -d src/firmware/bancada -e teste_tof_mapa_xshut -t upload -t monitor
+# Outros ambientes: teste_motor_esquerdo, teste_motor_direito, teste_encoder_esquerdo,
+# teste_encoder_direito, teste_tof_esquerdo, teste_tof_frontal, teste_tof_direito,
+# teste_tof_sequencia, teste_bateria, teste_botao, teste_led
+```
+
+Para gravar o **firmware oficial da prova autônoma** no ESP32 do robô:
+```bash
+pio run -d src/firmware/robo -e esp32dev -t upload
+```
+
+### 2. Passar o firmware do gateway para o ESP8266 (NodeMCU / D1 mini)
+```bash
+# Conecte o ESP8266 no USB do computador e grave:
+pio run -d src/firmware/gateway -e esp8266 -t upload
+
+# (Opcional) Conferir os pacotes JSON chegando na serial (115200 bps)
+pio device monitor -d src/firmware/gateway -b 115200
+```
+*(O robô e o gateway já usam canal Wi-Fi 1 em broadcast; não é necessário parear endereços MAC.)*
+
+### 3. Como usar o Controle Remoto e Testes Sem Fio (`scripts/`)
+Com o **firmware de bancada** gravado no ESP32 do robô e o **ESP8266 gateway** plugado no USB do computador (ex.: `/dev/ttyUSB0` no Linux ou `COM3`/`COM5` no Windows):
+
+1. **Instale o `pyserial`** (ou use o Python da `.venv` de `src/backend/.venv`, que já possui `pyserial`):
+   ```bash
+   # Controle remoto completo (modos 1..9, avançar 1 célula, curvas 90°/180°, freio 's'/ESPAÇO)
+   src/backend/.venv/bin/python scripts/controle_remoto.py /dev/ttyUSB0
+   # Windows PowerShell:
+   # .\src\backend\.venv\Scripts\python.exe scripts\controle_remoto.py COM3
+   ```
+2. **Teste rápido de motores sem fio** (envia tecla na hora sem precisar de `ENTER`: `e`/`E` esquerdo, `d`/`D` direito, `+`/`-` PWM, `s` freio):
+   ```bash
+   src/backend/.venv/bin/python scripts/teste_motores_remoto.py /dev/ttyUSB0
+   ```
+3. **Teste rápido dos 3 sensores ToF sem fio** (exibe `livre` / `PAREDE` a `< 110 mm` em tempo real):
+   ```bash
+   src/backend/.venv/bin/python scripts/teste_sensores_remoto.py /dev/ttyUSB0
+   ```
+4. **Apenas monitorar a telemetria JSON** (quando o robô está com o firmware oficial `robo`):
+   ```bash
+   src/backend/.venv/bin/python scripts/monitor_telemetria.py /dev/ttyUSB0
+   ```
+   *(Com o firmware oficial `robo` gravado, você também pode enviar `s` para parada de emergência ou `d` para diagnóstico rápido via Serial/ESP-NOW.)*
 
 ![Calendário 2026/2](https://github.com/fcte-pi1/template/blob/main/docs/figs/Calendario.png?raw=true)
 

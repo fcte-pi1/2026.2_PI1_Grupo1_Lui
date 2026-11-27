@@ -27,9 +27,56 @@ pio test -d src/firmware/robo -e native
 pio test -d src/firmware/gateway -e native
 ./src/firmware/bancada/test/run_tests.sh
 
-# Build ESP32
+# Build ESP32 / ESP8266 (somente compilar)
 pio run -d src/firmware/robo -e esp32dev
+pio run -d src/firmware/gateway -e esp8266
 pio run -d src/firmware/gateway -e esp32dev
 pio run -d src/firmware/bancada -e esp32dev
 pio run -d src/firmware/diagnostico_tof -e esp32dev
 ```
+
+## Gravação (Upload) nas Placas
+
+> Feche o Monitor Serial e scripts Python que estejam usando a porta USB antes de rodar `-t upload`.
+
+### ESP32 do Robô — Firmware de Bancada
+```bash
+# Menu interativo completo + suporte aos comandos remotos ESP-NOW
+pio run -d src/firmware/bancada -e esp32dev -t upload
+
+# (Opcional) Gravar um teste isolado por componente (ex.: mapa de XSHUT dos ToF)
+pio run -d src/firmware/bancada -e teste_tof_mapa_xshut -t upload -t monitor
+```
+
+### ESP32 do Robô — Firmware Oficial da Prova
+```bash
+pio run -d src/firmware/robo -e esp32dev -t upload
+```
+
+### ESP8266 do Gateway (PC Server)
+```bash
+# NodeMCU / D1 mini conectado na USB
+pio run -d src/firmware/gateway -e esp8266 -t upload
+
+# (Se estiver usando um segundo ESP32 como gateway de bancada)
+pio run -d src/firmware/gateway -e esp32dev -t upload
+```
+
+## Controle Remoto e Testes Sem Fio (`scripts/`)
+
+Com o **ESP32 do robô** rodando o firmware `bancada` e o **ESP8266 gateway** conectado via USB (ex.: `/dev/ttyUSB0` ou `COM3`):
+
+```bash
+# Controle remoto completo (modos 1..9, avançar célula, curvas 90°/180°, parada 's'/ESPAÇO)
+src/backend/.venv/bin/python scripts/controle_remoto.py /dev/ttyUSB0
+
+# Teste rápido de motores tecla-a-tecla (e/E, d/D, +/-, s)
+src/backend/.venv/bin/python scripts/teste_motores_remoto.py /dev/ttyUSB0
+
+# Teste rápido dos 3 sensores ToF pela telemetria (livre / PAREDE < 110 mm)
+src/backend/.venv/bin/python scripts/teste_sensores_remoto.py /dev/ttyUSB0
+
+# Monitor de telemetria ao vivo
+src/backend/.venv/bin/python scripts/monitor_telemetria.py /dev/ttyUSB0
+```
+*(No Windows PowerShell, troque `src/backend/.venv/bin/python` por `.\src\backend\.venv\Scripts\python.exe` e a porta por `COM3`/`COM5`.)*
