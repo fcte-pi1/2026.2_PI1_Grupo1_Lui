@@ -5,19 +5,9 @@
 
 // Fonte unica de parametros fisicos e de calibracao de bancada do Micromouse.
 // Compartilhada entre o firmware oficial (src/firmware/robo) e o firmware de
-// comissionamento/testes (hw/firm). Altere os valores medidos aqui para atualizar
-// os dois projetos de uma vez.
-
-// Modo de sensores de distancia:
-//   0 = 3x VL53L0X (Esq=GPIO4, Frontal=GPIO16, Dir=GPIO17)
-//   1 = 2x VL53L0X laterais (GPIO4/17) + Ultrassonico frontal (TRIG=16, ECHO=19)
-//   2 = 2x VL53L0X apenas (Esq=GPIO4 + Frontal=GPIO16, sem sensor direito)
-#ifndef CAL_MODO_SENSORES
-#define CAL_MODO_SENSORES 2
-#endif
-
-#define CAL_USA_ULTRASSONICO_FRONTAL (CAL_MODO_SENSORES == 1)
-#define CAL_TEM_TOF_DIREITO          (CAL_MODO_SENSORES != 2)
+// comissionamento/bancada (src/firmware/bancada). Altere os valores medidos aqui
+// para atualizar os dois projetos de uma vez.
+// Configuracao oficial de hardware: 3x sensores ToF VL53L0X (Esq, Frontal, Dir).
 
 // --- Dimensoes mecanicas e odometria (Fase 0 e Fase 4.1) ---
 constexpr float CAL_RODA_DIAMETRO_MM = 22.0f;         // Diametro externo das rodas motrizes (mm)

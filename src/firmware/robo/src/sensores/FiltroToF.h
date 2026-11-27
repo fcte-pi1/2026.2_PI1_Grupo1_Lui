@@ -51,22 +51,6 @@ inline uint16_t classificarLeituraVL53(uint8_t rawStatusByte, uint16_t brutaMm, 
     return 0;
 }
 
-// Converte duração do pulso ECHO (us) do sensor ultrassônico frontal (HC-SR04) em mm
-// classificados para LeituraToF.
-inline uint16_t classificarLeituraUltrassonico(uint32_t duracaoUs, int16_t offsetMm) {
-    if (duracaoUs == 0 || duracaoUs > ULTRASSONICO_TIMEOUT_US) {
-        return TOF_LEITURA_INVALIDA_MM;
-    }
-    const uint32_t mmBruto = (duracaoUs * 343UL + 1000UL) / 2000UL;
-    if (mmBruto > TOF_DIST_MAX_VALIDA_MM) {
-        return TOF_LEITURA_INVALIDA_MM;
-    }
-    const uint16_t baseMm = (mmBruto < ULTRASSONICO_DIST_MIN_MM)
-                                ? ULTRASSONICO_DIST_MIN_MM
-                                : (uint16_t)mmBruto;
-    return aplicarOffsetToF(baseMm, offsetMm);
-}
-
 // Filtro de mediana de 3 amostras válidas. Descarta picos isolados e reinicia o histórico
 // após 3 amostras seguidas sem alvo ou com erro, evitando arrastar valores antigos para
 // dentro de uma abertura lateral.

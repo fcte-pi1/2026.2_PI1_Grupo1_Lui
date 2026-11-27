@@ -54,11 +54,10 @@ struct ToFDoSimulador : ISensoresToF {
     SimuladorLabirinto& sim;
     LeituraToF esq, frente, dir;
     bool mudo;
-    bool semDireito;
     bool primeira;
     uint32_t ultimaMs;
     explicit ToFDoSimulador(SimuladorLabirinto& s)
-        : sim(s), mudo(false), semDireito(false), primeira(true), ultimaMs(0) {}
+        : sim(s), mudo(false), primeira(true), ultimaMs(0) {}
 
     bool parede(LadoRobo lado) const {
         return sim.temParedeReal(sim.linhaReal, sim.colunaReal, direcaoAbsoluta(sim.orientacaoReal, lado));
@@ -70,9 +69,7 @@ struct ToFDoSimulador : ISensoresToF {
         primeira = false;
         ultimaMs = agoraMs;
         esq.registrar(parede(LADO_ESQUERDA) ? 40 : 300, agoraMs);
-        if (!semDireito) {
-            dir.registrar(parede(LADO_DIREITA) ? 40 : 300, agoraMs);
-        }
+        dir.registrar(parede(LADO_DIREITA) ? 40 : 300, agoraMs);
         frente.registrar(parede(LADO_FRENTE) ? 45 : TOF_LEITURA_INVALIDA_MM, agoraMs);
     }
     LeituraToF& esquerdo() override { return esq; }
@@ -553,20 +550,6 @@ void test_bateria_nao_pausa_encoder_durante_movimento_em_andamento(void) {
     TEST_ASSERT_EQUAL_UINT16(7800, r.radio.ultimo.bateria_mv);  // mantém último valor válido
 }
 
-#if !CAL_TEM_TOF_DIREITO
-void test_navega_com_apenas_2_tof_sem_sensor_direito(void) {
-    Robo r(4);
-    labirintoBecos4(r.sim);
-    r.tof.semDireito = true;  // sensor direito totalmente ausente
-    r.segurarESoltar();
-    TEST_ASSERT_TRUE(r.rodarAte(CONCLUIDO, 180000));
-    TEST_ASSERT_EQUAL_UINT8(3, r.ciclo.navegador().linha());
-    TEST_ASSERT_EQUAL_UINT8(3, r.ciclo.navegador().coluna());
-    TEST_ASSERT_TRUE(r.ciclo.mapa().foiVisitada(3, 3));
-    TEST_ASSERT_EQUAL(0, r.radio.invalidos);
-}
-#endif
-
 int main(void) {
     UNITY_BEGIN();
     // AGUARDANDO, telemetria e botão
@@ -593,8 +576,5 @@ int main(void) {
     // Emergência remota e proteção do encoder na leitura de bateria
     RUN_TEST(test_parada_de_emergencia_remota_corta_tracao_e_vai_para_travado);
     RUN_TEST(test_bateria_nao_pausa_encoder_durante_movimento_em_andamento);
-#if !CAL_TEM_TOF_DIREITO
-    RUN_TEST(test_navega_com_apenas_2_tof_sem_sensor_direito);
-#endif
     return UNITY_END();
 }

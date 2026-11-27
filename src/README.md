@@ -2,9 +2,12 @@
 
 | Pasta | Conteúdo | Tecnologias |
 |:---|:---|:---|
-| [`firmware/robo`](firmware/robo) | Firmware do robô | C++, Arduino-ESP32, PlatformIO |
-| [`firmware/gateway`](firmware/gateway) | Firmware do ESP32 de bancada: recebe o ESP-NOW e escreve JSON na serial | C++, ArduinoJson, PlatformIO |
-| [`firmware/lib/telemetria`](firmware/lib/telemetria) | Contrato de dados em C++, compartilhado por robô e gateway | C++ (somente cabeçalhos) |
+| [`firmware/robo`](firmware/robo) | Firmware oficial do robô (3x VL53L0X) | C++, Arduino-ESP32, PlatformIO |
+| [`firmware/gateway`](firmware/gateway) | Firmware do gateway de bancada: recebe o ESP-NOW e escreve JSON na serial | C++, ArduinoJson, PlatformIO |
+| [`firmware/bancada`](firmware/bancada) | Firmware interativo de comissionamento e testes graduais na bancada | C++, Arduino-ESP32, PlatformIO |
+| [`firmware/diagnostico_tof`](firmware/diagnostico_tof) | Utilitário para diagnóstico e auto-scan de 1 sensor VL53L0X | C++, Arduino-ESP32, PlatformIO |
+| [`firmware/lib/calibracao`](firmware/lib/calibracao) | Fonte única de pinagem (`PinosRobo.h`) e calibração (`CalibracaoRobo.h`) | C++ (somente cabeçalhos) |
+| [`firmware/lib/telemetria`](firmware/lib/telemetria) | Contrato de dados em C++, compartilhado por robô, gateway e bancada | C++ (somente cabeçalhos) |
 | [`backend`](backend) | Ingestão da telemetria, WebSocket e API REST | Python 3.11, FastAPI |
 | [`frontend`](frontend) | Painel web | React, Vite, Vitest |
 

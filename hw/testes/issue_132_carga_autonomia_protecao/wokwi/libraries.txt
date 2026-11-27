@@ -1,2 +1,0 @@
-Adafruit GFX Library
-Adafruit SSD1306

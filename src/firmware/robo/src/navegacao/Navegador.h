@@ -114,27 +114,6 @@ public:
                                       paredeFrente, paredeEsquerda, paredeDireita);
     }
 
-    // Apoio ao modo com apenas 2 sensores (Frontal + Esquerdo): registra os dois lados
-    // visíveis e informa se o lado direito da célula já é conhecido (perímetro ou visita prévia).
-    bool observarDuas(bool paredeFrente, bool paredeEsquerda) {
-        if (estado_ != NAV_EXPLORANDO) return false;
-        const Direcao df = direcaoAbsoluta(orientacao_, LADO_FRENTE);
-        const Direcao de = direcaoAbsoluta(orientacao_, LADO_ESQUERDA);
-        const bool okF = paredeFrente ? mapa.registrarParede(linha_, coluna_, df)
-                                      : mapa.registrarPassagem(linha_, coluna_, df);
-        const bool okE = paredeEsquerda ? mapa.registrarParede(linha_, coluna_, de)
-                                        : mapa.registrarPassagem(linha_, coluna_, de);
-        return okF && okE;
-    }
-
-    bool ladoDireitoConhecido() const {
-        return mapa.ladoConhecido(linha_, coluna_, direcaoAbsoluta(orientacao_, LADO_DIREITA));
-    }
-
-    bool paredeDireitaConhecida() const {
-        return mapa.temParede(linha_, coluna_, direcaoAbsoluta(orientacao_, LADO_DIREITA));
-    }
-
     // Camada de decisão: planeja o próximo avanço sem alterar posição nem orientação.
     // Só considera passagens confirmadas; lado desconhecido nunca é tratado como livre.
     // Sem nenhuma fronteira acessível, encerra com NAV_INALCANCAVEL.

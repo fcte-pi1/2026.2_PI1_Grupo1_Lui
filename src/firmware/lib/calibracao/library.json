@@ -1,7 +1,7 @@
 {
   "name": "calibracao",
   "version": "1.0.0",
-  "description": "Parametros fisicos e de calibracao de bancada do Micromouse (fonte unica compartilhada entre src/firmware/robo e hw/firm).",
+  "description": "Pinagem oficial e parametros fisicos/calibracao do Micromouse (fonte unica compartilhada entre src/firmware/robo e src/firmware/bancada).",
   "frameworks": "*",
   "platforms": "*"
 }

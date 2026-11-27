@@ -38,7 +38,6 @@
 
 enum SubfaseMapeamento : uint8_t {
     SUBFASE_LENDO_PAREDES,
-    SUBFASE_ESPIANDO_DIREITA,  // usado no modo 2 ToFs quando o lado direito ainda é desconhecido
     SUBFASE_GIRANDO,
     SUBFASE_AVANCANDO
 };
@@ -305,11 +304,8 @@ private:
     // parar nesta célula (evita ler uma medição integrada durante a frenagem).
     bool amostrasDaCelula() {
         return amostrasNovas(d_.tof.esquerdo(), amostrasEsqInicio_) &&
-               amostrasNovas(d_.tof.frontal(), amostrasFrenteInicio_)
-#if CAL_TEM_TOF_DIREITO
-               && amostrasNovas(d_.tof.direito(), amostrasDirInicio_)
-#endif
-               ;
+               amostrasNovas(d_.tof.frontal(), amostrasFrenteInicio_) &&
+               amostrasNovas(d_.tof.direito(), amostrasDirInicio_);
     }
 
     bool amostrasNovas(const LeituraToF& l, uint32_t base) const {
@@ -322,9 +318,6 @@ private:
         switch (subfase_) {
             case SUBFASE_LENDO_PAREDES:
                 lerParedes(agoraMs);
-                break;
-            case SUBFASE_ESPIANDO_DIREITA:
-                if (tickControle) acompanharEspiada(agoraMs);
                 break;
             case SUBFASE_GIRANDO:
                 if (tickControle) acompanharGiro(agoraMs);
@@ -339,7 +332,6 @@ private:
         if (amostrasDaCelula()) {
             const AmostraParedes amostra = amostraDasLeituras(d_.tof.esquerdo(), d_.tof.frontal(),
                                                               d_.tof.direito(), agoraMs);
-#if CAL_TEM_TOF_DIREITO
             classificador_.atualizar(amostra);
             bool frente, esquerda, direita;
             if (classificador_.lerParedes(frente, esquerda, direita)) {
@@ -348,23 +340,6 @@ private:
                 decidir(agoraMs);
                 return;
             }
-#else
-            bool frente = false, esquerda = false;
-            if (classificador_.lerParedesDuas(amostra, frente, esquerda)) {
-                if (navegador_.ladoDireitoConhecido()) {
-                    const bool direita = navegador_.paredeDireitaConhecida();
-                    navegador_.observar(frente, esquerda, direita);
-                    enviarTelemetria(agoraMs);
-                    decidir(agoraMs);
-                    return;
-                }
-                navegador_.observarDuas(frente, esquerda);
-                if (!d_.executor.ocioso()) d_.executor.abortar();
-                d_.executor.iniciarGiro(GIRO_DIREITA, navegador_.orientacao(), agoraMs);
-                subfase_ = SUBFASE_ESPIANDO_DIREITA;
-                return;
-            }
-#endif
         }
         if ((uint32_t)(agoraMs - inicioLeituraMs_) >= ESPERA_LEITURA_PAREDES_MS) {
             // 3.7: sem leitura válida no prazo, falha e nova tentativa (como o passo()).
@@ -376,16 +351,6 @@ private:
                 return;
             }
             comecarLeitura(agoraMs);
-        }
-    }
-
-    void acompanharEspiada(uint32_t agoraMs) {
-        const ResultadoMovimento r = d_.executor.atualizar(agoraMs);
-        if (r == MOV_CONCLUIDO) {
-            navegador_.confirmarGiro(GIRO_DIREITA);
-            comecarLeitura(agoraMs);
-        } else if (r == MOV_FALHOU) {
-            falhaMovimento(agoraMs);
         }
     }
 
