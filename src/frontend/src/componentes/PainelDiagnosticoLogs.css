@@ -22,6 +22,7 @@
     gap: 10px;
     flex: 1 1 0;
     min-height: 0;
+    overflow-x: hidden;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e0 transparent;
@@ -203,7 +204,7 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     width: 100%;
 }
 
@@ -219,13 +220,13 @@
     flex: 1 1 auto;
     min-width: 0;
     white-space: nowrap;
-    gap: 3px;
+    gap: 2px;
     background-color: #f7fafc;
     color: #4a5568;
     border: 1px solid #e2e8f0;
     border-radius: 999px;
-    padding: 2px 5px;
-    font-size: 0.66rem;
+    padding: 2px 3px;
+    font-size: 0.64rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -501,7 +502,7 @@
 /* Portas ESP32 minimalista */
 .diag-portas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 6px 12px;
 }
 
