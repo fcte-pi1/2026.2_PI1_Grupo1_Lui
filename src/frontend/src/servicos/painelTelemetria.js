@@ -16,6 +16,7 @@ export function criarEstadoPainel() {
         pacote: null,
         mapa: criarEstadoInicial('4x4'),
         corrida: 0,
+        modo: 'EXPLORACAO',
         historico: [],
     };
 }
@@ -35,21 +36,24 @@ export function iniciaNovaCorrida(anterior, pacote) {
     return pacote.timestamp_ms < anterior.timestamp_ms;
 }
 
-// Registra ou atualiza a corrida encerrada no histórico da sessão (HU-19).
-function atualizarHistoricoSessao(historico = [], idCorrida, pacote) {
+// Registra ou atualiza a corrida encerrada no histórico da sessão (HU-19 e HU-16).
+function atualizarHistoricoSessao(historico = [], idCorrida, pacote, modoCorrida = 'EXPLORACAO') {
     if (!ehStatusTerminal(pacote.status)) {
         return historico;
     }
 
+    const modo = modoCorrida === 'SPEED_RUN' ? 'SPEED_RUN' : 'EXPLORACAO';
     const registro = {
         id: idCorrida,
         tentativa: idCorrida,
         nome: `Tentativa ${idCorrida}`,
         labirinto: pacote.labirinto,
         geometria: pacote.labirinto,
+        modo,
         status: pacote.status,
         resultado: rotuloStatus(pacote.status),
         timestamp_ms: pacote.timestamp_ms,
+        tempo_total_ms: pacote.timestamp_ms,
     };
 
     const idxExistente = historico.findIndex((item) => item.id === idCorrida);
@@ -70,6 +74,8 @@ export function reduzirTelemetria(estado, pacote) {
     const nova = iniciaNovaCorrida(estado.pacote, pacote);
     const base = nova ? criarEstadoInicial(pacote.labirinto) : estado.mapa;
     const corrida = estado.corrida + (nova ? 1 : 0);
+    const modoAnterior = nova ? 'EXPLORACAO' : (estado.modo || 'EXPLORACAO');
+    const modo = pacote.status === 'SPEED_RUN' ? 'SPEED_RUN' : modoAnterior;
 
     const mantemStatusTerminal =
         !nova &&
@@ -84,6 +90,7 @@ export function reduzirTelemetria(estado, pacote) {
         pacote: pacoteEfetivo,
         mapa: aplicarPacote(base, pacoteEfetivo),
         corrida,
-        historico: atualizarHistoricoSessao(estado.historico, corrida, pacoteEfetivo),
+        modo,
+        historico: atualizarHistoricoSessao(estado.historico, corrida, pacoteEfetivo, modo),
     };
 }

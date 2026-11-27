@@ -358,3 +358,49 @@ def test_perda_temporaria_de_pacotes_mantem_uma_corrida_concluida(url_banco):
         tempos = [leitura["timestamp_ms"] for leitura in leituras]
         assert len(leituras) == len(mensagens) - 4
         assert max(b - a for a, b in zip(tempos, tempos[1:])) > 1000  # a lacuna
+
+
+def test_cenario_speed_run_persiste_exploracao_e_speed_run_com_tempo_menor(url_banco):
+    """HU-16 / CT-13: registra a exploração seguida do speed run com modo SPEED_RUN e tempo >= 20% menor."""
+    mensagens = pacotes("speed_run")
+    app = criar_app(Fonte(mensagens), database_url=url_banco)
+    with TestClient(app) as cliente:
+        corridas = aguardar_corridas(
+            cliente,
+            lambda itens: len(itens) == 2 and all(c["status"] == "CONCLUIDO" for c in itens),
+        )
+        assert [c["modo"] for c in corridas] == ["SPEED_RUN", "EXPLORACAO"]
+        speed_run, exploracao = corridas[0], corridas[1]
+        assert speed_run["tempo_total_ms"] <= exploracao["tempo_total_ms"] * 0.8
+        assert speed_run["velocidade_media"] > exploracao["velocidade_media"]
+
+        limite = time.monotonic() + 5
+        leituras = []
+        while time.monotonic() < limite:
+            leituras = cliente.get(f"/api/corridas/{speed_run['id']}").json()["leituras"]
+            if leituras and leituras[-1]["status"] == "CONCLUIDO":
+                break
+            time.sleep(0.05)
+
+        assert [leitura["status"] for leitura in leituras[:-1]] == ["SPEED_RUN"] * (len(leituras) - 1)
+        assert leituras[-1]["status"] == "CONCLUIDO"
+
+
+def test_speed_run_travado_preserva_modo_speed_run(url_banco):
+    from app.servicos.corridas import ServicoCorridas
+
+    mensagens = pacotes("speed_run")
+    inicio_sr = next(i for i, m in enumerate(mensagens) if m.status == "SPEED_RUN")
+    travado = mensagens[inicio_sr].model_copy(
+        update={"status": "TRAVADO", "timestamp_ms": 3000, "velocidade_atual": 0}
+    )
+
+    app = criar_app(database_url=url_banco)
+    with TestClient(app) as cliente:
+        servico = ServicoCorridas(app.state.sessoes)
+        servico.processar(mensagens[inicio_sr])
+        servico.processar(travado)
+        corridas = cliente.get("/api/corridas").json()
+        assert len(corridas) == 1
+        assert corridas[0]["modo"] == "SPEED_RUN"
+        assert corridas[0]["status"] == "TRAVADO"

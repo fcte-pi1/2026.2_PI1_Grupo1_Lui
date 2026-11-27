@@ -50,7 +50,7 @@ class ServicoCorridas:
                     status_final=None,
                     desafio_cumprido=False,
                     tentativa=None,
-                    modo="EXPLORACAO",
+                    modo="SPEED_RUN" if mensagem.status == "SPEED_RUN" else "EXPLORACAO",
                     celulas_visitadas=1,
                 )
                 sessao.add(corrida)
@@ -69,7 +69,8 @@ class ServicoCorridas:
             corrida.bateria_final_pct = mensagem.bateria_pct
             corrida.desafio_cumprido = mensagem.desafio_cumprido
             corrida.celulas_visitadas = len(self.celulas_ativas)
-            corrida.modo = "SPEED_RUN" if mensagem.status == "SPEED_RUN" else "EXPLORACAO"
+            if mensagem.status == "SPEED_RUN":
+                corrida.modo = "SPEED_RUN"
             self._adicionar_leitura(sessao, corrida.id, mensagem, agora)
 
             if terminal_normal:

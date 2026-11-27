@@ -102,3 +102,36 @@ def test_sem_caminho_conhecido_e_detectado():
     robo.mapa[0][0] |= Direcao.LESTE.mascara
     with pytest.raises(ExploracaoSemSaida, match="sem caminho"):
         robo.proxima_direcao()
+
+
+def test_speed_run_percorre_apenas_celulas_visitadas_pela_menor_rota(pista):
+    robo = RoboVirtual(pista)
+    passos_exploracao = list(robo.explorar())
+    visitadas_exploracao = set(robo.visitadas)
+
+    passos_rapidos = list(robo.speed_run())
+
+    assert robo.chegou
+    assert (passos_rapidos[-1].linha, passos_rapidos[-1].coluna) == pista.chegada
+    assert robo.visitadas == visitadas_exploracao
+    assert all((p.linha, p.coluna) in visitadas_exploracao for p in passos_rapidos)
+    assert MEIA_VOLTA not in {p.manobra for p in passos_rapidos}
+    assert len(passos_rapidos) <= len(passos_exploracao)
+    assert len(passos_rapidos) == robo.distancias(apenas_visitadas=True)[0][0]
+
+
+@pytest.mark.parametrize("labirinto", ["4x4", "8x4", "12x4"])
+def test_speed_run_nas_pistas_de_referencia_reduz_passos_em_pelo_menos_20_por_cento(
+    labirinto,
+):
+    robo = RoboVirtual(pista_de_referencia(labirinto))
+    exploracao = list(robo.explorar())
+    rapido = list(robo.speed_run())
+
+    assert len(rapido) <= len(exploracao) * 0.8
+
+
+def test_speed_run_sem_exploracao_concluida_e_rejeitado():
+    robo = RoboVirtual(pista_de_referencia("4x4"))
+    with pytest.raises(ExploracaoSemSaida, match="sem caminho"):
+        list(robo.speed_run())
