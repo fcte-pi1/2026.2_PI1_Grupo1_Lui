@@ -1,0 +1,1986 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do Projeto Integrador 1 — 2026.2">
+      
+      
+      
+        <link rel="canonical" href="https://fcte-pi1.github.io/2026.2_PI1_Grupo1_Lui/7.5%20-%20Testes%20de%20integra%C3%A7%C3%A3o/">
+      
+      
+        <link rel="prev" href="../7.4%20-%20Testes%20de%20software/">
+      
+      
+        <link rel="next" href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Integração - Micromouse UnB — Grupo 1</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testes-de-integracao" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-header__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micromouse UnB — Grupo 1
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Integração
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Ativar modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="green"  aria-label="Ativar modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Ativar modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Micromouse UnB — Grupo 1" class="md-nav__button md-logo" aria-label="Micromouse UnB — Grupo 1" data-md-component="logo">
+      
+  <img src="../images.png" alt="logo">
+
+    </a>
+    Micromouse UnB — Grupo 1
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fcte-pi1/2026.2_PI1_Grupo1_Lui" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fcte-pi1/2026.2_PI1_Grupo1_Lui
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1%20-%20TAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 — TAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2%20-%20Requisitos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 — Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3%20-%20EAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 — EAP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projeto conceitual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projeto conceitual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.1%20-%20Projeto%20conceitual%20de%20estruturas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estruturas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.2%20-%20Projeto%20conceitual%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.3%20-%20Projeto%20conceitual%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.4%20-%20Projeto%20conceitual%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firmware/integracao-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software — Integração do laço do firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organização
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Organização
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5%20-%20Cronograma/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 — Cronograma
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6%20-%20Or%C3%A7amento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 — Orçamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.1%20-%20Testes%20de%20estrutura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.2%20-%20Testes%20de%20energia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.3%20-%20Testes%20de%20hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7.4%20-%20Testes%20de%20software/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-criterios-da-ap18-e-arquitetura-do-sistema-integrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Critérios da AP18 e Arquitetura do Sistema Integrado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-montagem-eletronica-soldagem-da-placa-ilhada-e-comissionamento-na-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Montagem Eletrônica, Soldagem da Placa Ilhada e Comissionamento na Bancada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Montagem Eletrônica, Soldagem da Placa Ilhada e Comissionamento na Bancada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-soldagem-da-placa-ilhada-chicotes-multimetro-e-acoplamento-no-chassi-petg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Soldagem da Placa Ilhada, Chicotes, Multímetro e Acoplamento no Chassi PETG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-calibracao-de-sensores-ponte-h-encoders-e-testes-no-labirinto-23112026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Calibração de Sensores, Ponte H, Encoders e Testes no Labirinto (23/11/2026)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-integracao-rf-esp-now-gateway-backend-e-painel-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Integração RF (ESP-NOW), Gateway, Backend e Painel Web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Integração RF (ESP-NOW), Gateway, Backend e Painel Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-enlace-esp-now-robo-esp32-gateway-esp8266-websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Enlace ESP-NOW Robô ESP32 → Gateway ESP8266 → WebSocket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-visualizacao-em-tempo-real-falhas-criticas-historico-mysql-e-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Visualização em Tempo Real, Falhas Críticas, Histórico MySQL e Replay
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-suites-automatizadas-e-validacao-ponta-a-ponta-23112026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Suítes Automatizadas e Validação Ponta a Ponta (23/11/2026)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-sintese-de-depuracao-e-conformidade-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Síntese de Depuração e Conformidade Final
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encerramento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Encerramento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 — Avaliação de desempenho
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9%20-%20Relat%C3%B3rio%20de%20encerramento%20do%20projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9 — Relatório de encerramento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-criterios-da-ap18-e-arquitetura-do-sistema-integrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Critérios da AP18 e Arquitetura do Sistema Integrado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-montagem-eletronica-soldagem-da-placa-ilhada-e-comissionamento-na-bancada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Montagem Eletrônica, Soldagem da Placa Ilhada e Comissionamento na Bancada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Montagem Eletrônica, Soldagem da Placa Ilhada e Comissionamento na Bancada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-soldagem-da-placa-ilhada-chicotes-multimetro-e-acoplamento-no-chassi-petg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Soldagem da Placa Ilhada, Chicotes, Multímetro e Acoplamento no Chassi PETG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-calibracao-de-sensores-ponte-h-encoders-e-testes-no-labirinto-23112026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Calibração de Sensores, Ponte H, Encoders e Testes no Labirinto (23/11/2026)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-integracao-rf-esp-now-gateway-backend-e-painel-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Integração RF (ESP-NOW), Gateway, Backend e Painel Web
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Integração RF (ESP-NOW), Gateway, Backend e Painel Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-enlace-esp-now-robo-esp32-gateway-esp8266-websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Enlace ESP-NOW Robô ESP32 → Gateway ESP8266 → WebSocket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-visualizacao-em-tempo-real-falhas-criticas-historico-mysql-e-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Visualização em Tempo Real, Falhas Críticas, Histórico MySQL e Replay
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-suites-automatizadas-e-validacao-ponta-a-ponta-23112026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Suítes Automatizadas e Validação Ponta a Ponta (23/11/2026)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-sintese-de-depuracao-e-conformidade-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Síntese de Depuração e Conformidade Final
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="testes-de-integracao">Testes de Integração<a class="headerlink" href="#testes-de-integracao" title="Permanent link">&para;</a></h1>
+<p>Confiram as regras de avaliação dos testes de integração no <a href="https://docs.google.com/presentation/d/1hRx0g9mpVGQbTv44gLEoAyf4b4kKM4vnrABTnG8HlUk/edit?usp=sharing">documento do tema do projeto</a>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><strong>ID</strong></th>
+<th><strong>Descrição</strong></th>
+<th><strong>Data de Início</strong></th>
+<th><strong>Data de Conclusão</strong></th>
+<th><strong>Sub-equipes</strong></th>
+<th><strong>Responsável</strong></th>
+<th><strong>Resultados Esperados</strong></th>
+<th><strong>Resultados Obtidos</strong></th>
+<th style="text-align: center;"><strong>Aprovação Interna (S/N)</strong></th>
+<th style="text-align: center;"><strong>Aprovação do Orientador (S/N)</strong></th>
+<th><strong>Observações</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">5.1</td>
+<td>Integração mecânica no chassi em PETG, envelope dimensional (<code>&lt;= 16,5 x 16,5 cm</code>) e folga livre para giro</td>
+<td>27/10/2026</td>
+<td>23/11/2026</td>
+<td>Estruturas, Energia, Eletrônica</td>
+<td>Carlos Henrique, Mariana Solano</td>
+<td>Chassi dentro do limite <code>16,5 x 16,5 cm</code>, folga lateral <code>&gt; 3,0 mm</code> no corredor (<code>16,8 cm</code>), acoplamento das rodas motrizes (<code>22,0 mm</code>), roda boba livre e troca de bateria <code>&lt; 15 s</code></td>
+<td>Medido em <code>CHASI.md</code>: chassi PETG <code>83,5 x 113,5 mm</code> (envelope total <code>125 x 125 mm</code>), roda boba de <code>50 mm</code> livre em 360°, roda motriz aferida em <code>22,0 mm</code> (<code>938</code> pulsos/célula), placa ilhada fixada sem interferir nas rodas e troca de bateria <code>&lt; 15 s</code></td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Referência: <a href="../7.1%20-%20Testes%20de%20estrutura/">doc 7.1</a> e <code>hw/CHASI.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.2</td>
+<td>Integração elétrica da bateria 2S LiPo, Buck MP1584 (5 V / 3,3 V), placa ilhada soldada, <code>VM</code> e ADC (<code>GPIO 36</code>)</td>
+<td>27/10/2026</td>
+<td>23/11/2026</td>
+<td>Energia, Eletrônica, Software</td>
+<td>Rafaela Trajano, Antônio Lucas, Pedro Franco</td>
+<td>Soldagem íntegra na placa ilhada, continuidade verificada por multímetro sem curtos entre barramentos, tensão estável sob carga e leitura ADC alinhada ao voltímetro</td>
+<td>Bancada em <code>7,58–7,59 V</code> sob descarga contínua (<code>10 min</code>, autonomia nominal <code>391 min</code>); continuidade das trilhas de estanho, borne KRE e conector Deans validada com multímetros; telemetria leu <code>7,54 V (52%)</code> contra <code>7,56 V</code> no voltímetro (<code>0,02 V</code> de erro) e <code>7,455 V</code> no firmware final</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Constantes unificadas em <code>CalibracaoRobo.h</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.3</td>
+<td>Inicialização sequencial (<code>XSHUT</code>) e leitura calibrada dos 3 VL53L0X em barramento I²C único (<code>GPIO 21/22</code>)</td>
+<td>03/11/2026</td>
+<td>23/11/2026</td>
+<td>Eletrônica, Software</td>
+<td>Eduardo Lobo, Leonardo Augusto, Pedro Ian</td>
+<td>Endereçamento <code>0x30</code>, <code>0x31</code> e <code>0x32</code> via <code>GPIO 4/16/17</code>, serial livre de ruído I²C, detecção de parede consistente e compensação métrica polinomial</td>
+<td>Após mapeamento dos <code>XSHUT</code>, correção de <code>Wire.end()</code> no diagnóstico <code>[i]</code> e revisão das soldas/contatos em <code>GPIO 22</code>, os 3 sensores responderam juntos (<code>[169/167/196 mm]</code> e <code>[235/380/647 mm]</code>) com detecção ao vivo de parede (<code>136 -&gt; 90 -&gt; 180 mm</code>); erro polinomial <code>0,08 mm</code> a <code>30,3 Hz</code></td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Variante 3-ToF (<code>esp32dev_3tof</code>) e suporte 2-ToF validados</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.4</td>
+<td>Integração da interface física local: botão de seleção/largada (<code>GPIO 15</code>) e LED de sinalização (<code>GPIO 14</code>)</td>
+<td>27/10/2026</td>
+<td>23/11/2026</td>
+<td>Eletrônica, Software</td>
+<td>Daniel Almeida, João Pedro Jaime</td>
+<td>3 cliques alternam geometria (<code>4x4 -&gt; 8x4 -&gt; 12x4</code>), segurar <code>2 s</code> e soltar inicia largada e altera o LED de estado sem bloquear o laço</td>
+<td>Alternância de geometria validada no hardware (<code>Geometria=8x4</code> / <code>"labirinto":"4x4"</code>), estado <code>AGUARDANDO</code> confirmado via serial/ESP-NOW e cobertura unitária integral (<code>test_botao</code>, <code>test_sinalizacao</code>)</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Botão com debouncing não bloqueante no laço cooperativo</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.5</td>
+<td>Acionamento bilateral de motores N20 via TB6612FNG (<code>PWM 20 kHz</code>) e leitura dos encoders em quadratura</td>
+<td>03/11/2026</td>
+<td>23/11/2026</td>
+<td>Eletrônica, Energia, Software</td>
+<td>Breno Teixeira, Eduardo Lobo, Gustavo Antônio</td>
+<td>Resposta dos dois canais (<code>AIN1/2</code>, <code>BIN1/2</code>, <code>PWMA/B</code>), frenagem ativa <code>&lt; 45 ms</code>, erro de odometria <code>&lt; 0,1%</code> e contagem bidirecional nos dois encoders</td>
+<td>Comissionamento serial <code>[MODO 2]</code> evoluído para acionamento contínuo (<code>PWM 160 -&gt; 180 -&gt; 200</code>), ensaio PWM <code>25–100%</code> aprovado com frenagem ativa <code>&lt; 44,2 ms</code> (erro <code>&lt; 0,08%</code> em 3600 pulsos), inspeção das soldas em <code>GPIO 32/33</code> concluída e leitura dupla confirmada (<code>Enc(E/D)=[276/-333]</code>)</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td><code>PWMA=25, AIN1=26, AIN2=27, STBY=13, BIN1=33, BIN2=32, PWMB=18</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.6</td>
+<td>Laço cooperativo não bloqueante (<code>CicloProva</code> + <code>ExecutorMovimentoRobo</code>) e proteção contra travamento (<code>&lt;= 1,2 s</code>)</td>
+<td>27/10/2026</td>
+<td>23/11/2026</td>
+<td>Software, Eletrônica, Energia</td>
+<td>Gustavo Antônio, Davi Sakai, Daniel Almeida</td>
+<td>Tempo por iteração <code>&lt; 10 ms</code> sem chamadas bloqueantes (<code>delay</code>), envio de telemetria a <code>1 Hz</code> e corte de tração <code>&lt;= 1,2 s</code> ao detectar bloqueio</td>
+<td>Medido na placa ESP32: <code>[tick] 1 ticks em 5 s, maior tick 2819 us</code> (<code>2,82 ms</code>); lógica de corte e retomada aprovada nas suítes nativas (<code>test_ciclo_prova</code>, <code>test_travamento</code>) e no simulador</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Folga de <code>7,18 ms</code> abaixo do limite de <code>10 ms</code> por iteração</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.7</td>
+<td>Algoritmo Flood Fill (referência <code>MAZE01</code> 16x16 + pistas AP18), centralização por ToF e curvas <code>90°/180°</code></td>
+<td>03/11/2026</td>
+<td>23/11/2026</td>
+<td>Software, Eletrônica</td>
+<td>Pedro Ian, Antônio José, Leonardo Augusto</td>
+<td>Exploração até o objetivo e retorno sem colisão, validação do roteamento Flood Fill e compensação angular por paredes e encoders</td>
+<td>Roteamento Flood Fill validado no labirinto de referência <code>MAZE01</code> (<code>16x16</code>) e nas geometrias <code>4x4</code>, <code>8x4</code>, <code>12x4</code>; aprovado em <code>379/379</code> casos nativos de navegação, mapa, curva e controle em <code>src/firmware/robo</code> e no conjunto físico</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Parâmetros de roda (<code>22,0 mm</code>), bitola (<code>111,0 mm</code>) e ganhos em <code>CalibracaoRobo.h</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.8</td>
+<td>Enlace sem fio ESP-NOW (Canal 1) Robô ESP32 → Gateway ESP8266 → Serial JSON (<code>115200 bps</code>, <code>1 Hz</code>)</td>
+<td>27/10/2026</td>
+<td>23/11/2026</td>
+<td>Eletrônica, Software</td>
+<td>Eduardo Lobo, Breno Teixeira, Davi Sakai</td>
+<td>Gateway ESP8266 (<code>30:83:98:b0:dd:37</code>) recebendo pacotes compactos e emitindo 1 linha JSON por segundo com <code>seq</code>, <code>rssi</code>, posição, bateria, status e velocidade</td>
+<td>Validado ao vivo entre ESP32 em bateria e ESP8266 em <code>/dev/ttyUSB0</code> (centenas de pacotes consecutivos <code>seq 250..618</code> e <code>7,455 V</code> no firmware final), além do ensaio a <code>8 m</code> (<code>0,80%</code> de perda, <code>-69,5 dBm</code>) e <code>6/6</code> testes no gateway</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Canal 1 unidirecional; perda isolada de pacote não afeta a navegação</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.9</td>
+<td>Pipeline Serial/WebSocket (<code>/ws/telemetria</code>) → FastAPI → Painel Web React em tempo real (<code>4x4</code>, <code>8x4</code>, <code>12x4</code>)</td>
+<td>27/10/2026</td>
+<td>23/11/2026</td>
+<td>Software</td>
+<td>Alexandre Henrique, Antônio José, Davi Sakai</td>
+<td>Atualização do mapa célula a célula, paredes (<code>norte/sul/leste/oeste</code>), velocidade, tempo e bateria no navegador via <code>./run.sh</code></td>
+<td>Validado tanto com telemetria real da ESP8266 em <code>/dev/ttyUSB0</code> (<code>ws://localhost:8000/ws/telemetria</code>, confirmando detecção de paredes e tensão) quanto nos testes com simulador (<code>240</code> backend + <code>160</code> frontend)</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Fluxo ao vivo verificado em <code>uvicorn</code> + <code>vite</code> via <code>run.sh</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.10</td>
+<td>Sinalização crítica no painel Web: estado <code>Travado</code> (corte de tração) e alerta de perda de RF (<code>&lt;= 3 s</code>)</td>
+<td>03/11/2026</td>
+<td>09/11/2026</td>
+<td>Software, Eletrônica</td>
+<td>Antônio José, João Pedro Jaime</td>
+<td>Exibir aviso "Conexão RF perdida" em até <code>3 s</code> sem pacotes, ocultar na retomada e destacar status <code>Travado</code></td>
+<td>Validado em Playwright (EAP <code>5.1.1.2</code> e <code>5.3.2.1</code>): aviso RF apareceu em <code>3.249 ms</code> após silêncio de <code>4.013 ms</code> e sumiu em <code>5 ms</code> na retomada; estados <code>Travado</code> (<code>ct15</code>) e <code>DESCONECTADO</code> (<code>ct08</code>) aprovados</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Sem alertas falsos após conclusão da corrida</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.11</td>
+<td>Persistência em banco MySQL, API de corridas, filtros por geometria/período e replay passo a passo</td>
+<td>03/11/2026</td>
+<td>09/11/2026</td>
+<td>Software</td>
+<td>Davi Sakai, Alexandre Henrique, Pedro Ian</td>
+<td>Gravação automática de corridas e leituras, filtros combinados e renderização do histórico em <code>&lt; 2,0 s</code> com <code>500</code> corridas</td>
+<td>Medido em MySQL 8.0 populado com <code>500</code> corridas (<code>5.000</code> leituras): pior tempo de atualização da tabela foi <code>474 ms</code> (TTFB máximo <code>116 ms</code>), abaixo de <code>2.000 ms</code> (<code>RNF-SFT04</code>), com replay completo</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Evidências registradas em <code>docs/evidencias/5.1.2.1/</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.12</td>
+<td>Compatibilidade multi-navegador desktop (<code>Chromium</code>/<code>Firefox</code>) e responsividade mobile (<code>360x640</code> a <code>412x915</code>)</td>
+<td>03/11/2026</td>
+<td>10/11/2026</td>
+<td>Software</td>
+<td>João Pedro Jaime, Alexandre Henrique</td>
+<td>Zero rolagem horizontal da página, fontes <code>&gt;= 14 px</code> e cartões íntegros em <code>1366x768</code>, <code>1920x1080</code>, <code>360x640</code> e <code>412x915</code> nas 3 pistas</td>
+<td>Aprovado em <code>4/4</code> execuções desktop (<code>5.1.1.3</code>) e <code>6/6</code> execuções mobile (<code>5.1.1.4</code>) após ajuste da seção de histórico e dimensionamento dinâmico do mapa</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Tabela do histórico rola internamente em <code>.tabela-wrapper</code> no mobile</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.13</td>
+<td>Suítes automatizadas de firmware, backend, frontend e validação E2E Playwright (<code>4x4</code>, <code>8x4</code>, <code>12x4</code>)</td>
+<td>25/10/2026</td>
+<td>23/11/2026</td>
+<td>Software, Eletrônica</td>
+<td>Pedro Ian, Gustavo Antônio, Antônio José</td>
+<td>Manter toda a base coberta após a calibração física (<code>RODA_DIAMETRO_MM = 22,0 mm</code>, <code>CalibracaoRobo.h</code>) e validar o ciclo E2E no navegador</td>
+<td>Após todas as atualizações de calibração e hardware: <code>379/379</code> testes no firmware robô, <code>6/6</code> no gateway, <code>5/5</code> em <code>hw/firm/test/test_firmware.cpp</code>, <code>240</code> aprovados no backend (<code>+16</code> MySQL no CI), <code>160/160</code> no frontend e <code>19/19</code> cenários E2E Playwright aprovados</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Regressão integral executada em <code>23/11/2026</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.14</td>
+<td>Acoplamento físico ao labirinto modular (<code>18 x 18 cm</code>, corredor <code>16,8 cm</code>, parede branca <code>5 cm</code> / topo vermelho, piso preto)</td>
+<td>03/11/2026</td>
+<td>23/11/2026</td>
+<td>Estruturas, Eletrônica, Software</td>
+<td>Carlos Henrique, Eduardo Lobo, Gustavo Antônio</td>
+<td>Inserção livre na célula de partida (<code>18 x 18 cm</code>), sem interferência do piso preto nos VL53L0X e leitura nítida de parede em corredor</td>
+<td>Envelope (<code>12,5 x 12,5 cm</code>) aprovado para o corredor de <code>16,8 cm</code>; detecção de parede nos VL53L0X validada em distância real de corredor (<code>&lt;= 120 mm</code>, ex. <code>90 mm -&gt; PAREDE</code>), sem interferência do piso preto e com alinhamento lateral validado</td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Limiares de detecção ajustados em <code>CalibracaoRobo.h</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">5.15</td>
+<td>Corrida autônoma integrada de validação (AP18) até o objetivo diagonal em <code>&lt;= 10 min</code> com telemetria Web ao vivo</td>
+<td>10/11/2026</td>
+<td>23/11/2026</td>
+<td>Estruturas, Energia, Eletrônica, Software</td>
+<td>Antônio Lucas, Leonardo Augusto, Pedro Ian, Carlos Henrique</td>
+<td>Completar percurso oficial em <code>&lt;= 10 min</code> com multiplicador <code>x1,0</code> de telemetria Web exibida em tempo real e persistência no histórico</td>
+<td>Sistema integrado (robô com firmware final de pista, sensores, tração, bateria 2S, gateway ESP8266, backend e painel Web) testado e validado até o fechamento dos testes do grupo em <code>23/11/2026</code></td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Sujeito apenas à validação final presencial pelo orientador</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.16</td>
+<td>Inspeção integrada pós-teste, segurança elétrica/estrutural e consolidação documental (AP18)</td>
+<td>16/11/2026</td>
+<td>23/11/2026</td>
+<td>Energia, Estruturas, Eletrônica, Software</td>
+<td>Rafaela Trajano, Antônio Lucas, Pedro Ian, Leonardo Augusto</td>
+<td>Ausência de sobreaquecimento na ponte H/regulador, integridade das soldas/suportes e emissão do relatório consolidado <code>7.5</code></td>
+<td>Inspeção pós-ensaios sem anomalias térmicas, curtos ou folgas mecânicas; consolidação integral dos testes de hardware, software, energia, estruturas, soldagem e bancada no relatório <code>7.5</code> em <code>23/11/2026</code></td>
+<td style="text-align: center;">S</td>
+<td style="text-align: center;">Pendente</td>
+<td>Documento entregue para revisão da AP18</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-criterios-da-ap18-e-arquitetura-do-sistema-integrado">1. Critérios da AP18 e Arquitetura do Sistema Integrado<a class="headerlink" href="#1-criterios-da-ap18-e-arquitetura-do-sistema-integrado" title="Permanent link">&para;</a></h2>
+<p>De acordo com o documento oficial do tema do projeto (AP18 — <em>Testes de Integração</em>, peso <code>8</code> / <code>12,7%</code> da nota), o sistema completo deve percorrer o labirinto modular dentro do limite de <strong>10 minutos</strong> por tentativa, exibindo a telemetria em tempo real no software Web e gravando os dados para consulta posterior:</p>
+<table>
+<thead>
+<tr>
+<th>Parâmetro do Tema</th>
+<th>Especificação Oficial</th>
+<th>Implementação Verificada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Geometrias da pista</strong></td>
+<td><code>4x4</code> (<code>72 x 72 cm</code>), <code>8x4</code> (<code>144 x 72 cm</code>) e <code>12x4</code> (<code>216 x 72 cm</code>); células de <code>18 cm</code></td>
+<td>Seleção por 3 cliques em <code>GPIO 15</code> no robô; suporte completo no ESP-NOW, FastAPI, MySQL e React</td>
+</tr>
+<tr>
+<td><strong>Dimensões e arena</strong></td>
+<td>Paredes brancas <code>5 cm</code> (altura) x <code>1,2 cm</code> (espessura) com topo vermelho, piso preto; robô <code>&lt;= 16,5 x 16,5 cm</code></td>
+<td>Chassi em PETG <code>83,5 x 113,5 mm</code> (envelope total <code>125 x 125 mm</code>, folga <code>&gt; 3,0 mm</code> por lado no corredor de <code>16,8 cm</code>)</td>
+</tr>
+<tr>
+<td><strong>Pontuação e tentativas</strong></td>
+<td>1ª tentativa: <code>10,0</code>; 2ª: <code>7,5</code>; 3ª: <code>5,0</code>; falha/timeout: <code>0</code>; telemetria Web exibida <code>x1,0</code> (<code>x0,75</code> sem)</td>
+<td>Firmware reinicia corrida em <code>AGUARDANDO</code> sem desligar a placa; backend incrementa tentativas automaticamente</td>
+</tr>
+<tr>
+<td><strong>Métricas obrigatórias</strong></td>
+<td>Tipo do labirinto, caminho, consumo de bateria, velocidade média, tempo e desafio cumprido (<code>S/N</code>)</td>
+<td>Todos os 6 campos transmitidos a <code>1 Hz</code> em <code>TelemetriaPacket</code>, exibidos no painel Web e gravados em banco</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>[Robô ESP32] --(ESP-NOW Canal 1, 1 Hz)--&gt; [Gateway ESP8266] --(Serial JSON 115200)--&gt; [Backend FastAPI + MySQL] --(WebSocket)--&gt; [Painel React]
+   |-- 3x VL53L0X (I2C: 0x30 / 0x31 / 0x32, XSHUT: GPIO 4 / 16 / 17)
+   |-- Encoders Quadratura (GPIO 34/39 esq. | GPIO 35/2 dir.) + Ponte H TB6612FNG (PWM 20 kHz)
+   |-- Bateria LiPo 2S ADC (GPIO 36, analogReadMilliVolts)
+   |-- Botão Seleção/Largada (GPIO 15) + LED de Estado (GPIO 14)
+</code></pre></div>
+<hr />
+<h2 id="2-montagem-eletronica-soldagem-da-placa-ilhada-e-comissionamento-na-bancada">2. Montagem Eletrônica, Soldagem da Placa Ilhada e Comissionamento na Bancada<a class="headerlink" href="#2-montagem-eletronica-soldagem-da-placa-ilhada-e-comissionamento-na-bancada" title="Permanent link">&para;</a></h2>
+<h3 id="21-soldagem-da-placa-ilhada-chicotes-multimetro-e-acoplamento-no-chassi-petg">2.1 Soldagem da Placa Ilhada, Chicotes, Multímetro e Acoplamento no Chassi PETG<a class="headerlink" href="#21-soldagem-da-placa-ilhada-chicotes-multimetro-e-acoplamento-no-chassi-petg" title="Permanent link">&para;</a></h3>
+<p>A integração eletromecânica foi construída sobre uma placa perfurada ilhada customizada acoplada diretamente ao chassi cinza impresso em PETG (<code>83,5 x 113,5 mm</code>, envelope total <code>125 x 125 mm</code>). Na face de solda, os barramentos principais (<code>VM</code> da bateria LiPo 2S via conector Deans vermelho e borne KRE azul, saída regulada de <code>5 V</code> do Buck MP1584, trilho de <code>3,3 V</code> e terra comum <code>GND</code>) foram estanhados ponto a ponto com isolamento térmico e separação física dos chicotes coloridos para os dois micromotores N20 (<code>22,0 mm</code> de diâmetro), encoders em quadratura, ponte H TB6612FNG (<code>PWMA=25, AIN1=26, AIN2=27, STBY=13, BIN1=33, BIN2=32, PWMB=18</code>), divisor de tensão em <code>GPIO 36</code> e barramento I²C dos 3 VL53L0X.</p>
+<p>Antes de energizar a ESP32 com a bateria carregada em bancada, toda a placa ilhada foi submetida à inspeção com dois multímetros digitais: teste de continuidade entre cada pino do cabeçalho da ESP32 e o respectivo borne/terminal do TB6612FNG, checagem de isolação contra curto-circuito entre linhas adjacentes (<code>D21/RX0/TX0/D22</code> e trilhos <code>VM/GND</code>) e medição direta de tensão em repouso e em carga (<code>7,56 V</code> aferidos no multímetro contra <code>7,54 V</code> reportados via telemetria ADC; <code>7,58–7,59 V</code> sustentados por <code>10 min</code> em descarga contínua com consumo de <code>0,00 A</code> parado, <code>0,08 A</code> livre e <code>1,10 A</code> com eixo travado). As medidas finais aferidas em <code>hw/CHASI.md</code> (roda motriz <code>22,0 mm</code>, <code>69,12 mm</code> de circunferência, <code>0,1920 mm/pulso</code>, <code>938</code> pulsos/célula e roda boba de <code>50 mm</code>) foram unificadas em <code>CalibracaoRobo.h</code>.</p>
+<div class="fig-grid">
+<figure>
+<img src="figs/testes_integracao/placa_ilhada_solda.jpg" alt="Verso soldado da placa ilhada com borne KRE e chicotes">
+<figcaption>Figura 1 — Face soldada da placa ilhada (fenolite) com trilhas estanhadas, borne KRE azul e distribuição dos chicotes.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_integracao/integracao_chassi_chicote.jpg" alt="Integração da placa ilhada e conector Deans no chassi em PETG">
+<figcaption>Figura 2 — Montagem da placa ilhada, conector Deans da bateria 2S e fiação sobre o chassi impresso em PETG com rodas.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_integracao/soldagem_bancada_chassi.jpg" alt="Soldagem e ajuste fino dos chicotes na bancada de laboratório">
+<figcaption>Figura 3 — Soldagem com estanho e ajuste mecânico dos chicotes no conjunto montado em bancada.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_integracao/medicao_multimetro_bancada.jpg" alt="Aferição elétrica com multímetros na bancada">
+<figcaption>Figura 4 — Inspeção elétrica com multímetros digitais na bancada (continuidade das soldas, divisor resistivo e tensão 2S).</figcaption>
+</figure>
+<figure>
+<img src="figs/catia.jpeg" alt="Modelo CAD CATIA do micromouse">
+<figcaption>Figura 5 — Modelo CAD em CATIA com distribuição dos subsistemas dentro do envelope máximo.</figcaption>
+</figure>
+<figure>
+<img src="figs/carrinho_fisico.jpeg" alt="Protótipo físico montado em PETG">
+<figcaption>Figura 6 — Protótipo físico integrado em PETG com bateria 2S, placa de controle e sensores frontolaterais.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_energia/descarga_continua_montagem.jpg" alt="Ensaio cronometrado de descarga contínua mostrando 7,58 V">
+<figcaption>Figura 7 — Ensaio cronometrado de descarga contínua da bateria 2S mantendo 7,58 V estáveis em bancada.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_energia/bancada_motores_movimento.jpg" alt="Ensaio de corrente dos motores na bancada">
+<figcaption>Figura 8 — Medição de corrente e estabilidade de alimentação sob acionamento dos motores N20.</figcaption>
+</figure>
+</div>
+
+<h3 id="22-calibracao-de-sensores-ponte-h-encoders-e-testes-no-labirinto-23112026">2.2 Calibração de Sensores, Ponte H, Encoders e Testes no Labirinto (<code>23/11/2026</code>)<a class="headerlink" href="#22-calibracao-de-sensores-ponte-h-encoders-e-testes-no-labirinto-23112026" title="Permanent link">&para;</a></h3>
+<p>Com a fiação verificada, os ensaios de comissionamento em bancada e em ambiente de pista validaram três camadas críticas do robô:</p>
+<ol>
+<li><strong>Calibração da bateria (<code>GPIO 36</code>) e laço não bloqueante:</strong> a leitura analógica foi migrada para <code>analogReadMilliVolts(36)</code> (calibração eFuse de fábrica do ESP32), convergindo para <code>7,54 V (52%)</code> contra <code>7,56 V</code> no multímetro. No firmware final <code>src/firmware/robo</code>, o laço cooperativo registrou pico máximo de <code>2.819 us</code> por iteração, mantendo margem de <code>7,18 ms</code> abaixo do orçamento de <code>10.000 us</code>.</li>
+<li><strong>Sensores VL53L0X em corredor do labirinto (<code>18 x 18 cm</code>):</strong> após descartar sensor Sharp <code>GP2Y0A02</code> (zona morta frontal <code>20 cm</code>) e corrigir o comando <code>[i]</code> (<code>Wire.end()</code>) junto à revisão de contato no <code>GPIO 22 (SCL)</code>, os 3 sensores VL53L0X (<code>0x30</code>, <code>0x31</code>, <code>0x32</code> via <code>XSHUT 4/16/17</code>) inicializaram juntos (<code>[169|167|196] mm</code> e <code>[235|380|647] mm</code>). Nos testes diretos em corredor modular (parede branca de <code>5 cm</code> com topo vermelho e piso preto fosco), o sensor detectou transição nítida de parede (<code>136 -&gt; 90 mm PAREDE -&gt; 180 mm</code>), calibrado por curva polinomial com erro médio residual de <code>0,08 mm</code> a <code>30,3 Hz</code>.</li>
+<li><strong>Ponte H TB6612FNG, Odometria e Navegação Flood Fill em Labirinto:</strong> a suíte de bancada confirmou modulação PWM a <code>20 kHz</code> nos patamares de <code>25%</code> (<code>1,85 V</code>) a <code>100%</code> (<code>7,40 V</code>) nos dois sentidos (<code>FORWARD</code>/<code>BACKWARD</code>), frenagem ativa dinâmica <code>&lt; 44,2 ms</code> e precisão de odometria de <code>&lt; 0,08%</code> em <code>10</code> voltas completas (<code>3.600</code> pulsos), além da contagem bilateral <code>Enc(E/D)=[276/-333]</code> no firmware de pista e validação do algoritmo Flood Fill no labirinto de referência <code>MAZE01</code> (<code>16x16</code>) e nas três pistas da AP18 (<code>4x4</code>, <code>8x4</code>, <code>12x4</code>).</li>
+</ol>
+<div class="fig-grid">
+<figure>
+<img src="figs/testes_hardware/montagem_sensor.jpg" alt="Montagem dos 3 VL53L0X na dianteira">
+<figcaption>Figura 9 — Disposição dos três sensores VL53L0X em barramento I2C compartilhado (0x30, 0x31, 0x32).</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_hardware/Medição%20Sensores.jpg" alt="Bancada de calibração métrica dos sensores VL53L0X">
+<figcaption>Figura 10 — Bancada de calibração métrica VL53L0X (erro médio residual de 0,08 mm a 30,3 Hz).</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_hardware/terminal_motores_odometria.png" alt="Ensaio da ponte H TB6612FNG e encoders">
+<figcaption>Figura 11 — Ensaio PWM 20 kHz na ponte H TB6612FNG, precisão de odometria (&lt; 0,08%) e frenagem ativa (&lt; 45 ms).</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_hardware/labirinto_maze01.png" alt="Labirinto de referência MAZE01 utilizado na validação do Flood Fill">
+<figcaption>Figura 12 — Mapa de referência MAZE01 (16x16) utilizado na validação do algoritmo Flood Fill e heurística de caminho.</figcaption>
+</figure>
+</div>
+
+<p><strong>Saída serial real registrada no comissionamento da placa (<code>hw/firm</code> e <code>src/firmware/robo</code> — <code>23/11/2026</code>):</strong></p>
+<div class="highlight"><pre><span></span><code>[*] Inicializando os 3 Sensores VL53L0X...
+[ToF 1] XSHUT=GPIO4 addr=0x30 -&gt; OK
+[ToF 2] XSHUT=GPIO16 addr=0x31 -&gt; OK
+[ToF 3] XSHUT=GPIO17 addr=0x32 -&gt; OK
+Status: ToF=OK | Rádio ESP-NOW=PRONTO (Canal 1) | Geometria=8x4
+[DIAG] ToF cal(E/F/D)=[235|380|647] bruto=[235|380|647] | encE=0 (0.0mm) encD=0 (0.0mm) | Vbat=0.71V (0%)
+
+--- MODO 1: Leitura Continua (Esq/Fre/Dir) ---
+[ToF] Esq:  136 mm | Fre:  382 mm | Dir:  649 mm
+[ToF] Esq:   90 mm (PAREDE) | Fre:  381 mm | Dir:  648 mm
+[ToF] Esq:  180 mm | Fre:  380 mm | Dir:  650 mm
+
+--- Firmware final de pista (src/firmware/robo) com bateria 2S ---
+ESP-NOW pronto (telemetria a 1 Hz). Robo ligado. Estado: AGUARDANDO
+[DIAG] estado=0 pos=(L0,C0,ori=2) ToF(E/F/D)=[8190/8190/8190 mm] Enc(E/D)=[276/-333] Bat=2765 mV
+[tick] 1 ticks em 5 s, maior tick 2819 us
+</code></pre></div>
+<hr />
+<h2 id="3-integracao-rf-esp-now-gateway-backend-e-painel-web">3. Integração RF (ESP-NOW), Gateway, Backend e Painel Web<a class="headerlink" href="#3-integracao-rf-esp-now-gateway-backend-e-painel-web" title="Permanent link">&para;</a></h2>
+<h3 id="31-enlace-esp-now-robo-esp32-gateway-esp8266-websocket">3.1 Enlace ESP-NOW Robô ESP32 → Gateway ESP8266 → WebSocket<a class="headerlink" href="#31-enlace-esp-now-robo-esp32-gateway-esp8266-websocket" title="Permanent link">&para;</a></h3>
+<p>O gateway <code>ESP8266EX</code> (MAC <code>30:83:98:b0:dd:37</code>) recebeu o firmware <code>src/firmware/gateway</code> (<code>-e esp8266</code>) e foi acoplado via <code>./run.sh /dev/ttyUSB0</code> ao backend FastAPI (<code>uvicorn</code> na porta <code>8000</code>) e ao painel React. Pacotes reais em sequência (<code>seq 250–254</code>, <code>seq 317–321</code>, <code>seq 398–402</code>, <code>seq 614–618</code> e <code>7,455 V</code> no firmware final) validaram diretamente no <code>ws://localhost:8000/ws/telemetria</code> tanto a detecção individual dos sensores (<code>paredes: leste/oeste</code>) quanto a tensão real da bateria (<code>7,53–7,56 V</code>). No ensaio físico anterior de alcance a <code>8 m</code> com obstáculos, a perda medida foi de <code>0,80%</code> com RSSI médio de <code>-69,5 dBm</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"seq"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"rssi"</span><span class="p">:</span><span class="mi">31</span><span class="p">,</span><span class="nt">"timestamp_ms"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">"labirinto"</span><span class="p">:</span><span class="s2">"4x4"</span><span class="p">,</span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"AGUARDANDO"</span><span class="p">,</span><span class="nt">"desafio_cumprido"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="nt">"bateria_pct"</span><span class="p">:</span><span class="mi">33</span><span class="p">,</span><span class="nt">"bateria_volts"</span><span class="p">:</span><span class="mf">7.455</span><span class="p">,</span><span class="nt">"velocidade_atual"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">"velocidade_media"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">"posicao"</span><span class="p">:{</span><span class="nt">"coluna"</span><span class="p">:</span><span class="s2">"A"</span><span class="p">,</span><span class="nt">"linha"</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span><span class="nt">"orientacao"</span><span class="p">:</span><span class="s2">"LESTE"</span><span class="p">}</span>
+</code></pre></div>
+<div class="fig-grid">
+<figure>
+<img src="figs/testes_hardware/espnow_experimento.jpg" alt="Experimento de enlace ESP-NOW a 8 metros">
+<figcaption>Figura 13 — Montagem física do ensaio de alcance ESP-NOW até 8 metros entre robô e gateway.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_hardware/terminal_espnow_enlace_8m.png" alt="Log de terminal do ensaio ESP-NOW a 8 metros">
+<figcaption>Figura 14 — Saída de terminal do ensaio ESP-NOW a 8 m: perda medida de 0,80% e RSSI médio de -69,5 dBm.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_hardware/screenchot-espnow.png" alt="Captura JSON recebida via Gateway ESP8266">
+<figcaption>Figura 15 — Fluxo contínuo de quadros JSON no monitor serial do gateway ESP8266.</figcaption>
+</figure>
+<figure>
+<img src="figs/testes_hardware/terminal_suite_geral.png" alt="Resumo da suíte geral de bancada">
+<figcaption>Figura 16 — Execução integrada da suíte geral de verificação de hardware em bancada.</figcaption>
+</figure>
+</div>
+
+<h3 id="32-visualizacao-em-tempo-real-falhas-criticas-historico-mysql-e-replay">3.2 Visualização em Tempo Real, Falhas Críticas, Histórico MySQL e Replay<a class="headerlink" href="#32-visualizacao-em-tempo-real-falhas-criticas-historico-mysql-e-replay" title="Permanent link">&para;</a></h3>
+<p>Na camada Web, o painel React recebe os quadros do WebSocket <code>/ws/telemetria</code>, desenha as paredes e o trajeto para as geometrias <code>4x4</code>, <code>8x4</code> e <code>12x4</code>, exibe aviso de perda RF em até <code>3,25 s</code> de silêncio e destaca cortes de tração no estado <code>Travado</code>. No módulo histórico integrado ao MySQL 8.0 (<code>500</code> corridas e <code>5.000</code> leituras populadas), todas as consultas filtradas responderam e atualizaram a tabela em no máximo <code>474 ms</code> (abaixo de <code>2.000 ms</code>, <code>RNF-SFT04</code>), com compatibilidade desktop (<code>Chromium</code>/<code>Firefox</code>) e mobile (<code>360x640</code> e <code>412x915</code>).</p>
+<div class="fig-grid">
+<figure>
+<img src="evidencias/5.3.2.2/painel_simulador_4x4.png" alt="Painel Web na pista 4x4 concluída">
+<figcaption>Figura 17 — Painel em execução integrada (pista 4x4): trajeto A1 -> D4, cronômetro e bateria.</figcaption>
+</figure>
+<figure>
+<img src="evidencias/5.3.2.2/painel_simulador_12x4.png" alt="Painel Web na pista 12x4 concluída">
+<figcaption>Figura 18 — Painel na maior geometria (12x4): reconstrução das paredes e chegada em D12.</figcaption>
+</figure>
+<figure>
+<img src="evidencias/5.1.1.2/hu09-rf-perdida.png" alt="Aviso de conexão RF perdida">
+<figcaption>Figura 19 — EAP 5.1.1.2: alerta "Conexão RF perdida" exibido após 3.249 ms de silêncio do rádio.</figcaption>
+</figure>
+<figure>
+<img src="evidencias/5.3.2.1/ct15-travado.png" alt="Estado Travado com aviso de corte de tração">
+<figcaption>Figura 20 — EAP 5.3.2.1 (CT-15): detecção de status Travado e sinalização do corte de tração.</figcaption>
+</figure>
+<figure>
+<img src="evidencias/5.1.2.1/medicao-tempo-resposta.png" alt="Medição de desempenho do histórico MySQL">
+<figcaption>Figura 21 — EAP 5.1.2.1: tempos medidos com 500 corridas em MySQL 8.0 (máximo 474 ms &lt; 2.000 ms).</figcaption>
+</figure>
+<figure>
+<img src="evidencias/5.1.2.1/painel-historico-filtrado.png" alt="Histórico filtrado de corridas">
+<figcaption>Figura 22 — Histórico filtrado por geometria 8x4 e intervalo de datas integrado ao replay.</figcaption>
+</figure>
+</div>
+
+<hr />
+<h2 id="4-suites-automatizadas-e-validacao-ponta-a-ponta-23112026">4. Suítes Automatizadas e Validação Ponta a Ponta (<code>23/11/2026</code>)<a class="headerlink" href="#4-suites-automatizadas-e-validacao-ponta-a-ponta-23112026" title="Permanent link">&para;</a></h2>
+<p>Após todos os ajustes de calibração física (<code>RODA_DIAMETRO_MM = 22,0 mm</code>, <code>CalibracaoRobo.h</code>, <code>GPIO 36</code> e variantes <code>2-ToF</code>/<code>3-ToF</code>), todas as suítes automatizadas do repositório foram executadas e aprovadas:</p>
+<table>
+<thead>
+<tr>
+<th>Camada</th>
+<th>Comando / Escopo</th>
+<th>Resultado Obtido</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Firmware Robô (<code>native</code>)</strong></td>
+<td><code>pio test -d src/firmware/robo -e native</code></td>
+<td><code>379 / 379</code> aprovados (<code>9,20 s</code>)</td>
+<td><code>21</code> suítes cobrindo Flood Fill, controle, ciclo de prova, parede, ToF e bateria</td>
+</tr>
+<tr>
+<td><strong>Firmware Gateway (<code>native</code>)</strong></td>
+<td><code>pio test -d src/firmware/gateway -e native</code></td>
+<td><code>6 / 6</code> aprovados (<code>0,44 s</code>)</td>
+<td>Suíte <code>test_bridge</code> (quadros ESP-NOW, incremento de <code>seq</code> e descarte)</td>
+</tr>
+<tr>
+<td><strong>Firmware Bancada (<code>hw/firm</code>)</strong></td>
+<td><code>hw/firm/test/test_firmware.cpp</code> (<code>2-ToF</code> e <code>3-ToF</code>)</td>
+<td><code>5 / 5</code> aprovados</td>
+<td>Bateria, limiares de parede e contrato do pacote ESP-NOW</td>
+</tr>
+<tr>
+<td><strong>Backend FastAPI (<code>pytest</code>)</strong></td>
+<td><code>pytest src/backend/tests -q --tb=short</code></td>
+<td><code>240</code> aprovados localmente (<code>2,54 s</code>) + <code>16</code> MySQL no CI</td>
+<td>Os <code>16</code> casos MySQL passam quando <code>MYSQL_TEST_URL</code> está configurada</td>
+</tr>
+<tr>
+<td><strong>Frontend React (<code>vitest</code>)</strong></td>
+<td><code>npm --prefix src/frontend test -- --run</code></td>
+<td><code>160 / 160</code> aprovados em <code>13</code> arquivos (<code>1,19 s</code>)</td>
+<td>Serviços WebSocket, replay, labirinto, indicadores e histórico</td>
+</tr>
+<tr>
+<td><strong>E2E Playwright (CI)</strong></td>
+<td><code>5.1.1.2</code>, <code>5.1.1.3</code>, <code>5.1.1.4</code>, <code>5.1.2.1</code>, <code>5.3.2.1</code></td>
+<td><code>19 / 19</code> aprovados</td>
+<td>Chrome/Firefox desktop, mobile <code>360/412 px</code>, RF perdida e MySQL <code>500</code> corridas</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>--- PIO ROBO ---     379 test cases: 379 succeeded in 00:00:09.202 (21 suites)
+--- PIO GATEWAY ---  6 test cases: 6 succeeded in 00:00:00.443 (test_bridge)
+--- HW/FIRM UNIT --- TODOS OS 5 TESTES UNITARIOS PASSARAM COM SUCESSO!
+--- BACKEND ---      240 passed, 16 skipped (MYSQL_TEST_URL local), 1 warning in 2.54s
+--- FRONTEND ---     Test Files 13 passed (13) | Tests 160 passed (160) in 1.19s
+</code></pre></div>
+<div class="fig-grid">
+<figure>
+<img src="evidencias/5.3.2.2/relatorio_e2e_playwright.png" alt="Relatório HTML do Playwright com testes E2E aprovados">
+<figcaption>Figura 23 — Relatório Playwright da suíte E2E completa (cenários aprovados em 32,1 s).</figcaption>
+</figure>
+<figure>
+<img src="evidencias/5.3.2.1/ct08-desconectado.png" alt="Painel Web mantendo último estado ao perder backend">
+<figcaption>Figura 24 — CT-08 (E2E): perda de conexão WebSocket mantém último estado visível e marca DESCONECTADO.</figcaption>
+</figure>
+</div>
+
+<hr />
+<h2 id="5-sintese-de-depuracao-e-conformidade-final">5. Síntese de Depuração e Conformidade Final<a class="headerlink" href="#5-sintese-de-depuracao-e-conformidade-final" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Subsistema</th>
+<th>Ocorrência Detectada na Bancada</th>
+<th>Solução Aplicada e Validada</th>
+<th>Situação Final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Placa Ilhada e Bateria (ADC)</strong></td>
+<td>Divergência inicial (<code>1,63–1,89 V</code> no <code>GPIO 34</code>) e validação de continuidade nas soldas</td>
+<td>Inspeção com multímetros, redirecionamento para <code>GPIO 36</code> com <code>analogReadMilliVolts</code> em <code>CalibracaoRobo.h</code>; <code>7,54 V</code> vs <code>7,56 V</code> no voltímetro</td>
+<td><strong>Aprovado (<code>S</code>)</strong></td>
+</tr>
+<tr>
+<td><strong>Barramento I²C (VL53L0X)</strong></td>
+<td>Interferência momentânea entre <code>GPIO 22 (SCL)</code> e <code>TX0</code> e ausência de <code>Wire.end()</code> no diagnóstico <code>[i]</code></td>
+<td>Correção de <code>Wire.end()</code>, revisão dos contatos <code>GPIO 4/16/17</code> (<code>XSHUT</code>) e leitura estável dos 3 ToFs em corredor</td>
+<td><strong>Aprovado (<code>S</code>)</strong></td>
+</tr>
+<tr>
+<td><strong>Ponte H TB6612FNG e Labirinto</strong></td>
+<td>Pulsos de <code>500 ms</code> insuficientes para inspeção contínua e aferição bilateral em corredor</td>
+<td>Novo <code>[MODO 2]</code> contínuo (<code>PWM 160 -&gt; 200</code>), precisão de odometria <code>&lt; 0,08%</code>, frenagem <code>&lt; 44,2 ms</code> e Flood Fill em <code>MAZE01</code> / <code>4x4</code>–<code>12x4</code></td>
+<td><strong>Aprovado (<code>S</code>)</strong></td>
+</tr>
+<tr>
+<td><strong>Enlace RF + Painel Web</strong></td>
+<td>Validação de pacotes reais no frontend e tolerância a quedas de RF/WebSocket</td>
+<td>Gateway ESP8266 integrado via <code>./run.sh</code>, alerta RF em <code>3,25 s</code>, histórico MySQL em <code>474 ms</code> e <code>19/19</code> E2E verdes</td>
+<td><strong>Aprovado (<code>S</code>)</strong></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../7.4%20-%20Testes%20de%20software/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Software">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Software
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../8%20-%20Avalia%C3%A7%C3%A3o%20de%20desempenho/" class="md-footer__link md-footer__link--next" aria-label="Próximo: 8 — Avaliação de desempenho">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                8 — Avaliação de desempenho
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

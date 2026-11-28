@@ -1,0 +1,155 @@
+Processing esp32dev (platform: espressif32; board: esp32dev; framework: arduino)
+--------------------------------------------------------------------------------
+Tool Manager: Installing platformio/tool-esptoolpy @ ~2.41100.0
+Tool Manager: Error: Please read https://bit.ly/package-manager-ioerror
+Tool Manager: Warning! Package Mirror: HTTPSConnectionPool(host='usc1.contabostorage.com', port=443): Max retries exceeded with url: /250040e607e8431abaff8727621872f9:pioregmirrorus/tools/3c/b7/1366152d236a9ab806672b1088b28a203287fdf69b356e274aa951447324/tool-esptoolpy-2.41100.260830.tar.gz (Caused by NewConnectionError("HTTPSConnection(host='usc1.contabostorage.com', port=443): Failed to establish a new connection: [WinError 10013] Foi feita uma tentativa de acesso a um soquete de uma maneira que é proibida pelas permissões de acesso"))
+Tool Manager: Looking for another mirror...
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Collecting cryptography~=46.0.0
+  Downloading cryptography-46.0.7-cp311-abi3-win_amd64.whl.metadata (5.7 kB)
+Collecting ecdsa~=0.19.1
+  Downloading ecdsa-0.19.2-py2.py3-none-any.whl.metadata (29 kB)
+Collecting bitstring~=4.3.1
+  Downloading bitstring-4.3.1-py3-none-any.whl.metadata (5.3 kB)
+Collecting reedsolo~=1.7.0
+  Downloading reedsolo-1.7.0-py3-none-any.whl.metadata (23 kB)
+Collecting intelhex~=2.3.0
+  Downloading intelhex-2.3.0-py2.py3-none-any.whl.metadata (2.7 kB)
+Collecting cffi>=2.0.0 (from cryptography~=46.0.0)
+  Downloading cffi-2.1.1-cp311-cp311-win_amd64.whl.metadata (2.6 kB)
+Collecting six>=1.9.0 (from ecdsa~=0.19.1)
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting bitarray<4.0,>=3.0.0 (from bitstring~=4.3.1)
+  Downloading bitarray-3.12.1-cp311-cp311-win_amd64.whl.metadata (42 kB)
+     ---------------------------------------- 42.3/42.3 kB 1.0 MB/s eta 0:00:00
+Collecting pycparser (from cffi>=2.0.0->cryptography~=46.0.0)
+  Downloading pycparser-3.11-py3-none-any.whl.metadata (8.2 kB)
+Downloading cryptography-46.0.7-cp311-abi3-win_amd64.whl (3.5 MB)
+   ---------------------------------------- 3.5/3.5 MB 22.2 MB/s eta 0:00:00
+Downloading ecdsa-0.19.2-py2.py3-none-any.whl (150 kB)
+   ---------------------------------------- 150.8/150.8 kB 8.8 MB/s eta 0:00:00
+Downloading bitstring-4.3.1-py3-none-any.whl (71 kB)
+   ---------------------------------------- 71.9/71.9 kB ? eta 0:00:00
+Downloading reedsolo-1.7.0-py3-none-any.whl (32 kB)
+Downloading intelhex-2.3.0-py2.py3-none-any.whl (50 kB)
+   ---------------------------------------- 50.9/50.9 kB 2.5 MB/s eta 0:00:00
+Downloading bitarray-3.12.1-cp311-cp311-win_amd64.whl (182 kB)
+   --------------------------------------- 182.8/182.8 kB 11.5 MB/s eta 0:00:00
+Downloading cffi-2.1.1-cp311-cp311-win_amd64.whl (185 kB)
+   ---------------------------------------- 185.1/185.1 kB 2.2 MB/s eta 0:00:00
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading pycparser-3.11-py3-none-any.whl (51 kB)
+   ---------------------------------------- 51.2/51.2 kB 2.7 MB/s eta 0:00:00
+Installing collected packages: reedsolo, intelhex, six, pycparser, bitarray, ecdsa, cffi, bitstring, cryptography
+Successfully installed bitarray-3.12.1 bitstring-4.3.1 cffi-2.1.1 cryptography-46.0.7 ecdsa-0.19.2 intelhex-2.3.0 pycparser-3.11 reedsolo-1.7.0 six-1.17.0
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\davis\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\python.exe -m pip install --upgrade pip
+Tool Manager: tool-esptoolpy@2.41100.260830 has been installed!
+Library Manager: Installing bblanchon/ArduinoJson @ ^7.0.0
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Library Manager: ArduinoJson@7.4.3 has been installed!
+Library Manager: Installing throwtheswitch/Unity @ ^2.6.1
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Library Manager: Unity@2.6.1 has been installed!
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32dev.html
+PLATFORM: Espressif 32 (7.1.3) > Espressif ESP32 Dev Module
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 4.20017.260907+sha.dcc1105b 
+ - tool-esptoolpy @ 2.41100.260830 (4.11.0) 
+ - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 36 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- telemetria @ 1.0.0
+|-- ArduinoJson @ 7.4.3
+|-- WiFi @ 2.0.0
+Building in release mode
+Compiling .pio\build\esp32dev\src\main.cpp.o
+Building .pio\build\esp32dev\bootloader.bin
+Generating partitions .pio\build\esp32dev\partitions.bin
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFi.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiAP.cpp.o
+esptool.py v4.11.0
+Creating esp32 image...
+Merged 1 ELF section
+Successfully created esp32 image.
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiClient.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiGeneric.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiMulti.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiSTA.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiScan.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiServer.cpp.o
+Compiling .pio\build\esp32dev\lib693\WiFi\WiFiUdp.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\Esp.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\FirmwareMSC.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\FunctionalInterrupt.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\HWCDC.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\HardwareSerial.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\IPAddress.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\IPv6Address.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\MD5Builder.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\Print.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\Stream.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\StreamString.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\Tone.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\USB.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\USBCDC.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\USBMSC.cpp.o
+Archiving .pio\build\esp32dev\lib693\libWiFi.a
+Compiling .pio\build\esp32dev\FrameworkArduino\WMath.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\WString.cpp.o
+Indexing .pio\build\esp32dev\lib693\libWiFi.a
+Compiling .pio\build\esp32dev\FrameworkArduino\base64.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\cbuf.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-adc.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-bt.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-cpu.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-dac.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-gpio.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-i2c-slave.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-i2c.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-ledc.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-matrix.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-misc.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-psram.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-rgb-led.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-rmt.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-sigmadelta.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-spi.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-time.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-timer.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-tinyusb.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-touch.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\esp32-hal-uart.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\firmware_msc_fat.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\libb64\cdecode.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\libb64\cencode.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\main.cpp.o
+Compiling .pio\build\esp32dev\FrameworkArduino\stdlib_noniso.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\wiring_pulse.c.o
+Compiling .pio\build\esp32dev\FrameworkArduino\wiring_shift.c.o
+Archiving .pio\build\esp32dev\libFrameworkArduino.a
+Indexing .pio\build\esp32dev\libFrameworkArduino.a
+Linking .pio\build\esp32dev\firmware.elf
+Retrieving maximum program size .pio\build\esp32dev\firmware.elf
+Checking size .pio\build\esp32dev\firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [=         ]  13.8% (used 45108 bytes from 327680 bytes)
+Flash: [======    ]  55.9% (used 733285 bytes from 1310720 bytes)
+Building .pio\build\esp32dev\firmware.bin
+esptool.py v4.11.0
+Creating esp32 image...
+Merged 27 ELF sections
+Successfully created esp32 image.
+========================= [SUCCESS] Took 52.06 seconds =========================
+
+Environment    Status    Duration
+-------------  --------  ------------
+esp32dev       SUCCESS   00:00:52.062
+========================= 1 succeeded in 00:00:52.062 =========================
