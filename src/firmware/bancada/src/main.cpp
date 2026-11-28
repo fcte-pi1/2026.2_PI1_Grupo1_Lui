@@ -301,9 +301,6 @@ void executarAnalisePortasI2C(void) {
     }
 
     // Restaura modos originais dos drivers apos o teste de IO
-    pinMode(PIN_BUTTON_START, INPUT_PULLUP);
-    pinMode(PIN_STATUS_LED, OUTPUT);
-    digitalWrite(PIN_STATUS_LED, LOW);
     tb6612_init();
     tb6612_stop();
     encoder_init();
@@ -988,10 +985,6 @@ void setup() {
     Serial.begin(115200);
     delay(500);
 
-    pinMode(PIN_BUTTON_START, INPUT_PULLUP);
-    pinMode(PIN_STATUS_LED, OUTPUT);
-    digitalWrite(PIN_STATUS_LED, LOW);
-
     // 1. Inicializa drivers de hardware e aplica sentidos/offsets de CalibracaoRobo.h
     tb6612_init();
     tb6612_stop();
@@ -1161,9 +1154,6 @@ void loop() {
                           tof.right_valid ? tof.dist_right_mm : -1,
                           (int)tl, (int)tr, bat.voltage_volts, bat.percentage);
         }
-
-        // Pisca LED indicador externo
-        digitalWrite(PIN_STATUS_LED, !digitalRead(PIN_STATUS_LED));
     }
 
     if (modoAtual == MODO_TESTE_MOTORES_MANUAL &&
@@ -1174,15 +1164,5 @@ void loop() {
                       (int)calPwmManual,
                       (long)encoder_get_ticks_left(),
                       (long)encoder_get_ticks_right());
-    }
-
-    // --- 4. BOTÃO FÍSICO DE LARGADA (GPIO 15) ---
-    if (digitalRead(PIN_BUTTON_START) == LOW) {
-        delay(50); // Debounce
-        if (digitalRead(PIN_BUTTON_START) == LOW) {
-            Serial.println("\n[BOTÃO FÍSICO DETECTADO] Disparando avanço de 1 célula (168 mm)!");
-            executarAvancoUmaCelula();
-            while (digitalRead(PIN_BUTTON_START) == LOW) delay(10);
-        }
     }
 }

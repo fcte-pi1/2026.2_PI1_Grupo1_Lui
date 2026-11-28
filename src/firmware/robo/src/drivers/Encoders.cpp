@@ -28,11 +28,11 @@ static void IRAM_ATTR aoPulsoDir() {
 }
 
 void Encoders::iniciar() {
-    // GPIO 34, 39 e 35 só funcionam como entrada e não têm pull-up interno.
+    // GPIO 34 e 35 só funcionam como entrada e não têm pull-up interno.
     pinMode(PINO_ENCODER_ESQ_A, INPUT);
     pinMode(PINO_ENCODER_ESQ_B, INPUT);
-    pinMode(PINO_ENCODER_DIR_A, INPUT);
-    pinMode(PINO_ENCODER_DIR_B, INPUT_PULLUP);  // GPIO 2 tem pull-up interno
+    pinMode(PINO_ENCODER_DIR_A, INPUT_PULLUP);
+    pinMode(PINO_ENCODER_DIR_B, INPUT_PULLUP);
 
     zerar();
     attachInterrupt(digitalPinToInterrupt(PINO_ENCODER_ESQ_A), aoPulsoEsq, RISING);

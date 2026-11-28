@@ -30,7 +30,8 @@ enum ModoBancada : uint8_t {
     BANCADA_ENCODERS,
     BANCADA_TELEMETRIA,
     BANCADA_EXECUTOR,
-    BANCADA_ANTICOLLISAO
+    BANCADA_ANTICOLLISAO,
+    BANCADA_MOTOR_UNICO
 };
 
 class BancadaGeral {
@@ -67,7 +68,9 @@ public:
         Serial.println("  [8] - Avanco anti-colisao      | [9] - Bateria (ADC/mV)");
         Serial.println("  [i] - Analise I2C/XSHUT        | [d] - Diagnostico 1-linha");
         Serial.println("  [w] - Enviar telemetria agora  | [s] - Freio de emergencia");
-        Serial.println("  [m] - Exibir menu              | [x] - Sair do teste");
+        Serial.println("  [e] - Motor Esquerdo FRENTE    | [p] - Motor Direito FRENTE");
+        Serial.println("  [t] - Ambos os motores TRAS    | [m] - Exibir menu");
+        Serial.println("  [x] - Sair do teste");
         Serial.println("=======================================================");
     }
 
@@ -130,6 +133,9 @@ public:
             case BANCADA_ANTICOLLISAO:
                 atualizarAnticolisao(agoraMs);
                 break;
+            case BANCADA_MOTOR_UNICO:
+                atualizarMotorUnico(agoraMs);
+                break;
             case BANCADA_MOTOR_MANUAL:
             case BANCADA_INATIVA:
                 break;
@@ -166,6 +172,18 @@ public:
                 modo_ = BANCADA_MOTOR_MANUAL;
                 Serial.printf("[TESTE 2] Motores manual (PWM=%d): e/E, d/D, a/A, +/-, s/ESPACO, x=sair.\n",
                               (int)pwmManual_);
+                return true;
+            case 'e':
+            case 'E':
+                iniciarMotorUnico(1, 0, "Motor Esquerdo FRENTE", agoraMs);
+                return true;
+            case 'p':
+            case 'P':
+                iniciarMotorUnico(0, 1, "Motor Direito FRENTE", agoraMs);
+                return true;
+            case 't':
+            case 'T':
+                iniciarMotorUnico(-1, -1, "Ambos os motores TRAS", agoraMs);
                 return true;
             case '3':
                 abortar(agoraMs);
@@ -276,6 +294,28 @@ private:
             default:
                 return false;
         }
+    }
+
+    void iniciarMotorUnico(int8_t esq, int8_t dir, const char* nome, uint32_t agoraMs) {
+        abortar(agoraMs);
+        const int16_t pwmTeste = (pwmManual_ > 140) ? pwmManual_ : 140;
+        encoders_.ler(seqEncIniEsq_, seqEncIniDir_);
+        inicioManobraMs_ = agoraMs;
+        modo_ = BANCADA_MOTOR_UNICO;
+        motores_.comandar((int16_t)(esq * pwmTeste), (int16_t)(dir * pwmTeste));
+        Serial.printf("[TESTE] %s (PWM=%d, 1000ms)... Envie 's' ou 'x' para cancelar.\n",
+                      nome, (int)pwmTeste);
+    }
+
+    void atualizarMotorUnico(uint32_t agoraMs) {
+        if ((uint32_t)(agoraMs - inicioManobraMs_) < 1000u) return;
+        motores_.frear();
+        int32_t esq = 0, dir = 0;
+        encoders_.ler(esq, dir);
+        motores_.liberar();
+        modo_ = BANCADA_INATIVA;
+        Serial.printf("[TESTE] Concluido. Pulsos: dE=%ld dD=%ld\n",
+                      (long)(esq - seqEncIniEsq_), (long)(dir - seqEncIniDir_));
     }
 
     void iniciarAvancoBancada(uint32_t agoraMs) {
@@ -398,14 +438,13 @@ private:
             {PINO_PONTE_BIN1, "BIN1 (Motor Dir)", false},
             {PINO_PONTE_BIN2, "BIN2 (Motor Dir)", false},
             {PINO_PONTE_PWMB, "PWMB (Motor Dir)", false},
-            {PINO_ENCODER_DIR_B, "ENC_DIR_B (Boot)", false},
+            {PINO_ENCODER_DIR_A, "ENC_DIR_A", false},
+            {PINO_ENCODER_DIR_B, "ENC_DIR_B", false},
             {PINO_I2C_SDA, "I2C SDA", true},
             {PINO_I2C_SCL, "I2C SCL", true},
             {PINO_TOF_XSHUT_ESQ, "XSHUT ToF Esq", false},
             {PINO_TOF_XSHUT_FRONTAL, "XSHUT ToF Frontal", false},
             {PINO_TOF_XSHUT_DIR, "XSHUT ToF Dir", false},
-            {PINO_BOTAO, "Botao Largada", false},
-            {PINO_LED_ESTADO, "LED Estado", false},
         };
         for (size_t i = 0; i < sizeof(pinosIO) / sizeof(pinosIO[0]); i++) {
             const uint8_t p = pinosIO[i].gpio;
@@ -426,7 +465,6 @@ private:
         const PinoInfo pinosIn[] = {
             {PINO_ENCODER_ESQ_A, "ENC_ESQ_A", false},
             {PINO_ENCODER_ESQ_B, "ENC_ESQ_B", false},
-            {PINO_ENCODER_DIR_A, "ENC_DIR_A", false},
             {PINO_BATERIA_ADC,   "BAT_ADC (Divisor)", false},
         };
         for (size_t i = 0; i < sizeof(pinosIn) / sizeof(pinosIn[0]); i++) {
@@ -441,7 +479,6 @@ private:
         }
 
         // Restaura drivers antes de testar o barramento I2C e XSHUT.
-        pinMode(PINO_BOTAO, INPUT_PULLUP);
         ponte_.iniciar();
         encoders_.iniciar();
         led_.iniciar();
@@ -524,6 +561,8 @@ private:
     int8_t dirManualDir_;
     uint32_t inicioManobraMs_;
     uint16_t bateriaMv_;
+    int32_t seqEncIniEsq_ = 0;
+    int32_t seqEncIniDir_ = 0;
 };
 
 #endif

@@ -6,15 +6,10 @@
 #include "../sinalizacao/PadraoLed.h"
 #include "TelemetriaPacket.h"           // EstadoRobo
 
-// LED de estado do robô (achado R5 de docs/firmware/integracao-loop.md). Implementa
-// ILedEstado, que estende a ISinalizacaoEstado que o MonitorTravamento já usa, nas duas
-// variantes de hardware possíveis no GPIO PINO_LED_ESTADO: WS2812B (cores) ou LED comum
-// (padrões de piscada). A variante sai de TIPO_LED_ESTADO em hardware/Pinos.h; os padrões
-// estão em sinalizacao/PadraoLed.h, testados no nativo.
-//
-// mostrarEstado() só guarda o estado e piscar() só guarda o aviso. atualizar() desenha o
-// LED e deve ser chamado no ritmo do LED (50 ms), sem delay(): as piscadas saem do
-// relógio. Enquanto houver aviso, ele passa por cima do padrão do estado.
+// LED de estado do robô (implementa ILedEstado para manter o contrato com CicloProva
+// e MonitorTravamento). No hardware atual o LED de estado esta ligado diretamente em
+// 3.3 V (indicador de energia), portanto iniciar()/atualizar()/apagar() nao acionam
+// nenhum GPIO.
 class SinalizacaoLed : public ILedEstado {
 public:
     void iniciar();

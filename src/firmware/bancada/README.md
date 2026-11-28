@@ -107,8 +107,6 @@ pio run -d src/firmware/bancada -e teste_tof_esquerdo -t upload -t monitor
 | `teste_tof_sequencia` | Os 3 VL53L0X juntos | Sequência de endereçamento (`0x30`, `0x31`, `0x32`) com varredura a cada passo |
 | `teste_tof_mapa_xshut` | XSHUT dos 3 VL53L0X | Descobre em qual GPIO está cada XSHUT e quais sensores ficam sempre ligados |
 | `teste_bateria` | Divisor da bateria 2S | Tensão lida contra o multímetro |
-| `teste_botao` | Botão de largada | Apertos e solturas com debounce |
-| `teste_led` | LED de status | Pisca a 1 Hz |
 
 Ordem sugerida para os sensores: rodar os três `teste_tof_*` isolados e só depois o `teste_tof_sequencia`. Se cada sensor passa sozinho e a sequência falha, o defeito está no endereçamento (XSHUT), não no sensor.
 

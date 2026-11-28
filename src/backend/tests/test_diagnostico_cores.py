@@ -41,7 +41,7 @@ def test_diagnosticar_telemetria_gera_hint_travado_e_bateria_critica():
     assert "ELETRÔNICA" in junto
     assert "ENERGIA" in junto
     assert "RÁDIO/RF" in junto
-    assert "GPIO 34/39" in junto
+    assert "GPIO 34/35" in junto
 
 
 def test_diagnosticar_linha_texto_identifica_erro_tof_como_eletronica():

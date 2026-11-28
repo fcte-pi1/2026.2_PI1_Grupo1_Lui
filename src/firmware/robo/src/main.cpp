@@ -19,9 +19,11 @@
 
 // --- Invólucros mínimos das interfaces de hardware ---
 
+// Nao ha botao de largada conectado a GPIO (a chave fisica e liga/desliga geral);
+// a largada, selecao de pista e reinicio sao acionados por software (Serial/ESP-NOW).
 class BotaoLargada : public IEntradaBotao {
 public:
-    bool pressionado() override { return digitalRead(PINO_BOTAO) == LOW; }  // pull-up interno
+    bool pressionado() override { return false; }
 };
 
 class BateriaRobo : public IBateria {
@@ -66,7 +68,6 @@ uint32_t ticks = 0;
 
 void setup() {
     Serial.begin(115200);
-    pinMode(PINO_BOTAO, INPUT_PULLUP);
 
     ponte.iniciar();
     encoders.iniciar();
@@ -89,8 +90,7 @@ void setup() {
     ciclo->iniciar((uint32_t)millis());
 
     Serial.println("Robo ligado. Estado: AGUARDANDO");
-    Serial.println("Toque 3 vezes no botao para trocar a pista; segure 2 s e solte para largar (1,2 s p/ afastar a mao).");
-    Serial.println("Comandos Serial/ESP-NOW: [k] largada | [s] parada de emergencia | [d] diagnostico rapido.");
+    Serial.println("Comandos Serial/ESP-NOW: [k] largada | [g] alternar pista | [r] reiniciar | [s] parada de emergencia | [d] diagnostico rapido.");
 }
 
 static void imprimirDiagnostico() {
@@ -124,6 +124,10 @@ static void imprimirDiagnostico() {
 static void processarComando(char cmd) {
     if (cmd == 'k' || cmd == 'K') {
         ciclo->largadaRemota((uint32_t)millis());
+    } else if (cmd == 'g' || cmd == 'G') {
+        ciclo->alternarGeometria((uint32_t)millis());
+    } else if (cmd == 'r' || cmd == 'R') {
+        ciclo->reiniciarRemoto((uint32_t)millis());
     } else if (cmd == 's' || cmd == 'S' || cmd == ' ') {
         ciclo->paradaEmergencia((uint32_t)millis());
     } else if (cmd == 'd' || cmd == 'D') {

@@ -45,14 +45,18 @@ for arg in "$@"; do
     esac
 done
 
+PORTA_BY_ID="$(find /dev/serial/by-id -maxdepth 1 \( -iname '*1a86*' -o -iname '*ch340*' -o -iname '*qinheng*' \) 2>/dev/null | head -n 1 || true)"
+
 if [ -n "$PORTA_ARG" ] && [ -e "$PORTA_ARG" ]; then
     PORTA_DETECTADA="$PORTA_ARG"
 elif [ -n "$SERIAL_PORTA" ] && [ -e "$SERIAL_PORTA" ]; then
     PORTA_DETECTADA="$SERIAL_PORTA"
-elif [ -e "/dev/ttyUSB1" ]; then
-    PORTA_DETECTADA="/dev/ttyUSB1"
+elif [ -n "$PORTA_BY_ID" ] && [ -e "$PORTA_BY_ID" ]; then
+    PORTA_DETECTADA="$(readlink -f "$PORTA_BY_ID")"
 elif [ -e "/dev/ttyUSB0" ]; then
     PORTA_DETECTADA="/dev/ttyUSB0"
+elif [ -e "/dev/ttyUSB1" ]; then
+    PORTA_DETECTADA="/dev/ttyUSB1"
 elif [ -e "/dev/ttyACM0" ]; then
     PORTA_DETECTADA="/dev/ttyACM0"
 else

@@ -17,7 +17,7 @@ describe('diagnosticoLogs', () => {
         expect(log.nivel).toBe('critico');
         expect(log.dominio).toBe('mecanica');
         expect(log.secundario).toBe('eletronica');
-        expect(log.dica).toContain('GPIO 34/39');
+        expect(log.dica).toContain('GPIO 34/35');
         expect(log.tempoCorrida).toBe('00:12');
     });
 

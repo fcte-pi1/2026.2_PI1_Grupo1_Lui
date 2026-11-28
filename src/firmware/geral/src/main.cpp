@@ -18,9 +18,11 @@
 // com a prova autonoma completa (CicloProva + Navegador Flood Fill), usando os
 // mesmos drivers e parametros de src/firmware/robo e src/firmware/lib/calibracao.
 
+// Nao ha botao de largada conectado a GPIO (chave fisica apenas liga/desliga geral);
+// a largada e disparada por software via Serial/ESP-NOW ('k').
 class BotaoGeral : public IEntradaBotao {
 public:
-    bool pressionado() override { return digitalRead(PINO_BOTAO) == LOW; }
+    bool pressionado() override { return false; }
 };
 
 class BateriaGeral : public IBateria {
@@ -103,7 +105,6 @@ static void processarComando(char cmd, uint32_t agoraMs) {
 
 void setup() {
     Serial.begin(115200);
-    pinMode(PINO_BOTAO, INPUT_PULLUP);
 
     ponte.iniciar();
     encoders.iniciar();

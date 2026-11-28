@@ -81,5 +81,6 @@
 // ==============================================================================
 // 5. INTERFACE DO USUARIO
 // ==============================================================================
-#define PIN_BUTTON_START PINO_BOTAO
-#define PIN_STATUS_LED   PINO_LED_ESTADO
+// Sem botao de largada nem LED de estado ligados a GPIOs: a chave fisica e
+// apenas liga/desliga geral (largada via software/ESP-NOW) e o LED de estado
+// esta ligado diretamente em 3.3 V. GPIOs 14 e 15 ficam livres.

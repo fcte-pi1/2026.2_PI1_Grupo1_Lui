@@ -14,11 +14,11 @@ export const DOMINIOS = {
 // Pinagem oficial (PinosRobo.h) exibida no inspetor de saúde de hardware do painel.
 export const MAPA_HARDWARE_ESP32 = [
     { id: 'tof', nome: '3x ToF VL53L0X (I2C)', pinos: 'SDA 21 · SCL 22 · XSHUT 4/16/17', enderecos: '0x30 / 0x31 / 0x32', testeUsb: '[i] / [1]' },
-    { id: 'ponte', nome: 'Ponte H TB6612FNG', pinos: 'STBY 13 · PWMA 25 (26/27) · PWMB 18 (33/32)', enderecos: 'PWM 20 kHz', testeUsb: '[2] / [i]' },
-    { id: 'encoders', nome: 'Encoders Quadratura', pinos: 'Esq 34/39 · Dir 35/2', enderecos: '360 pulsos/volta', testeUsb: '[3] / [i]' },
+    { id: 'ponte', nome: 'Ponte H TB6612FNG', pinos: 'STBY 13 · PWMA 25 (26/27) · PWMB 23 (18/19)', enderecos: 'PWM 20 kHz', testeUsb: '[2] / [i]' },
+    { id: 'encoders', nome: 'Encoders Quadratura', pinos: 'Esq 34/35 · Dir 32/33', enderecos: '360 pulsos/volta', testeUsb: '[3] / [i]' },
     { id: 'bateria', nome: 'Bateria LiPo 2S ADC', pinos: 'GPIO 36 (VP / ADC1_CH0)', enderecos: 'Divisor 30k/7.5k (>= 6,8 V)', testeUsb: '[9] / [i]' },
     { id: 'radio', nome: 'Rádio ESP-NOW + Gateway', pinos: 'Wi-Fi STA Canal 1 -> Serial USB', enderecos: 'Pacote 18 B @ 1 Hz', testeUsb: '[w] / [d]' },
-    { id: 'ihm', nome: 'IHM Local (Botão / LED)', pinos: 'Botão GPIO 15 (Pull-Up) · LED GPIO 14', enderecos: '3 toques / 2s largada', testeUsb: '[i] / [d]' },
+    { id: 'ihm', nome: 'Energia / Largada', pinos: 'Chave liga/desliga geral · LED 3,3 V direto', enderecos: 'Largada via software/ESP-NOW (k)', testeUsb: '[k] / [d]' },
 ];
 
 export const NIVEIS = {
@@ -114,7 +114,7 @@ export function diagnosticarStatus(pacote, idBase) {
                 secundario: 'eletronica',
                 titulo: 'Corte de tração por travamento (TRAVADO)',
                 detalhe: `Sem pulsos de encoder por > 1,2 s com PWM ativo em ${celula} (${ori}).`,
-                dica: 'Mecânica: veja se a roda/O-ring enroscou na parede ou chassi. Eletrônica: rode teste [3] nos encoders (GPIO 34/39 esq, 35/2 dir) e [2] nos motores (STBY GPIO 13 / TB6612). Software: confira se PWM mínimo (CAL_PWM_MINIMO) vence o atrito.',
+                dica: 'Mecânica: veja se a roda/O-ring enroscou na parede ou chassi. Eletrônica: rode teste [3] nos encoders (GPIO 34/35 esq, 32/33 dir) e [2] nos motores (STBY GPIO 13 / TB6612). Software: confira se PWM mínimo (CAL_PWM_MINIMO) vence o atrito.',
                 timestampMs: ts,
             });
         case 'COLISAO':
@@ -192,7 +192,7 @@ export function diagnosticarAnomaliasTelemetria(pacote, contexto, proximoId) {
             secundario: 'mecanica',
             titulo: 'Velocidade 0 cm/s persistente em corrida',
             detalhe: `3 pacotes seguidos com velocidade zero em ${formatarCelula(pacote.posicao)}.`,
-            dica: 'Se não estiver em pausa de leitura ToF ou curva no eixo: cheque encoder solto (GPIO 34/39 esq, 35/2 dir), pino STBY (GPIO 13) ou roda travada.',
+            dica: 'Se não estiver em pausa de leitura ToF ou curva no eixo: cheque encoder solto (GPIO 34/35 esq, 32/33 dir), pino STBY (GPIO 13) ou roda travada.',
             timestampMs: ts,
         }));
     }

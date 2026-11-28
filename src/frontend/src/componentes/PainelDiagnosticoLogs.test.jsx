@@ -17,7 +17,7 @@ describe('PainelDiagnosticoLogs', () => {
                         secundario: 'eletronica',
                         titulo: 'Corte de tração por travamento',
                         detalhe: 'Sem pulsos de encoder.',
-                        dica: 'Verifique GPIO 34/39.',
+                        dica: 'Verifique GPIO 34/35.',
                     },
                 ]}
                 eventosWebhook={[
@@ -47,6 +47,6 @@ describe('PainelDiagnosticoLogs', () => {
         expect(html).toContain('data-testid="card-portas-esp"');
         expect(html).toContain('3x ToF VL53L0X (I2C)');
         expect(html).toContain('Corte de tração por travamento');
-        expect(html).toContain('Verifique GPIO 34/39.');
+        expect(html).toContain('Verifique GPIO 34/35.');
     });
 });

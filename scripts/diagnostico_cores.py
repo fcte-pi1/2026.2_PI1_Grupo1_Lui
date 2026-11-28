@@ -170,7 +170,7 @@ def diagnosticar_telemetria(data: dict, estado_diag: dict) -> list[str]:
                     "Os motores receberam PWM, mas os encoders não registraram pulsos suficientes.",
                     [
                         "Mecânica: verifique se roda/O-ring raspou na parede ou prendeu na trava do motor.",
-                        "Eletrônica: teste encoders com [3] (GPIO 34/39 esq, 35/2 dir) e motores com [2] (STBY GPIO 13 / TB6612).",
+                        "Eletrônica: teste encoders com [3] (GPIO 34/35 esq, 32/33 dir) e motores com [2] (STBY GPIO 13 / TB6612).",
                         "Software: se o motor patina ou não vence atrito, revise CAL_PWM_MINIMO em CalibracaoRobo.h.",
                     ],
                 )
@@ -244,7 +244,7 @@ def diagnosticar_telemetria(data: dict, estado_diag: dict) -> list[str]:
                     "Velocidade 0 mm/s por 3 pacotes seguidos durante corrida",
                     "O robô está em execução, mas a odometria não registrou deslocamento linear.",
                     [
-                        "Se não estiver fazendo giro no eixo: cheque cabos dos encoders (GPIO 34/39/35/2) e pino STBY (GPIO 13).",
+                        "Se não estiver fazendo giro no eixo: cheque cabos dos encoders (GPIO 34/35/32/33) e pino STBY (GPIO 13).",
                         "Use 'd' para ler o diagnóstico completo de ToF, encoders e bateria.",
                     ],
                 )

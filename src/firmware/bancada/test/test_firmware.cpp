@@ -17,15 +17,15 @@ void test_pin_definitions() {
     assert(PIN_AIN1 == 26);
     assert(PIN_AIN2 == 27);
     assert(PIN_STBY == 13);
-    assert(PIN_BIN1 == 33);
-    assert(PIN_BIN2 == 32);
-    assert(PIN_PWMB == 18);
+    assert(PIN_BIN1 == 18);
+    assert(PIN_BIN2 == 19);
+    assert(PIN_PWMB == 23);
 
     // Encoders
     assert(PIN_ENC1_A == 34);
-    assert(PIN_ENC1_B == 39);
-    assert(PIN_ENC2_A == 35);
-    assert(PIN_ENC2_B == 2); // Substituiu GPIO 4 para eliminar conflito!
+    assert(PIN_ENC1_B == 35);
+    assert(PIN_ENC2_A == 32);
+    assert(PIN_ENC2_B == 33);
 
     // Sensores (3x VL53L0X)
     assert(PIN_I2C_SDA == 21);
